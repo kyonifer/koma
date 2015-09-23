@@ -1,2 +1,2 @@
 job1:
-        script: "gradle build"
+        script: "./gradlew build"
