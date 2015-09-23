@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'scala'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // Depend on the std libs of all our languages
+  compile 'org.jetbrains.kotlin:kotlin-stdlib:0.13.1514'
+  compile 'org.scala-lang:scala-library:2.11.4'
+  compile 'org.ujmp:ujmp-core:0.3.0'
+  compile 'org.ujmp:ujmp-gui:0.3.0'
+  compile 'org.ujmp:ujmp-ejml:0.3.0'
+
+}
+
+// Add kotlin support to gradle
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.13.1514"
+  }
+}
+
+
+
