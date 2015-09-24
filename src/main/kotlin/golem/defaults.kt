@@ -5,4 +5,4 @@
 
 package golem
 
-val factory = org.ujmp.ejml.EJMLDenseDoubleMatrix2DFactory()
+val factory = org.ujmp.jblas.JBlasDenseDoubleMatrix2DFactory()

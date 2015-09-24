@@ -12,7 +12,7 @@ dependencies {
   compile 'org.scala-lang:scala-library:2.11.4'
   compile 'org.ujmp:ujmp-core:0.3.0'
   compile 'org.ujmp:ujmp-gui:0.3.0'
-  compile 'org.ujmp:ujmp-ejml:0.3.0'
+  compile 'org.ujmp:ujmp-jblas:0.3.0'
 
 }
 
