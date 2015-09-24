@@ -12,9 +12,9 @@ object mat {
     fun get(vararg ts: Any): Matrix {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
-        val numStops = (ts.filter { it is Pair<*, *> }).count()
+        val numStops = ts.filter{ it is Pair<*, *> }.count()
         val numRows = numStops + 1
-        val numElements = ts.count() - numStops + 2 * numStops;
+        val numElements = ts.count() - numStops + 2 * numStops
         val numCols = numElements / numRows
 
         var out = factory.zeros(numRows.toLong(), numCols.toLong())

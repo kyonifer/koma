@@ -28,6 +28,10 @@ fun max(arr: Matrix, dimension: Int = 0) = arr.max(Calculation.Ret.NEW, dimensio
 fun mean(arr: Matrix, dimension: Int = 0) = arr.mean(Calculation.Ret.NEW, dimension, true)
 fun min(arr: Matrix, dimension: Int = 0) = arr.min(Calculation.Ret.NEW, dimension)
 
+fun norm1(arr: Matrix) = arr.norm1()
+fun norm2(arr: Matrix) = arr.norm2()
+fun norm(arr: Matrix) = norm1(arr)  // Default is L2 (Euclidean) norm
+
 // TODO:
 //fun cumsum(arr: Matrix, dimension: Int = 0) = arr.cumsum(true)
 //fun fft(arr: Matrix)

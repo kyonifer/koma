@@ -22,6 +22,7 @@ fun Matrix.mod(other: Matrix) = this.mtimes(other)
 
 // Allow index overloading
 fun Matrix.get(vararg index: Long) = this.getAsDouble(*index)
+fun Matrix.get(index: Int) = if(this.rowCount==1L) this.getAsDouble(0, index.toLong()) else this.getAsDouble(index.toLong(), 0)
 fun Matrix.get(vararg index: Int) =this.getAsDouble(*index.map { it.toLong() }.toLongArray())
 
 // Can't vararg this in Kotlin
@@ -34,6 +35,11 @@ fun Matrix.set(row: Long, col: Long, value: Double) = this.setAsDouble(value, ro
 fun Matrix.set(row: Int, col: Int, value: Double) = this.setAsDouble(value, row.toLong(), col.toLong())
 fun Matrix.set(row: Long, col: Long, value: Int) = this.setAsDouble(value.toDouble(), row, col)
 fun Matrix.set(row: Int, col: Int, value: Int) = this.setAsDouble(value.toDouble(), row.toLong(), col.toLong())
+
+// Allows 4*b, 4.0*b, b*4
+fun Double.times(other: Matrix) = other.times(this)
+fun Int.times(other: Matrix) = other.times(this.toDouble())
+fun Matrix.times(other: Int) = this*other.toDouble()
 
 val Matrix.T: Matrix
     get() = this.transpose()
