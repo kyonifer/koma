@@ -25,6 +25,13 @@ fun <T:Matrix<T,U>,U> Matrix<T,U>.map( f: (U)-> U) {
             this[row,col] = f(this[row,col])
 }
 
+fun <T:Matrix<T,Double>,Double> Matrix<T,Double>.to2DArray(): Array<DoubleArray> {
+    var out = Array(numRows(),{DoubleArray(numCols())})
+    for (row in 0..this.numRows()-1)
+        for (col in 0..this.numCols()-1)
+            out[row][col] = this.getDouble(row,col)
+    return out
+}
 
 // TODO:
 //fun Matrix.iterator() = Iterator(this)

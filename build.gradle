@@ -13,6 +13,13 @@ dependencies {
   compile 'org.ejml:all:0.27'
   compile 'org.jblas:jblas:1.2.3'
 
+  testCompile 'junit:junit:4.12'
+
+}
+
+// Build a fatjar for MATLAB
+jar {
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 // Add kotlin support to gradle
@@ -24,6 +31,4 @@ buildscript {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.13.1514"
   }
 }
-
-
 
