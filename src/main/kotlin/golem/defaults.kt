@@ -5,4 +5,6 @@
 
 package golem
 
-val factory = org.ujmp.jblas.JBlasDenseDoubleMatrix2DFactory()
+// Default factory to build matrices from
+val factory = golem.matrix.ejml.MatFactory()
+

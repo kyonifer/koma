@@ -10,9 +10,8 @@ dependencies {
   // Depend on the std libs of all our languages
   compile 'org.jetbrains.kotlin:kotlin-stdlib:0.13.1514'
   compile 'org.scala-lang:scala-library:2.11.4'
-  compile 'org.ujmp:ujmp-core:0.3.0'
-  compile 'org.ujmp:ujmp-gui:0.3.0'
-  compile 'org.ujmp:ujmp-jblas:0.3.0'
+  compile 'org.ejml:all:0.27'
+  compile 'org.jblas:jblas:1.2.3'
 
 }
 

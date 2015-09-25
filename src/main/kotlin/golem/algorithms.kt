@@ -1,22 +1,20 @@
+/**
+ * Common algorithms that may only be available for a limited
+ * set of matrix provider back-ends.
+ */
+
 package golem
 
-import org.ujmp.core.Matrix
-import org.ujmp.core.doublematrix.DenseDoubleMatrix2D
-import org.ujmp.jblas.JBlasDenseDoubleMatrix2D
+import golem.matrix.Matrix
+import golem.matrix.jblas.MatrixJBlas
 
-
-fun expm(F: Matrix, t: Double = 1.0): Matrix
+fun expm(F: Matrix<*,*>, t: Double = 1.0): Matrix<*,*>
 {
     when (F) {
-        is JBlasDenseDoubleMatrix2D -> {
-            var innermat = F.getWrappedObject()
-	    return JBlasDenseDoubleMatrix2D(org.jblas.MatrixFunctions.expm(innermat))
+        is MatrixJBlas -> {
+            var innermat = F.storage
+	    return MatrixJBlas(org.jblas.MatrixFunctions.expm(innermat))
         }
 	else -> throw Exception("Unsupported matrix type for expm")
-
     }
-
-    //g:DenseDoubleMatrix2D
-
-
 }

@@ -6,31 +6,29 @@
 
 package golem
 
-import golem.util.fromCollection
-import org.ujmp.core.Matrix
+import golem.matrix.ejml.Mat
 
-fun zeros(rows: Long, cols: Long): Matrix = factory.zeros(rows, cols)
-fun zeros(size: Long): Matrix = factory.zeros(1, size)
-fun zeros(vararg indices : Long): Matrix = factory.zeros(*indices)
+fun zeros(rows: Int, cols: Int): Mat = factory.zeros(rows, cols)
+fun zeros(size: Int): Mat = factory.zeros(1, size)
 
 // Support things like create(1..100)
-fun create(data: IntRange): Matrix = factory.importFromArray(fromCollection(data.map { it.toDouble() }))
-fun create(data: DoubleRange): Matrix = create(fromCollection(data.toList()))
-fun create(data: DoubleArray): Matrix = factory.importFromArray(data)
-fun create(data: Array<DoubleArray>): Matrix = factory.importFromArray(data)
+fun create(data: IntRange): Mat = factory.create(data)
+fun create(data: DoubleRange): Mat = factory.create(data)
+fun create(data: DoubleArray): Mat = factory.create(data)
+fun create(data: Array<DoubleArray>): Mat = factory.create(data)
 
-fun ones(size: Long): Matrix = factory.ones(1, size)
-fun ones(rows: Long, columns: Long): Matrix = factory.ones(rows, columns)
-fun ones(vararg indices : Long): Matrix = factory.ones(*indices)
+fun ones(size: Int): Mat = factory.ones(1, size)
+fun ones(rows: Int, columns: Int): Mat = factory.ones(rows, columns)
 
-fun eye(size: Long): Matrix = factory.eye(size)
+fun eye(size: Int): Mat = factory.eye(size)
 
-fun rand(cols: Long): Matrix = factory.rand(1, cols)
-fun rand(rows: Long, cols: Long): Matrix = factory.rand(rows, cols)
-fun rand(rows: Long, cols: Long, seed: Long): Matrix = factory.rand(rows, cols, seed)
+fun rand(cols: Int): Mat = factory.rand(1, cols)
+fun rand(rows: Int, cols: Int): Mat = factory.rand(rows, cols)
+fun rand(rows: Int, cols: Int, seed: Long): Mat = factory.rand(rows, cols, seed)
 
-fun randn(cols: Long): Matrix = factory.randn(1, cols)
-fun randn(rows: Long, cols: Long): Matrix = factory.randn(rows, cols)
+fun randn(cols: Int): Mat = factory.randn(1, cols)
+fun randn(rows: Int, cols: Int): Mat = factory.randn(rows, cols)
+fun randn(rows: Int, cols: Int, seed: Long): Mat = factory.randn(rows, cols, seed)
 
 // TODO: Get these versions working
 

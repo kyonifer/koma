@@ -11,51 +11,43 @@
 
 package golem
 
-import org.ujmp.core.Matrix
-import org.ujmp.core.calculation.Calculation
+import golem.matrix.ejml.Mat
 
-// Already has plus, minus, times for double/Matrix, add a few extra
-fun Matrix.plus(value: Int) = this.plus(value.toDouble())
-fun Matrix.minus(value: Int) = this.minus(value.toDouble())
-fun Matrix.minus() = this.times(-1.0)
-fun Matrix.mod(other: Matrix) = this.mtimes(other)
+// Already has plus, minus, times for double/Mat, add a few extra
+fun Mat.plus(value: Int) = this.plus(value.toDouble())
+fun Mat.minus(value: Int) = this.minus(value.toDouble())
+fun Mat.minus() = this.times(-1.0)
+fun Mat.mod(other: Mat) = this.elementTimes(other)
 
-// Allow index overloading
-fun Matrix.get(vararg index: Long) = this.getAsDouble(*index)
-fun Matrix.get(index: Int) = if(this.rowCount==1L) this.getAsDouble(0, index.toLong()) else this.getAsDouble(index.toLong(), 0)
-fun Matrix.get(vararg index: Int) =this.getAsDouble(*index.map { it.toLong() }.toLongArray())
-
-// Can't vararg this in Kotlin
-fun Matrix.set(index: Long, value: Double) = this.setAsDouble(value, index)
-fun Matrix.set(index: Int, value: Double) = this.setAsDouble(value, index.toLong())
-fun Matrix.set(index: Long, value: Int) = this.setAsDouble(value.toDouble(), index)
-fun Matrix.set(index: Int, value: Int) = this.setAsDouble(value.toDouble(), index.toLong())
-
-fun Matrix.set(row: Long, col: Long, value: Double) = this.setAsDouble(value, row, col)
-fun Matrix.set(row: Int, col: Int, value: Double) = this.setAsDouble(value, row.toLong(), col.toLong())
-fun Matrix.set(row: Long, col: Long, value: Int) = this.setAsDouble(value.toDouble(), row, col)
-fun Matrix.set(row: Int, col: Int, value: Int) = this.setAsDouble(value.toDouble(), row.toLong(), col.toLong())
+// Allow index overloading (double-valued get/set already implemented in base type)
+fun Mat.set(index: Int, value: Int) = this.set(index, value.toDouble())
+fun Mat.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
 
 // Allows 4*b, 4.0*b, b*4
-fun Double.times(other: Matrix) = other.times(this)
-fun Int.times(other: Matrix) = other.times(this.toDouble())
-fun Matrix.times(other: Int) = this*other.toDouble()
+fun Double.times(other: Mat) = other.times(this)
+fun Int.times(other: Mat) = other.times(this.toDouble())
+fun Mat.times(other: Int) = this*other.toDouble()
 
-val Matrix.T: Matrix
+val Mat.T: Mat
     get() = this.transpose()
 
 // Allow slicing
-fun Matrix.get(rows: IntRange, cols: IntRange): Matrix {
-    return this.subMatrix(Calculation.Ret.NEW,
-            rows.start.toLong(),
-            cols.start.toLong(),
-            rows.end.toLong(),
-            cols.end.toLong())
+fun Mat.get(rows: IntRange, cols: IntRange): Mat {
+    var out = zeros(rows.end-rows.start, cols.end - cols.start)
+    for (row in rows-1)
+        for (col in cols-1)
+            out[row,col] = this[row,col]
+    return out
 }
-fun Matrix.set(rows: IntRange, cols: IntRange, value: Matrix) {
-    for(i in rows)
-        for (j in cols)
+fun Mat.set(rows: IntRange, cols: IntRange, value: Mat) {
+    for(i in rows-1)
+        for (j in cols-1)
             this[i,j] = value[i-rows.start,j-cols.start]
 }
-fun Matrix.get(rows: IntRange, cols: Int) = this.get(rows, cols..cols)
-fun Matrix.get(rows: Int, cols: IntRange) = this.get(rows..rows, cols)
+fun Mat.get(rows: IntRange, cols: Int) = this.get(rows, cols..cols)
+fun Mat.get(rows: Int, cols: IntRange) = this.get(rows..rows, cols)
+
+
+// Todo: ND array:
+//fun Mat.get(vararg index: Long) = this.
+//fun Mat.get(vararg index: Int) =this.

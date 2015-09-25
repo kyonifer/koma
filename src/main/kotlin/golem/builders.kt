@@ -6,10 +6,11 @@
  */
 package golem
 
-import org.ujmp.core.Matrix
+import golem.matrix.ejml.Mat
+
 
 object mat {
-    fun get(vararg ts: Any): Matrix {
+    fun get(vararg ts: Any): Mat {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val numStops = ts.filter{ it is Pair<*, *> }.count()
@@ -17,7 +18,7 @@ object mat {
         val numElements = ts.count() - numStops + 2 * numStops
         val numCols = numElements / numRows
 
-        var out = factory.zeros(numRows.toLong(), numCols.toLong())
+        var out = factory.zeros(numRows, numCols)
         var curRow = 0
         var curCol = 0
 
