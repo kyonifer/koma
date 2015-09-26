@@ -77,27 +77,6 @@ fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
     return out
 }
 
-fun arange(start: Double, stop: Double, step: Double): SimpleMatrix{
-    val shape = ((stop - start) / step).toInt()
-    if (shape <= 0)
-        throw Exception("Invalid Range due to bounds/step")
-    val out = zeros(shape, 1)
-    var idx = 0
-    if (step >= 0){
-        for (atom_val in start..(stop-step) step `step`){
-            out[idx, 0] = atom_val
-            idx += 1
-        }
-    }
-    else{
-        for (atom_val in start downTo (stop-step) step java.lang.Math.abs(`step`)){
-            out[idx, 0] = atom_val
-            idx += 1
-        }
-    }
-    return out
-}
-
 fun SimpleMatrix.map( f: (Double)-> Double) {
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)

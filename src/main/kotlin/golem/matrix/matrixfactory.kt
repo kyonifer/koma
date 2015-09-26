@@ -13,6 +13,7 @@ interface MatrixFactory<T:Matrix<*,*>>
     // Support things like create(1..100)
     fun create(data: IntRange): T
     fun create(data: DoubleRange): T
+    fun create(data: DoubleProgression): T
     fun create(data: DoubleArray): T
     fun create(data: Array<DoubleArray>): T
 
@@ -30,6 +31,8 @@ interface MatrixFactory<T:Matrix<*,*>>
     fun randn(rows: Int, cols: Int): T
     fun randn(rows: Int, cols: Int, seed: Long): T
 
-    fun arange(start: Double, stop: Double, step: Double): T
-
+    fun arange(start: Double, stop: Double, increment: Double): T
+    fun arange(start: Double, stop: Double): T
+    fun arange(start: Int, stop: Int, increment: Int): T
+    fun arange(start: Int, stop: Int): T
 }
