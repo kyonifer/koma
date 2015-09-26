@@ -76,10 +76,25 @@ fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
             out[i,j] = random.nextGaussian()
     return out
 }
-fun arange(stop: Int): SimpleMatrix{
-    val out = zeros(stop, 1)
-    for (i in 0..(stop-1))
-        out[i, 0] = i
+
+fun arange(start: Double, stop: Double, step: Double): SimpleMatrix{
+    val shape = ((stop - start) / step).toInt()
+    if (shape <= 0)
+        throw Exception("Invalid Range due to bounds/step")
+    val out = zeros(shape, 1)
+    var idx = 0
+    if (step >= 0){
+        for (atom_val in start..(stop-step) step `step`){
+            out[idx, 0] = atom_val
+            idx += 1
+        }
+    }
+    else{
+        for (atom_val in start downTo (stop-step) step java.lang.Math.abs(`step`)){
+            out[idx, 0] = atom_val
+            idx += 1
+        }
+    }
     return out
 }
 

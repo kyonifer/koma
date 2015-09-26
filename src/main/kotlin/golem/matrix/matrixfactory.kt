@@ -30,6 +30,6 @@ interface MatrixFactory<T:Matrix<*,*>>
     fun randn(rows: Int, cols: Int): T
     fun randn(rows: Int, cols: Int, seed: Long): T
 
-    fun arange(stop: Int): T
+    fun arange(start: Double, stop: Double, step: Double): T
 
 }

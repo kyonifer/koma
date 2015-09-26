@@ -76,8 +76,8 @@ class MatFactory : MatrixFactory<Mat>
     // Todo: Add these in
     //fun linspace(...)
 
-    override fun arange(stop: Int): Mat {
-        return Mat(golem.matrix.ejml.backend.arange(stop))
+    override fun arange(start: Double, stop: Double, step:Double): Mat {
+        return Mat(golem.matrix.ejml.backend.arange(start, stop, step))
     }
     //fun arange(begin: Double, end: Double)
     //fun arange(begin: Int, end: Int)
