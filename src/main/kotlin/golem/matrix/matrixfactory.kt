@@ -20,6 +20,7 @@ interface MatrixFactory<T:Matrix<*,*>>
     fun ones(rows: Int, cols: Int): T
 
     fun eye(size: Int): T
+    fun eye(rows: Int, cols: Int): T
 
     fun rand(size: Int): T
     fun rand(rows: Int, cols: Int): T

@@ -52,6 +52,8 @@ interface Matrix<T:Matrix<T,U>, U>
 
     fun getRow(row: Int): T
     fun getCol(col: Int): T
+    fun setCol(index: Int, col: T)
+    fun setRow(index: Int, row: T)
 
     // Decompositions (Already has eig, svd) [expm,schur not available]
     fun chol() : T
