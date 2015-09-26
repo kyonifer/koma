@@ -24,7 +24,7 @@ class UInt8
     }
     fun divide(other: UInt8): UInt8
     {
-        return UInt8(Integer.divideUnsigned(value.toInt(), other.value.toInt()).toByte())
+        return UInt8((value.toInt()/other.value.toInt()).toByte())
     }
     fun times(other: UInt8): UInt8
     {
