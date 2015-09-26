@@ -1,6 +1,7 @@
 package golem.matrix.ejml
 
 import golem.matrix.MatrixFactory
+import golem.min
 import golem.util.fromCollection
 import org.ejml.simple.SimpleMatrix
 import java.util.*
@@ -39,6 +40,13 @@ class MatFactory : MatrixFactory<Mat>
 
     override fun eye(size: Int): Mat {
         return Mat(golem.matrix.ejml.backend.eye(size))
+    }
+
+    override fun eye(rows: Int, cols: Int): Mat {
+        var out = golem.matrix.ejml.backend.zeros(rows, cols)
+        for (i in 0..min(rows, cols)-1)
+            out[i,i]=1.0
+        return Mat(out)
     }
 
     override fun rand(size: Int): Mat {

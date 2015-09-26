@@ -21,6 +21,7 @@ fun ones(size: Int): Mat = factory.ones(1, size)
 fun ones(rows: Int, columns: Int): Mat = factory.ones(rows, columns)
 
 fun eye(size: Int): Mat = factory.eye(size)
+fun eye(rows: Int, cols: Int): Mat = factory.eye(rows, cols)
 
 fun rand(cols: Int): Mat = factory.rand(1, cols)
 fun rand(rows: Int, cols: Int): Mat = factory.rand(rows, cols)
