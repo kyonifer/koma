@@ -19,10 +19,12 @@ fun <T:Matrix<T,U>,U> Matrix<T,U>.each( f: (U)->Unit ) {
         for (col in 0..this.numCols()-1)
             f(this[row,col])
 }
-fun <T:Matrix<T,U>,U> Matrix<T,U>.map( f: (U)-> U) {
+fun <T:Matrix<T,U>,U> Matrix<T,U>.map( f: (U)-> U): Matrix<T,U> {
+    var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
-            this[row,col] = f(this[row,col])
+            out[row,col] = f(this[row,col])
+    return out
 }
 
 fun <T:Matrix<T,Double>,Double> Matrix<T,Double>.to2DArray(): Array<DoubleArray> {
