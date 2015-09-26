@@ -37,9 +37,9 @@ fun randn(rows: Int, cols: Int, seed: Long): Mat = factory.randn(rows, cols, see
 //fun randn(rows: Int, cols: Int, seed: Long) =  factory.randn(rows, cols, seed)
 //fun linspace(...) = factory.linspace(lower, upper, num)
 
-/*
-fun arange(begin: Double) = factory.arange(begin)
-fun arange(begin: Int) = arange(begin.toDouble())
-fun arange(begin: Double, end: Double) = factory.arange(begin, end)
-fun arange(begin: Int, end: Int) = arange(begin.toDouble(), end.toDouble())
-*/
+fun arange(start: Double, stop: Double, step: Double) = factory.arange(start, stop, step)
+//fun arange(begin: Double) = factory.arange(begin)
+//fun arange(begin: Int) = arange(begin.toDouble())
+// fun arange(begin: Double, end: Double) = factory.arange(begin, end)
+// fun arange(begin: Int, end: Int) = arange(begin.toDouble(), end.toDouble())
+
