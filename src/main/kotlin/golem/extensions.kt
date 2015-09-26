@@ -27,7 +27,7 @@ fun <T> Matrix<T>.map( f: (T)-> T): Matrix<T> {
     return out
 }
 
-fun <T:Matrix<Double>,Double> Matrix<Double>.to2DArray(): Array<DoubleArray> {
+fun Matrix<Double>.to2DArray(): Array<DoubleArray> {
     var out = Array(numRows(),{DoubleArray(numCols())})
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
