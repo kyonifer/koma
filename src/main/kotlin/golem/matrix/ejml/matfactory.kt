@@ -22,6 +22,11 @@ class MatFactory : MatrixFactory<Mat>
         return Mat(SimpleMatrix(1, dataArray.size(), true, *dataArray))
     }
 
+    override fun create(data: DoubleProgression): Mat{
+        var dataArray = fromCollection(data.toList())
+        return Mat(SimpleMatrix(1, dataArray.size(), true, *dataArray))
+    }
+
     override fun create(data: DoubleArray): Mat {
         return Mat(SimpleMatrix(1, data.size(), true, *data))
     }
@@ -76,11 +81,35 @@ class MatFactory : MatrixFactory<Mat>
     // Todo: Add these in
     //fun linspace(...)
 
-    override fun arange(start: Double, stop: Double, step:Double): Mat {
-        return Mat(golem.matrix.ejml.backend.arange(start, stop, step))
+    override fun arange(start: Double, stop: Double, increment: Double): Mat {
+        val shape = ((stop - start) / increment).toInt()
+        if (shape <= 0)
+            throw Exception("Invalid Range due to bounds/step")
+        var doubleProg: DoubleProgression
+        var dataArray: DoubleArray
+        if (increment > 0){
+            doubleProg = (start..(stop)).step(increment)
+            dataArray = fromCollection(doubleProg.toList())
+        }
+        else{
+            doubleProg = (start downTo (stop)).step(java.lang.Math.abs(increment))
+            dataArray = fromCollection(doubleProg.toList())
+        }
+        return create(dataArray.sliceArray(0..(dataArray.size()-2)))
     }
-    //fun arange(begin: Double, end: Double)
-    //fun arange(begin: Int, end: Int)
+
+    override fun arange(start: Double, stop: Double): Mat {
+        return arange(start, stop, 1.0*java.lang.Math.signum(stop-start))
+    }
+
+    override fun arange(start: Int, stop: Int, increment: Int): Mat{
+        return arange(start.toDouble(), stop.toDouble(), increment.toDouble())
+    }
+
+    override fun arange(start: Int, stop: Int): Mat{
+        val inc = 1.0*java.lang.Math.signum(stop.toDouble()-start.toDouble())
+        return arange(start.toDouble(), stop.toDouble(), inc)
+    }
 
     //fun zeros(vararg indices : Int): T
     //fun ones(vararg indices : Int): T
