@@ -76,6 +76,12 @@ fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
             out[i,j] = random.nextGaussian()
     return out
 }
+fun arange(stop: Int): SimpleMatrix{
+    val out = zeros(stop, 1)
+    for (i in 0..(stop-1))
+        out[i, 0] = i
+    return out
+}
 
 fun SimpleMatrix.map( f: (Double)-> Double) {
     for (row in 0..this.numRows()-1)
