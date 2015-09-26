@@ -76,6 +76,13 @@ fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
             out[i,j] = random.nextGaussian()
     return out
 }
+
+fun SimpleMatrix.map( f: (Double)-> Double) {
+    for (row in 0..this.numRows()-1)
+        for (col in 0..this.numCols()-1)
+            this[row,col] = f(this[row,col])
+}
+
 object arr {
     fun get(vararg ts: Any): DoubleArray {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
