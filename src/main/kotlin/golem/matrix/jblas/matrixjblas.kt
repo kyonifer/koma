@@ -2,10 +2,31 @@ package golem.matrix.jblas
 
 import golem.matrix.jblas.backend.*
 import golem.matrix.Matrix
+import golem.matrix.MatrixFactory
 import org.jblas.DoubleMatrix
 
 class MatrixJBlas(var storage: DoubleMatrix): Matrix<MatrixJBlas, Double>
 {
+    override fun setCol(index: Int, col: MatrixJBlas) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun setRow(index: Int, row: MatrixJBlas) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun expm(): MatrixJBlas {
+        throw UnsupportedOperationException()
+    }
+
+    override fun solve(A: MatrixJBlas, B: MatrixJBlas): MatrixJBlas {
+        throw UnsupportedOperationException()
+    }
+
+    override fun getFactory(): MatrixFactory<MatrixJBlas> {
+        throw UnsupportedOperationException()
+    }
+
     override fun elementTimes(other: MatrixJBlas): MatrixJBlas {
         throw UnsupportedOperationException()
     }

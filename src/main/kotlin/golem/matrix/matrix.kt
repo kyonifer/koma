@@ -60,6 +60,10 @@ interface Matrix<T:Matrix<T,U>, U>
     fun LU() : Pair<T,T>
     fun QR() : Pair<T,T>
 
+    // Advanced Functions
+    fun expm(): T
+    fun solve(A: T, B: T): T
+
     // Basic Functions
     fun inv(): T
     fun det(): U
@@ -77,6 +81,10 @@ interface Matrix<T:Matrix<T,U>, U>
     fun norm(): U // L2 (Euclidean) norm
     fun trace(): U
 
+    /**
+     *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
+     */
+    fun getFactory(): MatrixFactory<T>
     // Print the internal
     fun repr():String
 
