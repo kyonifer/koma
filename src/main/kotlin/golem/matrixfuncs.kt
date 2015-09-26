@@ -8,7 +8,7 @@ package golem
 
 import golem.matrix.ejml.Mat
 
-// Scalar funcs
+// Elementwise funcs
 fun abs(arr: Mat) = arr.map{java.lang.Math.abs(it)}
 fun ceil(arr: Mat) = arr.map{java.lang.Math.ceil(it)}
 fun cos(arr: Mat) = arr.map{java.lang.Math.cos(it)}
@@ -33,6 +33,8 @@ fun argMean(arr: Mat) = arr.argMean()
 fun argMin(arr: Mat) = arr.argMin()
 fun norm(arr: Mat) = arr.norm()
 
+// Adv funcs
+fun expm(A: Mat) = A.expm()
 
 // TODO:
 //fun cumsum(arr: Matrix, dimension: Int = 0) = arr.cumsum(true)
