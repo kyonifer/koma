@@ -32,13 +32,19 @@ object mat {
                     out[curRow, curCol] = ele.toDouble()
                     curCol += 1
                 }
+                is Long -> {
+                    out[curRow, curCol] = ele.toDouble()
+                }
+                is Float -> {
+                    out[curRow, curCol] = ele.toDouble()
+                }
                 is Pair<*, *> -> {
                     out[curRow, curCol] = ele.first as Double
                     out[curRow + 1, 0] = ele.second as Double
                     curRow += 1
                     curCol = 1
                 }
-                else -> throw Exception("Invalid initial value to internal construction")
+                else -> throw Exception("Invalid initial value to matrix builder")
             }
         }
         return out
