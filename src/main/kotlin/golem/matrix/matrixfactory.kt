@@ -5,7 +5,7 @@
 
 package golem.matrix
 
-interface MatrixFactory<T:Matrix<*,*>>
+interface MatrixFactory<T>
 {
     fun zeros(rows: Int, cols: Int): T
     fun zeros(size: Int): T

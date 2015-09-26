@@ -6,11 +6,11 @@
  */
 package golem
 
-import golem.matrix.ejml.Mat
+import golem.matrix.Matrix
 
 
 object mat {
-    fun get(vararg ts: Any): Mat {
+    fun get(vararg ts: Any): Matrix<Double> {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val numStops = ts.filter{ it is Pair<*, *> }.count()

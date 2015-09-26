@@ -7,32 +7,32 @@ package golem.matrix
  */
 
 // Recursive generic allows us to specialize for a particular internal implementation
-interface Matrix<T:Matrix<T,U>, U>
+interface Matrix<T>
 {
     // Algebraic Operators
-    fun mod(other: T) : T
-    fun transpose(): T
-    fun div(other: Int) : T
-    fun div(other: Double) : T
-    fun times(other: T) : T
-    fun times(other: Double) : T
-    fun elementTimes(other: T) : T
-    fun minus() : T
-    fun minus(other: Double) : T
-    fun minus(other: T): T
-    fun plus(other: Double) : T
-    fun plus(other: T): T
+    fun mod(other: Matrix<T>) : Matrix<T>
+    fun transpose(): Matrix<T>
+    fun div(other: Int) : Matrix<T>
+    fun div(other: Double) : Matrix<T>
+    fun times(other: Matrix<T>) : Matrix<T>
+    fun times(other: Double) : Matrix<T>
+    fun elementTimes(other: Matrix<T>) : Matrix<T>
+    fun minus() : Matrix<T>
+    fun minus(other: Double) : Matrix<T>
+    fun minus(other: Matrix<T>): Matrix<T>
+    fun plus(other: Double) : Matrix<T>
+    fun plus(other: Matrix<T>): Matrix<T>
 
     // Dimensions
     fun numRows(): Int
     fun numCols(): Int
 
     // Index syntax
-    fun set(i: Int, v: U)
-    fun set(i: Int, j:Int, v:U)
+    fun set(i: Int, v: T)
+    fun set(i: Int, j:Int, v:T)
 
-    fun get(i: Int, j: Int) : U
-    fun get(i: Int) : U
+    fun get(i: Int, j: Int) : T
+    fun get(i: Int) : T
 
     // For speed optimized code (if backend isnt chosen type, may incur performance loss)
     // We can get rid of this when Java 10 generic specialization comes!
@@ -50,45 +50,45 @@ interface Matrix<T:Matrix<T,U>, U>
     fun setFloat(i: Int, j:Int, v:Float)
 
 
-    fun getRow(row: Int): T
-    fun getCol(col: Int): T
-    fun setCol(index: Int, col: T)
-    fun setRow(index: Int, row: T)
+    fun getRow(row: Int): Matrix<T>
+    fun getCol(col: Int): Matrix<T>
+    fun setCol(index: Int, col: Matrix<T>)
+    fun setRow(index: Int, row: Matrix<T>)
 
     // Decompositions (Already has eig, svd) [expm,schur not available]
-    fun chol() : T
-    fun LU() : Pair<T,T>
-    fun QR() : Pair<T,T>
+    fun chol() : Matrix<T>
+    fun LU() : Pair<Matrix<T>,Matrix<T>>
+    fun QR() : Pair<Matrix<T>,Matrix<T>>
 
     // Advanced Functions
-    fun expm(): T
-    fun solve(A: T, B: T): T
+    fun expm(): Matrix<T>
+    fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
 
     // Basic Functions
-    fun inv(): T
-    fun det(): U
-    fun pinv(): T
-    fun normf(): U
-    fun elementSum(): U
-    fun diag(): T
-    fun cumsum(): U
-    fun max(): U // add dimension: Int?
-    fun mean(): U
-    fun min(): U
-    fun argMax(): U
-    fun argMean(): U
-    fun argMin(): U
-    fun norm(): U // L2 (Euclidean) norm
-    fun trace(): U
+    fun inv(): Matrix<T>
+    fun det(): T
+    fun pinv(): Matrix<T>
+    fun normf(): T
+    fun elementSum(): T
+    fun diag(): Matrix<T>
+    fun cumsum(): T
+    fun max(): T // add dimension: Int?
+    fun mean(): T
+    fun min(): T
+    fun argMax(): T
+    fun argMean(): T
+    fun argMin(): T
+    fun norm(): T // L2 (Euclidean) norm
+    fun trace(): T
 
     /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
      */
-    fun getFactory(): MatrixFactory<T>
+    fun getFactory(): MatrixFactory<Matrix<T>>
     // Print the internal
     fun repr():String
 
-    val T: Matrix<T,U>
+    val T: Matrix<T>
         get() = this.transpose()
 
 

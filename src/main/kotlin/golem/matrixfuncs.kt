@@ -6,35 +6,35 @@
 
 package golem
 
-import golem.matrix.ejml.Mat
+import golem.matrix.Matrix
 
 // Elementwise funcs
-fun abs(arr: Mat) = arr.map{java.lang.Math.abs(it)}
-fun ceil(arr: Mat) = arr.map{java.lang.Math.ceil(it)}
-fun cos(arr: Mat) = arr.map{java.lang.Math.cos(it)}
-fun exp(arr: Mat) = arr.map{java.lang.Math.exp(it)}
-fun log(arr: Mat) = arr.map{java.lang.Math.log(it)}
-fun pow(arr: Mat, num: Double) = arr.map{java.lang.Math.pow(it, num)}
-fun sign(arr: Mat) = arr.map{java.lang.Math.signum(it)}
-fun sin(arr: Mat) = arr.map{java.lang.Math.sin(it)}
-fun sqrt(arr: Mat) = arr.map{java.lang.Math.sqrt(it)}
-fun tan(arr: Mat) = arr.map{java.lang.Math.tan(it)}
-fun round(arr: Mat) = arr.map{java.lang.Math.round(it).toDouble()}
-fun floor(arr: Mat) = arr.map{java.lang.Math.floor(it)}
+fun abs(arr: Matrix<Double>) = arr.map{java.lang.Math.abs(it)}
+fun ceil(arr: Matrix<Double>) = arr.map{java.lang.Math.ceil(it)}
+fun cos(arr: Matrix<Double>) = arr.map{java.lang.Math.cos(it)}
+fun exp(arr: Matrix<Double>) = arr.map{java.lang.Math.exp(it)}
+fun log(arr: Matrix<Double>) = arr.map{java.lang.Math.log(it)}
+fun pow(arr: Matrix<Double>, num: Double) = arr.map{java.lang.Math.pow(it, num)}
+fun sign(arr: Matrix<Double>) = arr.map{java.lang.Math.signum(it)}
+fun sin(arr: Matrix<Double>) = arr.map{java.lang.Math.sin(it)}
+fun sqrt(arr: Matrix<Double>) = arr.map{java.lang.Math.sqrt(it)}
+fun tan(arr: Matrix<Double>) = arr.map{java.lang.Math.tan(it)}
+fun round(arr: Matrix<Double>) = arr.map{java.lang.Math.round(it).toDouble()}
+fun floor(arr: Matrix<Double>) = arr.map{java.lang.Math.floor(it)}
 
 // Matrix funcs
-fun diag(arr: Mat) = arr.storage.extractDiag()
-fun cumsum(arr: Mat) = arr.storage.elementSum()
-fun max(arr: Mat) = arr.max()
-fun mean(arr: Mat) = arr.mean()
-fun min(arr: Mat) = arr.min()
-fun argMax(arr: Mat) = arr.argMax()
-fun argMean(arr: Mat) = arr.argMean()
-fun argMin(arr: Mat) = arr.argMin()
-fun norm(arr: Mat) = arr.norm()
+fun diag(arr: Matrix<Double>) = arr.diag()
+fun cumsum(arr: Matrix<Double>) = arr.cumsum()
+fun max(arr: Matrix<Double>) = arr.max()
+fun mean(arr: Matrix<Double>) = arr.mean()
+fun min(arr: Matrix<Double>) = arr.min()
+fun argMax(arr: Matrix<Double>) = arr.argMax()
+fun argMean(arr: Matrix<Double>) = arr.argMean()
+fun argMin(arr: Matrix<Double>) = arr.argMin()
+fun norm(arr: Matrix<Double>) = arr.norm()
 
 // Adv funcs
-fun expm(A: Mat) = A.expm()
+fun expm(A: Matrix<Double>) = A.expm()
 
 // TODO:
 //fun cumsum(arr: Matrix, dimension: Int = 0) = arr.cumsum(true)

@@ -8,10 +8,10 @@ import golem.matrix.ejml.backend.*
 import org.ejml.simple.SimpleMatrix
 import org.ejml.ops.*
 
-class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
+class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 {
 
-    override fun diag() = Mat(storage.extractDiag())
+    override fun diag() = EJMLMatrix(storage.extractDiag())
     override fun cumsum() = storage.elementSum()
     override fun max() = CommonOps.elementMax(this.storage.matrix)
     override fun mean() = throw UnsupportedOperationException()
@@ -27,53 +27,53 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numCols()
-    override fun times(other: Mat) = Mat(this.storage.times(other.storage))
-    override fun times(other: Double) = Mat(this.storage.times(other))
-    override fun elementTimes(other: Mat) = Mat(this.storage.elementMult(other.storage))
-    override fun mod(other: Mat) = Mat(this.storage.mod(other.storage))
-    override fun minus() = Mat(this.storage.minus())
-    override fun minus(other: Double) = Mat(this.storage.minus(other))
-    override fun minus(other: Mat) = Mat(this.storage.minus(other.storage))
-    override fun div(other: Int) = Mat(this.storage.div(other))
-    override fun div(other: Double) = Mat(this.storage.div(other))
-    override fun transpose() = Mat(this.storage.transpose())
+    override fun times(other: Matrix<Double>) = EJMLMatrix(this.storage.times(castOrBail(other).storage))
+    override fun times(other: Double) = EJMLMatrix(this.storage.times(other))
+    override fun elementTimes(other: Matrix<Double>) = EJMLMatrix(this.storage.elementMult(castOrBail(other).storage))
+    override fun mod(other: Matrix<Double>) = EJMLMatrix(this.storage.mod(castOrBail(other).storage))
+    override fun minus() = EJMLMatrix(this.storage.minus())
+    override fun minus(other: Double) = EJMLMatrix(this.storage.minus(other))
+    override fun minus(other: Matrix<Double>) = EJMLMatrix(this.storage.minus(castOrBail(other).storage))
+    override fun div(other: Int) = EJMLMatrix(this.storage.div(other))
+    override fun div(other: Double) = EJMLMatrix(this.storage.div(other))
+    override fun transpose() = EJMLMatrix(this.storage.transpose())
     override fun set(i: Int, v: Double): Unit = if(this.storage.numRows()==1) this.storage.set(1,i,v) else this.storage.set(i,1,v)
     override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
     override fun get(i: Int, j: Int) = this.storage.get(i,j)
     override fun get(i: Int) = this.storage.get(i)
-    override fun getRow(row: Int) = Mat(SimpleMatrix(CommonOps.extractRow(this.storage.matrix, row, null)))
-    override fun getCol(col: Int) = Mat(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
-    override fun plus(other: Mat) = Mat(this.storage.plus(other.storage))
-    override fun plus(other: Double) = Mat(this.storage.plus(other))
-    override fun chol() = Mat(SimpleMatrix(this.storage.chol().getT(null)))
-    override fun inv() = Mat(this.storage.inv())
+    override fun getRow(row: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractRow(this.storage.matrix, row, null)))
+    override fun getCol(col: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
+    override fun plus(other: Matrix<Double>) = EJMLMatrix(this.storage.plus(castOrBail(other).storage))
+    override fun plus(other: Double) = EJMLMatrix(this.storage.plus(other))
+    override fun chol() = EJMLMatrix(SimpleMatrix(this.storage.chol().getT(null)))
+    override fun inv() = EJMLMatrix(this.storage.inv())
     override fun det() = this.storage.determinant()
-    override fun pinv()= Mat(this.storage.pseudoInverse())
+    override fun pinv()= EJMLMatrix(this.storage.pseudoInverse())
     override fun normf() = this.storage.normF()
     override fun elementSum() = this.storage.elementSum()
     override fun trace() = this.storage.trace()
 
-    override fun setCol(index: Int, col: Mat) {
+    override fun setCol(index: Int, col: Matrix<Double>) {
         for (i in 0..col.numRows()-1)
             this[i,index] = col[i]
     }
 
-    override fun setRow(index: Int, row: Mat) {
+    override fun setRow(index: Int, row: Matrix<Double>) {
         for (i in 0..row.numCols()-1)
             this[index, i] = row[i]
     }
 
     override fun getFactory() = golem.matrix.ejml.factory
-    override val T: Mat
+    override val T: EJMLMatrix
         get() = this.transpose()
 
-    override fun solve(A: Mat, B: Mat): Mat {
+    override fun solve(A: Matrix<Double>, B: Matrix<Double>): EJMLMatrix {
         var out = this.getFactory().zeros(A.numCols(), 1)
-        CommonOps.solve(A.storage.matrix, B.storage.matrix, out.storage.matrix)
+        CommonOps.solve(castOrBail(A).storage.matrix, castOrBail(B).storage.matrix, out.storage.matrix)
         return out
     }
 
-    override fun expm(): Mat {
+    override fun expm(): EJMLMatrix {
         var A = this
         var A_L1 = org.ejml.ops.NormOps.inducedP1(A.storage.matrix)
         var n_squarings = 0.0
@@ -103,7 +103,7 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
             return dispatchPade(U, V, n_squarings)
         }
     }
-    private fun dispatchPade(U: Mat, V: Mat, n_squarings: Double): Mat
+    private fun dispatchPade(U: EJMLMatrix, V: EJMLMatrix, n_squarings: Double): EJMLMatrix
     {
         var P = U+V
         var Q = -U+V
@@ -118,7 +118,7 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
         return R
     }
 
-    private fun _pade3(A: Mat): Pair<Mat, Mat>
+    private fun _pade3(A: EJMLMatrix): Pair<EJMLMatrix, EJMLMatrix>
     {
         var b = golem.mat[120, 60, 12, 1]
         var ident = getFactory().eye(A.numRows(), A.numCols())
@@ -129,7 +129,7 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
 
         return Pair(U,V)
     }
-    private fun _pade5(A: Mat): Pair<Mat, Mat>
+    private fun _pade5(A: EJMLMatrix): Pair<EJMLMatrix, EJMLMatrix>
     {
         var b = golem.mat[30240, 15120, 3360, 420, 30, 1]
         var ident = A.getFactory().eye(A.numRows(), A.numCols())
@@ -140,7 +140,7 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
         return Pair(U,V)
 
     }
-    private fun _pade7(A: Mat): Pair<Mat, Mat>
+    private fun _pade7(A: EJMLMatrix): Pair<EJMLMatrix, EJMLMatrix>
     {
         var b = golem.mat[17297280, 8648640, 1995840, 277200, 25200, 1512, 56, 1]
         var ident = A.getFactory().eye(A.numRows(), A.numCols())
@@ -151,7 +151,7 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
         var V = A6*b[6]+A4*b[4]+A2*b[2]+ident*b[0]
         return Pair(U,V)
     }
-    private fun _pade9(A: Mat): Pair<Mat, Mat>
+    private fun _pade9(A: EJMLMatrix): Pair<EJMLMatrix, EJMLMatrix>
     {
         var b = golem.mat[17643225600, 8821612800, 2075673600, 302702400, 30270240,
                 2162160, 110880, 3960, 90, 1]
@@ -164,7 +164,7 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
         var V = A8*b[8] + A6*b[6] + A4*b[4] + A2*b[2] + ident*b[0]
         return Pair(U,V)
     }
-    private fun _pade13(A: Mat): Pair<Mat, Mat>
+    private fun _pade13(A: EJMLMatrix): Pair<EJMLMatrix, EJMLMatrix>
     {
         var b = golem.mat[64764752532480000, 32382376266240000, 7771770303897600,
                 1187353796428800, 129060195264000, 10559470521600, 670442572800,
@@ -179,19 +179,34 @@ class Mat(var storage: SimpleMatrix) : Matrix<Mat, Double>
         return Pair(U,V)
     }
 
-    override fun LU(): Pair<Mat, Mat> {
+    override fun LU(): Pair<EJMLMatrix, EJMLMatrix> {
         val decomp = this.storage.LU()
-        return Pair(Mat(SimpleMatrix(decomp.getLower(null))),
-                    Mat(SimpleMatrix(decomp.getUpper(null))))
+        return Pair(EJMLMatrix(SimpleMatrix(decomp.getLower(null))),
+                    EJMLMatrix(SimpleMatrix(decomp.getUpper(null))))
     }
 
-    override fun QR(): Pair<Mat, Mat> {
+    override fun QR(): Pair<EJMLMatrix, EJMLMatrix> {
         val decomp = this.storage.QR()
-        return Pair(Mat(SimpleMatrix(decomp.getQ(null, false))),
-                    Mat(SimpleMatrix(decomp.getR(null, false))))
+        return Pair(EJMLMatrix(SimpleMatrix(decomp.getQ(null, false))),
+                    EJMLMatrix(SimpleMatrix(decomp.getR(null, false))))
     }
 
     override fun repr() = this.storage.toString()
+
+    // TODO: Fix this
+    /**
+     * Eventually we will support operations between matrices with different
+     * backends. However, for now we'll exception out of it.
+     *
+     */
+    private fun castOrBail(mat: Matrix<Double>): EJMLMatrix
+    {
+        when (mat) {
+            is EJMLMatrix -> return mat
+            else -> throw Exception("Operations between matrices with different backends not yet supported.")
+        }
+
+    }
 
     /* These methods are defined in order to support fast non-generic calls. However,
        since our type is Double we'll disable them here in case someone accidentally

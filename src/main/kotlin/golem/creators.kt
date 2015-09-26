@@ -6,30 +6,30 @@
 
 package golem
 
-import golem.matrix.ejml.Mat
+import golem.matrix.Matrix
 
-fun zeros(rows: Int, cols: Int): Mat = factory.zeros(rows, cols)
-fun zeros(size: Int): Mat = factory.zeros(1, size)
+fun zeros(rows: Int, cols: Int): Matrix<Double> = factory.zeros(rows, cols)
+fun zeros(size: Int): Matrix<Double> = factory.zeros(1, size)
 
 // Support things like create(1..100)
-fun create(data: IntRange): Mat = factory.create(data)
-fun create(data: DoubleRange): Mat = factory.create(data)
-fun create(data: DoubleArray): Mat = factory.create(data)
-fun create(data: Array<DoubleArray>): Mat = factory.create(data)
+fun create(data: IntRange): Matrix<Double> = factory.create(data)
+fun create(data: DoubleRange): Matrix<Double> = factory.create(data)
+fun create(data: DoubleArray): Matrix<Double> = factory.create(data)
+fun create(data: Array<DoubleArray>): Matrix<Double> = factory.create(data)
 
-fun ones(size: Int): Mat = factory.ones(1, size)
-fun ones(rows: Int, columns: Int): Mat = factory.ones(rows, columns)
+fun ones(size: Int): Matrix<Double> = factory.ones(1, size)
+fun ones(rows: Int, columns: Int): Matrix<Double> = factory.ones(rows, columns)
 
-fun eye(size: Int): Mat = factory.eye(size)
-fun eye(rows: Int, cols: Int): Mat = factory.eye(rows, cols)
+fun eye(size: Int): Matrix<Double> = factory.eye(size)
+fun eye(rows: Int, cols: Int): Matrix<Double> = factory.eye(rows, cols)
 
-fun rand(cols: Int): Mat = factory.rand(1, cols)
-fun rand(rows: Int, cols: Int): Mat = factory.rand(rows, cols)
-fun rand(rows: Int, cols: Int, seed: Long): Mat = factory.rand(rows, cols, seed)
+fun rand(cols: Int): Matrix<Double> = factory.rand(1, cols)
+fun rand(rows: Int, cols: Int): Matrix<Double> = factory.rand(rows, cols)
+fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> = factory.rand(rows, cols, seed)
 
-fun randn(cols: Int): Mat = factory.randn(1, cols)
-fun randn(rows: Int, cols: Int): Mat = factory.randn(rows, cols)
-fun randn(rows: Int, cols: Int, seed: Long): Mat = factory.randn(rows, cols, seed)
+fun randn(cols: Int): Matrix<Double> = factory.randn(1, cols)
+fun randn(rows: Int, cols: Int): Matrix<Double> = factory.randn(rows, cols)
+fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = factory.randn(rows, cols, seed)
 
 // TODO: Get these versions working
 

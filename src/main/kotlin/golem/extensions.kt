@@ -6,20 +6,20 @@ package golem
 
 import golem.matrix.Matrix
 
-fun <T:Matrix<T,U>,U> Matrix<T,U>.eachRow( f: (T)->Unit ) {
+fun <T> Matrix<T>.eachRow( f: (Matrix<T>)->Unit ) {
     for (row in 0..this.numRows()-1)
         f(this.getRow(row))
 }
-fun <T:Matrix<T,U>,U> Matrix<T,U>.eachCol( f: (T)->Unit ) {
+fun <T> Matrix<T>.eachCol( f: (Matrix<T>)->Unit ) {
     for (col in 0..this.numCols()-1)
         f(this.getCol(col))
 }
-fun <T:Matrix<T,U>,U> Matrix<T,U>.each( f: (U)->Unit ) {
+fun <T> Matrix<T>.each( f: (T)->Unit ) {
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
             f(this[row,col])
 }
-fun <T:Matrix<T,U>,U> Matrix<T,U>.map( f: (U)-> U): Matrix<T,U> {
+fun <T> Matrix<T>.map( f: (T)-> T): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
@@ -27,7 +27,7 @@ fun <T:Matrix<T,U>,U> Matrix<T,U>.map( f: (U)-> U): Matrix<T,U> {
     return out
 }
 
-fun <T:Matrix<T,Double>,Double> Matrix<T,Double>.to2DArray(): Array<DoubleArray> {
+fun <T:Matrix<Double>,Double> Matrix<Double>.to2DArray(): Array<DoubleArray> {
     var out = Array(numRows(),{DoubleArray(numCols())})
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)

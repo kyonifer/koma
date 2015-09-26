@@ -5,73 +5,53 @@ import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import org.jblas.DoubleMatrix
 
-class MatrixJBlas(var storage: DoubleMatrix): Matrix<MatrixJBlas, Double>
+class MatrixJBlas(var storage: DoubleMatrix): Matrix<Double>
 {
-    override fun setCol(index: Int, col: MatrixJBlas) {
+    override fun mod(other: Matrix<Double>): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun setRow(index: Int, row: MatrixJBlas) {
+    override fun transpose(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun expm(): MatrixJBlas {
+    override fun div(other: Int): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun solve(A: MatrixJBlas, B: MatrixJBlas): MatrixJBlas {
+    override fun div(other: Double): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun getFactory(): MatrixFactory<MatrixJBlas> {
+    override fun times(other: Matrix<Double>): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun elementTimes(other: MatrixJBlas): MatrixJBlas {
+    override fun times(other: Double): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun mod(other: MatrixJBlas): MatrixJBlas {
+    override fun elementTimes(other: Matrix<Double>): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun transpose(): MatrixJBlas {
+    override fun minus(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun div(other: Int): MatrixJBlas {
+    override fun minus(other: Double): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun div(other: Double): MatrixJBlas {
+    override fun minus(other: Matrix<Double>): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun times(other: MatrixJBlas): MatrixJBlas {
+    override fun plus(other: Double): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun times(other: Double): MatrixJBlas {
-        throw UnsupportedOperationException()
-    }
-
-    override fun minus(): MatrixJBlas {
-        throw UnsupportedOperationException()
-    }
-
-    override fun minus(other: Double): MatrixJBlas {
-        throw UnsupportedOperationException()
-    }
-
-    override fun minus(other: MatrixJBlas): MatrixJBlas {
-        throw UnsupportedOperationException()
-    }
-
-    override fun plus(other: Double): MatrixJBlas {
-        throw UnsupportedOperationException()
-    }
-
-    override fun plus(other: MatrixJBlas): MatrixJBlas {
+    override fun plus(other: Matrix<Double>): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
@@ -147,27 +127,43 @@ class MatrixJBlas(var storage: DoubleMatrix): Matrix<MatrixJBlas, Double>
         throw UnsupportedOperationException()
     }
 
-    override fun getRow(row: Int): MatrixJBlas {
+    override fun getRow(row: Int): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun getCol(col: Int): MatrixJBlas {
+    override fun getCol(col: Int): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun chol(): MatrixJBlas {
+    override fun setCol(index: Int, col: Matrix<Double>) {
         throw UnsupportedOperationException()
     }
 
-    override fun LU(): Pair<MatrixJBlas, MatrixJBlas> {
+    override fun setRow(index: Int, row: Matrix<Double>) {
         throw UnsupportedOperationException()
     }
 
-    override fun QR(): Pair<MatrixJBlas, MatrixJBlas> {
+    override fun chol(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
-    override fun inv(): MatrixJBlas {
+    override fun LU(): Pair<Matrix<Double>, Matrix<Double>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun QR(): Pair<Matrix<Double>, Matrix<Double>> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun expm(): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun solve(A: Matrix<Double>, B: Matrix<Double>): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun inv(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
@@ -175,7 +171,7 @@ class MatrixJBlas(var storage: DoubleMatrix): Matrix<MatrixJBlas, Double>
         throw UnsupportedOperationException()
     }
 
-    override fun pinv(): MatrixJBlas {
+    override fun pinv(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
@@ -187,7 +183,7 @@ class MatrixJBlas(var storage: DoubleMatrix): Matrix<MatrixJBlas, Double>
         throw UnsupportedOperationException()
     }
 
-    override fun diag(): MatrixJBlas {
+    override fun diag(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
@@ -227,8 +223,13 @@ class MatrixJBlas(var storage: DoubleMatrix): Matrix<MatrixJBlas, Double>
         throw UnsupportedOperationException()
     }
 
+    override fun getFactory(): MatrixFactory<Matrix<Double>> {
+        throw UnsupportedOperationException()
+    }
+
     override fun repr(): String {
         throw UnsupportedOperationException()
     }
+
 
 }
