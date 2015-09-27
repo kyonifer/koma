@@ -5,8 +5,24 @@ import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import org.jblas.DoubleMatrix
 
-class MatrixJBlas(var storage: DoubleMatrix): Matrix<Double>
+class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
 {
+    override fun copy(): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun epow(other: Double): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun epow(other: Int): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun pow(other: Int): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
     override fun mod(other: Matrix<Double>): Matrix<Double> {
         throw UnsupportedOperationException()
     }
