@@ -21,6 +21,7 @@ fun sqrt(arr: Matrix<Double>) = arr.map{java.lang.Math.sqrt(it)}
 fun tan(arr: Matrix<Double>) = arr.map{java.lang.Math.tan(it)}
 fun round(arr: Matrix<Double>) = arr.map{java.lang.Math.round(it).toDouble()}
 fun floor(arr: Matrix<Double>) = arr.map{java.lang.Math.floor(it)}
+fun logb(base: Int, arr: Matrix<Double>) = arr.map{java.lang.Math.log(it) / Math.log(base.toDouble())}
 
 // Matrix funcs
 fun diag(arr: Matrix<Double>) = arr.diag()
