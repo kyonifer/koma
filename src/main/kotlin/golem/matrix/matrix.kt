@@ -24,7 +24,7 @@ interface Matrix<T>
     fun plus(other: Matrix<T>): Matrix<T>
     fun epow(other: Double): Matrix<T>
     fun epow(other: Int): Matrix<T>
-    fun pow(other: Int): Matrix<T>
+    fun pow(exponent: Int): Matrix<T>
 
     // Dimensions
     fun numRows(): Int

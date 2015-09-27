@@ -19,7 +19,7 @@ class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
         throw UnsupportedOperationException()
     }
 
-    override fun pow(other: Int): Matrix<Double> {
+    override fun pow(exponent: Int): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 
