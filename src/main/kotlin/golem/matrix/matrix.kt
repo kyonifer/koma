@@ -22,6 +22,9 @@ interface Matrix<T>
     fun minus(other: Matrix<T>): Matrix<T>
     fun plus(other: Double) : Matrix<T>
     fun plus(other: Matrix<T>): Matrix<T>
+    fun epow(other: Double): Matrix<T>
+    fun epow(other: Int): Matrix<T>
+    fun pow(other: Int): Matrix<T>
 
     // Dimensions
     fun numRows(): Int
@@ -33,6 +36,8 @@ interface Matrix<T>
 
     fun get(i: Int, j: Int) : T
     fun get(i: Int) : T
+
+    fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may incur performance loss)
     // We can get rid of this when Java 10 generic specialization comes!

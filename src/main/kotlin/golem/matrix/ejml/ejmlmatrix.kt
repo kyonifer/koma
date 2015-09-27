@@ -14,12 +14,13 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun diag() = EJMLMatrix(storage.extractDiag())
     override fun cumsum() = storage.elementSum()
     override fun max() = CommonOps.elementMax(this.storage.matrix)
-    override fun mean() = throw UnsupportedOperationException()
+    override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = CommonOps.elementMin(this.storage.matrix)
     override fun argMax() = throw UnsupportedOperationException()
     override fun argMean() = throw UnsupportedOperationException()
     override fun argMin() = throw UnsupportedOperationException()
     override fun norm() = this.storage.normF()
+
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage.get(i)
     override fun setDouble(i: Int, v: Double) = this.storage.set(i, v)
@@ -37,6 +38,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun div(other: Int) = EJMLMatrix(this.storage.div(other))
     override fun div(other: Double) = EJMLMatrix(this.storage.div(other))
     override fun transpose() = EJMLMatrix(this.storage.transpose())
+    override fun copy() = EJMLMatrix(this.storage.copy())
     override fun set(i: Int, v: Double): Unit = if(this.storage.numRows()==1) this.storage.set(1,i,v) else this.storage.set(i,1,v)
     override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
     override fun get(i: Int, j: Int) = this.storage.get(i,j)
@@ -52,7 +54,14 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun normf() = this.storage.normF()
     override fun elementSum() = this.storage.elementSum()
     override fun trace() = this.storage.trace()
-
+    override fun epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
+    override fun epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
+    override fun pow(exponent: Int): EJMLMatrix {
+        var out = this.copy()
+        for (i in 1..exponent-1)
+            out *= this
+        return out
+    }
     override fun setCol(index: Int, col: Matrix<Double>) {
         for (i in 0..col.numRows()-1)
             this[i,index] = col[i]
@@ -192,6 +201,8 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     }
 
     override fun repr() = this.storage.toString()
+
+    override fun toString() = this.storage.toString()
 
     // TODO: Fix this
     /**
