@@ -31,15 +31,10 @@ fun randn(cols: Int): Matrix<Double> = factory.randn(1, cols)
 fun randn(rows: Int, cols: Int): Matrix<Double> = factory.randn(rows, cols)
 fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = factory.randn(rows, cols, seed)
 
+fun arange(start: Double, stop: Double, step: Double): Matrix<Double> = factory.arange(start, stop, step)
+
 // TODO: Get these versions working
 
-//fun randn(rows: Int, cols: Int, rng: Random) = factory.randn(rows, cols,rng)
-//fun randn(rows: Int, cols: Int, seed: Long) =  factory.randn(rows, cols, seed)
 //fun linspace(...) = factory.linspace(lower, upper, num)
 
-fun arange(start: Double, stop: Double, step: Double): Matrix<Double> = factory.arange(start, stop, step)
-//fun arange(begin: Double) = factory.arange(begin)
-//fun arange(begin: Int) = arange(begin.toDouble())
-// fun arange(begin: Double, end: Double) = factory.arange(begin, end)
-// fun arange(begin: Int, end: Int) = arange(begin.toDouble(), end.toDouble())
 
