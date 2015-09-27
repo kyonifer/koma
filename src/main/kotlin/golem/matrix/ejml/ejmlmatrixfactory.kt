@@ -7,7 +7,7 @@ import golem.util.fromCollection
 import org.ejml.simple.SimpleMatrix
 import java.util.*
 
-class MatFactory : MatrixFactory<Matrix<Double>>
+class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
 {
     override fun zeros(rows: Int, cols: Int) = EJMLMatrix(golem.matrix.ejml.backend.zeros(rows,cols))
 
