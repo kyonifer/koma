@@ -34,9 +34,11 @@ object mat {
                 }
                 is Long -> {
                     out[curRow, curCol] = ele.toDouble()
+                    curCol += 1
                 }
                 is Float -> {
                     out[curRow, curCol] = ele.toDouble()
+                    curCol += 1
                 }
                 is Pair<*, *> -> {
                     out[curRow, curCol] = ele.first as Double
