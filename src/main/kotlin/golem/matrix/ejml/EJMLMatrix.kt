@@ -280,6 +280,3 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     }
 
 }
-
-internal var factory: EJMLMatrixFactory = EJMLMatrixFactory()
-

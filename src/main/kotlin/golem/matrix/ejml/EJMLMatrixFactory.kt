@@ -112,8 +112,5 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
         return arange(start.toDouble(), stop.toDouble(), inc)
     }
 
-    //fun zeros(vararg indices : Int): T
-    //fun ones(vararg indices : Int): T
-
 }
 
