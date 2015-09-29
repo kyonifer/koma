@@ -2,11 +2,14 @@ package golem.matrix.ejml
 
 import golem.ceil
 import golem.logb
+import golem.matFormat
 import golem.pow
 import golem.matrix.Matrix
 import golem.matrix.ejml.backend.*
 import org.ejml.simple.SimpleMatrix
 import org.ejml.ops.*
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
 class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 {
@@ -200,9 +203,25 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
                     EJMLMatrix(SimpleMatrix(decomp.getR(null, false))))
     }
 
-    override fun repr() = this.storage.toString()
+    override fun repr() = this.toString()
 
-    override fun toString() = this.storage.toString()
+    override fun toString(): String {
+        val stream = ByteArrayOutputStream()
+
+        // Numbers are numChars, precision
+        when (matFormat) {
+            "S" -> {
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
+            }
+            "L" -> {
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 8)
+            }
+            "VL" -> {
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)
+            }
+        }
+        return stream.toString()
+    }
 
     // TODO: Fix this
     /**
