@@ -152,7 +152,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
         }
         for (i in 0..n_squarings-1)
-            R = R*R
+            R *= R
         return R
     }
 

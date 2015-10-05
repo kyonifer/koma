@@ -110,7 +110,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 
             var maxnorm = 5.371920351148152
             n_squarings = golem.max(0.0, ceil(logb(2, A_L1 / maxnorm))) //
-            A = A / pow(2.0,n_squarings)
+            A /= pow(2.0, n_squarings)
             val (U, V) = _pade13(A)
             return dispatchPade(U, V, n_squarings)
         }

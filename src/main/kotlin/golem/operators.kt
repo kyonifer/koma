@@ -14,38 +14,38 @@ package golem
 import golem.matrix.Matrix
 
 // Already has plus, minus, times for double/Mat, add a few extra
-fun Matrix<Double>.plus(value: Int) = this.plus(value.toDouble())
-fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
-fun Matrix<Double>.minus() = this.times(-1.0)
-fun Matrix<Double>.mod(other: Matrix<Double>) = this.elementTimes(other)
+operator fun Matrix<Double>.plus(value: Int) = this.plus(value.toDouble())
+operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
+operator fun Matrix<Double>.minus() = this.times(-1.0)
+operator fun Matrix<Double>.mod(other: Matrix<Double>) = this.elementTimes(other)
 
 // Allow index overloading (double-valued get/set already implemented in base type)
-fun Matrix<Double>.set(index: Int, value: Int) = this.set(index, value.toDouble())
-fun Matrix<Double>.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
+operator fun Matrix<Double>.set(index: Int, value: Int) = this.set(index, value.toDouble())
+operator fun Matrix<Double>.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
 
 // Allows 4*b, 4.0*b, b*4
-fun Double.times(other: Matrix<Double>) = other.times(this)
-fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
-fun Matrix<Double>.times(other: Int) = this*other.toDouble()
+operator fun Double.times(other: Matrix<Double>) = other.times(this)
+operator fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
+operator fun Matrix<Double>.times(other: Int) = this*other.toDouble()
 
 val Matrix<Double>.T: Matrix<Double>
     get() = this.transpose()
 
 // Allow slicing
-fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> {
+operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> {
     var out = zeros(rows.end-rows.start, cols.end - cols.start)
     for (row in rows-1)
         for (col in cols-1)
             out[row,col] = this[row,col]
     return out
 }
-fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Double>) {
+operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Double>) {
     for(i in rows-1)
         for (j in cols-1)
             this[i,j] = value[i-rows.start,j-cols.start]
 }
-fun Matrix<Double>.get(rows: IntRange, cols: Int) = this.get(rows, cols..cols)
-fun Matrix<Double>.get(rows: Int, cols: IntRange) = this.get(rows..rows, cols)
+operator fun Matrix<Double>.get(rows: IntRange, cols: Int) = this.get(rows, cols..cols)
+operator fun Matrix<Double>.get(rows: Int, cols: IntRange) = this.get(rows..rows, cols)
 
 
 // Todo: ND array:

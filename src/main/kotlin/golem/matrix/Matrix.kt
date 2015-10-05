@@ -10,18 +10,18 @@ package golem.matrix
 interface Matrix<T>
 {
     // Algebraic Operators
-    fun mod(other: Matrix<T>) : Matrix<T>
+    operator fun mod(other: Matrix<T>) : Matrix<T>
+    operator fun div(other: Int) : Matrix<T>
+    operator fun div(other: Double) : Matrix<T>
+    operator fun times(other: Matrix<T>) : Matrix<T>
+    operator fun times(other: Double) : Matrix<T>
+    operator fun minus() : Matrix<T>
+    operator fun minus(other: Double) : Matrix<T>
+    operator fun minus(other: Matrix<T>): Matrix<T>
+    operator fun plus(other: Double) : Matrix<T>
+    operator fun plus(other: Matrix<T>): Matrix<T>
     fun transpose(): Matrix<T>
-    fun div(other: Int) : Matrix<T>
-    fun div(other: Double) : Matrix<T>
-    fun times(other: Matrix<T>) : Matrix<T>
-    fun times(other: Double) : Matrix<T>
     fun elementTimes(other: Matrix<T>) : Matrix<T>
-    fun minus() : Matrix<T>
-    fun minus(other: Double) : Matrix<T>
-    fun minus(other: Matrix<T>): Matrix<T>
-    fun plus(other: Double) : Matrix<T>
-    fun plus(other: Matrix<T>): Matrix<T>
     fun epow(other: Double): Matrix<T>
     fun epow(other: Int): Matrix<T>
     fun pow(exponent: Int): Matrix<T>
@@ -31,11 +31,11 @@ interface Matrix<T>
     fun numCols(): Int
 
     // Index syntax
-    fun set(i: Int, v: T)
-    fun set(i: Int, j:Int, v:T)
+    operator fun set(i: Int, v: T)
+    operator fun set(i: Int, j:Int, v:T)
 
-    fun get(i: Int, j: Int) : T
-    fun get(i: Int) : T
+    operator fun get(i: Int, j: Int) : T
+    operator fun get(i: Int) : T
 
     fun copy(): Matrix<T>
 

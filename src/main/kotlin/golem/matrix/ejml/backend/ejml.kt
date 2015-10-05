@@ -24,23 +24,28 @@ import org.ejml.simple.*
 import java.util.*
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
-fun SimpleMatrix.times(other: SimpleMatrix) = this.mult(other)
-fun SimpleMatrix.times(other: Int) = this.scale(other.toDouble())
-fun SimpleMatrix.times(other: Double) = this.scale(other)
-fun SimpleMatrix.mod(other: SimpleMatrix) = this.elementMult(other)
-fun SimpleMatrix.minus() = this.scale(-1.0)
-fun SimpleMatrix.div(other: Int) = this.divide(other.toDouble())
-fun SimpleMatrix.div(other: Double) = this.divide(other)
+operator fun SimpleMatrix.times(other: SimpleMatrix) = this.mult(other)
+operator fun SimpleMatrix.times(other: Int) = this.scale(other.toDouble())
+operator fun SimpleMatrix.times(other: Double) = this.scale(other)
+operator fun SimpleMatrix.mod(other: SimpleMatrix) = this.elementMult(other)
+operator fun SimpleMatrix.minus() = this.scale(-1.0)
+operator fun SimpleMatrix.div(other: Int) = this.divide(other.toDouble())
+operator fun SimpleMatrix.div(other: Double) = this.divide(other)
 val SimpleMatrix.T: SimpleMatrix
     get() = this.transpose()
 
 // Index syntax (already has get)
-fun SimpleMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
-fun SimpleMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
+operator fun SimpleMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
+operator fun SimpleMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
+
+// Override operators TODO: Lose this when Kotlin auto annotates operator java classes
+operator fun SimpleMatrix.get(i: Int) = this.get(i)
+operator fun SimpleMatrix.get(i: Int, j: Int) = this.get(i,j)
+operator fun SimpleMatrix.set(i: Int, j: Int, v: Double) = this.set(i,j,v)
 
 // Scalar Arithmetic
-fun SimpleMatrix.plus(other: Int) = this.plus(other.toDouble(), this)
-fun SimpleMatrix.plus(other: Double) = this.plus(other, this)
+operator fun SimpleMatrix.plus(other: Int) = this.plus(other.toDouble(), this)
+operator fun SimpleMatrix.plus(other: Double) = this.plus(other, this)
 
 // Decompositions (Already has eig, svd) [expm,schur not available]
 fun SimpleMatrix.chol() = DecompositionFactory.chol(this.numCols(), false)
@@ -56,7 +61,7 @@ fun zeros(rows: Int, cols: Int) = SimpleMatrix(rows, cols)
 fun eye(size: Int) = SimpleMatrix.identity(size)
 fun ones(rows: Int, cols: Int): SimpleMatrix {
     val out = SimpleMatrix(rows, cols)
-    CommonOps.fill(out.getMatrix(), 1.0)
+    CommonOps.fill(out.matrix, 1.0)
     return out
 }
 fun rand(rows: Int, cols: Int, seed: Long) = SimpleMatrix.random(rows, cols, 0.0, 1.0, Random(seed))
@@ -87,7 +92,7 @@ fun SimpleMatrix.map( f: (Double)-> Double): SimpleMatrix {
 }
 
 object arr {
-    fun get(vararg ts: Any): DoubleArray {
+    operator fun get(vararg ts: Any): DoubleArray {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val len = ts.count()
@@ -106,7 +111,7 @@ object arr {
 }
 
 object mat {
-    fun get(vararg ts: Any): SimpleMatrix {
+    operator fun get(vararg ts: Any): SimpleMatrix {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val numStops = (ts.filter { it is Pair<*, *> }).count()

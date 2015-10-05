@@ -10,14 +10,14 @@ val Matrix.T: Matrix
 
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
-fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
+operator fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
     var out = DenseMatrix(other.numRows(), other.numColumns())
     this.mult(other, out)
     return out
 }
 
-fun DenseMatrix.times(other: Int) = this.times(other.toDouble())
-fun DenseMatrix.times(other: Double): DenseMatrix {
+operator fun DenseMatrix.times(other: Int) = this.times(other.toDouble())
+operator fun DenseMatrix.times(other: Double): DenseMatrix {
     var out = DenseMatrix(this.numRows(), this.numColumns())
     for (i in 0..this.numRows()-1)
         for (j in 0..this.numColumns()-1)
@@ -26,28 +26,31 @@ fun DenseMatrix.times(other: Double): DenseMatrix {
 }
 
 // Element multiplication
-fun DenseMatrix.mod(other: DenseMatrix): DenseMatrix {
+operator fun DenseMatrix.mod(other: DenseMatrix): DenseMatrix {
     var out = DenseMatrix(this.numRows(), this.numColumns())
     for (i in 0..this.numRows()-1)
         for (j in 0..this.numColumns()-1)
             out[i,j] = this[i,j]*other[i,j]
     return out
 }
-fun DenseMatrix.minus() = this.times(-1.0)
+operator fun DenseMatrix.minus() = this.times(-1.0)
 // Can't override built-in minus
 fun DenseMatrix.minusElement(other: Double) = this.plusElement(other*-1)
 fun DenseMatrix.minusElement(other: Int) = this.plusElement(other*-1)
-fun DenseMatrix.minus(other: DenseMatrix) = this.plusMatrix(DenseMatrix(other*-1))
+operator fun DenseMatrix.minus(other: DenseMatrix) = this.plusMatrix(DenseMatrix(other*-1))
 
 // TODO: Numerical stability
-fun DenseMatrix.div(other: Int) = this.times(1.0/(other.toDouble()))
-fun DenseMatrix.div(other: Double) = this.times(1.0/other)
+operator fun DenseMatrix.div(other: Int) = this.times(1.0/(other.toDouble()))
+operator fun DenseMatrix.div(other: Double) = this.times(1.0/other)
 
 // Index syntax
-fun DenseMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
-fun DenseMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
-fun DenseMatrix.set(i: Int, v: Double) = this.set(1,i,v)
-fun DenseMatrix.get(i: Int) = this.get(1, i)
+operator fun DenseMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
+operator fun DenseMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
+operator fun DenseMatrix.set(i: Int, v: Double) = this.set(1,i,v)
+operator fun DenseMatrix.get(i: Int) = this.get(1, i)
+// Annotate operators TODO: Remove when Kotlin implicitly annotates operator for java classes
+operator fun DenseMatrix.get(i: Int, j: Int) = this.get(i, j)
+operator fun DenseMatrix.set(i: Int, j: Int, v: Double) = this.set(i,j,v)
 
 // Scalar Arithmetic not available since extension functions cant override iterable plus()
 fun DenseMatrix.plusElement(other: Int) = this.plusElement(other.toDouble())
@@ -113,7 +116,7 @@ fun DenseMatrix.det(): Double {
         if (idx != piv)
             swaps += 1
     }
-    
+
 
     return 1.0
 
@@ -155,7 +158,7 @@ fun DenseMatrix.map( f: (Double)-> Double): DenseMatrix {
 }
 
 object mat {
-    fun get(vararg ts: Any): DenseMatrix {
+    operator fun get(vararg ts: Any): DenseMatrix {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val numStops = (ts.filter { it is Pair<*, *> }).count()
