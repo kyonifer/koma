@@ -59,6 +59,7 @@ fun ones(rows: Int, cols: Int): SimpleMatrix {
     CommonOps.fill(out.getMatrix(), 1.0)
     return out
 }
+fun rand(rows: Int, cols: Int, seed: Long) = SimpleMatrix.random(rows, cols, 0.0, 1.0, Random(seed))
 fun rand(len: Int, seed: Long) = SimpleMatrix.random(1, len, 0.0, 1.0, Random(seed))
 fun rand(len: Int) = rand(len, System.currentTimeMillis())
 
@@ -77,10 +78,12 @@ fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
     return out
 }
 
-fun SimpleMatrix.map( f: (Double)-> Double) {
+fun SimpleMatrix.map( f: (Double)-> Double): SimpleMatrix {
+    var out = SimpleMatrix(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
-            this[row,col] = f(this[row,col])
+            out[row,col] = f(this[row,col])
+    return out
 }
 
 object arr {
