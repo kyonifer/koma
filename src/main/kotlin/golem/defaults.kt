@@ -6,5 +6,5 @@
 package golem
 
 // Default factory to build matrices from
-val factory = golem.matrix.ejml.EJMLMatrixFactory()
-
+//val factory = golem.matrix.ejml.EJMLMatrixFactory()
+val factory = golem.matrix.mtj.MTJMatrixFactory()
