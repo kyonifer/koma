@@ -62,8 +62,10 @@ interface Matrix<T>
 
     // Decompositions (Already has eig, svd) [expm,schur not available]
     fun chol() : Matrix<T>
-    fun LU() : Pair<Matrix<T>,Matrix<T>>
+    fun LU() : Triple<Matrix<T>,Matrix<T>,Matrix<T>>
     fun QR() : Pair<Matrix<T>,Matrix<T>>
+    //need schur, svd, eig
+
 
     // Advanced Functions
     fun expm(): Matrix<T>

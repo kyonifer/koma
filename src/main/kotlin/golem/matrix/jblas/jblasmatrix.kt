@@ -163,7 +163,7 @@ class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
         throw UnsupportedOperationException()
     }
 
-    override fun LU(): Pair<Matrix<Double>, Matrix<Double>> {
+    override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
         throw UnsupportedOperationException()
     }
 

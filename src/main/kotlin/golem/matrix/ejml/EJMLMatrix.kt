@@ -191,10 +191,11 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
         return Pair(U,V)
     }
 
-    override fun LU(): Pair<EJMLMatrix, EJMLMatrix> {
+    override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
         val decomp = this.storage.LU()
-        return Pair(EJMLMatrix(SimpleMatrix(decomp.getLower(null))),
-                    EJMLMatrix(SimpleMatrix(decomp.getUpper(null))))
+        return Triple(EJMLMatrix(SimpleMatrix(decomp.getPivot(null))),
+                      EJMLMatrix(SimpleMatrix(decomp.getLower(null))),
+                      EJMLMatrix(SimpleMatrix(decomp.getUpper(null))))
     }
 
     override fun QR(): Pair<EJMLMatrix, EJMLMatrix> {
