@@ -11,6 +11,9 @@ dependencies {
   compile 'org.jetbrains.kotlin:kotlin-stdlib:0.13.1514'
   compile 'org.scala-lang:scala-library:2.11.4'
   compile 'org.ejml:all:0.27'
+  //compile 'com.github.fommil.netlib:all:1.1.2'
+  compile 'com.googlecode.matrix-toolkits-java:mtj:1.0.2'
+  compile 'org.ojalgo:ojalgo:38.2'
   compile 'org.jblas:jblas:1.2.3'
 
   testCompile 'junit:junit:4.12'
