@@ -63,8 +63,8 @@ fun DenseMatrix.plusElement(other: Double): DenseMatrix {
 }
 fun DenseMatrix.plusMatrix(other: DenseMatrix) = DenseMatrix(this.add(other))
 
-fun DenseMatrix.prod() {
-    this.data.reduce { a, b -> a*b }
+fun DenseMatrix.prod(): Double {
+    return this.data.reduce { a, b -> a*b }
 }
 fun DenseMatrix.chol() = DenseCholesky.factorize(this).l
 fun DenseMatrix.svd() = SVD.factorize(this)
@@ -96,7 +96,12 @@ fun ones(rows: Int, cols: Int): DenseMatrix {
     return out
 }
 
-
+fun DenseMatrix.diag(): DenseMatrix {
+    var out = DenseMatrix(1,golem.min(this.numColumns(), this.numRows()))
+    for (i in 0..out.numColumns()-1)
+        out[0,i]=this[i,i]
+    return out
+}
 // Basic Functions
 fun DenseMatrix.inv(): DenseMatrix {
     var out = eye(3)
@@ -106,19 +111,20 @@ fun DenseMatrix.inv(): DenseMatrix {
 
 fun DenseMatrix.det(): Double {
     var decomp = DenseLU.factorize(this)
-    var L = decomp.l
-    var U = decomp.u
-    var P = decomp.p
+    var L = DenseMatrix(decomp.l)
+    var U = DenseMatrix(decomp.u)
+    var P = DenseMatrix(decomp.p)
 
     var pivots = decomp.pivots
     var swaps = 0
     pivots.forEachIndexed { idx, piv ->
-        if (idx != piv)
+        if (idx+1 != piv)
             swaps += 1
     }
+    var out = L.diag().prod()*U.diag().prod()*(if (swaps%2==0) 1 else -1)
 
 
-    return 1.0
+    return out
 
 
 

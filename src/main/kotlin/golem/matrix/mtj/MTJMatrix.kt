@@ -18,10 +18,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     // TODO: Fix UnsupportedOperationException
 
     override fun diag(): MTJMatrix {
-        var out = DenseMatrix(1,golem.min(this.numCols(), this.numRows()))
-        for (i in 0..out.numColumns()-1)
-            out[0,i]=this[i,i]
-        return MTJMatrix(out)
+        return MTJMatrix(this.storage.diag())
     }
     override fun cumsum() = storage.sumByDouble { it.get() }
     override fun max() = storage.maxBy{ it.get() }!!.get()
@@ -68,15 +65,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun epow(other: Int)  = throw UnsupportedOperationException()//= EJMLMatrix(this.storage.elementPower(other.toDouble()))
     override fun det(): Double
     {
-        var (p,L,U)=this.LU()
-        /*
-        var aa = this.storage.
-        var a1 = L.diag().storage.prod()
-        var a2 = U.diag().storage.prod()
-        var a3 = p%2==0? 1:0
-        */
-
-        return 1.0
+        return this.storage.det()
     }
 
     override fun pow(exponent: Int): MTJMatrix {
