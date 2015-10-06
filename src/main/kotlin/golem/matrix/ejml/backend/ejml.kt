@@ -39,7 +39,7 @@ operator fun SimpleMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
 operator fun SimpleMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
 
 // Override operators TODO: Lose this when Kotlin auto annotates operator java classes
-operator fun SimpleMatrix.get(i: Int) = this.get(i)
+operator fun SimpleMatrix.get(i: Int) = if (this.numCols()==1) this.get(i, 0) else this.get(0, i)
 operator fun SimpleMatrix.get(i: Int, j: Int) = this.get(i,j)
 operator fun SimpleMatrix.set(i: Int, j: Int, v: Double) = this.set(i,j,v)
 
