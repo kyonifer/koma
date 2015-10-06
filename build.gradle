@@ -8,7 +8,7 @@ repositories {
 
 dependencies {
   // Depend on the std libs of all our languages
-  compile 'org.jetbrains.kotlin:kotlin-stdlib:0.13.1514'
+  compile 'org.jetbrains.kotlin:kotlin-stdlib:0.14.449'
   compile 'org.scala-lang:scala-library:2.11.4'
   compile 'org.ejml:all:0.27'
   compile 'com.github.fommil.netlib:all:1.1.2'
@@ -35,7 +35,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.13.1514"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.14.449"
   }
 }
 
