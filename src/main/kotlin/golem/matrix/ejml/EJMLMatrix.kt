@@ -116,7 +116,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
                 MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
             }
             "L" -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 8)
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 12)
             }
             "VL" -> {
                 MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)

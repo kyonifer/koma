@@ -12,6 +12,7 @@ import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
 import no.uib.cipr.matrix.MatrixEntry
 import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
 public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
@@ -116,24 +117,28 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun repr() = this.toString()
 
     override fun toString(): String {
-        return this.storage.toString()
-        /*
-        val stream = ByteArrayOutputStream()
+        val bstream = ByteArrayOutputStream()
+        val pstream = PrintStream(bstream)
+
+        val data = this.storage.data
 
         // Numbers are numChars, precision
-        when (matFormat) {
-            "S" -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
+        var (numChars, precision) =
+            when (matFormat) {
+                "S" -> Pair(6,3)
+                "L" -> Pair(14,12)
+                "VL" -> Pair(20,20)
+                else -> Pair(14,8)
             }
-            "L" -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 8)
-            }
-            "VL" -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)
-            }
+
+        data.forEachIndexed { i, ele ->
+            if (i != 0 && i % this.storage.numColumns() == 0)
+                pstream.append("\n")
+            pstream.format("%${numChars}.${precision}f", ele)
+            pstream.append("  ")
         }
-        return stream.toString()
-        */
+
+        return bstream.toString()
         }
 
     // TODO: Fix this
