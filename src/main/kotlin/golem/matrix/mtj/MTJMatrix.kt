@@ -90,17 +90,14 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         get() = this.transpose()
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): MTJMatrix {
-        throw UnsupportedOperationException()
-        //var out = this.getFactory().zeros(A.numCols(), 1)
-        //CommonOps.solve(castOrBail(A).storage.matrix, castOrBail(B).storage.matrix, out.storage.matrix)
-        //return out
+        var out = this.getFactory().zeros(A.numCols(), 1)
+        castOrBail(A).storage.solve(castOrBail(B).storage, out.storage)
+        return out
     }
 
     override fun expm(): MTJMatrix {
-        throw UnsupportedOperationException()
-        /*
         var A = this
-        var A_L1 = org.ejml.ops.NormOps.inducedP1(A.storage.matrix)
+        var A_L1 = A.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
         var n_squarings = 0.0
 
         if (A_L1 < 1.495585217958292e-002) {
@@ -123,11 +120,10 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
             var maxnorm = 5.371920351148152
             n_squarings = golem.max(0.0, ceil(logb(2, A_L1 / maxnorm))) //
-            A = A / pow(2.0,n_squarings)
+            A /= pow(2.0, n_squarings)
             val (U, V) = _pade13(A)
             return dispatchPade(U, V, n_squarings)
         }
-        */
 
     }
     private fun dispatchPade(U: MTJMatrix, V: MTJMatrix, n_squarings: Double): MTJMatrix
@@ -218,26 +214,26 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
     override fun repr() = this.toString()
 
-    /*
-override fun toString(): String {
-    throw UnsupportedOperationException()
-    val stream = ByteArrayOutputStream()
+    override fun toString(): String {
+        return this.storage.toString()
+        /*
+        val stream = ByteArrayOutputStream()
 
-    // Numbers are numChars, precision
-    when (matFormat) {
-        "S" -> {
-            MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
+        // Numbers are numChars, precision
+        when (matFormat) {
+            "S" -> {
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
+            }
+            "L" -> {
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 8)
+            }
+            "VL" -> {
+                MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)
+            }
         }
-        "L" -> {
-            MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 8)
+        return stream.toString()
+        */
         }
-        "VL" -> {
-            MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)
-        }
-    }
-    return stream.toString()
-    }
-    */
 
     // TODO: Fix this
     /**

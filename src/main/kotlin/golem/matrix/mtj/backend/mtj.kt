@@ -47,7 +47,7 @@ operator fun DenseMatrix.div(other: Double) = this.times(1.0/other)
 operator fun DenseMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
 operator fun DenseMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
 operator fun DenseMatrix.set(i: Int, v: Double) = this.set(1,i,v)
-operator fun DenseMatrix.get(i: Int) = this.get(0, i)
+operator fun DenseMatrix.get(i: Int) = if (this.numColumns()==1) this.get(i, 0) else this.get(0, i)
 // Annotate operators TODO: Remove when Kotlin implicitly annotates operator for java classes
 operator fun DenseMatrix.get(i: Int, j: Int) = this.get(i, j)
 operator fun DenseMatrix.set(i: Int, j: Int, v: Double) = this.set(i,j,v)
@@ -61,7 +61,8 @@ fun DenseMatrix.plusElement(other: Double): DenseMatrix {
             out[i,j] = this[i,j]+other
     return out
 }
-fun DenseMatrix.plusMatrix(other: DenseMatrix) = DenseMatrix(this.add(other))
+fun DenseMatrix.plusMatrix(other: DenseMatrix) = DenseMatrix(this.copy().add(other))
+
 
 fun DenseMatrix.prod(): Double {
     return this.data.reduce { a, b -> a*b }
