@@ -5,6 +5,10 @@
 
 package golem
 
+import golem.matrix.Matrix
+import golem.matrix.MatrixFactory
+
 // Default factory to build matrices from
-//val factory = golem.matrix.ejml.EJMLMatrixFactory()
-val factory = golem.matrix.mtj.MTJMatrixFactory()
+// Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
+// the top-level functions use.
+var factory: MatrixFactory<Matrix<Double>> = golem.matrix.mtj.MTJMatrixFactory()
