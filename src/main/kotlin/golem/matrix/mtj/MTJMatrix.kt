@@ -46,7 +46,10 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun minus(other: Matrix<Double>) = MTJMatrix(this.storage.minus(castOrBail(other).storage))
     override fun div(other: Int) = MTJMatrix(this.storage.div(other))
     override fun div(other: Double) = MTJMatrix(this.storage.div(other))
-    override fun transpose() = MTJMatrix(DenseMatrix(this.storage.transpose()))
+    override fun transpose(): MTJMatrix {
+        var out = DenseMatrix(this.numCols(), numRows())
+        return MTJMatrix(DenseMatrix(this.storage.transpose(out)))
+    }
     override fun copy() = MTJMatrix(this.storage.copy())
     override fun set(i: Int, v: Double): Unit = if(this.storage.numRows()==1) this.storage.set(1,i,v) else this.storage.set(i,1,v)
     override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
