@@ -1,5 +1,6 @@
 package golem.matrix.mtj.backend
 
+import golem.pow
 import no.uib.cipr.matrix.*
 import java.lang.reflect.Field
 import java.util.*
@@ -63,6 +64,14 @@ fun DenseMatrix.plusElement(other: Double): DenseMatrix {
 }
 fun DenseMatrix.plusMatrix(other: DenseMatrix) = DenseMatrix(this.copy().add(other))
 
+fun DenseMatrix.powElement(other: Int) = this.powElement(other.toDouble())
+fun DenseMatrix.powElement(other: Double): DenseMatrix {
+    var out = DenseMatrix(this.numRows(), this.numColumns())
+    for (i in 0..this.numRows()-1)
+        for (j in 0..this.numColumns()-1)
+            out[i,j] = pow(this[i,j], other)
+    return out
+}
 
 fun DenseMatrix.prod(): Double {
     return this.data.reduce { a, b -> a*b }
@@ -114,7 +123,6 @@ fun DenseMatrix.det(): Double {
     var decomp = DenseLU.factorize(this)
     var L = DenseMatrix(decomp.l)
     var U = DenseMatrix(decomp.u)
-    var P = DenseMatrix(decomp.p)
 
     var pivots = decomp.pivots
     var swaps = 0
