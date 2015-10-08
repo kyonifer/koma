@@ -65,8 +65,8 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun normf() = throw UnsupportedOperationException()//= this.storage.norm()
     override fun elementSum() = this.cumsum()
     override fun trace() = throw UnsupportedOperationException() //= this.storage.trace()
-    override fun epow(other: Double) = throw UnsupportedOperationException()// = EJMLMatrix(this.storage.elementPower(other))
-    override fun epow(other: Int)  = throw UnsupportedOperationException()//= EJMLMatrix(this.storage.elementPower(other.toDouble()))
+    override fun epow(other: Double) = MTJMatrix(this.storage.powElement(other))
+    override fun epow(other: Int) = MTJMatrix(this.storage.powElement(other))
     override fun det(): Double
     {
         return this.storage.det()
