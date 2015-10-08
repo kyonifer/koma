@@ -10,15 +10,15 @@ dependencies {
   // Depend on the std libs of all our languages
   compile 'org.jetbrains.kotlin:kotlin-stdlib:0.14.449'
   compile 'org.scala-lang:scala-library:2.11.4'
+
+  // Different matrix backends
   compile 'org.ejml:all:0.27'
+  compile 'org.jblas:jblas:1.2.3'
   compile 'com.github.fommil.netlib:all:1.1.2'
   compile('com.googlecode.matrix-toolkits-java:mtj:1.0.2') {
     // Exclude to fix gradle using a pom type as a jar
     exclude group: 'com.github.fommil.netlib'
   }
-
-  compile 'org.ojalgo:ojalgo:38.2'
-  compile 'org.jblas:jblas:1.2.3'
 
   testCompile 'junit:junit:4.12'
 
