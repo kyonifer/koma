@@ -35,6 +35,14 @@ fun <T> Matrix<T>.any( f: (T)-> Boolean): Boolean {
     return false
 }
 
+fun <T> Matrix<T>.all( f: (T)-> Boolean): Boolean {
+    for (row in 0..this.numRows()-1)
+        for (col in 0..this.numCols()-1)
+            if (!f(this[row,col]))
+                return false
+    return true
+}
+
 fun Matrix<Double>.to2DArray(): Array<DoubleArray> {
     var out = Array(numRows(),{DoubleArray(numCols())})
     for (row in 0..this.numRows()-1)
