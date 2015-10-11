@@ -37,8 +37,8 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numColumns()
-    override fun times(other: Matrix<Double>) = MTJMatrix(DenseMatrix(this.storage.times(castOrBail(other).storage)))
-    override fun times(other: Double) = MTJMatrix(DenseMatrix(this.storage.times(other)))
+    override fun times(other: Matrix<Double>) = MTJMatrix(this.storage.times(castOrBail(other).storage))
+    override fun times(other: Double) = MTJMatrix(this.storage.times(other))
     override fun elementTimes(other: Matrix<Double>) = MTJMatrix(this.storage.mod(castOrBail(other).storage))
     override fun mod(other: Matrix<Double>) = elementTimes(other)
     override fun minus() = MTJMatrix(this.storage.minus())
@@ -156,7 +156,6 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
             is MTJMatrix -> return mat
             else -> throw Exception("Operations between matrices with different backends not yet supported.")
         }
-
     }
 
     /* These methods are defined in order to support fast non-generic calls. However,
