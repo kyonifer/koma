@@ -3,6 +3,9 @@
  * linear algebra library.
  */
 
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 import golem.matrix.Matrix

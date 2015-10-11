@@ -2,6 +2,10 @@
  * This file contains Kotlin extension functions for Matrix. Allows for things
  * like supporting the for loop protocol, so one can write "for (e in matrix)"
  */
+
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 import golem.matrix.Matrix

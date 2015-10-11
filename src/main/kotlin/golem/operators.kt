@@ -9,6 +9,9 @@
  * a[0..1,2..3] = mat[1,2 end 3,4]
  */
 
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 import golem.matrix.Matrix

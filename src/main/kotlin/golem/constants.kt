@@ -2,6 +2,9 @@
  * This file defines commonly used math constants
  */
 
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 

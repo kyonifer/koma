@@ -4,6 +4,9 @@
  * one to do things like cos(randn(5,5))
  */
 
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 import golem.matrix.Matrix

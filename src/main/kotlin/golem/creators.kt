@@ -4,6 +4,9 @@
  * matrix can be created via zeros(3,3)
  */
 
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 import golem.matrix.Matrix

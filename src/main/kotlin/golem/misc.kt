@@ -1,3 +1,6 @@
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 internal var matFormat: String = "L"
