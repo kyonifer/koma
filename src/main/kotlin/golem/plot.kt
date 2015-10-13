@@ -14,7 +14,7 @@ fun plot(x: DoubleArray, y: DoubleArray): Pair<Chart?, JFrame>  {
     System.setProperty("java.awt.headless", "false")
     val plot = QuickChart.getChart("Plot #${plotCount.toString()}", "X", "Y", "Data", x, y)
     var frame: JFrame
-    frame = SwingWrapper(plot).displayChart();
+    frame = displayChart(plot)
     frame.defaultCloseOperation = 2//JFrame.DISPOSE_ON_CLOSE;
     plotCount += 1
 
@@ -45,3 +45,27 @@ fun plot(x: Any?, y: Any): Pair<Chart?, JFrame>   {
     return plot(xdata, ydata)
 }
 fun plot(y: Any) = plot(null, y)
+
+
+fun displayChart(c: Chart): JFrame {
+
+    // Create and set up the window.
+    val frame = JFrame("Foo")
+
+    // Schedule a job for the event-dispatching thread:
+    // creating and showing this application's GUI.
+    javax.swing.SwingUtilities.invokeLater(object : Runnable {
+
+        override fun run() {
+
+            val chartPanel = XChartPanel(c)
+            frame.add(chartPanel)
+
+            // Display the window.
+            frame.pack()
+            frame.setVisible(true)
+        }
+    })
+
+    return frame
+}
