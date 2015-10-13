@@ -16,12 +16,12 @@ class UInt8
     }
     var value: Byte
 
-    fun plus(other: UInt8): UInt8
+    operator fun plus(other: UInt8): UInt8
     {
         return UInt8((this.value + other.value).toByte())
 
     }
-    fun minus(other: UInt8): UInt8
+    operator fun minus(other: UInt8): UInt8
     {
         return UInt8((this.value - other.value).toByte())
     }
@@ -29,7 +29,7 @@ class UInt8
     {
         return UInt8((value.toInt()/other.value.toInt()).toByte())
     }
-    fun times(other: UInt8): UInt8
+    operator fun times(other: UInt8): UInt8
     {
         return UInt8((value*other.value).toByte())
     }
