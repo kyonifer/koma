@@ -12,7 +12,7 @@ val Matrix.T: Matrix
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
 operator inline fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
-    var out = DenseMatrix(other.numRows(), other.numColumns())
+    var out = DenseMatrix(this.numRows(), other.numColumns())
     this.mult(other, out)
     return out
 }
@@ -62,7 +62,13 @@ fun DenseMatrix.plusElement(other: Double): DenseMatrix {
             out[i,j] = this[i,j]+other
     return out
 }
-fun DenseMatrix.plusMatrix(other: DenseMatrix) = DenseMatrix(this.copy().add(other))
+fun DenseMatrix.plusMatrix(other: DenseMatrix): DenseMatrix {
+    if (other.numRows()==1 && other.numColumns()==1)
+        return this.plusElement(other[0,0])
+    else if (this.numRows()==1 && this.numColumns()==1)
+        return other.plusElement(this[0,0])
+    else return DenseMatrix(this.copy().add(other))
+}
 
 fun DenseMatrix.powElement(other: Int) = this.powElement(other.toDouble())
 fun DenseMatrix.powElement(other: Double): DenseMatrix {
@@ -114,8 +120,8 @@ fun DenseMatrix.diag(): DenseMatrix {
 }
 // Basic Functions
 fun DenseMatrix.inv(): DenseMatrix {
-    var out = eye(3)
-    this.solve(eye(3), out)
+    var out = eye(this.numColumns())
+    this.solve(eye(this.numColumns()), out)
     return out
 }
 
