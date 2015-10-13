@@ -5,22 +5,20 @@ import org.knowm.xchart.*
 import javax.swing.JFrame
 import golem.util.*;
 
-// While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting
-private var plotCount = 0
+// While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
+// This tracks the current figure we're plotting our lines to when someone calls plot(). Its updated
+// by figure(numberHere)
+private var currentFigure = 1
+private val MAX_FIGURES = 100
+public var figures= arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
 
-fun plot(x: Matrix<Double>, y: Matrix<Double>) = plot(x.getDoubleData(), y.getDoubleData())
-fun plot(x: DoubleArray, y: DoubleArray): Pair<Chart?, JFrame>  {
-
-    // Workaround for Kotlin REPL starting in headless mode
-    System.setProperty("java.awt.headless", "false")
-    plotCount += 1
-    val plot = QuickChart.getChart("Plot #${plotCount.toString()}", "X", "Y", "Data", x, y)
-    var frame: JFrame
-    frame = displayChart(plot)
-
-    return Pair(plot, frame)
+fun figure(num: Int) {
+    currentFigure = num
 }
-fun plot(x: Any?, y: Any): Pair<Chart?, JFrame>   {
+
+fun plot(y: Any) = plot(null, y)
+fun plot(x: Matrix<Double>, y: Matrix<Double>) = plot(x.getDoubleData(), y.getDoubleData())
+fun plot(x: Any?, y: Any) {
     var xdata: DoubleArray
     var ydata: DoubleArray
 
@@ -42,15 +40,28 @@ fun plot(x: Any?, y: Any): Pair<Chart?, JFrame>   {
         null -> xdata =  fromCollection((0.0..(ydata.size().toDouble()-1)).toList())
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
-    return plot(xdata, ydata)
+    plot(xdata, ydata)
 }
-fun plot(y: Any) = plot(null, y)
+fun plot(x: DoubleArray, y: DoubleArray) {
+    // Workaround for Kotlin REPL starting in headless mode
+    System.setProperty("java.awt.headless", "false")
 
+    if (figures[currentFigure] == null) {
+        val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Data", x, y)
+        val frame = displayChart(chart)
+        figures[currentFigure] = Triple(chart, frame, 1)
+    }
+    else {
+        var (chart, frame, numLines) = figures[currentFigure]!!
+        figures[currentFigure] = Triple(chart, frame, numLines+1)
+        chart.addSeries("Line #${(numLines+1).toString()}", x, y)
+    }
+}
 
 private fun displayChart(c: Chart): JFrame {
 
     // Create and set up the window.
-    val frame = JFrame("Plot #${plotCount}")
+    val frame = JFrame("Plot #${currentFigure}")
 
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
@@ -63,7 +74,7 @@ private fun displayChart(c: Chart): JFrame {
 
             // Display the window.
             frame.pack()
-            frame.setVisible(true)
+            frame.isVisible = true
         }
     })
 
