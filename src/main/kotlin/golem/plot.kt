@@ -47,14 +47,15 @@ fun plot(x: DoubleArray, y: DoubleArray) {
     System.setProperty("java.awt.headless", "false")
 
     if (figures[currentFigure] == null) {
-        val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Data", x, y)
+        val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Line #1", x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
     }
     else {
         var (chart, frame, numLines) = figures[currentFigure]!!
         figures[currentFigure] = Triple(chart, frame, numLines+1)
-        chart.addSeries("Line #${(numLines+1).toString()}", x, y)
+        val series = chart.addSeries("Line #${(numLines+1).toString()}", x, y)
+        series.setMarker(SeriesMarker.NONE)
     }
 }
 
