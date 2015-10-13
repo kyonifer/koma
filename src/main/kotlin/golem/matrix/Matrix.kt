@@ -54,6 +54,7 @@ interface Matrix<T>
     fun setDouble(i: Int, j:Int, v:Double)
     fun setFloat(i: Int, j:Int, v:Float)
 
+    fun getDoubleData(): DoubleArray
 
     fun getRow(row: Int): Matrix<T>
     fun getCol(col: Int): Matrix<T>

@@ -13,7 +13,7 @@ import java.io.PrintStream
 
 class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 {
-
+    override fun getDoubleData() = this.storage.matrix.getData()
     override fun diag() = EJMLMatrix(storage.extractDiag())
     override fun cumsum() = storage.elementSum()
     override fun max() = CommonOps.elementMax(this.storage.matrix)

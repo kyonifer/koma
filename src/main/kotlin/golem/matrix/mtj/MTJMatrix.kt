@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
+    override fun getDoubleData() = this.storage.data
 
     // TODO: Fix UnsupportedOperationException
 

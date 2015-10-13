@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'scala'
+apply plugin: 'groovy'
 
 repositories {
   mavenCentral()
@@ -18,6 +19,12 @@ dependencies {
   compile('com.googlecode.matrix-toolkits-java:mtj:1.0.2') {
     // Exclude to fix gradle using a pom type as a jar
     exclude group: 'com.github.fommil.netlib'
+  }
+
+  // Plotting
+  compile ('org.knowm.xchart:xchart:2.6.0') {
+    // Exclude to fix gradle using a pom type as a jar
+    exclude module: 'VectorGraphics2D'
   }
 
   testCompile 'junit:junit:4.12'

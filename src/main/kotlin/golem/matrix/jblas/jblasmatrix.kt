@@ -7,6 +7,10 @@ import org.jblas.DoubleMatrix
 
 class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
 {
+    override fun getDoubleData(): DoubleArray {
+        throw UnsupportedOperationException()
+    }
+
     override fun copy(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
