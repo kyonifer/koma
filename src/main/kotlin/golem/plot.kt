@@ -4,6 +4,7 @@ import golem.matrix.Matrix
 import org.knowm.xchart.*
 import javax.swing.JFrame
 import golem.util.*;
+import javax.swing.WindowConstants
 
 // While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
 // This tracks the current figure we're plotting our lines to when someone calls plot(). Its updated
@@ -46,17 +47,21 @@ fun plot(x: DoubleArray, y: DoubleArray) {
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
 
-    if (figures[currentFigure] == null) {
+    // If we've never shown this plot before OR someone closed the window, make a new frame and chart
+    if (figures[currentFigure] == null || !figures[currentFigure]!!.second.isDisplayable) {
         val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Line #1", x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
     }
+    // Adding a line to an existing chart
     else {
         var (chart, frame, numLines) = figures[currentFigure]!!
         figures[currentFigure] = Triple(chart, frame, numLines+1)
         val series = chart.addSeries("Line #${(numLines+1).toString()}", x, y)
         series.setMarker(SeriesMarker.NONE)
-    }
+
+        frame.repaint()
+}
 }
 
 private fun displayChart(c: Chart): JFrame {
@@ -72,6 +77,9 @@ private fun displayChart(c: Chart): JFrame {
 
             val chartPanel = XChartPanel(c)
             frame.add(chartPanel)
+
+            // Causes program to exit if all windows are closed and other threads have exited.
+            frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
 
             // Display the window.
             frame.pack()
