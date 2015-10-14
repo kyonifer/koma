@@ -23,7 +23,7 @@ dependencies {
 
   // Plotting
   compile ('org.knowm.xchart:xchart:2.6.0') {
-    // Exclude to fix gradle using a pom type as a jar
+    // Manually exclude an optional dependency that gradle is erroneously requiring (not on central)
     exclude module: 'VectorGraphics2D'
   }
 
