@@ -31,9 +31,11 @@ dependencies {
 
 }
 
-// Build a fatjar for MATLAB
-jar {
+// Build a fatjar for MATLAB. Remember to build with JDK1.7 depending on MATLAB version
+task fatJar(type: Jar) {
+  baseName = project.name + '-all'
   from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+  with jar
 }
 
 // Add kotlin support to gradle
