@@ -68,24 +68,15 @@ private fun displayChart(c: Chart): JFrame {
 
     // Create and set up the window.
     val frame = JFrame("Plot #${currentFigure}")
+    val chartPanel = XChartPanel(c)
+    frame.add(chartPanel)
 
-    // Schedule a job for the event-dispatching thread:
-    // creating and showing this application's GUI.
-    javax.swing.SwingUtilities.invokeLater(object : Runnable {
+    // Causes program to exit if all windows are closed and other threads have exited.
+    frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
 
-        override fun run() {
-
-            val chartPanel = XChartPanel(c)
-            frame.add(chartPanel)
-
-            // Causes program to exit if all windows are closed and other threads have exited.
-            frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
-
-            // Display the window.
-            frame.pack()
-            frame.isVisible = true
-        }
-    })
+    // Display the window.
+    frame.pack()
+    frame.isVisible = true
 
     return frame
 }
