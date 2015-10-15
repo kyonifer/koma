@@ -26,7 +26,12 @@ operator fun Matrix<Double>.mod(other: Matrix<Double>) = this.elementTimes(other
 operator fun Matrix<Double>.set(index: Int, value: Int) = this.set(index, value.toDouble())
 operator fun Matrix<Double>.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
 
-// Allows 4*b, 4.0*b, b*4
+// Add some scalar operators
+// Allows e.g. 4*b, 4.0*b, b*4, 4+b
+operator fun Double.plus(other: Matrix<Double>) = other.plus(this)
+operator fun Int.plus(other: Matrix<Double>) = other.plus(this)
+operator fun Double.minus(other: Matrix<Double>) = other.minus(this)
+operator fun Int.minus(other: Matrix<Double>) = other.minus(this)
 operator fun Double.times(other: Matrix<Double>) = other.times(this)
 operator fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
 operator fun Matrix<Double>.times(other: Int) = this*other.toDouble()
