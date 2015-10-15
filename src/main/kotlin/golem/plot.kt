@@ -4,6 +4,8 @@ import golem.matrix.Matrix
 import org.knowm.xchart.*
 import javax.swing.JFrame
 import golem.util.*;
+import java.awt.event.WindowEvent
+import java.awt.event.WindowListener
 import javax.swing.WindowConstants
 
 // While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
@@ -48,7 +50,7 @@ fun plot(x: DoubleArray, y: DoubleArray) {
     System.setProperty("java.awt.headless", "false")
 
     // If we've never shown this plot before OR someone closed the window, make a new frame and chart
-    if (figures[currentFigure] == null || !figures[currentFigure]!!.second.isDisplayable) {
+    if (figures[currentFigure] == null) {
         val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Line #1", x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
@@ -68,15 +70,40 @@ private fun displayChart(c: Chart): JFrame {
 
     // Create and set up the window.
     val frame = JFrame("Plot #${currentFigure}")
-    val chartPanel = XChartPanel(c)
-    frame.add(chartPanel)
 
-    // Causes program to exit if all windows are closed and other threads have exited.
-    frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
+    // Clear the plot # if we close its window (mimic matplotlib behavior)
+    frame.addWindowListener(object : WindowListener {
+        override fun windowDeiconified(e: WindowEvent?) {}
+        override fun windowActivated(e: WindowEvent?) {}
+        override fun windowDeactivated(e: WindowEvent?) {}
+        override fun windowIconified(e: WindowEvent?) {}
+        override fun windowClosing(e: WindowEvent?) {}
+        override fun windowOpened(e: WindowEvent?) {}
+        override fun windowClosed(e: WindowEvent?) {
+            figures.forEachIndexed { i, triple ->
+                if (triple != null && triple.second == frame)
+                    figures[i] = null
+            }
+        }
+    })
 
-    // Display the window.
-    frame.pack()
-    frame.isVisible = true
+    // Schedule a job for the event-dispatching thread:
+    // creating and showing this application's GUI.
+    javax.swing.SwingUtilities.invokeLater(object : Runnable {
+
+        override fun run() {
+
+            val chartPanel = XChartPanel(c)
+            frame.add(chartPanel)
+
+            // Causes program to exit if all windows are closed and other threads have exited.
+            frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
+
+            // Display the window.
+            frame.pack()
+            frame.isVisible = true
+        }
+    })
 
     return frame
 }
