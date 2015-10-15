@@ -11,7 +11,7 @@ val Matrix.T: Matrix
 
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
-operator inline fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
+operator fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
     var out = DenseMatrix(this.numRows(), other.numColumns())
     this.mult(other, out)
     return out

@@ -3,6 +3,7 @@ package golem.matrix.mtj
 import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import golem.util.fromCollection
+import golem.matrix.mtj.backend.set
 import no.uib.cipr.matrix.DenseMatrix
 import java.util.*
 

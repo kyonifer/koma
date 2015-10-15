@@ -19,16 +19,16 @@ package golem.matrix.jblas.backend
 
 import org.jblas.*
 // Algebraic Operators
-fun DoubleMatrix.plus(other: DoubleMatrix) = this.add(other)
-fun DoubleMatrix.minus(other: DoubleMatrix) = this.sub(other)
-fun DoubleMatrix.times(other: DoubleMatrix) = this.mmul(other)
-fun DoubleMatrix.mod(other: DoubleMatrix) = this.mul(other)
+operator fun DoubleMatrix.plus(other: DoubleMatrix) = this.add(other)
+operator fun DoubleMatrix.minus(other: DoubleMatrix) = this.sub(other)
+operator fun DoubleMatrix.times(other: DoubleMatrix) = this.mmul(other)
+operator fun DoubleMatrix.mod(other: DoubleMatrix) = this.mul(other)
 val DoubleMatrix.T: DoubleMatrix
     get() = this.transpose()
 
-fun DoubleMatrix.set(i: Int, v: Double) = this.put(i, v)
-fun DoubleMatrix.set(i: Int, j: Int, v: Double) = this.put(i, j, v)
-fun DoubleMatrix.set(i: Int, j: Int, v: Int) = this.put(i, j, v.toDouble())
+operator fun DoubleMatrix.set(i: Int, v: Double) = this.put(i, v)
+operator fun DoubleMatrix.set(i: Int, j: Int, v: Double) = this.put(i, j, v)
+operator fun DoubleMatrix.set(i: Int, j: Int, v: Int) = this.put(i, j, v.toDouble())
 
 // Pretty Printing
 fun DoubleMatrix.repr(): String {
@@ -59,7 +59,7 @@ fun rand(rows: Int, cols: Int) = DoubleMatrix.rand(rows, cols)
 fun eye(size: Int) = DoubleMatrix.eye(size)
 
 object arr {
-    fun get(vararg ts: Any): DoubleArray {
+    operator fun get(vararg ts: Any): DoubleArray {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val len = ts.count()
@@ -78,7 +78,7 @@ object arr {
 }
 
 object mat {
-    fun get(vararg ts: Any): DoubleMatrix {
+    operator fun get(vararg ts: Any): DoubleMatrix {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val numStops = (ts.filter { it is Pair<*, *> }).count()

@@ -1,5 +1,6 @@
 package golem.matrix.ejml
 
+import golem.matrix.ejml.backend.set
 import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import golem.min
