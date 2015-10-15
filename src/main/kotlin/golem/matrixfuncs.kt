@@ -29,7 +29,7 @@ fun logb(base: Int, arr: Matrix<Double>) = arr.map{java.lang.Math.log(it) / Math
 
 // Matrix funcs
 fun diag(arr: Matrix<Double>) = arr.diag()
-fun cumsum(arr: Matrix<Double>) = arr.cumsum()
+fun cumsum(arr: Matrix<Double>) = arr.cumSum()
 fun max(arr: Matrix<Double>) = arr.max()
 fun mean(arr: Matrix<Double>) = arr.mean()
 fun min(arr: Matrix<Double>) = arr.min()

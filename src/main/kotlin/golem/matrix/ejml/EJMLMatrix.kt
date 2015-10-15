@@ -15,7 +15,6 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 {
     override fun getDoubleData() = this.storage.matrix.getData()
     override fun diag() = EJMLMatrix(storage.extractDiag())
-    override fun cumsum() = storage.elementSum()
     override fun max() = CommonOps.elementMax(this.storage.matrix)
     override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = CommonOps.elementMin(this.storage.matrix)

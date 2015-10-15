@@ -207,10 +207,6 @@ class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
         throw UnsupportedOperationException()
     }
 
-    override fun cumsum(): Double {
-        throw UnsupportedOperationException()
-    }
-
     override fun max(): Double {
         throw UnsupportedOperationException()
     }

@@ -1,6 +1,8 @@
 /**
  * This file contains Kotlin extension functions for Matrix. Allows for things
  * like supporting the for loop protocol, so one can write "for (e in matrix)"
+ * In general, these are algorithms that are back-end agnostic, and thus arent
+ * included in the Matrix<T> interface.
  */
 
 @file:JvmName("Golem")
@@ -9,6 +11,17 @@
 package golem
 
 import golem.matrix.Matrix
+
+fun <T> Matrix<T>.cumSum(): Matrix<T> {
+    var out = this.getFactory().zeros(this.numRows(), this.numCols())
+    var outData = out.getDoubleData()
+    var inData = this.getDoubleData()
+    inData.forEachIndexed { i, ele ->
+        outData[i]= if (i==0) ele else ele + outData[i-1]
+    }
+    return out
+}
+
 
 fun <T> Matrix<T>.eachRow( f: (Matrix<T>)->Unit ) {
     for (row in 0..this.numRows()-1)

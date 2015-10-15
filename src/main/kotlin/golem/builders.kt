@@ -50,7 +50,7 @@ object mat {
                     curRow += 1
                     curCol = 1
                 }
-                else -> throw Exception("Invalid initial value to matrix builder")
+                else -> throw Exception("Invalid initial value to matrix builder: ${ele.javaClass}")
             }
         }
         return out

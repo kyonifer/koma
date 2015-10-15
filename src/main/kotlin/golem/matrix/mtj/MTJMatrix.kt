@@ -22,7 +22,6 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun diag(): MTJMatrix {
         return MTJMatrix(this.storage.diag())
     }
-    override fun cumsum() = storage.sumByDouble { it.get() }
     override fun max() = storage.maxBy{ it.get() }!!.get()
     override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = storage.minBy { it.get() }!!.get()
@@ -64,7 +63,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun inv() = MTJMatrix(this.storage.inv())
     override fun pinv()= throw UnsupportedOperationException()//= EJMLMatrix(this.storage.pseudoInverse())
     override fun normf() = throw UnsupportedOperationException()//= this.storage.norm()
-    override fun elementSum() = this.cumsum()
+    override fun elementSum() = storage.sumByDouble { it.get() }
     override fun trace() = throw UnsupportedOperationException() //= this.storage.trace()
     override fun epow(other: Double) = MTJMatrix(this.storage.powElement(other))
     override fun epow(other: Int) = MTJMatrix(this.storage.powElement(other))

@@ -65,7 +65,7 @@ interface Matrix<T>
     fun chol() : Matrix<T>
     fun LU() : Triple<Matrix<T>,Matrix<T>,Matrix<T>>
     fun QR() : Pair<Matrix<T>,Matrix<T>>
-    //need schur, svd, eig
+    // TODO: need schur, svd, eig
 
 
     // Advanced Functions
@@ -79,7 +79,6 @@ interface Matrix<T>
     fun normf(): T
     fun elementSum(): T
     fun diag(): Matrix<T>
-    fun cumsum(): T
     fun max(): T // add dimension: Int?
     fun mean(): T
     fun min(): T
