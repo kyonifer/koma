@@ -56,7 +56,12 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
     override fun get(i: Int, j: Int) = this.storage.get(i,j)
     override fun get(i: Int) = this.storage.get(i)
-    override fun getRow(row: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage.transpose(), row)))
+    override fun getRow(row: Int) : MTJMatrix {
+        var out = DenseMatrix(1, this.numCols())
+        for (col in 0 until this.numCols())
+            out.set(0, col, this.get(row, col))
+        return MTJMatrix(out)
+    }
     override fun getCol(col: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage, col)))
     override fun plus(other: Matrix<Double>) = MTJMatrix(this.storage.plusMatrix(castOrBail(other).storage))
     override fun plus(other: Double) = MTJMatrix(this.storage.plusElement(other))
