@@ -114,22 +114,21 @@ private fun displayChart(c: Chart): JFrame {
 /**
  * Plots a matrix consisting of 2D data as an image
  */
-fun imshow(mat: Matrix<Double>)
+fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GRAY)
 {
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
 
-    var image = BufferedImage(mat.numRows(),
-                              mat.numCols(),
-                              BufferedImage.TYPE_INT_RGB)
+    var image = BufferedImage(mat.numCols(),
+                              mat.numRows(),
+                              BufferedImage.TYPE_BYTE_GRAY)
 
     for (r in 0..mat.numRows()-1)
         for (c in 0..mat.numCols()-1)
-            image.setRGB(r,c,(mat[r,c]).toInt())
-
-
+            image.setRGB(c,r,(mat[r,c]).toInt())
 
     var frame = JFrame()
+    frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
     var panel = object:JLabel() {
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
@@ -137,7 +136,8 @@ fun imshow(mat: Matrix<Double>)
         }
     }
     frame.add(panel)
-    frame.setSize(mat.numRows(),mat.numCols())
+    frame.setSize(mat.numCols(),mat.numRows())
     frame.isVisible = true
 
 }
+
