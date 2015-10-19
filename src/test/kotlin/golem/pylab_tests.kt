@@ -1,5 +1,6 @@
 package golem
 
+import golem.matrix.MatrixFactory
 import golem.util.assertMatrixEquals
 import org.junit.Assert
 import org.junit.Test
@@ -12,20 +13,18 @@ class pylab_tests {
     var facs = arrayOf(golem.matrix.ejml.EJMLMatrixFactory(),
                            golem.matrix.mtj.MTJMatrixFactory())
 
-    @Test
-    fun testAllBackends()
+    fun allBackends(f:()->Unit)
     {
-        for (f in facs) {
+        for (fac in facs) {
             println("Testing $f\n")
-            golem.factory = f
-            testSin()
-            testRandn()
-            testEPow()
-            testPow()
+            golem.factory = fac
+            f()
         }
 
     }
 
+
+    @Test
     fun testSin()
     {
         var a = zeros(2,2)
@@ -40,6 +39,7 @@ class pylab_tests {
 
     }
 
+    @Test
     fun testRandn()
     {
         var a = 2*randn(1,1000000)
@@ -47,6 +47,7 @@ class pylab_tests {
         Assert.assertEquals(mean(a), 0.0, .01)
     }
 
+    @Test
     fun testEPow()
     {
         var a = mat[1,2 end
@@ -59,6 +60,7 @@ class pylab_tests {
         assertMatrixEquals(a, aE)
     }
 
+    @Test
     fun testPow()
     {
         var a = mat[2,0,0 end
