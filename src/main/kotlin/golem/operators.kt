@@ -41,10 +41,10 @@ val Matrix<Double>.T: Matrix<Double>
 
 // Allow slicing
 operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> {
-    var out = zeros(rows.end-rows.start, cols.end - cols.start)
-    for (row in rows-1)
-        for (col in cols-1)
-            out[row,col] = this[row,col]
+    var out = zeros(rows.end-rows.start+1, cols.end - cols.start+1)
+    for (row in rows)
+        for (col in cols)
+            out[row-rows.start,col-cols.start] = this[row,col]
     return out
 }
 operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Double>) {

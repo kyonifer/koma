@@ -33,6 +33,19 @@ class toplevel_tests {
         assertMatrixEquals(a.T, b.T)
 
     }
+    @Test
+    fun testRanges() {
+        allBackends {
+            var a = mat[1,2,3 end
+                        4,5,6 end
+                        7,8,9]
+            assertMatrixEquals(mat[1,4,7].T, a[0..2,0])
+            assertMatrixEquals(mat[2,5,8].T, a[0..2,1])
+            assertMatrixEquals(mat[4,5], a[1,0..1])
+            assertMatrixEquals(mat[5,6 end 8,9], a[1..2, 1..2])
+
+        }
+    }
 
     @Test
     fun test1DIndex() {
