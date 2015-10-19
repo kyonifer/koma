@@ -121,7 +121,7 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
 
     var image = BufferedImage(mat.numCols(),
                               mat.numRows(),
-                              BufferedImage.TYPE_BYTE_GRAY)
+                              representation)
 
     for (r in 0..mat.numRows()-1)
         for (c in 0..mat.numCols()-1)
