@@ -33,7 +33,7 @@ class pylab_tests {
         a[0,1] = 3.0
         a[1,0] = -PI/2
 
-        var expected = mat[ 1.0, 3.0 end
+        var expected = mat[ 1.0, 0.14112000805986721 end
                            -1.0, 0.0]
 
         assertMatrixEquals(sin(a), expected)
