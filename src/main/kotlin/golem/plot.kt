@@ -4,8 +4,11 @@ import golem.matrix.Matrix
 import org.knowm.xchart.*
 import javax.swing.JFrame
 import golem.util.*;
+import java.awt.Graphics
 import java.awt.event.WindowEvent
 import java.awt.event.WindowListener
+import java.awt.image.BufferedImage
+import javax.swing.JLabel
 import javax.swing.WindowConstants
 
 // While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
@@ -106,4 +109,35 @@ private fun displayChart(c: Chart): JFrame {
     })
 
     return frame
+}
+
+/**
+ * Plots a matrix consisting of 2D data as an image
+ */
+fun imshow(mat: Matrix<Double>)
+{
+    // Workaround for Kotlin REPL starting in headless mode
+    System.setProperty("java.awt.headless", "false")
+
+    var image = BufferedImage(mat.numRows(),
+                              mat.numCols(),
+                              BufferedImage.TYPE_INT_RGB)
+
+    for (r in 0..mat.numRows()-1)
+        for (c in 0..mat.numCols()-1)
+            image.setRGB(r,c,(mat[r,c]).toInt())
+
+
+
+    var frame = JFrame()
+    var panel = object:JLabel() {
+        override fun paintComponent(g: Graphics) {
+            super.paintComponent(g)
+            g.drawImage(image, 0, 0, null)
+        }
+    }
+    frame.add(panel)
+    frame.setSize(mat.numRows(),mat.numCols())
+    frame.isVisible = true
+
 }
