@@ -41,11 +41,26 @@ fun <T> Matrix<T>.each( f: (T)->Unit ) {
         for (col in 0..this.numCols()-1)
             f(this[row,col])
 }
+
+fun <T> Matrix<T>.eachIndexed( f: (row:Int, col:Int, ele:T)->Unit ) {
+    for (row in 0..this.numRows()-1)
+        for (col in 0..this.numCols()-1)
+            f(row, col, this[row,col])
+}
+
 fun <T> Matrix<T>.map( f: (T)-> T): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
             out[row,col] = f(this[row,col])
+    return out
+}
+
+fun <T> Matrix<T>.mapIndexed( f: (row: Int, col: Int, ele: T)-> T): Matrix<T> {
+    var out = this.getFactory().zeros(this.numRows(), this.numCols())
+    for (row in 0..this.numRows()-1)
+        for (col in 0..this.numCols()-1)
+            out[row,col] = f(row, col, this[row,col])
     return out
 }
 
