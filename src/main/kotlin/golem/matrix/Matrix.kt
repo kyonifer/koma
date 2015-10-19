@@ -7,7 +7,7 @@ package golem.matrix
  */
 
 // Recursive generic allows us to specialize for a particular internal implementation
-interface Matrix<T>
+interface Matrix<T>: Iterable<T>
 {
     // Algebraic Operators
     operator fun mod(other: Matrix<T>) : Matrix<T>

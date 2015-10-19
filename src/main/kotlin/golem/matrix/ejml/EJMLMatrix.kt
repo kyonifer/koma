@@ -103,6 +103,17 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
                     EJMLMatrix(SimpleMatrix(decomp.getR(null, false))))
     }
 
+    override fun iterator(): Iterator<Double> {
+        private class MTJIterator(var matrix: EJMLMatrix) : Iterator<Double> {
+            private var cursor = 0
+            override fun next(): Double {
+                cursor += 1
+                return matrix[cursor-1]
+            }
+            override fun hasNext() = cursor < matrix.numCols()*matrix.numRows()
+        }
+        return MTJIterator(this)
+    }
     override fun repr() = this.toString()
 
     override fun toString(): String {

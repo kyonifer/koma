@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
+
     override fun getDoubleData() = this.storage.data
 
     // TODO: Fix UnsupportedOperationException
@@ -119,7 +120,17 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         val (Q, R) = this.storage.QR()
         return Pair(MTJMatrix(Q), MTJMatrix(R))
     }
-
+    override fun iterator(): Iterator<Double> {
+        private class MTJIterator(var matrix: MTJMatrix) : Iterator<Double> {
+            private var cursor = 0
+            override fun next(): Double {
+                cursor += 1
+                return matrix[cursor-1]
+            }
+            override fun hasNext() = cursor < matrix.numCols()*matrix.numRows()
+        }
+        return MTJIterator(this)
+    }
     override fun repr() = this.toString()
 
     override fun toString(): String {
