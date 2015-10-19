@@ -76,7 +76,8 @@ interface Matrix<T>
     fun inv(): Matrix<T>
     fun det(): T
     fun pinv(): Matrix<T>
-    fun normf(): T
+    fun normF(): T
+    fun normIndP1(): T
     fun elementSum(): T
     fun diag(): Matrix<T>
     fun max(): T // add dimension: Int?

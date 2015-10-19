@@ -28,7 +28,9 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun argMax() = throw UnsupportedOperationException()
     override fun argMean() = throw UnsupportedOperationException()
     override fun argMin() = throw UnsupportedOperationException()
-    override fun norm() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.Frobenius)
+    override fun norm() = normF()
+    override fun normF() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.Frobenius)
+    override fun normIndP1() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage.get(i)
@@ -67,7 +69,6 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun chol() = MTJMatrix(DenseMatrix(this.storage.chol()))
     override fun inv() = MTJMatrix(this.storage.inv())
     override fun pinv()= throw UnsupportedOperationException()//= EJMLMatrix(this.storage.pseudoInverse())
-    override fun normf() = throw UnsupportedOperationException()//= this.storage.norm()
     override fun elementSum() = storage.sumByDouble { it.get() }
     override fun trace() = throw UnsupportedOperationException() //= this.storage.trace()
     override fun epow(other: Double) = MTJMatrix(this.storage.powElement(other))
@@ -106,10 +107,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
     override fun expm(): MTJMatrix {
         // Casts are safe since generation happens from mat.getFactory()
-        return golem.matrix.common.expm(this,
-                { mat -> (mat as MTJMatrix).storage.norm(no.uib.cipr.matrix.Matrix.Norm.One) },
-                { Q, Pcol -> solve(Q, Pcol) }
-        ) as MTJMatrix
+        return golem.matrix.common.expm(this) as MTJMatrix
     }
 
     override fun LU(): Triple<MTJMatrix, MTJMatrix, MTJMatrix> {

@@ -21,7 +21,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun argMax() = throw UnsupportedOperationException()
     override fun argMean() = throw UnsupportedOperationException()
     override fun argMin() = throw UnsupportedOperationException()
-    override fun norm() = this.storage.normF()
+
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage.get(i)
@@ -53,7 +53,9 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun inv() = EJMLMatrix(this.storage.inv())
     override fun det() = this.storage.determinant()
     override fun pinv()= EJMLMatrix(this.storage.pseudoInverse())
-    override fun normf() = this.storage.normF()
+    override fun norm() = normF()
+    override fun normF() = this.storage.normF()
+    override fun normIndP1() = org.ejml.ops.NormOps.inducedP1(this.storage.matrix)
     override fun elementSum() = this.storage.elementSum()
     override fun trace() = this.storage.trace()
     override fun epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
@@ -85,10 +87,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     }
     override fun expm(): EJMLMatrix {
         // Casts are safe since generation happens from mat.getFactory()
-        return golem.matrix.common.expm(this,
-                { mat -> org.ejml.ops.NormOps.inducedP1((mat as EJMLMatrix).storage.matrix) },
-                { Q, Pcol -> solve(Q, Pcol) }
-        ) as EJMLMatrix
+        return golem.matrix.common.expm(this) as EJMLMatrix
     }
 
     override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {

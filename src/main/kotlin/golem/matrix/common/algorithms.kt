@@ -8,12 +8,12 @@ import golem.matrix.Matrix
  * backend specific are the linear system solver and P=1 norm provider, these
  * things must be passed in (generally from the backends implementation).
  */
-fun expm(matrix: Matrix<Double>,
-         normProvider: (Matrix<Double>)->Double,
-         solveProvider: (Matrix<Double>, Matrix<Double>)->Matrix<Double>)
+fun expm(matrix: Matrix<Double>)
         : Matrix<Double> {
+
+    var solveProvider = {A:Matrix<Double>,B:Matrix<Double>->matrix.solve(A,B)}
     var A = matrix
-    var A_L1 = normProvider(A)
+    var A_L1 = A.normIndP1()
     var n_squarings = 0.0
 
     // Spread returns so we can val(U,V) here (TODO: Fix this when Kotlin allows)

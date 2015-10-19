@@ -7,6 +7,14 @@ import org.jblas.DoubleMatrix
 
 class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
 {
+    override fun normIndP1(): Double {
+        throw UnsupportedOperationException()
+    }
+
+    override fun normF(): Double {
+        throw UnsupportedOperationException()
+    }
+
     override fun getDoubleData(): DoubleArray {
         throw UnsupportedOperationException()
     }
@@ -192,10 +200,6 @@ class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
     }
 
     override fun pinv(): Matrix<Double> {
-        throw UnsupportedOperationException()
-    }
-
-    override fun normf(): Double {
         throw UnsupportedOperationException()
     }
 
