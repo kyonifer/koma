@@ -1,7 +1,7 @@
 package golem
 
-import golem.matrix.MatrixFactory
-import golem.util.assertMatrixEquals
+import golem.util.test.assertMatrixEquals
+import golem.util.test.allBackends
 import org.junit.Assert
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -10,7 +10,7 @@ import kotlin.test.*
 /**
  * Test each back-end for similar compliance with API
  */
-class pylab_tests {
+class toplevel_tests {
 
     @Test
     fun testBuilder()
@@ -203,20 +203,7 @@ class pylab_tests {
     }
 
 
-    var facs = arrayOf(golem.matrix.ejml.EJMLMatrixFactory(),
-            golem.matrix.mtj.MTJMatrixFactory())
-
-    fun allBackends(f:()->Unit)
-    {
-        for (fac in facs) {
-            golem.factory = fac
-            f()
-        }
-
-    }
-
     val exception = ExpectedException.none()
-
 
 }
 
