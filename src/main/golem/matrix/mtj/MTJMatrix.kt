@@ -1,9 +1,6 @@
 package golem.matrix.mtj
 
-import golem.ceil
-import golem.logb
-import golem.pow
-import golem.matFormat
+import golem.*
 import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import golem.matrix.mtj.backend.*
@@ -137,8 +134,6 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         val bstream = ByteArrayOutputStream()
         val pstream = PrintStream(bstream)
 
-        val data = this.storage.data
-
         // Numbers are numChars, precision
         var (numChars, precision) =
             when (matFormat) {
@@ -148,7 +143,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
                 else -> Pair(14,8)
             }
 
-        data.forEachIndexed { i, ele ->
+        this.forEachIndexed { i, ele ->
             if (i != 0 && i % this.storage.numColumns() == 0)
                 pstream.append("\n")
             pstream.format("%${numChars}.${precision}f", ele)

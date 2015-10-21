@@ -81,13 +81,14 @@ class toplevel_tests {
     @Test
     fun test1DSet() {
         allBackends {
-            var a = mat[1,2 end
-                        3,4]
+            var a = mat[1,2,3 end
+                        3,4,5]
 
-            a[2] = 1.1
+            a[1] = 1.1
+            a[3] = 1.2
 
-            var expected = mat[1,  2 end
-                               1.1,4]
+            var expected = mat[1,   1.1, 3 end
+                               1.2, 4,   5]
 
             assertMatrixEquals(expected, a)
 
