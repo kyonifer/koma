@@ -64,8 +64,34 @@ class toplevel_tests {
             assertEquals(a[2], a[1,0])
             assertEquals(a[3], a[1,1])
 
+            a = mat[1,2,3 end
+                    4,5,6 end
+                    7,8,9]
+
+            assertEquals(4.0, a[3])
+
+            a = eye(3)
+
+            assertEquals(0.0, a[3])
+
         }
 
+    }
+
+    @Test
+    fun test1DSet() {
+        allBackends {
+            var a = mat[1,2 end
+                        3,4]
+
+            a[2] = 1.1
+
+            var expected = mat[1,  2 end
+                               1.1,4]
+
+            assertMatrixEquals(expected, a)
+
+        }
     }
 
     @Test

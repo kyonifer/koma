@@ -41,7 +41,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun div(other: Double) = EJMLMatrix(this.storage.div(other))
     override fun transpose() = EJMLMatrix(this.storage.transpose())
     override fun copy() = EJMLMatrix(this.storage.copy())
-    override fun set(i: Int, v: Double): Unit = if(this.storage.numRows()==1) this.storage.set(1,i,v) else this.storage.set(i,1,v)
+    override fun set(i: Int, v: Double): Unit = this.storage.set(i, v)
     override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
     override fun get(i: Int, j: Int) = this.storage.get(i,j)
     override fun get(i: Int) = this.storage.get(i)
