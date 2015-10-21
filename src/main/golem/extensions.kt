@@ -56,6 +56,20 @@ fun <T> Matrix<T>.map( f: (T)-> T): Matrix<T> {
     return out
 }
 
+fun <T> Matrix<T>.mapRows(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
+    var out = this.getFactory().zeros(this.numRows(), this.numCols())
+    for (row in 0..this.numRows()-1)
+        out.setRow(row, f(this.getRow(row)))
+    return out
+}
+
+fun <T> Matrix<T>.mapCols(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
+    var out = this.getFactory().zeros(this.numRows(), this.numCols())
+    for (col in 0..this.numCols()-1)
+        out.setCol(col, f(this.getCol(col)))
+    return out
+}
+
 fun <T> Matrix<T>.mapIndexed( f: (row: Int, col: Int, ele: T)-> T): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
