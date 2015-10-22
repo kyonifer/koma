@@ -15,21 +15,21 @@ public class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
 
     override fun create(data: IntRange): MTJMatrix {
         var dataArray = fromCollection(data.map { it.toDouble() })
-        return MTJMatrix(DenseMatrix(1, dataArray.size(), dataArray, false))
+        return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
     }
 
     override fun create(data: DoubleRange): MTJMatrix {
         var dataArray = fromCollection(data.toList())
-        return MTJMatrix(DenseMatrix(1, dataArray.size(), dataArray, false))
+        return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
     }
 
     override fun create(data: DoubleProgression): MTJMatrix {
         var dataArray = fromCollection(data.toList())
-        return MTJMatrix(DenseMatrix(1, dataArray.size(), dataArray, false))
+        return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
     }
 
     override fun create(data: DoubleArray): MTJMatrix {
-        return MTJMatrix(DenseMatrix(1, data.size(), data, false))
+        return MTJMatrix(DenseMatrix(1, data.size, data, false))
     }
 
     override fun create(data: Array<DoubleArray>): MTJMatrix {
@@ -73,7 +73,7 @@ public class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
             doubleProg = (start downTo (stop)).step(java.lang.Math.abs(increment))
             dataArray = fromCollection(doubleProg.toList())
         }
-        return create(dataArray.sliceArray(0..(dataArray.size() - 2)))
+        return create(dataArray.sliceArray(0..(dataArray.size - 2)))
     }
 
     override fun arange(start: Double, stop: Double): MTJMatrix {

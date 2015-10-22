@@ -67,7 +67,7 @@ class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
         throw UnsupportedOperationException()
     }
 
-    override fun minus(): Matrix<Double> {
+    override fun unaryMinus(): Matrix<Double> {
         throw UnsupportedOperationException()
     }
 

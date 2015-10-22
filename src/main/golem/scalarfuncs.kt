@@ -52,7 +52,7 @@ fun logb(base: Double, num: Int) = Math.log(num.toDouble()) / Math.log(base)
 // Extension functions for basic type for infix operators
 
 @JvmName("powIntInt")
-fun Int.pow(exp: Int) = Math.pow(this.toDouble(), exp.toDouble())
+infix fun Int.pow(exp: Int) = Math.pow(this.toDouble(), exp.toDouble())
 @JvmName("powDoubleInt")
 fun Double.pow(exp: Int) = Math.pow(this, exp.toDouble())
 @JvmName("powIntDouble")

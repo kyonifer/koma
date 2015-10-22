@@ -15,7 +15,7 @@ interface Matrix<T>: Iterable<T>
     operator fun div(other: Double) : Matrix<T>
     operator fun times(other: Matrix<T>) : Matrix<T>
     operator fun times(other: Double) : Matrix<T>
-    operator fun minus() : Matrix<T>
+    operator fun unaryMinus() : Matrix<T>
     operator fun minus(other: Double) : Matrix<T>
     operator fun minus(other: Matrix<T>): Matrix<T>
     operator fun plus(other: Double) : Matrix<T>
@@ -23,8 +23,8 @@ interface Matrix<T>: Iterable<T>
     fun transpose(): Matrix<T>
     fun elementTimes(other: Matrix<T>) : Matrix<T>
     fun epow(other: Double): Matrix<T>
-    fun epow(other: Int): Matrix<T>
-    fun pow(exponent: Int): Matrix<T>
+    infix fun epow(other: Int): Matrix<T>
+    infix fun pow(exponent: Int): Matrix<T>
 
     // Dimensions
     fun numRows(): Int

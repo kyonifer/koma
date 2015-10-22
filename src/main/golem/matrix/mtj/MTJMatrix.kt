@@ -41,7 +41,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun times(other: Double) = MTJMatrix(this.storage.times(other))
     override fun elementTimes(other: Matrix<Double>) = MTJMatrix(this.storage.mod(castOrBail(other).storage))
     override fun mod(other: Matrix<Double>) = elementTimes(other)
-    override fun minus() = MTJMatrix(this.storage.minus())
+    override fun unaryMinus() = MTJMatrix(this.storage.minus())
     override fun minus(other: Double) = MTJMatrix(this.storage.minusElement(other))
     override fun minus(other: Matrix<Double>) = MTJMatrix(this.storage.minus(castOrBail(other).storage))
     override fun div(other: Int) = MTJMatrix(this.storage.div(other))
@@ -118,7 +118,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         return Pair(MTJMatrix(Q), MTJMatrix(R))
     }
     override fun iterator(): Iterator<Double> {
-        private class MTJIterator(var matrix: MTJMatrix) : Iterator<Double> {
+        class MTJIterator(var matrix: MTJMatrix) : Iterator<Double> {
             private var cursor = 0
             override fun next(): Double {
                 cursor += 1

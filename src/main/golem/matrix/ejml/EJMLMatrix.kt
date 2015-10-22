@@ -34,7 +34,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun times(other: Double) = EJMLMatrix(this.storage.times(other))
     override fun elementTimes(other: Matrix<Double>) = EJMLMatrix(this.storage.elementMult(castOrBail(other).storage))
     override fun mod(other: Matrix<Double>) = EJMLMatrix(this.storage.mod(castOrBail(other).storage))
-    override fun minus() = EJMLMatrix(this.storage.minus())
+    override fun unaryMinus() = EJMLMatrix(this.storage.minus())
     override fun minus(other: Double) = EJMLMatrix(this.storage.minus(other))
     override fun minus(other: Matrix<Double>) = EJMLMatrix(this.storage.minus(castOrBail(other).storage))
     override fun div(other: Int) = EJMLMatrix(this.storage.div(other))
@@ -104,7 +104,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     }
 
     override fun iterator(): Iterator<Double> {
-        private class MTJIterator(var matrix: EJMLMatrix) : Iterator<Double> {
+        class MTJIterator(var matrix: EJMLMatrix) : Iterator<Double> {
             private var cursor = 0
             override fun next(): Double {
                 cursor += 1

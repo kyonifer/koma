@@ -61,7 +61,7 @@ object mat {
         return out
     }
 }
-fun Double.end(other: Double) = Pair(this, other)
+infix fun Double.end(other: Double) = Pair(this, other)
 fun Double.end(other: Int) = Pair(this, other.toDouble())
-fun Int.end(other: Double) = Pair(this.toDouble(), other)
-fun Int.end(other: Int) = Pair(this.toDouble(), other.toDouble())
+infix fun Int.end(other: Double) = Pair(this.toDouble(), other)
+infix fun Int.end(other: Int) = Pair(this.toDouble(), other.toDouble())

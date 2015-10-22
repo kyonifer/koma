@@ -16,21 +16,21 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
 
     override fun create(data: IntRange): EJMLMatrix {
         var dataArray = fromCollection(data.map { it.toDouble() })
-        return EJMLMatrix(SimpleMatrix(1, dataArray.size(), true, *dataArray))
+        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
     }
 
     override fun create(data: DoubleRange): EJMLMatrix {
         var dataArray = fromCollection(data.toList())
-        return EJMLMatrix(SimpleMatrix(1, dataArray.size(), true, *dataArray))
+        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
     }
 
     override fun create(data: DoubleProgression): EJMLMatrix {
         var dataArray = fromCollection(data.toList())
-        return EJMLMatrix(SimpleMatrix(1, dataArray.size(), true, *dataArray))
+        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
     }
 
     override fun create(data: DoubleArray): EJMLMatrix {
-        return EJMLMatrix(SimpleMatrix(1, data.size(), true, *data))
+        return EJMLMatrix(SimpleMatrix(1, data.size, true, *data))
     }
 
     override fun create(data: Array<DoubleArray>): EJMLMatrix {
@@ -97,7 +97,7 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
             doubleProg = (start downTo (stop)).step(java.lang.Math.abs(increment))
             dataArray = fromCollection(doubleProg.toList())
         }
-        return create(dataArray.sliceArray(0..(dataArray.size()-2)))
+        return create(dataArray.sliceArray(0..(dataArray.size -2)))
     }
 
     override fun arange(start: Double, stop: Double): EJMLMatrix {

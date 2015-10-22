@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
   // Depend on the std libs of all our languages
-  compile 'org.jetbrains.kotlin:kotlin-stdlib:0.14.449'
+  compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-1038'
   compile 'org.scala-lang:scala-library:2.11.4'
 
   // Different matrix backends
@@ -73,11 +73,13 @@ task fatJar(type: Jar) {
 
 // Add kotlin support to gradle
 buildscript {
+  ext.kotlin_version = '1.0.0-beta-1038'
   repositories {
     mavenCentral()
+    mavenLocal()
   }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.14.449"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-1038"
   }
 }
 
@@ -98,3 +100,4 @@ publishing {
     }
   }
 }
+

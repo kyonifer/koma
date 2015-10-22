@@ -43,7 +43,7 @@ fun plot(x: Any?, y: Any) {
         is DoubleArray -> xdata = fromCollection(x.toList())
         is DoubleRange -> xdata = fromCollection(x.toList())
         is Matrix<*> -> xdata = x.getDoubleData()
-        null -> xdata =  fromCollection((0.0..(ydata.size().toDouble()-1)).toList())
+        null -> xdata =  fromCollection((0.0..(ydata.size.toDouble()-1)).toList())
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
     plot(xdata, ydata)

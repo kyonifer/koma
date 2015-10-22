@@ -47,7 +47,7 @@ fun DoubleMatrix.eigVectors() = Eigen.eigenvectors(this)
 fun DoubleMatrix.chol() = Decompose.cholesky(this)
 fun DoubleMatrix.LU() = Decompose.lu(this)
 fun DoubleMatrix.QR() = Decompose.qr(this)
-fun DoubleMatrix.expm() = MatrixFunctions?.expm(this)
+fun DoubleMatrix.expm() = MatrixFunctions.expm(this)
 fun DoubleMatrix.inv() = Solve.solve(this, DoubleMatrix.eye(this.rows))
 
 fun zeros(rows: Int, cols: Int) = DoubleMatrix.zeros(rows, cols)
