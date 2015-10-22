@@ -49,17 +49,11 @@ fun <T> Matrix<T>.eachIndexed( f: (row:Int, col:Int, ele:T)->Unit ) {
             f(row, col, this[row,col])
 }
 
-fun <T> Matrix<T>.map( f: (T)-> T): Matrix<T> {
+fun <T> Matrix<T>.mapElements( f: (T)-> T): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
             out[row,col] = f(this[row,col])
-    return out
-}
-
-fun <T,U> Matrix<T>.map( f: (T)->U): List<U> {
-    var out = ArrayList<U>()
-    this.each {out.add(f(it))}
     return out
 }
 
@@ -91,14 +85,16 @@ fun <T, U> Matrix<T>.mapRows(f: (Matrix<T>)-> U): List<U>{
 fun <T> Matrix<T>.mapCols(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
 
     var outCols = Array(this.numCols()) {
-        f(this.getCol(it))
+        var out = f(this.getCol(it))
+        // If user creates a row vector auto convert to column for them
+        if (out.numRows()==1) out.T else out
     }
 
-    var out = this.getFactory().zeros(this.numRows(), outCols[0].numRows())
+    var out = this.getFactory().zeros(outCols[0].numRows(), this.numCols())
 
     outCols.forEachIndexed { i, matrix ->
         if (matrix.numRows() != out.numRows())
-            throw RuntimeException("All output rows of mapRows must have same number of columns")
+            throw RuntimeException("All output rows of mapCols must have same number of columns")
         else
             out.setCol(i, outCols[i])
     }

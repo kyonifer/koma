@@ -12,20 +12,20 @@ package golem
 import golem.matrix.Matrix
 
 // Elementwise funcs
-fun abs(arr: Matrix<Double>) = arr.map{java.lang.Math.abs(it)}
-fun ceil(arr: Matrix<Double>) = arr.map{java.lang.Math.ceil(it)}
-fun cos(arr: Matrix<Double>) = arr.map{java.lang.Math.cos(it)}
-fun exp(arr: Matrix<Double>) = arr.map{java.lang.Math.exp(it)}
-fun log(arr: Matrix<Double>) = arr.map{java.lang.Math.log(it)}
+fun abs(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.abs(it)}
+fun ceil(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.ceil(it)}
+fun cos(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.cos(it)}
+fun exp(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.exp(it)}
+fun log(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.log(it)}
 fun epow(arr: Matrix<Double>, num: Double) = arr.epow(num)
 fun pow(arr: Matrix<Double>, num:Int) = arr.pow(num)
-fun sign(arr: Matrix<Double>) = arr.map{java.lang.Math.signum(it)}
-fun sin(arr: Matrix<Double>) = arr.map{java.lang.Math.sin(it)}
-fun sqrt(arr: Matrix<Double>) = arr.map{java.lang.Math.sqrt(it)}
-fun tan(arr: Matrix<Double>) = arr.map{java.lang.Math.tan(it)}
-fun round(arr: Matrix<Double>) = arr.map{java.lang.Math.round(it).toDouble()}
-fun floor(arr: Matrix<Double>) = arr.map{java.lang.Math.floor(it)}
-fun logb(base: Int, arr: Matrix<Double>) = arr.map{java.lang.Math.log(it) / Math.log(base.toDouble())}
+fun sign(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.signum(it)}
+fun sin(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.sin(it)}
+fun sqrt(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.sqrt(it)}
+fun tan(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.tan(it)}
+fun round(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.round(it).toDouble()}
+fun floor(arr: Matrix<Double>) = arr.mapElements{java.lang.Math.floor(it)}
+fun logb(base: Int, arr: Matrix<Double>) = arr.mapElements{java.lang.Math.log(it) / Math.log(base.toDouble())}
 
 // Matrix funcs
 fun diag(arr: Matrix<Double>) = arr.diag()
