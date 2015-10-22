@@ -11,6 +11,7 @@
 package golem
 
 import golem.matrix.Matrix
+import java.util.*
 
 fun <T> Matrix<T>.cumSum(): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
@@ -57,17 +58,54 @@ fun <T> Matrix<T>.map( f: (T)-> T): Matrix<T> {
 }
 
 fun <T> Matrix<T>.mapRows(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
-    var out = this.getFactory().zeros(this.numRows(), this.numCols())
-    for (row in 0..this.numRows()-1)
-        out.setRow(row, f(this.getRow(row)))
+
+    var outRows = Array(this.numRows()) {
+        f(this.getRow(it))
+    }
+
+    var out = this.getFactory().zeros(this.numRows(), outRows[0].numCols())
+
+    outRows.forEachIndexed { i, matrix ->
+        if (matrix.numCols() != out.numCols())
+            throw RuntimeException("All output rows of mapRows must have same number of columns")
+        else
+            out.setRow(i, outRows[i])
+    }
     return out
 }
 
+fun <T, U> Matrix<T>.mapRows(f: (Matrix<T>)-> U): List<U>{
+    var a = ArrayList<U>(this.numRows())
+    this.eachRow {
+        a.add(f(it))
+    }
+    return a
+}
+
 fun <T> Matrix<T>.mapCols(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
-    var out = this.getFactory().zeros(this.numRows(), this.numCols())
-    for (col in 0..this.numCols()-1)
-        out.setCol(col, f(this.getCol(col)))
+
+    var outCols = Array(this.numCols()) {
+        f(this.getCol(it))
+    }
+
+    var out = this.getFactory().zeros(this.numRows(), outCols[0].numRows())
+
+    outCols.forEachIndexed { i, matrix ->
+        if (matrix.numRows() != out.numRows())
+            throw RuntimeException("All output rows of mapRows must have same number of columns")
+        else
+            out.setCol(i, outCols[i])
+    }
     return out
+
+}
+
+fun <T, U> Matrix<T>.mapCols(f: (Matrix<T>)-> U): List<U>{
+    var a = ArrayList<U>(this.numCols())
+    this.eachCol {
+        a.add(f(it))
+    }
+    return a
 }
 
 fun <T> Matrix<T>.mapIndexed( f: (row: Int, col: Int, ele: T)-> T): Matrix<T> {
