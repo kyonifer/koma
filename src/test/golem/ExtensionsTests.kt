@@ -3,7 +3,7 @@ package golem
 import golem.util.test.assertMatrixEquals
 import org.junit.Test
 
-class extensions_tests {
+class ExtensionsTests {
 
     @Test
     fun testMapRows() {
@@ -33,7 +33,7 @@ class extensions_tests {
     }
 
     @Test
-    fun testMapMatrix() {
+    fun testMapElements() {
         var a = mat[1,2,3 end
                     4,5,6 end
                     7,8,9]
@@ -50,7 +50,7 @@ class extensions_tests {
         var a = mat[1,2,3 end
                     4,5,6 end
                     7,8,9]
-        var out :List<String> = a.map{it.toString()}
+        var out = a.map{it.toString()}
         assert(out[0].equals("1"))
         assert(out[4].equals("5"))
 

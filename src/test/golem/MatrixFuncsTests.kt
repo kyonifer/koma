@@ -4,7 +4,7 @@ import golem.util.test.assertMatrixEquals
 import golem.util.test.allBackends
 import org.junit.Test
 
-class matrixfuncs_tests {
+class MatrixFuncsTests {
     @Test
     fun testExpm()
     {

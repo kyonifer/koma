@@ -10,7 +10,7 @@ import kotlin.test.*
 /**
  * Test each back-end for similar compliance with API
  */
-class toplevel_tests {
+class ToplevelTests {
 
     @Test
     fun testBuilder()
