@@ -24,6 +24,7 @@ class toplevel_tests {
 
     }
 
+    @Test
     fun testCreate()
     {
         var a = create(0..4)
@@ -199,6 +200,16 @@ class toplevel_tests {
             var a3 = a pow 3
 
             assertMatrixEquals(a3, a * a * a)
+        }
+    }
+
+    @Test
+    fun testArange()
+    {
+        allBackends {
+            var a = arange(1.0,1.4,.1)
+            var expected = mat[1,1.1,1.2,1.3]
+            assertMatrixEquals(expected, a)
         }
     }
 
