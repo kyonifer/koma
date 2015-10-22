@@ -18,16 +18,6 @@ public class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
         return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
     }
 
-    override fun create(data: DoubleRange): MTJMatrix {
-        var dataArray = fromCollection(data.toList())
-        return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
-    }
-
-    override fun create(data: DoubleProgression): MTJMatrix {
-        var dataArray = fromCollection(data.toList())
-        return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
-    }
-
     override fun create(data: DoubleArray): MTJMatrix {
         return MTJMatrix(DenseMatrix(1, data.size, data, false))
     }
@@ -61,19 +51,12 @@ public class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
     override fun randn(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols))
     override fun randn(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols, seed))
     override fun arange(start: Double, stop: Double, increment: Double): MTJMatrix {
-        val shape = ((stop - start) / increment).toInt()
-        if (shape <= 0)
-            throw Exception("Invalid Range due to bounds/step")
-        var doubleProg: DoubleProgression
-        var dataArray: DoubleArray
-        if (increment > 0) {
-            doubleProg = (start..(stop)).step(increment)
-            dataArray = fromCollection(doubleProg.toList())
-        } else {
-            doubleProg = (start downTo (stop)).step(java.lang.Math.abs(increment))
-            dataArray = fromCollection(doubleProg.toList())
-        }
-        return create(dataArray.sliceArray(0..(dataArray.size - 2)))
+        var len = ((stop-start)/increment).toInt()
+        var out = this.zeros(1,len)
+        for (i in 0 until len)
+            out[i] = start + i*increment
+
+        return out
     }
 
     override fun arange(start: Double, stop: Double): MTJMatrix {

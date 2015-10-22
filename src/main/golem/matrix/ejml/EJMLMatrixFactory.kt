@@ -19,16 +19,6 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
         return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
     }
 
-    override fun create(data: DoubleRange): EJMLMatrix {
-        var dataArray = fromCollection(data.toList())
-        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
-    }
-
-    override fun create(data: DoubleProgression): EJMLMatrix {
-        var dataArray = fromCollection(data.toList())
-        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
-    }
-
     override fun create(data: DoubleArray): EJMLMatrix {
         return EJMLMatrix(SimpleMatrix(1, data.size, true, *data))
     }

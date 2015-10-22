@@ -12,8 +12,6 @@ interface MatrixFactory<T>
 
     // Support things like create(1..100)
     fun create(data: IntRange): T
-    fun create(data: DoubleRange): T
-    fun create(data: DoubleProgression): T
     fun create(data: DoubleArray): T
     fun create(data: Array<DoubleArray>): T
 

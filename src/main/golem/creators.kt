@@ -16,7 +16,6 @@ fun zeros(size: Int): Matrix<Double> = factory.zeros(1, size)
 
 // Support things like create(1..100)
 fun create(data: IntRange): Matrix<Double> = factory.create(data)
-fun create(data: DoubleRange): Matrix<Double> = factory.create(data)
 fun create(data: DoubleArray): Matrix<Double> = factory.create(data)
 fun create(data: Array<DoubleArray>): Matrix<Double> = factory.create(data)
 
