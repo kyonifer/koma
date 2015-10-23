@@ -3,7 +3,7 @@ package golem.matrix.mtj
 import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import golem.util.fromCollection
-import golem.matrix.mtj.backend.set
+import golem.round
 import no.uib.cipr.matrix.DenseMatrix
 import java.util.*
 
@@ -51,7 +51,7 @@ public class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
     override fun randn(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols))
     override fun randn(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols, seed))
     override fun arange(start: Double, stop: Double, increment: Double): MTJMatrix {
-        var len = ((stop-start)/increment).toInt()
+        var len = round((stop-start)/increment).toInt()
         var out = this.zeros(1,len)
         for (i in 0 until len)
             out[i] = start + i*increment

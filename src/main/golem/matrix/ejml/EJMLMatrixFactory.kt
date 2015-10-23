@@ -1,9 +1,9 @@
 package golem.matrix.ejml
 
-import golem.matrix.ejml.backend.set
 import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import golem.min
+import golem.round
 import golem.util.fromCollection
 import org.ejml.simple.SimpleMatrix
 import java.util.*
@@ -72,22 +72,13 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
 
     // Todo: Add these in
     //fun linspace(...)
-
     override fun arange(start: Double, stop: Double, increment: Double): EJMLMatrix {
-        val shape = ((stop - start) / increment).toInt()
-        if (shape <= 0)
-            throw Exception("Invalid Range due to bounds/step")
-        var doubleProg: DoubleProgression
-        var dataArray: DoubleArray
-        if (increment > 0){
-            doubleProg = (start..(stop)).step(increment)
-            dataArray = fromCollection(doubleProg.toList())
-        }
-        else{
-            doubleProg = (start downTo (stop)).step(java.lang.Math.abs(increment))
-            dataArray = fromCollection(doubleProg.toList())
-        }
-        return create(dataArray.sliceArray(0..(dataArray.size -2)))
+        var len = round((stop-start)/increment).toInt()
+        var out = this.zeros(1,len)
+        for (i in 0 until len)
+            out[i] = start + i*increment
+
+        return out
     }
 
     override fun arange(start: Double, stop: Double): EJMLMatrix {

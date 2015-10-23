@@ -51,8 +51,8 @@ class ExtensionsTests {
                     4,5,6 end
                     7,8,9]
         var out = a.map{it.toString()}
-        assert(out[0].equals("1"))
-        assert(out[4].equals("5"))
+        assert(out[0].equals("1.0"))
+        assert(out[4].equals("5.0"))
 
     }
 }
