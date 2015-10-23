@@ -74,7 +74,7 @@ fun <T> Matrix<T>.mapRows(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
     return out
 }
 
-fun <T, U> Matrix<T>.mapRows(f: (Matrix<T>)-> U): List<U>{
+fun <T, U> Matrix<T>.mapRowsToList(f: (Matrix<T>)-> U): List<U>{
     var a = ArrayList<U>(this.numRows())
     this.eachRow {
         a.add(f(it))
@@ -101,7 +101,7 @@ fun <T> Matrix<T>.mapCols(f: (Matrix<T>)-> Matrix<T>): Matrix<T>{
     return out
 }
 
-fun <T, U> Matrix<T>.mapCols(f: (Matrix<T>)-> U): List<U>{
+fun <T, U> Matrix<T>.mapColsToList(f: (Matrix<T>)-> U): List<U>{
     var a = ArrayList<U>(this.numCols())
     this.eachCol {
         a.add(f(it))
