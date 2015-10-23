@@ -1,3 +1,6 @@
+@file:JvmName("Golem")
+@file:JvmMultifileClass
+
 package golem
 
 import golem.matrix.Matrix
@@ -31,17 +34,15 @@ fun plot(x: Any?, y: Any) {
     when (y)
     {
         is IntArray -> ydata =  fromCollection(y.map { it.toDouble() })
-        is IntRange -> ydata =  fromCollection(y.toList() map { it.toDouble() })
+        is IntRange -> ydata =  fromCollection(y.toList().map { it.toDouble() })
         is DoubleArray -> ydata = fromCollection(y.toList())
-        is DoubleRange -> ydata = fromCollection(y.toList())
         is Matrix<*> -> ydata = y.getDoubleData()
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (y was ${y.javaClass}")
     }
     when (x) {
         is IntArray -> xdata =  fromCollection(x.map { it.toDouble() })
-        is IntRange -> xdata =  fromCollection(x.toList() map { it.toDouble() })
+        is IntRange -> xdata =  fromCollection(x.toList().map { it.toDouble() })
         is DoubleArray -> xdata = fromCollection(x.toList())
-        is DoubleRange -> xdata = fromCollection(x.toList())
         is Matrix<*> -> xdata = x.getDoubleData()
         null -> xdata =  fromCollection((0.0..(ydata.size.toDouble()-1)).toList())
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
