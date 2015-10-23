@@ -52,8 +52,8 @@ operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Do
         for (j in cols-1)
             this[i,j] = value[i-rows.start,j-cols.start]
 }
-operator fun Matrix<Double>.get(rows: IntRange, cols: Int) = this.get(rows, cols..cols)
-operator fun Matrix<Double>.get(rows: Int, cols: IntRange) = this.get(rows..rows, cols)
+operator fun Matrix<Double>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
+operator fun Matrix<Double>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
 
 
 // Todo: ND array:

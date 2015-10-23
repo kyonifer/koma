@@ -73,7 +73,7 @@ fun plot(x: DoubleArray, y: DoubleArray) {
 private fun displayChart(c: Chart): JFrame {
 
     // Create and set up the window.
-    val frame = JFrame("Plot #${currentFigure}")
+    val frame = JFrame("Plot #$currentFigure")
 
     // Clear the plot # if we close its window (mimic matplotlib behavior)
     frame.addWindowListener(object : WindowListener {

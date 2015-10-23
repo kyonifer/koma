@@ -1,13 +1,10 @@
 package golem.matrix.mtj
 
-import golem.*
+import golem.matFormat
 import golem.matrix.Matrix
-import golem.matrix.MatrixFactory
 import golem.matrix.mtj.backend.*
-import no.uib.cipr.matrix.DenseLU
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
-import no.uib.cipr.matrix.MatrixEntry
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
@@ -31,7 +28,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun normIndP1() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
-    override fun getDouble(i: Int) = this.storage.get(i)
+    override fun getDouble(i: Int) = this.storage[i]
     override fun setDouble(i: Int, v: Double) = this.storage.set(1,i,v)
     override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
 
@@ -54,11 +51,11 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun set(i: Int, v: Double): Unit = this.storage.set(i, v)
     override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
     override fun get(i: Int, j: Int) = this.storage.get(i,j)
-    override fun get(i: Int) = this.storage.get(i)
+    override fun get(i: Int) = this.storage[i]
     override fun getRow(row: Int) : MTJMatrix {
         var out = DenseMatrix(1, this.numCols())
         for (col in 0 until this.numCols())
-            out.set(0, col, this.get(row, col))
+            out.set(0, col, this[row, col])
         return MTJMatrix(out)
     }
     override fun getCol(col: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage, col)))
@@ -146,7 +143,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         this.forEachIndexed { i, ele ->
             if (i != 0 && i % this.storage.numColumns() == 0)
                 pstream.append("\n")
-            pstream.format("%${numChars}.${precision}f", ele)
+            pstream.format("%$numChars.${precision}f", ele)
             pstream.append("  ")
         }
 

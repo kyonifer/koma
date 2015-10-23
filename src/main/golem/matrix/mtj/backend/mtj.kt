@@ -2,7 +2,6 @@ package golem.matrix.mtj.backend
 
 import golem.pow
 import no.uib.cipr.matrix.*
-import java.lang.reflect.Field
 import java.util.*
 
 val Matrix.T: Matrix

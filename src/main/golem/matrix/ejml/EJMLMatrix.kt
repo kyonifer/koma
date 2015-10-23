@@ -1,13 +1,11 @@
 package golem.matrix.ejml
 
-import golem.ceil
-import golem.logb
 import golem.matFormat
-import golem.pow
 import golem.matrix.Matrix
 import golem.matrix.ejml.backend.*
+import org.ejml.ops.CommonOps
+import org.ejml.ops.MatrixIO
 import org.ejml.simple.SimpleMatrix
-import org.ejml.ops.*
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 

@@ -1,6 +1,5 @@
 package golem.matrix.jblas
 
-import golem.matrix.jblas.backend.*
 import golem.matrix.Matrix
 import golem.matrix.MatrixFactory
 import org.jblas.DoubleMatrix
