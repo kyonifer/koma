@@ -171,18 +171,38 @@ class ExtensionsTests {
     @Test
     fun testMapColsToList() {
         allBackends {
+            var a = mat[1,2,3 end
+                        4,5,6]
+            var out = a.mapRowsToList {
+                it[1].toString()
+            }
+
+            assert(out[1].equals("5.0"))
+
         }
     }
 
     @Test
     fun testAny() {
         allBackends {
+            var a = mat[1,2,3 end
+                        4,5,6 end
+                        7,8,9]
+            assert(a.any{it>8.5}==true)
+            assert(a.any{it>7}==true)
+            assert(a.any{it>9}==false)
         }
     }
 
     @Test
     fun testAll() {
         allBackends {
+            var a = mat[1,2,3 end
+                        4,5,6 end
+                        7,8,9]
+            assert(a.all{it>0.9}==true)
+            assert(a.all{it>1.0}==false)
+            assert(a.all{it>8}==false)
         }
     }
     @Test
