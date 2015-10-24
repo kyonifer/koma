@@ -14,11 +14,11 @@ import golem.matrix.Matrix
 import java.util.*
 
 fun <T> Matrix<T>.cumSum(): Matrix<T> {
-    var out = this.getFactory().zeros(this.numRows(), this.numCols())
-    var outData = out.getDoubleData()
-    var inData = this.getDoubleData()
-    inData.forEachIndexed { i, ele ->
-        outData[i]= if (i==0) ele else ele + outData[i-1]
+    var out = this.getFactory().zeros(1,this.numRows()*this.numCols())
+    for (i in 0..(this.numRows()*this.numCols()-1))
+    {
+        val ele = this.getDouble(i)
+        out.setDouble(i, if (i==0) ele else ele + out.getDouble(i-1))
     }
     return out
 }

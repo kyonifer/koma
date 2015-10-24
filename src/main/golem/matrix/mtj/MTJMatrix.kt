@@ -29,7 +29,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage[i]
-    override fun setDouble(i: Int, v: Double) = this.storage.set(1,i,v)
+    override fun setDouble(i: Int, v: Double) = this.storage.set(i,v)
     override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
 
     override fun numRows() = this.storage.numRows()
