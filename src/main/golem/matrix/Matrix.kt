@@ -54,6 +54,12 @@ interface Matrix<T>: Iterable<T>
     fun setDouble(i: Int, j:Int, v:Double)
     fun setFloat(i: Int, j:Int, v:Float)
 
+    /**
+     * Retrieves the data formatted as doubles in row-major order
+     * This method is only for performance over potentially boxing get(Double)
+     * methods. This method may or may not return a copy, and thus should be
+     * treated as read-only unless backend behavior is known.
+     */
     fun getDoubleData(): DoubleArray
 
     fun getRow(row: Int): Matrix<T>

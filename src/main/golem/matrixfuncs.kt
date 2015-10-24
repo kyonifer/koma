@@ -29,6 +29,16 @@ fun logb(base: Int, arr: Matrix<Double>) = arr.mapElements{java.lang.Math.log(it
 
 // Matrix funcs
 fun diag(arr: Matrix<Double>) = arr.diag()
+
+/**
+ * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
+ * cumsum(mat[1,2,3]) would return mat[1,3,6].
+ *
+ * @param arr The matrix to calculate the cumsum on. Sum will be computed in row-major order.
+ *
+ * @return A 1xarr.numRows*arr.numCols vector storing the ongoing cumsum.
+ *
+ */
 fun cumsum(arr: Matrix<Double>) = arr.cumSum()
 fun max(arr: Matrix<Double>) = arr.max()
 fun mean(arr: Matrix<Double>) = arr.mean()
