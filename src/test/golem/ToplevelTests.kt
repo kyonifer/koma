@@ -12,28 +12,7 @@ import kotlin.test.*
  */
 class ToplevelTests {
 
-    @Test
-    fun testBuilder()
-    {
-        allBackends {
-            var a = zeros(5,1)
-            for (i in 0..a.numRows()-1)
-                a[i,0]=i+1
-            assertMatrixEquals(a, mat[1,2,3,4,5].T)
-        }
 
-    }
-
-    @Test
-    fun testCreate()
-    {
-        var a = create(0..4)
-        var b = mat[0,1,2,3,4]
-
-        assertMatrixEquals(a, b)
-        assertMatrixEquals(a.T, b.T)
-
-    }
     @Test
     fun testRanges() {
         allBackends {

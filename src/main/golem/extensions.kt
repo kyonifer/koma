@@ -37,10 +37,11 @@ fun <T> Matrix<T>.cumSum(): Matrix<T> {
  * @param f A function which takes row,col and returns the value to fill. Note that
  * the return type must be the matrix primitive type (e.g. Double).
  */
-fun <T> Matrix<T>.fill( f:(row: Int, col: Int) -> T) {
+fun <T> Matrix<T>.fill( f:(row: Int, col: Int) -> T): Matrix<T> {
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
             this[row, col] = f(row, col)
+    return this
 }
 
 /**

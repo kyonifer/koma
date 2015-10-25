@@ -52,7 +52,6 @@ fun norm(arr: Matrix<Double>) = arr.norm()
 fun expm(A: Matrix<Double>) = A.expm()
 
 // TODO:
-//fun cumsum(arr: Matrix, dimension: Int = 0) = arr.cumsum(true)
 //fun fft(arr: Matrix)
 //fun hstack(vararg arrs: Matrix) = .hstack(*arrs)
 //fun vstack(vararg arrs: Matrix) = .vstack(*arrs)
