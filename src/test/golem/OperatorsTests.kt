@@ -10,7 +10,7 @@ import kotlin.test.*
 /**
  * Test each back-end for similar compliance with API
  */
-class ToplevelTests {
+class OperatorsTests {
 
 
     @Test
@@ -78,13 +78,26 @@ class ToplevelTests {
     @Test
     fun test2DIndex()
     {
-        var a = mat[0,1 end 2,3]
-        assertEquals(0.0, a[0,0])
-        assertEquals(1.0, a[0,1])
-        assertEquals(2.0, a[1,0])
-        assertEquals(3.0, a[1,1])
+        allBackends {
+            var a = mat[0, 1 end 2, 3]
+            assertEquals(0.0, a[0, 0])
+            assertEquals(1.0, a[0, 1])
+            assertEquals(2.0, a[1, 0])
+            assertEquals(3.0, a[1, 1])
+        }
     }
+    @Test
+    fun testScalarMultiplication()
+    {
+        allBackends {
+            var a = mat[1, 2, 3 end
+                    4, 5, 6 end
+                    7, 8, 9]
+            var out = a.mapElements{it*30}
+            assertMatrixEquals(out, a * 30)
+        }
 
+    }
     @Test
     fun testMultiplication()
     {
@@ -100,6 +113,15 @@ class ToplevelTests {
 
     }
 
+    @Test
+    fun testAddition()
+    {
+        allBackends {
+            var a = mat[1,2,3,2,1]
+            var expected = mat[5,6,7,6,5]
+            assertMatrixEquals(expected, a+4)
+        }
+    }
 
     @Test
     fun testTranspose()
@@ -114,43 +136,6 @@ class ToplevelTests {
             assertEquals(a[3,0], a.T[0,3])
         }
 
-    }
-
-    @Test
-    fun testInverse()
-    {
-        allBackends {
-            var a = eye(5, 5) * 4.5
-            assertMatrixEquals(eye(5, 5) * (1 / 4.5), a.inv())
-        }
-    }
-
-
-    @Test
-    fun testSin()
-    {
-        allBackends {
-            var a = zeros(2, 2)
-            a[0, 0] = PI / 2
-            a[0, 1] = 3.0
-            a[1, 0] = -PI / 2
-
-            var expected = mat[1.0, 0.14112000805986721 end
-                    -1.0, 0.0]
-
-            assertMatrixEquals(expected, sin(a))
-        }
-
-    }
-
-    @Test
-    fun testRandn()
-    {
-        allBackends {
-            var a = 2 * randn(1, 1000000)
-
-            Assert.assertEquals(0.0, mean(a), .01)
-        }
     }
 
     @Test
@@ -183,54 +168,25 @@ class ToplevelTests {
     }
 
     @Test
-    fun testArange()
-    {
-        allBackends {
-            var a = arange(1.0,1.4,.1)
-            var expected = mat[1,1.1,1.2,1.3]
-            assertMatrixEquals(expected, a)
-        }
-    }
-
-    @Test
     fun test2DIndexFail()
     {
-        var a = mat[0,1 end 2,3]
-        assertFailsWith(IndexOutOfBoundsException::class) {
-            a[2,0]
-        }
-        assertFailsWith(IndexOutOfBoundsException::class) {
-            a[0,2]
-        }
-        assertFailsWith(IndexOutOfBoundsException::class) {
-            a[-1,0]
-        }
-        assertFailsWith(IndexOutOfBoundsException::class) {
-            a[-1,-1]
-        }
-
-    }
-    @Test
-    fun testBuilderFail()
-    {
         allBackends {
-            assertFailsWith(IllegalArgumentException::class,
-                    "When building matrices with mat[] please give even rows/cols") {
-                mat[1,2,3 end
-                        2]
+            var a = mat[0, 1 end 2, 3]
+            assertFails {
+                a[2, 0]
             }
-            assertFailsWith(IllegalArgumentException::class,
-                    "When building matrices with mat[] please give even rows/cols") {
-                mat[1,2,3 end
-                        2,3]
+            assertFails {
+                a[0, 2]
             }
-            assertFailsWith(IllegalArgumentException::class,
-                    "When building matrices with mat[] please give even rows/cols") {
-                mat[1,2,3 end
-                        2,3]
+            assertFails {
+                a[-1, 0]
+            }
+            assertFails {
+                a[-1, -1]
             }
         }
     }
+
 
 
     val exception = ExpectedException.none()

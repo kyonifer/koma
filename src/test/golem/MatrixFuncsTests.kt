@@ -18,4 +18,31 @@ class MatrixFuncsTests {
 
         }
     }
+    @Test
+    fun testInverse()
+    {
+        allBackends {
+            var a = eye(5, 5) * 4.5
+            assertMatrixEquals(eye(5, 5) * (1 / 4.5), a.inv())
+        }
+    }
+
+
+    @Test
+    fun testSin()
+    {
+        allBackends {
+            var a = zeros(2, 2)
+            a[0, 0] = PI / 2
+            a[0, 1] = 3.0
+            a[1, 0] = -PI / 2
+
+            var expected = mat[1.0, 0.14112000805986721 end
+                    -1.0, 0.0]
+
+            assertMatrixEquals(expected, sin(a))
+        }
+
+    }
+
 }
