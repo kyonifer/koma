@@ -22,17 +22,12 @@ fun max(num1: Double, num2: Double) = if (num1 > num2) num1 else num2
 fun min(num1: Double, num2: Double) = if (num2 > num1) num1 else num2
 fun logb(base: Double, num: Double) = Math.log(num) / Math.log(base)
 
-
 // Int versions
-
 fun abs(arr: Int) = java.lang.Math.abs(arr.toDouble())
 fun ceil(num: Int) = Math.ceil(num.toDouble())
 fun cos(arr: Int) = java.lang.Math.cos(arr.toDouble())
 fun exp(arr: Int) = java.lang.Math.exp(arr.toDouble())
 fun log(arr: Int) = java.lang.Math.log(arr.toDouble())
-//fun pow(num: Int, exp: Int) = Math.pow(num.toDouble(), exp.toDouble())
-fun pow(num: Double, exp: Int) = Math.pow(num, exp.toDouble())
-fun pow(num: Int, exp: Double) = Math.pow(num.toDouble(), exp)
 fun sign(arr: Int) = java.lang.Math.signum(arr.toDouble())
 fun sin(arr: Int) = java.lang.Math.sin(arr.toDouble())
 fun sqrt(arr: Int) = java.lang.Math.sqrt(arr.toDouble())
@@ -54,7 +49,7 @@ fun logb(base: Double, num: Int) = Math.log(num.toDouble()) / Math.log(base)
 @JvmName("powIntInt")
 infix fun Int.pow(exp: Int) = Math.pow(this.toDouble(), exp.toDouble())
 @JvmName("powDoubleInt")
-fun Double.pow(exp: Int) = Math.pow(this, exp.toDouble())
+infix fun Double.pow(exp: Int) = Math.pow(this, exp.toDouble())
 @JvmName("powIntDouble")
 fun Int.pow(exp: Double) = Math.pow(this.toDouble(), exp)
 @JvmName("powDoubleDouble")

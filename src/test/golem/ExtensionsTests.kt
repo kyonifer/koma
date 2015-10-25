@@ -16,7 +16,6 @@ class ExtensionsTests {
             a = mat[1, 2 end
                     3, 4]
             expected = mat[1, 3, 6, 10]
-            var zz = cumsum(a)
             assertMatrixEquals(expected, cumsum(a))
         }
     }
@@ -102,7 +101,7 @@ class ExtensionsTests {
             var expected = mat[.5, 1, 1.5 end
                     2, 2.5, 3   end
                     3.5, 4, 4.5]
-            assertMatrixEquals(expected, a.mapElements { it / 2 })
+            assertMatrixEquals(expected, a.mapMat { it / 2 })
         }
     }
 
@@ -116,7 +115,7 @@ class ExtensionsTests {
             var expected = mat[0, 0,   0   end
                                0, 2.5, 6   end
                                0, 8,   18]
-            var out = a.mapElementsIndexed { row,col,ele ->
+            var out = a.mapMatIndexed { row,col,ele ->
                 ele / 2 *row*col
             }
             assertMatrixEquals(expected, out)
@@ -173,15 +172,30 @@ class ExtensionsTests {
         allBackends {
             var a = mat[1,2,3 end
                         4,5,6]
-            var out = a.mapRowsToList {
-                it[1].toString()
+            var out = a.mapColsToList {
+                it[0].toString()
             }
 
-            assert(out[1].equals("5.0"))
+            assert(out[1].equals("2.0"))
 
         }
     }
+    @Test
+    fun testTo2DArray() {
+        allBackends {
+            var a = mat[1,2,3 end
+                    4,5,6]
+            var expected = arrayOf(doubleArrayOf(1.0,2.0,3.0),
+                                   doubleArrayOf(4.0,5.0,6.0))
 
+            var out = a.to2DArray()
+            for (row in 0..1)
+                for (col in 0..2)
+                    assert(out[row][col]==expected[row][col])
+
+            assert(out[1][0]==4.0)
+        }
+    }
     @Test
     fun testAny() {
         allBackends {

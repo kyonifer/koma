@@ -45,7 +45,7 @@ class CreatorsTests {
     {
         allBackends {
             var a = eye(3)
-            var expected = zeros(3, 3).mapElementsIndexed { i, j, d -> if (i == j) 1.0 else 0.0 }
+            var expected = zeros(3, 3).mapMatIndexed { i, j, d -> if (i == j) 1.0 else 0.0 }
             assertMatrixEquals(expected, a)
         }
     }

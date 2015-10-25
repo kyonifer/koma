@@ -1,11 +1,11 @@
 package golem
 
-import golem.util.test.assertMatrixEquals
 import golem.util.test.allBackends
-import org.junit.Assert
+import golem.util.test.assertMatrixEquals
 import org.junit.Test
 import org.junit.rules.ExpectedException
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
 
 /**
  * Test each back-end for similar compliance with API
@@ -74,6 +74,22 @@ class OperatorsTests {
 
         }
     }
+    @Test
+    fun test2DSet() {
+        allBackends {
+            var a = mat[1,2,3 end
+                        3,4,5]
+
+            a[1,1] = -1.1
+            a[0,2] = 4.5
+
+            var expected = mat[1, 2,    4.5 end
+                               3, -1.1, 5]
+
+            assertMatrixEquals(expected, a)
+
+        }
+    }
 
     @Test
     fun test2DIndex()
@@ -93,7 +109,7 @@ class OperatorsTests {
             var a = mat[1, 2, 3 end
                     4, 5, 6 end
                     7, 8, 9]
-            var out = a.mapElements{it*30}
+            var out = a.mapMat {it*30}
             assertMatrixEquals(out, a * 30)
         }
 
@@ -118,11 +134,27 @@ class OperatorsTests {
     {
         allBackends {
             var a = mat[1,2,3,2,1]
+            var other = mat[0,1,-1,.5,4.5]
             var expected = mat[5,6,7,6,5]
             assertMatrixEquals(expected, a+4)
+            expected = mat[1,3,2,2.5,5.5]
+            assertMatrixEquals(expected, a+other)
         }
     }
 
+    @Test
+    fun testMinus() {
+        allBackends {
+            var a = mat[1,2,3,2,1]
+            var other = mat[0,1.1,0,-1,4]
+            var expected = mat[-1,-2,-3,-2,-1]
+            assertMatrixEquals(expected, -a)
+
+            expected = mat[1,.9, 3, 3, -3]
+            assertMatrixEquals(expected, a-other)
+
+        }
+    }
     @Test
     fun testTranspose()
     {
@@ -136,35 +168,6 @@ class OperatorsTests {
             assertEquals(a[3,0], a.T[0,3])
         }
 
-    }
-
-    @Test
-    fun testEPow()
-    {
-        allBackends {
-            var a = mat[1, 2 end
-                        3, 4]
-            a = a epow 3
-
-            var aE = mat[1 pow 3, 2 pow 3 end
-                         (3 pow 3), 4 pow 3]
-
-            assertMatrixEquals(a, aE)
-        }
-    }
-
-    @Test
-    fun testPow()
-    {
-        allBackends {
-            var a = mat[2, 0, 0 end
-                        0, 1, 0 end
-                        0, 0, 4]
-
-            var a3 = a pow 3
-
-            assertMatrixEquals(a3, a * a * a)
-        }
     }
 
     @Test
