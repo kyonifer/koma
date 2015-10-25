@@ -91,7 +91,7 @@ fun <T> Matrix<T>.eachCol( f: (Matrix<T>)->Unit ) {
  *
  * @return the new matrix after each element is mapped through f
  */
-fun <T> Matrix<T>.mapElements( f: (T)-> T): Matrix<T> {
+fun <T> Matrix<T>.mapMat( f: (T)-> T): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
@@ -108,7 +108,7 @@ fun <T> Matrix<T>.mapElements( f: (T)-> T): Matrix<T> {
  *
  * @return the new matrix after each element is mapped through f
  */
-fun <T> Matrix<T>.mapElementsIndexed( f: (row: Int, col: Int, ele: T)-> T): Matrix<T> {
+fun <T> Matrix<T>.mapMatIndexed( f: (row: Int, col: Int, ele: T)-> T): Matrix<T> {
     var out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows()-1)
         for (col in 0..this.numCols()-1)
@@ -242,7 +242,5 @@ fun Matrix<Double>.to2DArray(): Array<DoubleArray> {
 }
 
 // TODO:
-//fun Matrix.iterator() = Iterator(this)
-
 //fun Matrix.extend(other: Matrix, dimension: Int = 0) = concat(dimension, this, other)
 //fun Matrix.extend(other: Matrix, dimension: Int = 0) = concat(dimension, this, other)
