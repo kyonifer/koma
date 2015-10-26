@@ -18,6 +18,15 @@ fun tan(arr: Double) = java.lang.Math.tan(arr)
 fun round(arr: Double) = java.lang.Math.round(arr)
 fun floor(arr: Double) = java.lang.Math.floor(arr)
 
+fun acos(arr: Double) = java.lang.Math.acos(arr)
+fun asin(arr: Double) = java.lang.Math.asin(arr)
+fun atan(arr: Double) = java.lang.Math.atan(arr)
+fun atan2(x: Double, y:Double) = java.lang.Math.atan2(x,y)
+fun acos(arr: Int) = java.lang.Math.acos(arr.toDouble())
+fun asin(arr: Int) = java.lang.Math.asin(arr.toDouble())
+fun atan(arr: Int) = java.lang.Math.atan(arr.toDouble())
+fun atan2(x: Int, y:Int) = java.lang.Math.atan2(x.toDouble(),y.toDouble())
+
 fun max(num1: Double, num2: Double) = if (num1 > num2) num1 else num2
 fun min(num1: Double, num2: Double) = if (num2 > num1) num1 else num2
 fun logb(base: Double, num: Double) = Math.log(num) / Math.log(base)
