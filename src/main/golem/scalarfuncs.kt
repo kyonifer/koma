@@ -52,6 +52,9 @@ fun min(num1: Double, num2: Int) = if (num2 > num1) num1 else num2.toDouble()
 fun logb(base: Int, num: Int) = Math.log(num.toDouble()) / Math.log(base.toDouble())
 fun logb(base: Int, num: Double) = Math.log(num) / Math.log(base.toDouble())
 fun logb(base: Double, num: Int) = Math.log(num.toDouble()) / Math.log(base)
+fun pow(num: Double, exp: Int) = Math.pow(num, exp.toDouble())
+fun pow(num: Int, exp: Int) = Math.pow(num.toDouble(), exp.toDouble())
+fun pow(num: Int, exp: Double) = Math.pow(num.toDouble(), exp)
 
 // Extension functions for basic type for infix operators
 
@@ -60,6 +63,6 @@ infix fun Int.pow(exp: Int) = Math.pow(this.toDouble(), exp.toDouble())
 @JvmName("powDoubleInt")
 infix fun Double.pow(exp: Int) = Math.pow(this, exp.toDouble())
 @JvmName("powIntDouble")
-fun Int.pow(exp: Double) = Math.pow(this.toDouble(), exp)
+infix fun Int.pow(exp: Double) = Math.pow(this.toDouble(), exp)
 @JvmName("powDoubleDouble")
-fun Double.pow(exp: Double) = Math.pow(this, exp)
+infix fun Double.pow(exp: Double) = Math.pow(this, exp)
