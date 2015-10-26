@@ -11,7 +11,24 @@ package golem
 
 import golem.matrix.Matrix
 
-
+/**
+ * Returns a matrix of the arccos of each element in the input matrix.
+ *
+ * @return A matrix consisting of the operation performed element-wise.
+ */
+fun acos(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.acos(it) }
+/**
+ * Returns a matrix of the arcsin of each element in the input matrix.
+ *
+ * @return A matrix consisting of the operation performed element-wise.
+ */
+fun asin(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.asin(it) }
+/**
+ * Returns a matrix of the arctan of each element in the input matrix.
+ *
+ * @return A matrix consisting of the operation performed element-wise.
+ */
+fun atan(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.atan(it) }
 /**
  * Returns a matrix of the absolute value of each element in the input matrix.
  *
@@ -174,10 +191,9 @@ fun norm(arr: Matrix<Double>) = arr.norm()
 // Adv funcs
 fun expm(A: Matrix<Double>) = A.expm()
 
+
+
 // TODO:
 //fun fft(arr: Matrix)
 //fun hstack(vararg arrs: Matrix) = .hstack(*arrs)
 //fun vstack(vararg arrs: Matrix) = .vstack(*arrs)
-//fun acos(arr: Matrix) = arr.acos(Calculation.Ret.NEW)
-//fun asin(arr: Matrix) =
-//fun atan(arr: Matrix) =
