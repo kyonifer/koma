@@ -189,9 +189,28 @@ fun argMin(arr: Matrix<Double>) = arr.argMin()
 fun norm(arr: Matrix<Double>) = arr.norm()
 
 // Adv funcs
+/**
+ * Calculates the matrix exponential of the input matrix. Note that this is
+ * NOT the same thing as the elementwise exponential function.
+ *
+ * @param A The input matrix
+ * @return e to the A
+ */
 fun expm(A: Matrix<Double>) = A.expm()
 
-
+/**
+ * Converts a 3x1 or 1x3 vector of angles into the skew symmetric matrix
+ * equivalent.
+ *
+ * @Return 3x3 skew symmetric matrix
+ */
+fun skew(angles: Matrix<Double>): Matrix<Double>
+{
+    var s = mat [0,         -angles[2],  angles[1] end
+                 angles[2],  0,         -angles[0] end
+                -angles[1],  angles[0],  0]
+    return s
+}
 
 // TODO:
 //fun fft(arr: Matrix)
