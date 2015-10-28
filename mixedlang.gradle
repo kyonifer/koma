@@ -1,0 +1,31 @@
+// Used non-standard mixed source layout (more logically organized)
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main']
+        }
+        kotlin {
+            srcDirs = ['src/main']
+        }
+        groovy {
+            srcDirs = ['src/main']
+        }
+        scala {
+            srcDirs = ['src/main']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test']
+        }
+        kotlin {
+            srcDirs = ['src/test']
+        }
+        groovy {
+            srcDirs = ['src/test']
+        }
+        scala {
+            srcDirs = ['src/test']
+        }
+    }
+}
