@@ -1,8 +1,15 @@
+group = "net.antcenter"
+version = "0.1.1"
+
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'scala'
 apply plugin: 'groovy'
-apply plugin: 'maven-publish'
+
+apply from: 'buildscripts/antrepo.gradle'
+apply from: 'buildscripts/mixedlang.gradle'
+apply from: 'buildscripts/fatjar.gradle'
+apply from: 'buildscripts/publishing.gradle'
 
 repositories {
   mavenCentral()
@@ -28,48 +35,7 @@ dependencies {
     // Manually exclude an optional dependency that gradle is erroneously requiring (not on central)
     exclude module: 'VectorGraphics2D'
   }
-
   testCompile 'junit:junit:4.12'
-
-}
-
-// Used non-standard mixed source layout (more logically organized)
-sourceSets {
-  main {
-    java {
-      srcDirs = ['src/main']
-    }
-    kotlin {
-      srcDirs = ['src/main']
-    }
-    groovy {
-      srcDirs = ['src/main']
-    }
-    scala {
-      srcDirs = ['src/main']
-    }
-  }
-  test {
-    java {
-      srcDirs = ['src/test']
-    }
-    kotlin {
-      srcDirs = ['src/test']
-    }
-    groovy {
-      srcDirs = ['src/test']
-    }
-    scala {
-      srcDirs = ['src/test']
-    }
-  }
-}
-
-// Build a fatjar for MATLAB. Remember to build with JDK1.7 depending on MATLAB version
-task fatJar(type: Jar) {
-  baseName = project.name + '-all'
-  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-  with jar
 }
 
 // Add kotlin support to gradle
@@ -81,24 +47,6 @@ buildscript {
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-1038"
-  }
-}
-
-// Deploy our artifact for distribution
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      groupId 'net.antcenter'
-      artifactId 'golem'
-      version '0.1'
-
-      from components.java
-    }
-  }
-  repositories {
-    maven {
-      url "$buildDir/dist"
-    }
   }
 }
 

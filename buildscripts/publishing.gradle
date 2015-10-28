@@ -1,0 +1,15 @@
+// Deploy our maven artifact into build/dist/ for later distribution
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "$buildDir/dist"
+        }
+    }
+}
