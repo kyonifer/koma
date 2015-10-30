@@ -167,13 +167,6 @@ fun min(arr: Matrix<Double>) = arr.min()
  */
 fun argMax(arr: Matrix<Double>) = arr.argMax()
 /**
- * Returns the index of the mean element in the input matrix
- *
- * @return The maximum value
- *
- */
-fun argMean(arr: Matrix<Double>) = arr.argMean()
-/**
  * Returns the index of the min element in the input matrix
  *
  * @return The maximum value

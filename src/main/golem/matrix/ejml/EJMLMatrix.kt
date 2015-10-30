@@ -17,7 +17,6 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = CommonOps.elementMin(this.storage.matrix)
     override fun argMax() = throw UnsupportedOperationException()
-    override fun argMean() = throw UnsupportedOperationException()
     override fun argMin() = throw UnsupportedOperationException()
 
 

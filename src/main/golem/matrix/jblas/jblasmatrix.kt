@@ -226,15 +226,11 @@ class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
         throw UnsupportedOperationException()
     }
 
-    override fun argMax(): Double {
+    override fun argMax(): Int {
         throw UnsupportedOperationException()
     }
 
-    override fun argMean(): Double {
-        throw UnsupportedOperationException()
-    }
-
-    override fun argMin(): Double {
+    override fun argMin(): Int {
         throw UnsupportedOperationException()
     }
 

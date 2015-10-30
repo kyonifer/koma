@@ -90,7 +90,6 @@ interface Matrix<T>: Iterable<T>
     fun mean(): T
     fun min(): T
     fun argMax(): Int
-    fun argMean(): Int
     fun argMin(): Int
     fun norm(): T // L2 (Euclidean) norm
     fun trace(): T

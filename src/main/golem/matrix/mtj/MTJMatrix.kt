@@ -20,16 +20,15 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun max() = storage.maxBy{ it.get() }!!.get()
     override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = storage.minBy { it.get() }!!.get()
-    override fun argMax() {
-        int max = 0
+    override fun argMax(): Int {
+        var max = 0
         for (i in 0..this.numCols()*this.numRows()-1)
             if(this[i]>this[max])
                 max=i
         return max
     }
-    override fun argMean() = throw UnsupportedOperationException()
-    override fun argMin() {
-        int max = 0
+    override fun argMin(): Int {
+        var max = 0
         for (i in 0..this.numCols()*this.numRows()-1)
             if(this[i]<this[max])
                 max=i
