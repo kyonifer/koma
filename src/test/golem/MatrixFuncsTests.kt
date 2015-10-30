@@ -5,6 +5,32 @@ import golem.util.test.assertMatrixEquals
 import org.junit.Test
 
 class MatrixFuncsTests {
+
+    @Test
+    fun testArgMin()
+    {
+        allBackends {
+            var a = mat[1,2,3 end
+                        4,3,-1]
+
+            assert(a.argMin()==5)
+            a[1,2]=5.5
+            assert(a.argMin()==0)
+        }
+    }
+    @Test
+    fun testArgMax()
+    {
+        allBackends {
+            var a = mat[1,2,3 end
+                    4,3,-1]
+
+            assert(a.argMax()==3)
+            a[0,2]=44
+            assert(a.argMax()==2)
+        }
+    }
+
     @Test
     fun testExpm()
     {

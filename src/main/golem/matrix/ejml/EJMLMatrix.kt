@@ -16,9 +16,20 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     override fun max() = CommonOps.elementMax(this.storage.matrix)
     override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = CommonOps.elementMin(this.storage.matrix)
-    override fun argMax() = throw UnsupportedOperationException()
-    override fun argMin() = throw UnsupportedOperationException()
-
+    override fun argMax(): Int {
+        var max = 0
+        for (i in 0..this.numCols()*this.numRows()-1)
+            if(this[i]>this[max])
+                max=i
+        return max
+    }
+    override fun argMin(): Int {
+        var max = 0
+        for (i in 0..this.numCols()*this.numRows()-1)
+            if(this[i]<this[max])
+                max=i
+        return max
+    }
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage.get(i)
