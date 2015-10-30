@@ -20,9 +20,21 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun max() = storage.maxBy{ it.get() }!!.get()
     override fun mean() = elementSum() / (numCols()*numRows())
     override fun min() = storage.minBy { it.get() }!!.get()
-    override fun argMax() = throw UnsupportedOperationException()
+    override fun argMax() {
+        int max = 0
+        for (i in 0..this.numCols()*this.numRows()-1)
+            if(this[i]>this[max])
+                max=i
+        return max
+    }
     override fun argMean() = throw UnsupportedOperationException()
-    override fun argMin() = throw UnsupportedOperationException()
+    override fun argMin() {
+        int max = 0
+        for (i in 0..this.numCols()*this.numRows()-1)
+            if(this[i]<this[max])
+                max=i
+        return max
+    }
     override fun norm() = normF()
     override fun normF() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.Frobenius)
     override fun normIndP1() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
