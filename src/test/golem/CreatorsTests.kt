@@ -5,6 +5,7 @@ import golem.util.test.assertMatrixEquals
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
 
 class CreatorsTests {
     @Test
@@ -30,6 +31,33 @@ class CreatorsTests {
             assertMatrixEquals(a.T, b.T)
         }
     }
+
+    @Test
+    fun testCreateJaggedArray()
+    {
+        allBackends {
+            var a = arrayOf(doubleArrayOf(1.0,2.0,3.0),
+                            doubleArrayOf(4.0,5.0,6.0))
+            var out = create(a)
+            assert(out[1,0]==4.0)
+            assert(out[3]==4.0)
+            assert(out[1,1]==5.0)
+            assert(out[1]==2.0)
+
+            a = arrayOf(doubleArrayOf(1.0,2.0,3.0))
+            out = create(a)
+            assert(out[0,2]==3.0)
+            assertFails { out[2,0] }
+
+            a = arrayOf(doubleArrayOf(1.0),
+                        doubleArrayOf(2.0),
+                        doubleArrayOf(3.0))
+            out = create(a)
+            assert(out[2,0]==3.0)
+            assertFails { out[0,2] }
+        }
+    }
+
     @Test
     fun testOnes()
     {

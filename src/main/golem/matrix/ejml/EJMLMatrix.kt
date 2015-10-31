@@ -8,7 +8,11 @@ import org.ejml.ops.MatrixIO
 import org.ejml.simple.SimpleMatrix
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-
+/**
+ * An implementation of the Matrix<Double> interface using EJML.
+ * You should rarely use this class directly, instead use one of the
+ * top-level functions in creators.kt (e.g. zeros(5,5)).
+ */
 class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 {
     override fun getDoubleData() = this.storage.matrix.getData()
