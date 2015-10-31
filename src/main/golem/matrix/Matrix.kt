@@ -93,6 +93,7 @@ interface Matrix<T>: Iterable<T>
     fun argMin(): Int // Row major 1D index
     fun norm(): T // L2 (Euclidean) norm
     fun trace(): T
+    fun T():Matrix<T> // In MATLAB, this appears at foo.T
 
     /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.

@@ -6,6 +6,10 @@ import org.jblas.DoubleMatrix
 
 class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
 {
+    override fun T(): Matrix<Double> {
+        throw UnsupportedOperationException()
+    }
+
     override fun iterator(): Iterator<Double> {
         throw UnsupportedOperationException()
     }

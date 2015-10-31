@@ -107,6 +107,8 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
     override fun getFactory() = golem.matrix.mtj.factory
 
+    override fun T() = this.T
+
     override val T: MTJMatrix
         get() = this.transpose()
 

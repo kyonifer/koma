@@ -89,6 +89,9 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     }
 
     override fun getFactory() = golem.matrix.ejml.factory
+
+    override fun T() = this.T
+
     override val T: EJMLMatrix
         get() = this.transpose()
 
