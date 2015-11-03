@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
   // Depend on the std libs of all our languages
-  compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-1038'
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   compile 'org.scala-lang:scala-library:2.11.4'
   compile 'org.codehaus.groovy:groovy-all:2.4.4'
 
@@ -40,13 +40,13 @@ dependencies {
 
 // Add kotlin support to gradle
 buildscript {
-  ext.kotlin_version = '1.0.0-beta-1038'
+  ext.kotlin_version = '1.0.0-beta-1103'
   repositories {
     mavenCentral()
     mavenLocal()
   }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-1038"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
 
