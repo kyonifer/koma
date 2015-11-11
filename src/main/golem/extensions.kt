@@ -241,6 +241,9 @@ fun Matrix<Double>.to2DArray(): Array<DoubleArray> {
     return out
 }
 
+fun Matrix<Double>.asRowVector() = if (this.numRows()!=1 && this.numCols()==1) this.T else this
+fun Matrix<Double>.asColVector() = if (this.numRows()==1 && this.numCols()!=1) this.T else this
+
 // TODO:
 //fun Matrix.extend(other: Matrix, dimension: Int = 0) = concat(dimension, this, other)
 //fun Matrix.extend(other: Matrix, dimension: Int = 0) = concat(dimension, this, other)

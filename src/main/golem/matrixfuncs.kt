@@ -205,6 +205,9 @@ fun skew(angles: Matrix<Double>): Matrix<Double>
     return s
 }
 
+fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1)*vec2
+fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = vec1.asRowVector()*vec2.asColVector()
+
 // TODO:
 //fun fft(arr: Matrix)
 //fun hstack(vararg arrs: Matrix) = .hstack(*arrs)
