@@ -15,7 +15,7 @@ import java.util.*
 
 /**
  * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
- * cumsum(mat[1,2,3]) would return mat[1,3,6]. Assumes matrix type is convertible to
+ * cumsum(mat&#91;1,2,3&#93;) would return mat&#91;1,3,6&#93;. Assumes matrix type is convertible to
  * double.
  *
  * @return A 1xarr.numRows*arr.numCols vector storing the ongoing cumsum.
@@ -241,7 +241,13 @@ fun Matrix<Double>.to2DArray(): Array<DoubleArray> {
     return out
 }
 
+/**
+ * Returns the given vector as a row vector. Will call transpose() on column vectors
+ */
 fun Matrix<Double>.asRowVector() = if (this.numRows()!=1 && this.numCols()==1) this.T else this
+/**
+ * Returns the given vector as a row vector. Will call transpose() on row vectors
+ */
 fun Matrix<Double>.asColVector() = if (this.numRows()==1 && this.numCols()!=1) this.T else this
 
 // TODO:

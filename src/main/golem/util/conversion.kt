@@ -4,7 +4,9 @@
 
 package golem.util
 
-// Doesn't seem to be a built in conversion yet
+/**
+ * Converts a collection into a primitive DoubleArray
+ */
 fun fromCollection(collection: Collection<Double>): DoubleArray {
     var out = DoubleArray(collection.size)
     val it = collection.iterator()
@@ -13,6 +15,9 @@ fun fromCollection(collection: Collection<Double>): DoubleArray {
     }
     return out
 }
+/**
+ * Converts a collection into a primitive DoubleArray
+ */
 fun fromCollection(collection: Collection<Int>): IntArray {
     var out = IntArray(collection.size)
     val it = collection.iterator()

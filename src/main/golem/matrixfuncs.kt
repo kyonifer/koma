@@ -180,7 +180,7 @@ fun diag(arr: Matrix<Double>) = arr.diag().asColVector()
 
 /**
  * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
- * cumsum(mat[1,2,3]) would return mat[1,3,6].
+ * cumsum(mat&#91;1,2,3&#93;) would return mat&#91;1,3,6&#93;.
  *
  * @param arr The matrix to calculate the cumsum on. Sum will be computed in row-major order.
  *
@@ -270,7 +270,14 @@ fun skew(angles: Matrix<Double>): Matrix<Double>
     return s
 }
 
+/**
+ * Calculates the cross product of two vectors
+ */
 fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1)*vec2
+
+/**
+ * Calculates the cross product of two vectors
+ */
 fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = vec1.asRowVector()*vec2.asColVector()
 
 // TODO:
