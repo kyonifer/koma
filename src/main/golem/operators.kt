@@ -85,7 +85,7 @@ val Matrix<Double>.T: Matrix<Double>
     get() = this.transpose()
 
 /**
- * Allow slicing, e.g. matrix&#91;1..2, 3..4&#93;. Note that the range 1..2 is inclusive, so
+ * Allow slicing, e.g. ```matrix[1..2, 3..4]```. Note that the range 1..2 is inclusive, so
  * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
  *
  * @param rows the set of rows to select
@@ -101,7 +101,7 @@ operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> 
     return out
 }
 /**
- * Allow assignment to a slice, e.g. matrix&#91;1..2, 3..4&#93;=something. Note that the range 1..2 is inclusive, so
+ * Allow assignment to a slice, e.g. ```matrix[1..2, 3..4]```=something. Note that the range 1..2 is inclusive, so
  * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
  *
  * @param rows the set of rows to select

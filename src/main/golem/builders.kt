@@ -17,22 +17,23 @@ import golem.matrix.Matrix
  * A helper object that allows for quick construction of matrix literals.
  *
  * For example, one can write
- *
- * var a = mat&#91;1,2,3 end
- *             4,5,6&#93;
+ * ```
+ * var a = mat[1,2,3 end
+ *             4,5,6]
+ * ```
  *
  * to get a 2x3 [Matrix<Double>] with the given values. end is a helper object that indicates the end of a row
- * to this object. Note that one currently cannot use this function to generate a column vector
+ * to this object. Note that one currently cannot use this function to generate a column vector:
  *
- * // ERROR:
+ * ```// ERROR:```
  *
- *  // mat&#91;1 end 2 end 3&#93;
+ * ```mat[1 end 2 end 3]```
  *
- * Instead do this
+ * Instead do this:
  *
- *          // Define a column vector by transposing a row-vector
- *          mat &#91;1 2 3 &#93;.T
+ * ```// Define a column vector by transposing a row-vector```
  *
+ * ```mat[1 2 3].T```
  */
 object mat {
     /**

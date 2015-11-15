@@ -88,7 +88,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
             this[index, i] = row[i]
     }
 
-    override fun getFactory() = golem.matrix.ejml.factory
+    override fun getFactory() = factoryInstance
 
     override fun T() = this.T
 

@@ -105,7 +105,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
             this[index, i] = row[i]
     }
 
-    override fun getFactory() = golem.matrix.mtj.factory
+    override fun getFactory() = golem.matrix.mtj.backend.factoryInstance
 
     override fun T() = this.T
 
@@ -222,6 +222,4 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
                 "Please call getDouble and cast manually if this is intentional.")
     }
-
-
 }

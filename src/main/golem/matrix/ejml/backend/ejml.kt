@@ -15,6 +15,7 @@
  *                    4,5,6 end
  *                    7,8,9]
  */
+@file:JvmName("RawEJML")
 
 package golem.matrix.ejml.backend
 

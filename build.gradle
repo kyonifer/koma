@@ -5,11 +5,13 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'scala'
 apply plugin: 'groovy'
+apply plugin: 'org.jetbrains.dokka'
 
 apply from: 'buildscripts/antrepo.gradle'
 apply from: 'buildscripts/mixedlang.gradle'
 apply from: 'buildscripts/fatjar.gradle'
 apply from: 'buildscripts/publishing.gradle'
+apply from: 'buildscripts/documentation.gradle'
 
 repositories {
   mavenCentral()
@@ -38,14 +40,18 @@ dependencies {
   testCompile 'junit:junit:4.12'
 }
 
+
+
 // Add kotlin support to gradle
 buildscript {
   ext.kotlin_version = '1.0.0-beta-1103'
   repositories {
     mavenCentral()
     mavenLocal()
+    jcenter()
   }
   dependencies {
+    classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.1"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }

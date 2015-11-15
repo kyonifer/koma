@@ -1,12 +1,12 @@
+@file:JvmName("Algorithms")
+
 package golem.matrix.common
 
 import golem.*
 import golem.matrix.Matrix
 
 /**
- * A backend agnostic implementation of expm. Since the only things that are
- * backend specific are the linear system solver and P=1 norm provider, these
- * things must be passed in (generally from the backends implementation).
+ * A backend agnostic implementation of the matrix exponential.
  */
 fun expm(matrix: Matrix<Double>)
         : Matrix<Double> {

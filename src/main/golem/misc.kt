@@ -3,7 +3,7 @@
 
 package golem
 
-private var matFormat: String = "L"
+internal var matFormat: String = "L"
 
 /**
  * Sets the format for Golem to display numbers in. For example, calling

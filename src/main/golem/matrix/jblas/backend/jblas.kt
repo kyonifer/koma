@@ -14,6 +14,7 @@
  *                    4,5,6 end
  *                    7,8,9]
  */
+@file:JvmName("RawJBlas")
 
 package golem.matrix.jblas.backend
 

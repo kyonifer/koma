@@ -1,6 +1,7 @@
 /**
  * Some helper conversion functions
  */
+@file:JvmName("UtilConversions")
 
 package golem.util
 

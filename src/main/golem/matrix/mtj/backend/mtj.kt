@@ -1,3 +1,5 @@
+@file:JvmName("RawMTJ")
+
 package golem.matrix.mtj.backend
 
 import golem.pow
@@ -217,4 +219,3 @@ fun Double.end(other: Int) = Pair(this, other.toDouble())
 fun Int.end(other: Double) = Pair(this.toDouble(), other)
 fun Int.end(other: Int) = Pair(this.toDouble(), other.toDouble())
 
-internal var random = java.util.Random()

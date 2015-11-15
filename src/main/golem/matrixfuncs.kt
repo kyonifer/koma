@@ -180,7 +180,7 @@ fun diag(arr: Matrix<Double>) = arr.diag().asColVector()
 
 /**
  * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
- * cumsum(mat&#91;1,2,3&#93;) would return mat&#91;1,3,6&#93;.
+ * ```cumsum(mat[1,2,3])``` would return ```mat[1,3,6]```.
  *
  * @param arr The matrix to calculate the cumsum on. Sum will be computed in row-major order.
  *

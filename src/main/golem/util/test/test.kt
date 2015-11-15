@@ -2,6 +2,8 @@
  * Helper functions for testing matrices
  */
 
+@file:JvmName("UtilTests")
+
 package golem.util.test
 
 import golem.abs

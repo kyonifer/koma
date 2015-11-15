@@ -1,4 +1,4 @@
-import golem.*
+@file:JvmName("NoEntryPoint")
 
 /**
  * An entry point in case the library is accidentally run as an executable.

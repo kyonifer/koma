@@ -1,0 +1,6 @@
+// Documentation generation
+dokka {
+    moduleName = project.name
+    outputFormat = "javadoc"
+    includes = ["src/main/Module.md"]
+}
