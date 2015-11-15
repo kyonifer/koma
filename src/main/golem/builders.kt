@@ -13,6 +13,24 @@ package golem
 import golem.matrix.Matrix
 
 
+/**
+ * A helper object that allows for quick construction of matrix literals. For example, one can write
+ *
+ * var a = mat[1,2,3 end
+ *             4,5,6]
+ *
+ * to get a 2x3 [Matrix<Double>] with the given values. [end] is a helper object that indicates the end of a row
+ * to this object. Note that one currently cannot use this function to generate a column vector
+ *
+ * // ERROR:
+ * // mat[1 end 2 end e]
+ *
+ * Instead do this
+ *
+ * // Define a column vector by transposing a row-vector
+ * mat[1 2 3].T
+ *
+ */
 object mat {
     operator fun get(vararg ts: Any): Matrix<Double> {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions

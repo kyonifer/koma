@@ -21,12 +21,43 @@ private var currentFigure = 1
 private val MAX_FIGURES = 100
 public var figures= arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
 
+/**
+ * Sets the current figure to plot to. For example, the following plots 2 lines to the first window
+ * and 1 line to the second window:
+ *
+ * figure(1)
+ * randn(3)
+ * randn(3)
+ * figure(2)
+ * randn(3)
+ *
+ * @param The window to plot any new lines to
+ *
+ */
 fun figure(num: Int) {
     currentFigure = num
 }
 
+/**
+ * Plots y as a line series. y must be a matrix, numerical array, or range.
+ */
 fun plot(y: Any) = plot(null, y)
+/**
+ * Plots x vs y, where x is the horizontal axis and y is the vertical.
+ *
+ * @param x X-axis locations
+ * @param y Corresponding Y-axis locations
+ *
+ */
 fun plot(x: Matrix<Double>, y: Matrix<Double>) = plot(x.getDoubleData(), y.getDoubleData())
+/**
+ * Plots x vs y, where x is the horizontal axis and y is the vertical. x and y must be
+ * matrices, numerical arrays, or ranges.
+ *
+ * @param x X-axis locations
+ * @param y Corresponding Y-axis locations
+ *
+ */
 fun plot(x: Any?, y: Any) {
     var xdata: DoubleArray
     var ydata: DoubleArray
@@ -49,6 +80,13 @@ fun plot(x: Any?, y: Any) {
     }
     plot(xdata, ydata)
 }
+/**
+ * Plots x vs y, where x is the horizontal axis and y is the vertical.
+ *
+ * @param x X-axis locations
+ * @param y Corresponding Y-axis locations
+ *
+ */
 fun plot(x: DoubleArray, y: DoubleArray) {
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
@@ -113,7 +151,10 @@ private fun displayChart(c: Chart): JFrame {
 }
 
 /**
- * Plots a matrix consisting of 2D data as an image
+ * Plots a matrix consisting of 2D data as an image.
+ *
+ * @param mat the matrix to display as an image
+ * @param representation an integer representing a color space from [BufferedImage]
  */
 fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GRAY)
 {

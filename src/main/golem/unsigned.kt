@@ -3,6 +3,9 @@
 
 package golem
 
+/**
+ * An implementation of an unsigned byte. Still a WIP.
+ */
 class UInt8
 {
     constructor(init: Short)
