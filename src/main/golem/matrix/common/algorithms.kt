@@ -14,7 +14,7 @@ fun expm(matrix: Matrix<Double>)
     var solveProvider = {A:Matrix<Double>,B:Matrix<Double>->matrix.solve(A,B)}
     var A = matrix
     var A_L1 = A.normIndP1()
-    var n_squarings = 0.0
+    var n_squarings = 0
 
     // Spread returns so we can val(U,V) here (TODO: Fix this when Kotlin allows)
 
@@ -37,7 +37,7 @@ fun expm(matrix: Matrix<Double>)
     else {
 
         var maxnorm = 5.371920351148152
-        n_squarings = golem.max(0.0, ceil(logb(2, A_L1 / maxnorm))).toDouble() //
+        n_squarings = golem.max(0, ceil(logb(2, A_L1 / maxnorm)).toInt())
         A /= pow(2.0, n_squarings)
         val (U, V) = _pade13(A)
         return dispatchPade(U, V, n_squarings, solveProvider)
@@ -46,7 +46,7 @@ fun expm(matrix: Matrix<Double>)
 }
 private fun dispatchPade(U: Matrix<Double>,
                          V: Matrix<Double>,
-                         n_squarings: Double,
+                         n_squarings: Int,
                          solveProvider: (Matrix<Double>, Matrix<Double>)->Matrix<Double>): Matrix<Double>
 {
     var P = U+V

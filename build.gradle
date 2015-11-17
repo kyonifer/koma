@@ -1,5 +1,5 @@
 group = "net.antcenter"
-version = "0.1.1"
+version = "0.1.2"
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -10,7 +10,7 @@ apply from: 'buildscripts/antrepo.gradle'
 apply from: 'buildscripts/mixedlang.gradle'
 apply from: 'buildscripts/fatjar.gradle'
 apply from: 'buildscripts/publishing.gradle'
-apply from: 'buildscripts/documentation.gradle'
+//apply from: 'buildscripts/documentation.gradle'
 
 repositories {
   mavenCentral()
@@ -43,14 +43,14 @@ dependencies {
 
 // Add kotlin support to gradle
 buildscript {
-  ext.kotlin_version = '1.0.0-beta-1103'
+  ext.kotlin_version = '1.0.0-beta-2423'
   repositories {
     mavenCentral()
     mavenLocal()
     jcenter()
   }
   dependencies {
-    classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.1"
+    //classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.2"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }

@@ -66,20 +66,20 @@ fun plot(x: Any?, y: Any) {
     var xdata: DoubleArray
     var ydata: DoubleArray
 
-    when (y)
+    ydata = when (y)
     {
-        is IntArray -> ydata =  fromCollection(y.map { it.toDouble() })
-        is IntRange -> ydata =  fromCollection(y.toList().map { it.toDouble() })
-        is DoubleArray -> ydata = fromCollection(y.toList())
-        is Matrix<*> -> ydata = y.getDoubleData()
+        is IntArray -> fromCollection(y.map { it.toDouble() })
+        is IntRange -> fromCollection(y.toList().map { it.toDouble() })
+        is DoubleArray -> fromCollection(y.toList())
+        is Matrix<*> -> y.getDoubleData()
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (y was ${y.javaClass}")
     }
-    when (x) {
-        is IntArray -> xdata =  fromCollection(x.map { it.toDouble() })
-        is IntRange -> xdata =  fromCollection(x.toList().map { it.toDouble() })
-        is DoubleArray -> xdata = fromCollection(x.toList())
-        is Matrix<*> -> xdata = x.getDoubleData()
-        null -> xdata =  fromCollection((0.0..(ydata.size.toDouble()-1)).toList())
+    xdata = when (x) {
+        is IntArray -> fromCollection(x.map { it.toDouble() })
+        is IntRange -> fromCollection(x.toList().map { it.toDouble() })
+        is DoubleArray -> fromCollection(x.toList())
+        is Matrix<*> -> x.getDoubleData()
+        null -> fromCollection((0..(ydata.size.toInt()-1)).toList().map{it.toDouble()})
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
     plot(xdata, ydata)

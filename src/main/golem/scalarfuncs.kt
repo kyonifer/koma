@@ -12,7 +12,7 @@ fun abs(arr: Double) = java.lang.Math.abs(arr)
 /**
  * A convenience function performing the ceil via the [java.lang.Math] equivalent call.
  */
-fun ceil(num: Double) = Math.ceil(num)
+fun ceil(num: Double) = Math.ceil(num).toInt()
 /**
  * A convenience function performing the cos operation via the [java.lang.Math] equivalent call.
  */
@@ -52,7 +52,7 @@ fun round(arr: Double) = java.lang.Math.round(arr)
 /**
  * A convenience function performing the floor operation via the [java.lang.Math] equivalent call.
  */
-fun floor(arr: Double) = java.lang.Math.floor(arr)
+fun floor(arr: Double) = java.lang.Math.floor(arr).toInt()
 /**
  * A convenience function performing the acos operation via the [java.lang.Math] equivalent call.
  */
