@@ -94,7 +94,7 @@ val Matrix<Double>.T: Matrix<Double>
  * @return a new matrix containing the submatrix.
  */
 operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> {
-    var out = zeros(rows.end-rows.start+1, cols.end - cols.start+1)
+    var out = zeros(rows.endInclusive-rows.start+1, cols.endInclusive - cols.start+1)
     for (row in rows)
         for (col in cols)
             out[row-rows.start,col-cols.start] = this[row,col]
