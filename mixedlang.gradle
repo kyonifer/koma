@@ -7,11 +7,15 @@ sourceSets {
         kotlin {
             srcDirs = ['src/main']
         }
-        groovy {
-            srcDirs = ['src/main']
+        if (hasProperty('groovySupport')) {
+            groovy {
+                srcDirs = ['src/main']
+            }
         }
-        scala {
-            srcDirs = ['src/main']
+        if (hasProperty('scalaSupport')) {
+            scala {
+                srcDirs = ['src/main']
+            }
         }
     }
     test {
@@ -21,11 +25,15 @@ sourceSets {
         kotlin {
             srcDirs = ['src/test']
         }
-        groovy {
-            srcDirs = ['src/test']
+        if (hasProperty('groovySupport')) {
+            groovy {
+                srcDirs = ['src/test']
+            }
         }
-        scala {
-            srcDirs = ['src/test']
+        if (hasProperty('scalaSupport')) {
+            scala {
+                srcDirs = ['src/test']
+            }
         }
     }
 }
