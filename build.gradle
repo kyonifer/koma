@@ -3,14 +3,16 @@ version = "0.1.2"
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
-apply plugin: 'scala'
-apply plugin: 'groovy'
 
 apply from: 'buildscripts/antrepo.gradle'
 apply from: 'buildscripts/mixedlang.gradle'
 apply from: 'buildscripts/fatjar.gradle'
 apply from: 'buildscripts/publishing.gradle'
 //apply from: 'buildscripts/documentation.gradle'
+
+if (!hasProperty('matlabSupport')) {
+  sourceSets.main.kotlin.exclude "**/matlabsupport/**"
+}
 
 repositories {
   mavenCentral()
@@ -19,8 +21,6 @@ repositories {
 dependencies {
   // Depend on the std libs of all our languages
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'org.scala-lang:scala-library:2.11.4'
-  compile 'org.codehaus.groovy:groovy-all:2.4.4'
 
   // Different matrix backends
   compile 'org.ejml:all:0.27'
@@ -39,8 +39,6 @@ dependencies {
   testCompile 'junit:junit:4.12'
 }
 
-
-
 // Add kotlin support to gradle
 buildscript {
   ext.kotlin_version = '1.0.0-beta-2423'
@@ -55,3 +53,5 @@ buildscript {
   }
 }
 
+// Configure fatJar exclusions
+project.ext.fatExcludes=["native", "jblas"]
