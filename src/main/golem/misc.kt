@@ -23,11 +23,13 @@ internal var matFormat: String = "L"
  */
 fun format(formatStr: String)
 {
-    // TODO: add scientific notation
+    // TODO: use enum
     when (formatStr) {
         "LONG","long","Long" -> matFormat = "L"
         "SHORT","short","Short" -> matFormat = "S"
         "VLONG","VERYLONG", "VeryLong","VLong", "verylong", "vl" -> matFormat = "VL"
+        "scientific", "sci", "SciNot", "scinot" -> matFormat = "SciNot"
+        "scilong", "SciLong", "SciNotLong" -> matFormat = "SciNotLong"
+        "scivlong", "SciVLong", "SciNotVLong" -> matFormat = "SciNotVLong"
     }
-
 }

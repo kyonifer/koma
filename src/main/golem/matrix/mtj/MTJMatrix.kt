@@ -7,6 +7,7 @@ import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import java.text.DecimalFormat
 
 /**
  * An implementation of the Matrix<Double> interface using MTJ.
@@ -155,14 +156,34 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
                 "S" -> Pair(6,3)
                 "L" -> Pair(14,12)
                 "VL" -> Pair(20,20)
+                "SciNot" -> Pair(-1,-7)
+                "SciNotLong" -> Pair(-1,-14)
+                "SciNotVLong" -> Pair(-1, -30)
                 else -> Pair(14,8)
             }
 
         this.forEachIndexed { i, ele ->
             if (i != 0 && i % this.storage.numColumns() == 0)
                 pstream.append("\n")
-            pstream.format("%$numChars.${precision}f", ele)
-            pstream.append("  ")
+            // Normal formatting
+            if (numChars > 0) {
+                pstream.format("%$numChars.${precision}f", ele)
+                pstream.append("  ")
+            }
+            // Scientific notation
+            else if (precision== -7) {
+                pstream.append(DecimalFormat("0.000####E0#").format(ele))
+                pstream.append("  ")
+
+            }
+            else if (precision==-14){
+                pstream.append(DecimalFormat("0.000###########E0#").format(ele))
+                pstream.append("  ")
+            }
+            else {
+                pstream.append(DecimalFormat("0.000###########################E0#").format(ele))
+                pstream.append("  ")
+            }
         }
 
         return bstream.toString()
