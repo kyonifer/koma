@@ -5,8 +5,7 @@ import golem.matrix.Matrix
 import golem.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
+import java.io.*
 import java.text.DecimalFormat
 
 /**
@@ -17,7 +16,7 @@ import java.text.DecimalFormat
 public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun getBaseMatrix() = this.storage
 
-    override fun getDoubleData() = this.storage.data
+    override fun getDoubleData() = this.T.storage.data
 
     // TODO: Fix UnsupportedOperationException
 
@@ -234,4 +233,16 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
                 "Please call getDouble and cast manually if this is intentional.")
     }
+
+    private fun writeObject(out: ObjectOutputStream) = serializeObject(out)
+
+    private fun readObject(oin: ObjectInputStream){
+        val rows = oin.readObject() as Int
+        val cols = oin.readObject() as Int
+        this.storage = DenseMatrix(rows, cols)
+        this.forEachIndexed { i, d -> this[i] = oin.readObject() as Double }
+    }
+
+    private fun readObjectNoData() = deserializeObjectNoData()
+
 }

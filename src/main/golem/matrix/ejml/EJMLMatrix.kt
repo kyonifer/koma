@@ -6,12 +6,14 @@ import golem.VERY_LONG_NUMBER
 import golem.matFormat
 import golem.matrix.Matrix
 import golem.matrix.ejml.backend.*
-import org.ejml.data.DenseMatrix64F
 import org.ejml.ops.CommonOps
 import org.ejml.ops.MatrixIO
 import org.ejml.simple.SimpleMatrix
 import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.io.PrintStream
+
 /**
  * An implementation of the Matrix<Double> interface using EJML.
  * You should rarely use this class directly, instead use one of the
@@ -218,5 +220,16 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
                 "Please call getDouble and cast manually if this is intentional.")
     }
+
+    private fun writeObject(out: ObjectOutputStream) = serializeObject(out)
+
+    private fun readObject(oin: ObjectInputStream){
+        val rows = oin.readObject() as Int
+        val cols = oin.readObject() as Int
+        this.storage = SimpleMatrix(rows, cols)
+        this.forEachIndexed { i, d -> this[i] = oin.readObject() as Double }
+    }
+
+    private fun readObjectNoData() = deserializeObjectNoData()
 
 }
