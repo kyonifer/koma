@@ -10,10 +10,6 @@ apply from: 'buildscripts/fatjar.gradle'
 apply from: 'buildscripts/publishing.gradle'
 apply from: 'buildscripts/documentation.gradle'
 
-if (!hasProperty('matlabSupport')) {
-  sourceSets.main.kotlin.exclude "**/matlabsupport/**"
-}
-
 repositories {
   mavenCentral()
 }
