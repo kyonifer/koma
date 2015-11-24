@@ -49,6 +49,14 @@ fun eye(size: Int): Matrix<Double> = factory.eye(size)
  */
 fun eye(rows: Int, cols: Int): Matrix<Double> = factory.eye(rows, cols)
 /**
+ * Creates a new matrix that fills all the values with the return values of func(row,val)
+ */
+fun fill(rows: Int, cols:Int, func:(Int,Int)->Double) = zeros(rows,cols).fill(func)
+/**
+ * Creates a new matrix that fills all the values with [value]
+ */
+fun fill(rows: Int, cols:Int, value:Double) = zeros(rows,cols).fill({r,c->value})
+/**
  * Creates an 1x[cols] matrix filled with unit normal random numbers
  */
 fun rand(cols: Int): Matrix<Double> = factory.rand(1, cols)

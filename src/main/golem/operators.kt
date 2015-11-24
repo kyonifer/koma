@@ -116,6 +116,31 @@ operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Do
 }
 
 /**
+ * Allow assignment to a slice, e.g. ```matrix[2, 3..4]```=something. Note that the range 3..4 is inclusive, so
+ * it will retrieve col 3 and 4. Use 1.until(2) for a non-inclusive range.
+ *
+ * @param rows the row to select
+ * @param cols the set of columns to select
+ * @param value the matrix to set the subslice to
+ *
+ */
+operator fun Matrix<Double>.set(rows: Int, cols: IntRange, value: Matrix<Double>) {
+    this[rows..rows, cols]=value
+}
+
+/**
+ * Allow assignment to a slice, e.g. ```matrix[1..2, 3]```=something. Note that the range 1..2 is inclusive, so
+ * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+ *
+ * @param rows the set of rows to select
+ * @param cols the column to select
+ * @param value the matrix to set the subslice to
+ *
+ */
+operator fun Matrix<Double>.set(rows: IntRange, cols: Int, value: Matrix<Double>) {
+    this[rows, cols..cols]=value
+}
+/**
  * Allows for slicing of the rows and selection of a single column
  */
 operator fun Matrix<Double>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
