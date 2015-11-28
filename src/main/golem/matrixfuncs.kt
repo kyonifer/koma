@@ -278,7 +278,7 @@ fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1)*vec2
 /**
  * Calculates the cross product of two vectors
  */
-fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = vec1.asRowVector()*vec2.asColVector()
+fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = (vec1.asRowVector()*vec2.asColVector())[0]
 
 // TODO:
 //fun fft(arr: Matrix)
