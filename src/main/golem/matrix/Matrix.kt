@@ -96,6 +96,16 @@ interface Matrix<T>: Iterable<T>
     fun T():Matrix<T> // In MATLAB, this appears at foo.T
 
     /**
+     * Returns the underlying matrix object from the back-end this Matrix is wrapping. This should be used
+     * sparingly (as it breaks encapsulation), but it can increase performance by using computation specifically
+     * designed for a particular back-end. Code using this method should not rely on a particular back-end, and
+     * should always fallback to slow generic code if an unrecognized matrix is returned here (e.g. use [get] and [set])
+     * to access the elements generically).
+     */
+    fun getBaseMatrix():Any
+
+
+    /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
      */
     fun getFactory(): MatrixFactory<Matrix<T>>

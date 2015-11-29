@@ -3,6 +3,7 @@ package golem.matrix.ejml
 import golem.matFormat
 import golem.matrix.Matrix
 import golem.matrix.ejml.backend.*
+import org.ejml.data.DenseMatrix64F
 import org.ejml.ops.CommonOps
 import org.ejml.ops.MatrixIO
 import org.ejml.simple.SimpleMatrix
@@ -15,6 +16,8 @@ import java.io.PrintStream
  */
 class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 {
+    override fun getBaseMatrix() = this.storage
+
     override fun getDoubleData() = this.storage.matrix.getData()
     override fun diag() = EJMLMatrix(storage.extractDiag())
     override fun max() = CommonOps.elementMax(this.storage.matrix)
@@ -159,7 +162,15 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
     {
         when (mat) {
             is EJMLMatrix -> return mat
-            else -> throw Exception("Operations between matrices with different backends not yet supported.")
+            else -> {
+                val base = mat.getBaseMatrix()
+                if (base is SimpleMatrix)
+                    return EJMLMatrix(base)
+                else
+                    // No friendly backend, need to convert manually
+                    throw Exception("Operations between matrices with different backends not yet supported.")
+
+            }
         }
 
     }

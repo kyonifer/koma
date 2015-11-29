@@ -15,6 +15,7 @@ import java.text.DecimalFormat
  * top-level functions in creators.kt (e.g. zeros(5,5)).
  */
 public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
+    override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.storage.data
 
@@ -199,7 +200,15 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     {
         when (mat) {
             is MTJMatrix -> return mat
-            else -> throw Exception("Operations between matrices with different backends not yet supported.")
+            else -> {
+                val base = mat.getBaseMatrix()
+                if (base is DenseMatrix)
+                    return MTJMatrix(base)
+                else
+                    // No friendly backend, need to convert manually
+                    throw Exception("Operations between matrices with different backends not yet supported.")
+
+            }
         }
     }
 
