@@ -7,12 +7,14 @@ import golem.matrix.Matrix
 import org.knowm.xchart.*
 import javax.swing.JFrame
 import golem.util.*;
+import java.awt.Color
 import java.awt.Graphics
 import java.awt.event.WindowEvent
 import java.awt.event.WindowListener
 import java.awt.image.BufferedImage
 import javax.swing.JLabel
 import javax.swing.WindowConstants
+
 
 // While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
 // This tracks the current figure we're plotting our lines to when someone calls plot(). Its updated
@@ -46,14 +48,7 @@ fun figure(num: Int) {
  * Plots y as a line series. y must be a matrix, numerical array, or range.
  */
 fun plot(y: Any) = plot(null, y)
-/**
- * Plots x vs y, where x is the horizontal axis and y is the vertical.
- *
- * @param x X-axis locations
- * @param y Corresponding Y-axis locations
- *
- */
-fun plot(x: Matrix<Double>, y: Matrix<Double>) = plot(x.getDoubleData(), y.getDoubleData())
+
 /**
  * Plots x vs y, where x is the horizontal axis and y is the vertical. x and y must be
  * matrices, numerical arrays, or ranges.
@@ -62,7 +57,16 @@ fun plot(x: Matrix<Double>, y: Matrix<Double>) = plot(x.getDoubleData(), y.getDo
  * @param y Corresponding Y-axis locations
  *
  */
-fun plot(x: Any?, y: Any) {
+@JvmOverloads
+fun plot(x: Any?, y: Any, color: String="k") {
+
+    // Someone might have tried to called us as plot(data,"color")
+    if ((y is String || y is Char) && x != null)
+        return plot(null, x, y.toString())
+
+    // Workaround for Kotlin REPL starting in headless mode
+    System.setProperty("java.awt.headless", "false")
+
     var xdata: DoubleArray
     var ydata: DoubleArray
 
@@ -82,7 +86,7 @@ fun plot(x: Any?, y: Any) {
         null -> fromCollection((0..(ydata.size.toInt()-1)).toList().map{it.toDouble()})
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
-    plot(xdata, ydata)
+    plotArrays(xdata, ydata, color)
 }
 /**
  * Plots x vs y, where x is the horizontal axis and y is the vertical.
@@ -91,25 +95,29 @@ fun plot(x: Any?, y: Any) {
  * @param y Corresponding Y-axis locations
  *
  */
-fun plot(x: DoubleArray, y: DoubleArray) {
-    // Workaround for Kotlin REPL starting in headless mode
-    System.setProperty("java.awt.headless", "false")
+@JvmOverloads
+fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k") {
 
     // If we've never shown this plot before OR someone closed the window, make a new frame and chart
     if (figures[currentFigure] == null) {
         val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Line #1", x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
+        var series = chart.seriesMap.values.first()
+        series.setLineColor(plotColors[color])
+
     }
     // Adding a line to an existing chart
     else {
         var (chart, frame, numLines) = figures[currentFigure]!!
         figures[currentFigure] = Triple(chart, frame, numLines+1)
         val series = chart.addSeries("Line #${(numLines+1).toString()}", x, y)
+        series.setLineColor(plotColors[color])
         series.setMarker(SeriesMarker.NONE)
+        java.awt.Color.BLACK
 
         frame.repaint()
-}
+    }
 }
 
 private fun displayChart(c: Chart): JFrame {
@@ -187,3 +195,21 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
 
 }
 
+fun main(args: Array<String>) {
+    plot(randn(50), "p")
+    plot(randn(50), 'o')
+
+}
+
+val plotColors = mapOf(Pair("k", Color.BLACK),
+                       Pair("b", Color.BLUE),
+                       Pair("g", Color.GREEN),
+                       Pair("gr", Color.GRAY),
+                       Pair("lgr", Color.LIGHT_GRAY),
+                       Pair("y", Color.YELLOW),
+                       Pair("o", Color.ORANGE),
+                       Pair("c", Color.ORANGE),
+                       Pair("m", Color.MAGENTA),
+                       Pair("r", Color.RED),
+                       Pair("dg", Color.DARK_GRAY),
+                       Pair("p", Color.PINK))
