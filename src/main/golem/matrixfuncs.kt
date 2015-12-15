@@ -280,7 +280,34 @@ fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1)*vec2
  */
 fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = (vec1.asRowVector()*vec2.asColVector())[0]
 
+fun hstack(vararg arrs: Matrix<Double>): Matrix<Double> {
+    val outRows = arrs[0].numRows()
+    var outCols = 0
+    arrs.forEach { if (it.numRows() != outRows) throw IllegalArgumentException("All matrices passed to hstack must have the same number of rows.") }
+    arrs.forEach { outCols += it.numCols() }
+
+    var out = zeros(outRows, outCols)
+    var cursor = 0
+    arrs.forEach {
+        out[0..outRows-1, cursor..(cursor+it.numCols()-1)] = it
+        cursor += it.numCols()
+    }
+    return out
+}
+fun vstack(vararg arrs: Matrix<Double>): Matrix<Double> {
+    val outCols = arrs[0].numCols()
+    var outRows = 0
+    arrs.forEach { if (it.numCols() != outCols) throw IllegalArgumentException("All matrices passed to vstack must have the same number of cols.") }
+    arrs.forEach { outRows += it.numRows() }
+
+    var out = zeros(outRows, outCols)
+    var cursor = 0
+    arrs.forEach {
+        out[cursor..(cursor+it.numRows()-1), 0..outCols-1] = it
+        cursor += it.numRows()
+    }
+    return out
+}
+
 // TODO:
 //fun fft(arr: Matrix)
-//fun hstack(vararg arrs: Matrix) = .hstack(*arrs)
-//fun vstack(vararg arrs: Matrix) = .vstack(*arrs)

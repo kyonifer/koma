@@ -215,4 +215,17 @@ class MatrixFuncsTests {
             assertMatrixEquals(expected3, logb(10,a))
         }
     }
+    @Test
+    fun testVHstack() {
+        var a = mat[1,2 end
+                3,4]
+        var b = mat[-1,-2 end
+                -3,-4]
+        var out = vstack(hstack(a,b), hstack(-2*a,0*b))
+        var expected = mat[1,2,-1,-2 end
+                           3,4,-3,-4 end
+                           -2,-4,0,0 end
+                           -6,-8,0,0]
+        assertMatrixEquals(expected, out)
+    }
 }

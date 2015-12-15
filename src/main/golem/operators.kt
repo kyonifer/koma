@@ -110,8 +110,8 @@ operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> 
  *
  */
 operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Double>) {
-    for(i in rows-1)
-        for (j in cols-1)
+    for(i in rows)
+        for (j in cols)
             this[i,j] = value[i-rows.start,j-cols.start]
 }
 
