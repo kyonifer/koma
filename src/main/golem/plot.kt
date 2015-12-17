@@ -60,12 +60,13 @@ fun plot(y: Any) = plot(null, y)
 @JvmOverloads
 fun plot(x: Any?, y: Any, color: String="k") {
 
+    // Workaround for Kotlin REPL starting in headless mode
+    System.setProperty("java.awt.headless", "false")
+
     // Someone might have tried to called us as plot(data,"color")
     if ((y is String || y is Char) && x != null)
         return plot(null, x, y.toString())
 
-    // Workaround for Kotlin REPL starting in headless mode
-    System.setProperty("java.awt.headless", "false")
 
     var xdata: DoubleArray
     var ydata: DoubleArray
