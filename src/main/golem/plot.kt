@@ -8,6 +8,7 @@ import org.knowm.xchart.*
 import javax.swing.JFrame
 import golem.util.*;
 import java.awt.Color
+import java.awt.Font
 import java.awt.Graphics
 import java.awt.event.WindowEvent
 import java.awt.event.WindowListener
@@ -44,6 +45,22 @@ fun figure(num: Int) {
     currentFigure = num
 }
 
+fun title(label: String) {
+    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call title before making a figure")
+    fig.setChartTitle(label)
+}
+
+fun xlabel(label: String) {
+    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call xlabel before making a figure")
+    fig.setXAxisTitle(label)
+}
+
+fun ylabel(label: String) {
+    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call ylabel before making a figure")
+    fig.setYAxisTitle(label)
+}
+
+
 /**
  * Plots y as a line series. y must be a matrix, numerical array, or range.
  */
@@ -58,14 +75,14 @@ fun plot(y: Any) = plot(null, y)
  *
  */
 @JvmOverloads
-fun plot(x: Any?, y: Any, color: String="k") {
+fun plot(x: Any?, y: Any, color: String="k", lineLabel:String? = null) {
 
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
 
-    // Someone might have tried to called us as plot(data,"color")
+    // Someone might have tried to called us as plot(data,"color") or plot(data, "color", "name")
     if ((y is String || y is Char) && x != null)
-        return plot(null, x, y.toString())
+        return plot(null, x, y.toString(), color.toString())
 
 
     var xdata: DoubleArray
@@ -87,7 +104,7 @@ fun plot(x: Any?, y: Any, color: String="k") {
         null -> fromCollection((0..(ydata.size.toInt()-1)).toList().map{it.toDouble()})
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
-    plotArrays(xdata, ydata, color)
+    plotArrays(xdata, ydata, color, lineLabel)
 }
 /**
  * Plots x vs y, where x is the horizontal axis and y is the vertical.
@@ -97,11 +114,12 @@ fun plot(x: Any?, y: Any, color: String="k") {
  *
  */
 @JvmOverloads
-fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k") {
+fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel:String? = null) {
 
     // If we've never shown this plot before OR someone closed the window, make a new frame and chart
     if (figures[currentFigure] == null) {
-        val chart = QuickChart.getChart("Plot #${currentFigure.toString()}", "X", "Y", "Line #1", x, y)
+        var lineName = lineLabel ?: "Plot #${currentFigure.toString()}"
+        val chart = QuickChart.getChart(lineName, "X", "Y", lineName, x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
         var series = chart.seriesMap.values.first()
@@ -112,10 +130,10 @@ fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k") {
     else {
         var (chart, frame, numLines) = figures[currentFigure]!!
         figures[currentFigure] = Triple(chart, frame, numLines+1)
-        val series = chart.addSeries("Line #${(numLines+1).toString()}", x, y)
+        val lineName = lineLabel ?: "Line #${(numLines+1).toString()}"
+        val series = chart.addSeries(lineName, x, y)
         series.setLineColor(plotColors[color])
         series.setMarker(SeriesMarker.NONE)
-        java.awt.Color.BLACK
 
         frame.repaint()
     }
@@ -144,21 +162,17 @@ private fun displayChart(c: Chart): JFrame {
 
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
-    javax.swing.SwingUtilities.invokeLater(object : Runnable {
+    javax.swing.SwingUtilities.invokeLater {
+        val chartPanel = XChartPanel(c)
+        frame.add(chartPanel)
 
-        override fun run() {
+        // Causes program to exit if all windows are closed and other threads have exited.
+        frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
 
-            val chartPanel = XChartPanel(c)
-            frame.add(chartPanel)
-
-            // Causes program to exit if all windows are closed and other threads have exited.
-            frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
-
-            // Display the window.
-            frame.pack()
-            frame.isVisible = true
-        }
-    })
+        // Display the window.
+        frame.pack()
+        frame.isVisible = true
+    }
 
     return frame
 }
