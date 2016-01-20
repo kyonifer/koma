@@ -5,6 +5,13 @@ package golem
 
 internal var matFormat: String = "L"
 
+val LONG_NUMBER = "L"
+val VERY_LONG_NUMBER = "VL"
+val SHORT_NUMBER = "S"
+val SCIENTIFIC_NUMBER = "SciNot"
+val SCIENTIFIC_LONG_NUMBER = "SciNotLong"
+val SCIENTIFIC_VERY_LONG_NUMBER = "SciNotVLong"
+
 /**
  * Sets the format for Golem to display numbers in. For example, calling
  *
@@ -25,11 +32,11 @@ fun format(formatStr: String)
 {
     // TODO: use enum
     when (formatStr) {
-        "LONG","long","Long" -> matFormat = "L"
-        "SHORT","short","Short" -> matFormat = "S"
-        "VLONG","VERYLONG", "VeryLong","VLong", "verylong", "vl" -> matFormat = "VL"
-        "scientific", "sci", "SciNot", "scinot" -> matFormat = "SciNot"
-        "scilong", "SciLong", "SciNotLong" -> matFormat = "SciNotLong"
-        "scivlong", "SciVLong", "SciNotVLong" -> matFormat = "SciNotVLong"
+        "LONG","long","Long" -> matFormat = LONG_NUMBER
+        "SHORT","short","Short" -> matFormat = SHORT_NUMBER
+        "VLONG","VERYLONG", "VeryLong","VLong", "verylong", "vl" -> matFormat = VERY_LONG_NUMBER
+        "scientific", "sci", "SciNot", "scinot" -> matFormat = SCIENTIFIC_NUMBER
+        "scilong", "SciLong", "SciNotLong" -> matFormat = SCIENTIFIC_LONG_NUMBER
+        "scivlong", "SciVLong", "SciNotVLong" -> matFormat = SCIENTIFIC_VERY_LONG_NUMBER
     }
 }

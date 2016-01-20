@@ -1,5 +1,8 @@
 package golem.matrix.ejml
 
+import golem.LONG_NUMBER
+import golem.SHORT_NUMBER
+import golem.VERY_LONG_NUMBER
 import golem.matFormat
 import golem.matrix.Matrix
 import golem.matrix.ejml.backend.*
@@ -139,13 +142,13 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>
 
         // Numbers are numChars, precision
         when (matFormat) {
-            "S" -> {
+            SHORT_NUMBER -> {
                 MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
             }
-            "L" -> {
+            LONG_NUMBER -> {
                 MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 12)
             }
-            "VL" -> {
+            VERY_LONG_NUMBER -> {
                 MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)
             }
         }

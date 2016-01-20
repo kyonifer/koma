@@ -1,6 +1,6 @@
 package golem.matrix.mtj
 
-import golem.matFormat
+import golem.*
 import golem.matrix.Matrix
 import golem.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
@@ -154,12 +154,12 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         // Numbers are numChars, precision
         var (numChars, precision) =
             when (matFormat) {
-                "S" -> Pair(6,3)
-                "L" -> Pair(14,12)
-                "VL" -> Pair(20,20)
-                "SciNot" -> Pair(-1,-7)
-                "SciNotLong" -> Pair(-1,-14)
-                "SciNotVLong" -> Pair(-1, -30)
+                SHORT_NUMBER -> Pair(6,3)
+                LONG_NUMBER -> Pair(14,12)
+                VERY_LONG_NUMBER -> Pair(20,20)
+                SCIENTIFIC_NUMBER -> Pair(-1,-7)
+                SCIENTIFIC_LONG_NUMBER -> Pair(-1,-14)
+                SCIENTIFIC_VERY_LONG_NUMBER -> Pair(-1, -30)
                 else -> Pair(14,8)
             }
 
