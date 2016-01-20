@@ -152,39 +152,21 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         val pstream = PrintStream(bstream)
 
         // Numbers are numChars, precision
-        var (numChars, precision) =
-            when (matFormat) {
-                SHORT_NUMBER -> Pair(6,3)
-                LONG_NUMBER -> Pair(14,12)
-                VERY_LONG_NUMBER -> Pair(20,20)
-                SCIENTIFIC_NUMBER -> Pair(-1,-7)
-                SCIENTIFIC_LONG_NUMBER -> Pair(-1,-14)
-                SCIENTIFIC_VERY_LONG_NUMBER -> Pair(-1, -30)
-                else -> Pair(14,8)
-            }
-
+        var formatter = DecimalFormat(when(matFormat) {
+                SHORT_NUMBER -> "000000.000"
+                LONG_NUMBER -> "00000000000000.000000000000"
+                VERY_LONG_NUMBER -> "00000000000000000000.00000000000000000000"
+                SCIENTIFIC_NUMBER -> "0.000####E0#"
+                SCIENTIFIC_LONG_NUMBER -> "0.000###########E0#"
+                SCIENTIFIC_VERY_LONG_NUMBER -> "0.000###########################E0#" 
+                else -> "00000000000000.00000000"
+        })
+        
         this.forEachIndexed { i, ele ->
             if (i != 0 && i % this.storage.numColumns() == 0)
                 pstream.append("\n")
-            // Normal formatting
-            if (numChars > 0) {
-                pstream.format("%$numChars.${precision}f", ele)
-                pstream.append("  ")
-            }
-            // Scientific notation
-            else if (precision== -7) {
-                pstream.append(DecimalFormat("0.000####E0#").format(ele))
-                pstream.append("  ")
-
-            }
-            else if (precision==-14){
-                pstream.append(DecimalFormat("0.000###########E0#").format(ele))
-                pstream.append("  ")
-            }
-            else {
-                pstream.append(DecimalFormat("0.000###########################E0#").format(ele))
-                pstream.append("  ")
-            }
+            pstream.append(formatter.format(ele))
+            pstream.append("  ")
         }
 
         return bstream.toString()
