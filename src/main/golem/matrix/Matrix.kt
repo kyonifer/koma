@@ -1,5 +1,7 @@
 package golem.matrix
 
+import java.io.*
+
 /**
  * A general facade for a Matrix type. Allows for various backend to be
  * implemented to actually perform the computation. A golem backend must both
@@ -7,7 +9,7 @@ package golem.matrix
  */
 
 // Recursive generic allows us to specialize for a particular internal implementation
-interface Matrix<T>: Iterable<T>
+interface Matrix<T>: Iterable<T> , Serializable
 {
     // Algebraic Operators
     operator fun mod(other: Matrix<T>) : Matrix<T>
@@ -115,5 +117,14 @@ interface Matrix<T>: Iterable<T>
     val T: Matrix<T>
         get() = this.transpose()
 
+    fun serializeObject(out: ObjectOutputStream): Unit{
+        out.writeObject(this.numRows())
+        out.writeObject(this.numCols())
+        this.forEach { out.writeObject(it) }
+    }
+
+    fun deserializeObjectNoData() {
+        throw StreamCorruptedException("No Data for Matrix In Stream")
+    }
 
 }
