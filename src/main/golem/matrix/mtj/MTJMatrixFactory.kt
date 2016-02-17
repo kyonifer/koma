@@ -8,7 +8,7 @@ import no.uib.cipr.matrix.DenseMatrix
 import java.util.*
 
 
-public class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
+class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
     override fun zeros(rows: Int, cols: Int) = MTJMatrix(DenseMatrix(rows, cols))
 
     override fun zeros(size: Int) = zeros(size, size)

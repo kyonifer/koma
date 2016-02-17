@@ -13,7 +13,7 @@ import java.text.DecimalFormat
  * You should rarely use this class directly, instead use one of the
  * top-level functions in creators.kt (e.g. zeros(5,5)).
  */
-public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
+class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.T.storage.data
@@ -55,7 +55,7 @@ public class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun times(other: Double) = MTJMatrix(this.storage.times(other))
     override fun elementTimes(other: Matrix<Double>) = MTJMatrix(this.storage.mod(castOrBail(other).storage))
     override fun mod(other: Matrix<Double>) = elementTimes(other)
-    override fun unaryMinus() = MTJMatrix(this.storage.minus())
+    override fun unaryMinus() = MTJMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = MTJMatrix(this.storage.minusElement(other))
     override fun minus(other: Matrix<Double>) = MTJMatrix(this.storage.minus(castOrBail(other).storage))
     override fun div(other: Int) = MTJMatrix(this.storage.div(other))

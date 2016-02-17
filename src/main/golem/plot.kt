@@ -26,7 +26,7 @@ private val MAX_FIGURES = 100
  * The set of raw objects for all figures currently created. This should not ordinarily be used by the end-user,
  * but may be helpful for advanced plotting. Be careful with threading issues if you modify these.
  */
-public var figures= arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
+var figures= arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
 
 /**
  * Sets the current figure to plot to. For example, the following plots 2 lines to the first window

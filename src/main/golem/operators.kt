@@ -28,7 +28,7 @@ operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
 /**
  * Allow operator overloading with non-Double scalars
  */
-operator fun Matrix<Double>.minus() = this.times(-1.0)
+operator fun Matrix<Double>.unaryMinus() = this.times(-1.0)
 /**
  * Allow operator overloading via % of element-wise multiplication.
  */

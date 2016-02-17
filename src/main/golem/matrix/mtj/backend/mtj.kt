@@ -35,7 +35,7 @@ operator fun DenseMatrix.mod(other: DenseMatrix): DenseMatrix {
             out[i,j] = this[i,j]*other[i,j]
     return out
 }
-operator fun DenseMatrix.minus() = this.times(-1.0)
+operator fun DenseMatrix.unaryMinus() = this.times(-1.0)
 // Can't override built-in minus
 fun DenseMatrix.minusElement(other: Double) = this.plusElement(other*-1)
 fun DenseMatrix.minusElement(other: Int) = this.plusElement(other*-1)

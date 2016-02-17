@@ -29,7 +29,7 @@ operator fun SimpleMatrix.times(other: SimpleMatrix) = this.mult(other)
 operator fun SimpleMatrix.times(other: Int) = this.scale(other.toDouble())
 operator fun SimpleMatrix.times(other: Double) = this.scale(other)
 operator fun SimpleMatrix.mod(other: SimpleMatrix) = this.elementMult(other)
-operator fun SimpleMatrix.minus() = this.scale(-1.0)
+operator fun SimpleMatrix.unaryMinus() = this.scale(-1.0)
 operator fun SimpleMatrix.div(other: Int) = this.divide(other.toDouble())
 operator fun SimpleMatrix.div(other: Double) = this.divide(other)
 val SimpleMatrix.T: SimpleMatrix
