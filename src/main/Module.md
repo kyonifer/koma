@@ -1,6 +1,8 @@
 # Module golem
 # Package golem
 A set of toplevel functions which provide a scientific environment similar to NumPy or MATLAB.
+# Package golem.containers
+A set of useful containers.
 # Package golem.matrix
 Interfaces for the abstract Matrix and MatrixFactory types which are implemented by various computation backends.
 # Package golem.matrix.common
