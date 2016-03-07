@@ -1,11 +1,9 @@
 package golem.matrix.jblas
 
-import golem.matrix.Matrix
-import golem.matrix.MatrixFactory
+import golem.matrix.*
 import org.jblas.DoubleMatrix
 
-class JBlasMatrix(var storage: DoubleMatrix): Matrix<Double>
-{
+class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
     override fun getBaseMatrix(): Any {
         throw UnsupportedOperationException()
     }

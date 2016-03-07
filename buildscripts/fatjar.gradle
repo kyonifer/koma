@@ -2,10 +2,13 @@
 task fatJar(type: Jar) {
     baseName = project.name + '-all'
     from {
-        if (!project.hasProperty("fatExcludes")) {project.ext.fatExcludes=[]}
+        if (!project.hasProperty("fatExcludes")) {
+            project.ext.fatExcludes = []
+        }
         configurations.compile
-            .filter{!(project.fatExcludes.any{excl->it.path.contains(excl)})}
-            .collect {println(it); it.isDirectory() ? it : zipTree(it) } }
+                .filter { !(project.fatExcludes.any { excl -> it.path.contains(excl) }) }
+                .collect { println(it); it.isDirectory() ? it : zipTree(it) }
+    }
     with jar
 }
 

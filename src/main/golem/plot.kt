@@ -3,16 +3,18 @@
 
 package golem
 
-import golem.matrix.Matrix
-import org.knowm.xchart.*
-import javax.swing.JFrame
-import golem.util.*;
+import golem.matrix.*
+import golem.util.*
+import org.knowm.xchart.Chart
+import org.knowm.xchart.QuickChart
+import org.knowm.xchart.SeriesMarker
+import org.knowm.xchart.XChartPanel
 import java.awt.Color
-import java.awt.Font
 import java.awt.Graphics
 import java.awt.event.WindowEvent
 import java.awt.event.WindowListener
 import java.awt.image.BufferedImage
+import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.WindowConstants
 
@@ -26,7 +28,7 @@ private val MAX_FIGURES = 100
  * The set of raw objects for all figures currently created. This should not ordinarily be used by the end-user,
  * but may be helpful for advanced plotting. Be careful with threading issues if you modify these.
  */
-var figures= arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
+var figures = arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
 
 /**
  * Sets the current figure to plot to. For example, the following plots 2 lines to the first window
@@ -75,7 +77,7 @@ fun plot(y: Any) = plot(null, y)
  *
  */
 @JvmOverloads
-fun plot(x: Any?, y: Any, color: String="k", lineLabel:String? = null) {
+fun plot(x: Any?, y: Any, color: String = "k", lineLabel: String? = null) {
 
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
@@ -88,8 +90,7 @@ fun plot(x: Any?, y: Any, color: String="k", lineLabel:String? = null) {
     var xdata: DoubleArray
     var ydata: DoubleArray
 
-    ydata = when (y)
-    {
+    ydata = when (y) {
         is IntArray -> fromCollection(y.map { it.toDouble() })
         is IntRange -> fromCollection(y.toList().map { it.toDouble() })
         is DoubleArray -> fromCollection(y.toList())
@@ -101,11 +102,12 @@ fun plot(x: Any?, y: Any, color: String="k", lineLabel:String? = null) {
         is IntRange -> fromCollection(x.toList().map { it.toDouble() })
         is DoubleArray -> fromCollection(x.toList())
         is Matrix<*> -> x.getDoubleData()
-        null -> fromCollection((0..(ydata.size.toInt()-1)).toList().map{it.toDouble()})
+        null -> fromCollection((0..(ydata.size.toInt() - 1)).toList().map { it.toDouble() })
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
     plotArrays(xdata, ydata, color, lineLabel)
 }
+
 /**
  * Plots x vs y, where x is the horizontal axis and y is the vertical.
  *
@@ -114,7 +116,7 @@ fun plot(x: Any?, y: Any, color: String="k", lineLabel:String? = null) {
  *
  */
 @JvmOverloads
-fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel:String? = null) {
+fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel: String? = null) {
 
     // If we've never shown this plot before OR someone closed the window, make a new frame and chart
     if (figures[currentFigure] == null) {
@@ -129,8 +131,8 @@ fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel:St
     // Adding a line to an existing chart
     else {
         var (chart, frame, numLines) = figures[currentFigure]!!
-        figures[currentFigure] = Triple(chart, frame, numLines+1)
-        val lineName = lineLabel ?: "Line #${(numLines+1).toString()}"
+        figures[currentFigure] = Triple(chart, frame, numLines + 1)
+        val lineName = lineLabel ?: "Line #${(numLines + 1).toString()}"
         val series = chart.addSeries(lineName, x, y)
         series.setLineColor(plotColors[color])
         series.setMarker(SeriesMarker.NONE)
@@ -146,12 +148,24 @@ private fun displayChart(c: Chart): JFrame {
 
     // Clear the plot # if we close its window (mimic matplotlib behavior)
     frame.addWindowListener(object : WindowListener {
-        override fun windowDeiconified(e: WindowEvent?) {}
-        override fun windowActivated(e: WindowEvent?) {}
-        override fun windowDeactivated(e: WindowEvent?) {}
-        override fun windowIconified(e: WindowEvent?) {}
-        override fun windowClosing(e: WindowEvent?) {}
-        override fun windowOpened(e: WindowEvent?) {}
+        override fun windowDeiconified(e: WindowEvent?) {
+        }
+
+        override fun windowActivated(e: WindowEvent?) {
+        }
+
+        override fun windowDeactivated(e: WindowEvent?) {
+        }
+
+        override fun windowIconified(e: WindowEvent?) {
+        }
+
+        override fun windowClosing(e: WindowEvent?) {
+        }
+
+        override fun windowOpened(e: WindowEvent?) {
+        }
+
         override fun windowClosed(e: WindowEvent?) {
             figures.forEachIndexed { i, triple ->
                 if (triple != null && triple.second == frame)
@@ -183,8 +197,7 @@ private fun displayChart(c: Chart): JFrame {
  * @param mat the matrix to display as an image
  * @param representation an integer representing a color space from [BufferedImage]
  */
-fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GRAY)
-{
+fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GRAY) {
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
 
@@ -192,20 +205,20 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
                               mat.numRows(),
                               representation)
 
-    for (r in 0..mat.numRows()-1)
-        for (c in 0..mat.numCols()-1)
-            image.setRGB(c,r,(mat[r,c]).toInt())
+    for (r in 0..mat.numRows() - 1)
+        for (c in 0..mat.numCols() - 1)
+            image.setRGB(c, r, (mat[r, c]).toInt())
 
     var frame = JFrame()
     frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
-    var panel = object:JLabel() {
+    var panel = object : JLabel() {
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
             g.drawImage(image, 0, 0, null)
         }
     }
     frame.add(panel)
-    frame.setSize(mat.numCols(),mat.numRows())
+    frame.setSize(mat.numCols(), mat.numRows())
     frame.isVisible = true
 
 }

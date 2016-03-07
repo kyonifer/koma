@@ -19,11 +19,14 @@
 package golem.matrix.jblas.backend
 
 import org.jblas.*
+
 // Algebraic Operators
 operator fun DoubleMatrix.plus(other: DoubleMatrix) = this.add(other)
+
 operator fun DoubleMatrix.minus(other: DoubleMatrix) = this.sub(other)
 operator fun DoubleMatrix.times(other: DoubleMatrix) = this.mmul(other)
 operator fun DoubleMatrix.mod(other: DoubleMatrix) = this.mul(other)
+
 val DoubleMatrix.T: DoubleMatrix
     get() = this.transpose()
 
@@ -44,6 +47,7 @@ fun DoubleMatrix.repr(): String {
 
 // Decompositions (already has schur)
 fun DoubleMatrix.eigVals() = Eigen.eigenvalues(this)
+
 fun DoubleMatrix.eigVectors() = Eigen.eigenvectors(this)
 fun DoubleMatrix.chol() = Decompose.cholesky(this)
 fun DoubleMatrix.LU() = Decompose.lu(this)

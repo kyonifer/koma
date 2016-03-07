@@ -1,11 +1,14 @@
 package golem.matrix.mtj
 
 import golem.*
-import golem.matrix.Matrix
+import golem.matrix.*
 import golem.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.PrintStream
 import java.text.DecimalFormat
 
 /**
@@ -23,31 +26,34 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     override fun diag(): MTJMatrix {
         return MTJMatrix(this.storage.diag())
     }
-    override fun max() = storage.maxBy{ it.get() }!!.get()
-    override fun mean() = elementSum() / (numCols()*numRows())
+
+    override fun max() = storage.maxBy { it.get() }!!.get()
+    override fun mean() = elementSum() / (numCols() * numRows())
     override fun min() = storage.minBy { it.get() }!!.get()
     override fun argMax(): Int {
         var max = 0
-        for (i in 0..this.numCols()*this.numRows()-1)
-            if(this[i]>this[max])
-                max=i
+        for (i in 0..this.numCols() * this.numRows() - 1)
+            if (this[i] > this[max])
+                max = i
         return max
     }
+
     override fun argMin(): Int {
         var max = 0
-        for (i in 0..this.numCols()*this.numRows()-1)
-            if(this[i]<this[max])
-                max=i
+        for (i in 0..this.numCols() * this.numRows() - 1)
+            if (this[i] < this[max])
+                max = i
         return max
     }
+
     override fun norm() = normF()
     override fun normF() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.Frobenius)
     override fun normIndP1() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage[i]
-    override fun setDouble(i: Int, v: Double) = this.storage.set(i,v)
-    override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
+    override fun setDouble(i: Int, v: Double) = this.storage.set(i, v)
+    override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numColumns()
@@ -64,45 +70,47 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         var out = DenseMatrix(this.numCols(), numRows())
         return MTJMatrix(DenseMatrix(this.storage.transpose(out)))
     }
+
     override fun copy() = MTJMatrix(this.storage.copy())
     override fun set(i: Int, v: Double): Unit = this.storage.set(i, v)
-    override fun set(i: Int, j: Int, v: Double) = this.storage.set(i,j,v)
-    override fun get(i: Int, j: Int) = this.storage.get(i,j)
+    override fun set(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
+    override fun get(i: Int, j: Int) = this.storage.get(i, j)
     override fun get(i: Int) = this.storage[i]
-    override fun getRow(row: Int) : MTJMatrix {
+    override fun getRow(row: Int): MTJMatrix {
         var out = DenseMatrix(1, this.numCols())
         for (col in 0 until this.numCols())
             out.set(0, col, this[row, col])
         return MTJMatrix(out)
     }
+
     override fun getCol(col: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage, col)))
     override fun plus(other: Matrix<Double>) = MTJMatrix(this.storage.plusMatrix(castOrBail(other).storage))
     override fun plus(other: Double) = MTJMatrix(this.storage.plusElement(other))
     override fun chol() = MTJMatrix(DenseMatrix(this.storage.chol()))
     override fun inv() = MTJMatrix(this.storage.inv())
-    override fun pinv()= throw UnsupportedOperationException()//= EJMLMatrix(this.storage.pseudoInverse())
+    override fun pinv() = throw UnsupportedOperationException()//= EJMLMatrix(this.storage.pseudoInverse())
     override fun elementSum() = storage.sumByDouble { it.get() }
     override fun trace() = throw UnsupportedOperationException() //= this.storage.trace()
     override fun epow(other: Double) = MTJMatrix(this.storage.powElement(other))
     override fun epow(other: Int) = MTJMatrix(this.storage.powElement(other))
-    override fun det(): Double
-    {
+    override fun det(): Double {
         return this.storage.det()
     }
 
     override fun pow(exponent: Int): MTJMatrix {
         var out = this.copy()
-        for (i in 1..exponent-1)
+        for (i in 1..exponent - 1)
             out *= this
         return out
     }
+
     override fun setCol(index: Int, col: Matrix<Double>) {
-        for (i in 0..col.numRows()-1)
-            this[i,index] = col[i]
+        for (i in 0..col.numRows() - 1)
+            this[i, index] = col[i]
     }
 
     override fun setRow(index: Int, row: Matrix<Double>) {
-        for (i in 0..row.numCols()-1)
+        for (i in 0..row.numCols() - 1)
             this[index, i] = row[i]
     }
 
@@ -133,17 +141,20 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         val (Q, R) = this.storage.QR()
         return Pair(MTJMatrix(Q), MTJMatrix(R))
     }
+
     override fun iterator(): Iterator<Double> {
         class MTJIterator(var matrix: MTJMatrix) : Iterator<Double> {
             private var cursor = 0
             override fun next(): Double {
                 cursor += 1
-                return matrix[cursor-1]
+                return matrix[cursor - 1]
             }
-            override fun hasNext() = cursor < matrix.numCols()*matrix.numRows()
+
+            override fun hasNext() = cursor < matrix.numCols() * matrix.numRows()
         }
         return MTJIterator(this)
     }
+
     override fun repr() = this.toString()
 
     override fun toString(): String {
@@ -151,16 +162,16 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         val pstream = PrintStream(bstream)
 
         // Numbers are numChars, precision
-        var formatter = DecimalFormat(when(matFormat) {
-                SHORT_NUMBER -> "000000.000"
-                LONG_NUMBER -> "00000000000000.000000000000"
-                VERY_LONG_NUMBER -> "00000000000000000000.00000000000000000000"
-                SCIENTIFIC_NUMBER -> "0.000####E0#"
-                SCIENTIFIC_LONG_NUMBER -> "0.000###########E0#"
-                SCIENTIFIC_VERY_LONG_NUMBER -> "0.000###########################E0#" 
-                else -> "00000000000000.00000000"
-        })
-        
+        var formatter = DecimalFormat(when (matFormat) {
+                                          SHORT_NUMBER -> "000000.000"
+                                          LONG_NUMBER -> "00000000000000.000000000000"
+                                          VERY_LONG_NUMBER -> "00000000000000000000.00000000000000000000"
+                                          SCIENTIFIC_NUMBER -> "0.000####E0#"
+                                          SCIENTIFIC_LONG_NUMBER -> "0.000###########E0#"
+                                          SCIENTIFIC_VERY_LONG_NUMBER -> "0.000###########################E0#"
+                                          else -> "00000000000000.00000000"
+                                      })
+
         this.forEachIndexed { i, ele ->
             if (i != 0 && i % this.storage.numColumns() == 0)
                 pstream.append("\n")
@@ -169,7 +180,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         }
 
         return bstream.toString()
-        }
+    }
 
     // TODO: Fix this
     /**
@@ -177,8 +188,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
      * backends. However, for now we'll exception out of it.
      *
      */
-    private fun castOrBail(mat: Matrix<Double>): MTJMatrix
-    {
+    private fun castOrBail(mat: Matrix<Double>): MTJMatrix {
         when (mat) {
             is MTJMatrix -> return mat
             else -> {
@@ -186,7 +196,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
                 if (base is DenseMatrix)
                     return MTJMatrix(base)
                 else
-                    // No friendly backend, need to convert manually
+                // No friendly backend, need to convert manually
                     throw Exception("Operations between matrices with different backends not yet supported.")
 
             }
@@ -199,44 +209,47 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
      */
     override fun getInt(i: Int, j: Int): Int {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
+
     override fun getFloat(i: Int, j: Int): Float {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
+
     override fun getInt(i: Int): Int {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
 
     override fun getFloat(i: Int): Float {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
 
     override fun setInt(i: Int, v: Int) {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
 
     override fun setFloat(i: Int, v: Float) {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
 
     override fun setInt(i: Int, j: Int, v: Int) {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
+
     override fun setFloat(i: Int, j: Int, v: Float) {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                "Please call getDouble and cast manually if this is intentional.")
+                                            "Please call getDouble and cast manually if this is intentional.")
     }
 
     private fun writeObject(out: ObjectOutputStream) = serializeObject(out)
 
-    private fun readObject(oin: ObjectInputStream){
+    private fun readObject(oin: ObjectInputStream) {
         val rows = oin.readObject() as Int
         val cols = oin.readObject() as Int
         this.storage = DenseMatrix(rows, cols)

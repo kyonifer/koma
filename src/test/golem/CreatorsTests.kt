@@ -1,7 +1,6 @@
 package golem
 
-import golem.util.test.allBackends
-import golem.util.test.assertMatrixEquals
+import golem.util.test.*
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -9,8 +8,7 @@ import kotlin.test.assertFails
 
 class CreatorsTests {
     @Test
-    fun testZeros()
-    {
+    fun testZeros() {
         allBackends {
             var a = zeros(5, 1)
             for (i in 0..a.numRows() - 1)
@@ -21,8 +19,7 @@ class CreatorsTests {
     }
 
     @Test
-    fun testCreate()
-    {
+    fun testCreate() {
         allBackends {
             var a = create(0..4)
             var b = mat[0, 1, 2, 3, 4]
@@ -33,34 +30,32 @@ class CreatorsTests {
     }
 
     @Test
-    fun testCreateJaggedArray()
-    {
+    fun testCreateJaggedArray() {
         allBackends {
-            var a = arrayOf(doubleArrayOf(1.0,2.0,3.0),
-                            doubleArrayOf(4.0,5.0,6.0))
+            var a = arrayOf(doubleArrayOf(1.0, 2.0, 3.0),
+                            doubleArrayOf(4.0, 5.0, 6.0))
             var out = create(a)
-            assert(out[1,0]==4.0)
-            assert(out[3]==4.0)
-            assert(out[1,1]==5.0)
-            assert(out[1]==2.0)
+            assert(out[1, 0] == 4.0)
+            assert(out[3] == 4.0)
+            assert(out[1, 1] == 5.0)
+            assert(out[1] == 2.0)
 
-            a = arrayOf(doubleArrayOf(1.0,2.0,3.0))
+            a = arrayOf(doubleArrayOf(1.0, 2.0, 3.0))
             out = create(a)
-            assert(out[0,2]==3.0)
-            assertFails { out[2,0] }
+            assert(out[0, 2] == 3.0)
+            assertFails { out[2, 0] }
 
             a = arrayOf(doubleArrayOf(1.0),
                         doubleArrayOf(2.0),
                         doubleArrayOf(3.0))
             out = create(a)
-            assert(out[2,0]==3.0)
-            assertFails { out[0,2] }
+            assert(out[2, 0] == 3.0)
+            assertFails { out[0, 2] }
         }
     }
 
     @Test
-    fun testOnes()
-    {
+    fun testOnes() {
         allBackends {
             var a = ones(3, 5)
             assertEquals(a[4], 1.0)
@@ -68,18 +63,18 @@ class CreatorsTests {
             assertMatrixEquals(zeros(3, 5).fill { i, j -> 1.0 }, a)
         }
     }
+
     @Test
-    fun testEye()
-    {
+    fun testEye() {
         allBackends {
             var a = eye(3)
             var expected = zeros(3, 3).mapMatIndexed { i, j, d -> if (i == j) 1.0 else 0.0 }
             assertMatrixEquals(expected, a)
         }
     }
+
     @Test
-    fun testArange()
-    {
+    fun testArange() {
         allBackends {
             var a = arange(1.0, 1.5, .1)
             var expected = mat[1.0, 1.1, 1.2, 1.3, 1.4]
@@ -88,8 +83,7 @@ class CreatorsTests {
     }
 
     @Test
-    fun testRandn()
-    {
+    fun testRandn() {
         allBackends {
             var a = 2 * randn(1, 1000000)
 

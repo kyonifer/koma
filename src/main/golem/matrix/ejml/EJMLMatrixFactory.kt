@@ -1,18 +1,15 @@
 package golem.matrix.ejml
 
-import golem.matrix.Matrix
-import golem.matrix.MatrixFactory
-import golem.min
-import golem.round
-import golem.util.fromCollection
+import golem.*
+import golem.matrix.*
+import golem.util.*
 import org.ejml.simple.SimpleMatrix
 import java.util.*
 
-class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
-{
-    override fun zeros(rows: Int, cols: Int) = EJMLMatrix(golem.matrix.ejml.backend.zeros(rows,cols))
+class EJMLMatrixFactory : MatrixFactory<Matrix<Double>> {
+    override fun zeros(rows: Int, cols: Int) = EJMLMatrix(golem.matrix.ejml.backend.zeros(rows, cols))
 
-    override fun zeros(size: Int) = zeros(size,size)
+    override fun zeros(size: Int) = zeros(size, size)
 
     override fun create(data: IntRange): EJMLMatrix {
         var dataArray = fromCollection(data.map { it.toDouble() })
@@ -41,8 +38,8 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
 
     override fun eye(rows: Int, cols: Int): EJMLMatrix {
         var out = golem.matrix.ejml.backend.zeros(rows, cols)
-        for (i in 0..min(rows, cols)-1)
-            out[i,i]=1.0
+        for (i in 0..min(rows, cols) - 1)
+            out[i, i] = 1.0
         return EJMLMatrix(out)
     }
 
@@ -73,16 +70,16 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
     // Todo: Add these in
     //fun linspace(...)
     override fun arange(start: Double, stop: Double, increment: Double): EJMLMatrix {
-        var len = round((stop-start)/increment).toInt()
-        var out = this.zeros(1,len)
+        var len = round((stop - start) / increment).toInt()
+        var out = this.zeros(1, len)
         for (i in 0 until len)
-            out[i] = start + i*increment
+            out[i] = start + i * increment
 
         return out
     }
 
     override fun arange(start: Double, stop: Double): EJMLMatrix {
-        return arange(start, stop, 1.0*java.lang.Math.signum(stop-start))
+        return arange(start, stop, 1.0 * java.lang.Math.signum(stop - start))
     }
 
     override fun arange(start: Int, stop: Int, increment: Int): EJMLMatrix {
@@ -90,7 +87,7 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>
     }
 
     override fun arange(start: Int, stop: Int): EJMLMatrix {
-        val inc = 1.0*java.lang.Math.signum(stop.toDouble()-start.toDouble())
+        val inc = 1.0 * java.lang.Math.signum(stop.toDouble() - start.toDouble())
         return arange(start.toDouble(), stop.toDouble(), inc)
     }
 

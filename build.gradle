@@ -10,44 +10,44 @@ apply from: 'buildscripts/publishing.gradle'
 apply from: 'buildscripts/documentation.gradle'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  // Depend on the std libs of all our languages
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // Depend on the std libs of all our languages
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-  // Different matrix backends
-  compile 'org.ejml:all:0.27'
-  compile 'org.jblas:jblas:1.2.3'
-  compile 'com.github.fommil.netlib:all:1.1.2'
-  compile('com.googlecode.matrix-toolkits-java:mtj:1.0.2') {
-    // Exclude to fix gradle using a pom type as a jar
-    exclude group: 'com.github.fommil.netlib'
-  }
+    // Different matrix backends
+    compile 'org.ejml:all:0.27'
+    compile 'org.jblas:jblas:1.2.3'
+    compile 'com.github.fommil.netlib:all:1.1.2'
+    compile('com.googlecode.matrix-toolkits-java:mtj:1.0.2') {
+        // Exclude to fix gradle using a pom type as a jar
+        exclude group: 'com.github.fommil.netlib'
+    }
 
-  // Plotting
-  compile ('org.knowm.xchart:xchart:2.6.0') {
-    // Manually exclude an optional dependency that gradle is erroneously requiring (not on central)
-    exclude module: 'VectorGraphics2D'
-  }
-  testCompile 'junit:junit:4.12'
-  testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    // Plotting
+    compile('org.knowm.xchart:xchart:2.6.0') {
+        // Manually exclude an optional dependency that gradle is erroneously requiring (not on central)
+        exclude module: 'VectorGraphics2D'
+    }
+    testCompile 'junit:junit:4.12'
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
 
 // Add kotlin support to gradle
 buildscript {
-  ext.kotlin_version = '1.0.0'
-  repositories {
-    mavenCentral()
-    mavenLocal()
-    jcenter()
-  }
-  dependencies {
-    classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.7"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
+    ext.kotlin_version = '1.0.0'
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.7"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 
 // Configure fatJar exclusions
-project.ext.fatExcludes=["native", "jblas"]
+project.ext.fatExcludes = ["native", "jblas"]

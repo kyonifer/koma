@@ -1,6 +1,8 @@
 package golem.matrix
 
-import java.io.*
+import java.io.ObjectOutputStream
+import java.io.Serializable
+import java.io.StreamCorruptedException
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -9,52 +11,55 @@ import java.io.*
  */
 
 // Recursive generic allows us to specialize for a particular internal implementation
-interface Matrix<T>: Iterable<T> , Serializable
-{
+interface Matrix<T> : Iterable<T>, Serializable {
     // Algebraic Operators
-    operator fun mod(other: Matrix<T>) : Matrix<T>
-    operator fun div(other: Int) : Matrix<T>
-    operator fun div(other: Double) : Matrix<T>
-    operator fun times(other: Matrix<T>) : Matrix<T>
-    operator fun times(other: Double) : Matrix<T>
-    operator fun unaryMinus() : Matrix<T>
-    operator fun minus(other: Double) : Matrix<T>
+    operator fun mod(other: Matrix<T>): Matrix<T>
+
+    operator fun div(other: Int): Matrix<T>
+    operator fun div(other: Double): Matrix<T>
+    operator fun times(other: Matrix<T>): Matrix<T>
+    operator fun times(other: Double): Matrix<T>
+    operator fun unaryMinus(): Matrix<T>
+    operator fun minus(other: Double): Matrix<T>
     operator fun minus(other: Matrix<T>): Matrix<T>
-    operator fun plus(other: Double) : Matrix<T>
+    operator fun plus(other: Double): Matrix<T>
     operator fun plus(other: Matrix<T>): Matrix<T>
     fun transpose(): Matrix<T>
-    fun elementTimes(other: Matrix<T>) : Matrix<T>
+    fun elementTimes(other: Matrix<T>): Matrix<T>
     fun epow(other: Double): Matrix<T>
     infix fun epow(other: Int): Matrix<T>
     infix fun pow(exponent: Int): Matrix<T>
 
     // Dimensions
     fun numRows(): Int
+
     fun numCols(): Int
 
     // Index syntax
     operator fun set(i: Int, v: T)
-    operator fun set(i: Int, j:Int, v:T)
 
-    operator fun get(i: Int, j: Int) : T
-    operator fun get(i: Int) : T
+    operator fun set(i: Int, j: Int, v: T)
+
+    operator fun get(i: Int, j: Int): T
+    operator fun get(i: Int): T
 
     fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may incur performance loss)
     // We can get rid of this when Java 10 generic specialization comes!
-    fun getInt(i: Int, j: Int) : Int
-    fun getDouble(i: Int, j: Int) : Double
-    fun getFloat(i: Int, j: Int) : Float
-    fun getInt(i: Int) : Int
-    fun getDouble(i: Int) : Double
-    fun getFloat(i: Int) : Float
+    fun getInt(i: Int, j: Int): Int
+
+    fun getDouble(i: Int, j: Int): Double
+    fun getFloat(i: Int, j: Int): Float
+    fun getInt(i: Int): Int
+    fun getDouble(i: Int): Double
+    fun getFloat(i: Int): Float
     fun setInt(i: Int, v: Int)
     fun setDouble(i: Int, v: Double)
     fun setFloat(i: Int, v: Float)
-    fun setInt(i: Int, j:Int, v:Int)
-    fun setDouble(i: Int, j:Int, v:Double)
-    fun setFloat(i: Int, j:Int, v:Float)
+    fun setInt(i: Int, j: Int, v: Int)
+    fun setDouble(i: Int, j: Int, v: Double)
+    fun setFloat(i: Int, j: Int, v: Float)
 
     /**
      * Retrieves the data formatted as doubles in row-major order
@@ -70,18 +75,21 @@ interface Matrix<T>: Iterable<T> , Serializable
     fun setRow(index: Int, row: Matrix<T>)
 
     // Decompositions (Already has eig, svd) [expm,schur not available]
-    fun chol() : Matrix<T>
-    fun LU() : Triple<Matrix<T>,Matrix<T>,Matrix<T>>
-    fun QR() : Pair<Matrix<T>,Matrix<T>>
+    fun chol(): Matrix<T>
+
+    fun LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>>
+    fun QR(): Pair<Matrix<T>, Matrix<T>>
     // TODO: need schur, svd, eig
 
 
     // Advanced Functions
     fun expm(): Matrix<T>
+
     fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
 
     // Basic Functions
     fun inv(): Matrix<T>
+
     fun det(): T
     fun pinv(): Matrix<T>
     fun normF(): T
@@ -95,7 +103,7 @@ interface Matrix<T>: Iterable<T> , Serializable
     fun argMin(): Int // Row major 1D index
     fun norm(): T // L2 (Euclidean) norm
     fun trace(): T
-    fun T():Matrix<T> // In MATLAB, this appears at foo.T
+    fun T(): Matrix<T> // In MATLAB, this appears at foo.T
 
     /**
      * Returns the underlying matrix object from the back-end this Matrix is wrapping. This should be used
@@ -104,20 +112,21 @@ interface Matrix<T>: Iterable<T> , Serializable
      * should always fallback to slow generic code if an unrecognized matrix is returned here (e.g. use [get] and [set])
      * to access the elements generically).
      */
-    fun getBaseMatrix():Any
+    fun getBaseMatrix(): Any
 
 
     /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
      */
     fun getFactory(): MatrixFactory<Matrix<T>>
+
     // Print the internal
-    fun repr():String
+    fun repr(): String
 
     val T: Matrix<T>
         get() = this.transpose()
 
-    fun serializeObject(out: ObjectOutputStream): Unit{
+    fun serializeObject(out: ObjectOutputStream): Unit {
         out.writeObject(this.numRows())
         out.writeObject(this.numCols())
         this.forEach { out.writeObject(it) }

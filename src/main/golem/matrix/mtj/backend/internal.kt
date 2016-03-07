@@ -2,7 +2,7 @@
 
 package golem.matrix.mtj.backend
 
-import golem.matrix.mtj.MTJMatrixFactory
+import golem.matrix.mtj.*
 
 
 internal var factoryInstance: MTJMatrixFactory = MTJMatrixFactory()

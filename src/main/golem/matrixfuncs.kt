@@ -9,7 +9,7 @@
 
 package golem
 
-import golem.matrix.Matrix
+import golem.matrix.*
 
 /**
  * Returns a matrix of the arccos of each element in the input matrix.
@@ -19,6 +19,7 @@ import golem.matrix.Matrix
  * @return A matrix consisting of the operation performed element-wise.
  */
 fun acos(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.acos(it) }
+
 /**
  * Returns a matrix of the arcsin of each element in the input matrix.
  *
@@ -27,6 +28,7 @@ fun acos(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.acos(it) }
  * @return A matrix consisting of the operation performed element-wise.
  */
 fun asin(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.asin(it) }
+
 /**
  * Returns a matrix of the arctan of each element in the input matrix.
  *
@@ -35,6 +37,7 @@ fun asin(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.asin(it) }
  * @return A matrix consisting of the operation performed element-wise.
  */
 fun atan(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.atan(it) }
+
 /**
  * Returns a matrix of the absolute value of each element in the input matrix.
  *
@@ -42,7 +45,7 @@ fun atan(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.atan(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun abs(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.abs(it)}
+fun abs(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.abs(it) }
 
 /**
  * Rounds each element to the integer which is nearest to the element and still less than the
@@ -52,7 +55,7 @@ fun abs(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.abs(it)}
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun ceil(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.ceil(it)}
+fun ceil(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.ceil(it) }
 
 /**
  * Returns a matrix of the cos of each element in the input matrix.
@@ -62,7 +65,8 @@ fun ceil(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.ceil(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun cos(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.cos(it)}
+fun cos(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.cos(it) }
+
 /**
  * Returns a matrix of E.pow(element) for each element in the input matrix.
  *
@@ -71,7 +75,8 @@ fun cos(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.cos(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun exp(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.exp(it)}
+fun exp(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.exp(it) }
+
 /**
  * Returns a matrix of the natural logarithm of each element in the input matrix.
  *
@@ -80,7 +85,8 @@ fun exp(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.exp(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun log(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.log(it)}
+fun log(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.log(it) }
+
 /**
  * Returns a matrix consisting of each element in the input matrix raised to the given power.
  *
@@ -91,6 +97,7 @@ fun log(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.log(it)}
  *
  */
 fun epow(arr: Matrix<Double>, num: Double) = arr.epow(num)
+
 /**
  * Returns a matrix which is the input matrix multiplied by itself num times (NOT elementwise multiplication!!).
  * For elementwise see [epow].
@@ -101,7 +108,8 @@ fun epow(arr: Matrix<Double>, num: Double) = arr.epow(num)
  * @return A matrix consisting of num matrix multiplies of the input.
  *
  */
-fun pow(arr: Matrix<Double>, num:Int) = arr.pow(num)
+fun pow(arr: Matrix<Double>, num: Int) = arr.pow(num)
+
 /**
  * Calculates a matrix consisting of the sign of each element in the input matrix.
  * Returns -1 for positive values, -1 for negative values, 0 for 0.
@@ -110,7 +118,8 @@ fun pow(arr: Matrix<Double>, num:Int) = arr.pow(num)
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun sign(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.signum(it)}
+fun sign(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.signum(it) }
+
 /**
  * Returns a matrix of the sin of each element in the input matrix
  *
@@ -119,7 +128,8 @@ fun sign(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.signum(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun sin(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.sin(it)}
+fun sin(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.sin(it) }
+
 /**
  * Returns a matrix of the sqrt of each element in the input matrix. Does
  * not yet support complex numbers.
@@ -129,7 +139,8 @@ fun sin(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.sin(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun sqrt(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.sqrt(it)}
+fun sqrt(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.sqrt(it) }
+
 /**
  * Returns a matrix of the tan of each element in the input matrix
  *
@@ -138,7 +149,8 @@ fun sqrt(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.sqrt(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun tan(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.tan(it)}
+fun tan(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.tan(it) }
+
 /**
  * Rounds each element to the nearest integer value. For elements exactly between integers,
  * choose the highest value.
@@ -147,7 +159,7 @@ fun tan(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.tan(it)}
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun round(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.round(it).toDouble()}
+fun round(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.round(it).toDouble() }
 
 /**
  * Rounds each element to the integer which is nearest to the element and still less than the
@@ -157,7 +169,8 @@ fun round(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.round(it).toDouble()
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun floor(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.floor(it)}
+fun floor(arr: Matrix<Double>) = arr.mapMat { java.lang.Math.floor(it) }
+
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix
  *
@@ -167,7 +180,7 @@ fun floor(arr: Matrix<Double>) = arr.mapMat {java.lang.Math.floor(it)}
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun logb(base: Int, arr: Matrix<Double>) = arr.mapMat {java.lang.Math.log(it) / Math.log(base.toDouble())}
+fun logb(base: Int, arr: Matrix<Double>) = arr.mapMat { java.lang.Math.log(it) / Math.log(base.toDouble()) }
 
 /**
  * Extracts the diagonal of the matrix.
@@ -188,6 +201,7 @@ fun diag(arr: Matrix<Double>) = arr.diag().asColVector()
  *
  */
 fun cumsum(arr: Matrix<Double>) = arr.cumSum()
+
 /**
  * Returns the max element in the input matrix
  *
@@ -197,6 +211,7 @@ fun cumsum(arr: Matrix<Double>) = arr.cumSum()
  *
  */
 fun max(arr: Matrix<Double>) = arr.max()
+
 /**
  * Returns the mean element in the input matrix
  *
@@ -206,6 +221,7 @@ fun max(arr: Matrix<Double>) = arr.max()
  *
  */
 fun mean(arr: Matrix<Double>) = arr.mean()
+
 /**
  * Returns the min element in the input matrix
  *
@@ -215,6 +231,7 @@ fun mean(arr: Matrix<Double>) = arr.mean()
  *
  */
 fun min(arr: Matrix<Double>) = arr.min()
+
 /**
  * Returns the index of the max element in the input matrix
  *
@@ -224,6 +241,7 @@ fun min(arr: Matrix<Double>) = arr.min()
  *
  */
 fun argMax(arr: Matrix<Double>) = arr.argMax()
+
 /**
  * Returns the index of the min element in the input matrix
  *
@@ -233,6 +251,7 @@ fun argMax(arr: Matrix<Double>) = arr.argMax()
  *
  */
 fun argMin(arr: Matrix<Double>) = arr.argMin()
+
 /**
  * Returns the L2 norm of the input vector for vectors.
  *
@@ -262,23 +281,22 @@ fun expm(A: Matrix<Double>) = A.expm()
  * @param angles The input matrix
  * @Return 3x3 skew symmetric matrix
  */
-fun skew(angles: Matrix<Double>): Matrix<Double>
-{
-    var s = mat [0,         -angles[2],  angles[1] end
-                 angles[2],  0,         -angles[0] end
-                -angles[1],  angles[0],  0]
+fun skew(angles: Matrix<Double>): Matrix<Double> {
+    var s = mat [0, -angles[2], angles[1] end
+            angles[2], 0, -angles[0] end
+            -angles[1], angles[0], 0]
     return s
 }
 
 /**
  * Calculates the cross product of two vectors
  */
-fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1)*vec2
+fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1) * vec2
 
 /**
  * Calculates the cross product of two vectors
  */
-fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = (vec1.asRowVector()*vec2.asColVector())[0]
+fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = (vec1.asRowVector() * vec2.asColVector())[0]
 
 fun hstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     val outRows = arrs[0].numRows()
@@ -289,11 +307,12 @@ fun hstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     var out = zeros(outRows, outCols)
     var cursor = 0
     arrs.forEach {
-        out[0..outRows-1, cursor..(cursor+it.numCols()-1)] = it
+        out[0..outRows - 1, cursor..(cursor + it.numCols() - 1)] = it
         cursor += it.numCols()
     }
     return out
 }
+
 fun vstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     val outCols = arrs[0].numCols()
     var outRows = 0
@@ -303,7 +322,7 @@ fun vstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     var out = zeros(outRows, outCols)
     var cursor = 0
     arrs.forEach {
-        out[cursor..(cursor+it.numRows()-1), 0..outCols-1] = it
+        out[cursor..(cursor + it.numRows() - 1), 0..outCols - 1] = it
         cursor += it.numRows()
     }
     return out

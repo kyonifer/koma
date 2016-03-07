@@ -10,7 +10,7 @@
 
 package golem
 
-import golem.matrix.Matrix
+import golem.matrix.*
 
 
 /**
@@ -42,12 +42,12 @@ object mat {
     operator fun get(vararg ts: Any): Matrix<Double> {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
-        val numStops = ts.filter{ it is Pair<*, *> }.count()
+        val numStops = ts.filter { it is Pair<*, *> }.count()
         val numRows = numStops + 1
         val numElements = ts.count() - numStops + 2 * numStops
         val numCols = numElements / numRows
 
-        if (numRows*numCols != numElements)
+        if (numRows * numCols != numElements)
             throw IllegalArgumentException("When building matrices with mat[] please give even rows/cols")
 
         var out = zeros(numRows, numCols)
@@ -56,7 +56,7 @@ object mat {
 
         for (ele in ts) {
             if (curCol >= numCols)
-                    throw IllegalArgumentException("When building matrices with mat[] please give even rows/cols")
+                throw IllegalArgumentException("When building matrices with mat[] please give even rows/cols")
             when (ele) {
                 is Double -> {
                     out[curRow, curCol] = ele
@@ -91,14 +91,17 @@ object mat {
  * A helper object for the builder DSL. See [mat].
  */
 infix fun Double.end(other: Double) = Pair(this, other)
+
 /**
  * A helper object for the builder DSL. See [mat].
  */
 infix fun Double.end(other: Int) = Pair(this, other.toDouble())
+
 /**
  * A helper object for the builder DSL. See [mat].
  */
 infix fun Int.end(other: Double) = Pair(this.toDouble(), other)
+
 /**
  * A helper object for the builder DSL. See [mat].
  */

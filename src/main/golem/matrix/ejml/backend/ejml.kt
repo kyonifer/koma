@@ -21,11 +21,12 @@ package golem.matrix.ejml.backend
 
 import org.ejml.factory.DecompositionFactory
 import org.ejml.ops.CommonOps
-import org.ejml.simple.*
+import org.ejml.simple.SimpleMatrix
 import java.util.*
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
 operator fun SimpleMatrix.times(other: SimpleMatrix) = this.mult(other)
+
 operator fun SimpleMatrix.times(other: Int) = this.scale(other.toDouble())
 operator fun SimpleMatrix.times(other: Double) = this.scale(other)
 operator fun SimpleMatrix.mod(other: SimpleMatrix) = this.elementMult(other)
@@ -36,20 +37,24 @@ val SimpleMatrix.T: SimpleMatrix
     get() = this.transpose()
 
 // Index syntax (already has get)
-operator fun SimpleMatrix.set(i: Int, v: Int) = this.set(i,v.toDouble())
-operator fun SimpleMatrix.set(i: Int, j:Int, v:Int) = this.set(i,j,v.toDouble())
+operator fun SimpleMatrix.set(i: Int, v: Int) = this.set(i, v.toDouble())
+
+operator fun SimpleMatrix.set(i: Int, j: Int, v: Int) = this.set(i, j, v.toDouble())
 
 // Override operators TODO: Lose this when Kotlin auto annotates operator java classes
-operator fun SimpleMatrix.get(i: Int) = if (this.numCols()==1) this.get(i, 0) else this.get(0, i)
-operator fun SimpleMatrix.get(i: Int, j: Int) = this.get(i,j)
-operator fun SimpleMatrix.set(i: Int, j: Int, v: Double) = this.set(i,j,v)
+operator fun SimpleMatrix.get(i: Int) = if (this.numCols() == 1) this.get(i, 0) else this.get(0, i)
+
+operator fun SimpleMatrix.get(i: Int, j: Int) = this.get(i, j)
+operator fun SimpleMatrix.set(i: Int, j: Int, v: Double) = this.set(i, j, v)
 
 // Scalar Arithmetic
 operator fun SimpleMatrix.plus(other: Int) = this.plus(other.toDouble(), this)
+
 operator fun SimpleMatrix.plus(other: Double) = this.plus(other, this)
 
 // Decompositions (Already has eig, svd) [expm,schur not available]
 fun SimpleMatrix.chol() = DecompositionFactory.chol(this.numCols(), false)
+
 fun SimpleMatrix.LU() = DecompositionFactory.lu(this.numRows(), this.numCols())
 fun SimpleMatrix.QR() = DecompositionFactory.qr(this.numRows(), this.numCols())
 
@@ -59,12 +64,14 @@ fun SimpleMatrix.inv() = this.invert()
 
 // Matrix Generators
 fun zeros(rows: Int, cols: Int) = SimpleMatrix(rows, cols)
+
 fun eye(size: Int) = SimpleMatrix.identity(size)
 fun ones(rows: Int, cols: Int): SimpleMatrix {
     val out = SimpleMatrix(rows, cols)
     CommonOps.fill(out.matrix, 1.0)
     return out
 }
+
 fun rand(rows: Int, cols: Int, seed: Long) = SimpleMatrix.random(rows, cols, 0.0, 1.0, Random(seed))
 fun rand(len: Int, seed: Long) = SimpleMatrix.random(1, len, 0.0, 1.0, Random(seed))
 fun rand(len: Int) = rand(len, System.currentTimeMillis())
@@ -72,23 +79,25 @@ fun rand(len: Int) = rand(len, System.currentTimeMillis())
 fun randn(len: Int): SimpleMatrix {
     return randn(len, len)
 }
+
 fun randn(rows: Int, cols: Int): SimpleMatrix {
     return randn(rows, cols, System.currentTimeMillis())
 }
+
 fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
     val random = Random(seed)
     val out = SimpleMatrix(rows, cols)
-    for (i in 0..rows-1)
-        for (j in 0..cols-1)
-            out[i,j] = random.nextGaussian()
+    for (i in 0..rows - 1)
+        for (j in 0..cols - 1)
+            out[i, j] = random.nextGaussian()
     return out
 }
 
-fun SimpleMatrix.map( f: (Double)-> Double): SimpleMatrix {
+fun SimpleMatrix.map(f: (Double) -> Double): SimpleMatrix {
     var out = SimpleMatrix(this.numRows(), this.numCols())
-    for (row in 0..this.numRows()-1)
-        for (col in 0..this.numCols()-1)
-            out[row,col] = f(this[row,col])
+    for (row in 0..this.numRows() - 1)
+        for (col in 0..this.numCols() - 1)
+            out[row, col] = f(this[row, col])
     return out
 }
 
@@ -146,6 +155,7 @@ object mat {
         return out
     }
 }
+
 fun Double.end(other: Double) = Pair(this, other)
 fun Double.end(other: Int) = Pair(this, other.toDouble())
 fun Int.end(other: Double) = Pair(this.toDouble(), other)

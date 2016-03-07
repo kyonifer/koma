@@ -16,6 +16,7 @@ fun fromCollection(collection: Collection<Double>): DoubleArray {
     }
     return out
 }
+
 /**
  * Converts a collection into a primitive DoubleArray
  */

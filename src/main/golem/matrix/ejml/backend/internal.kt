@@ -2,7 +2,7 @@
 
 package golem.matrix.ejml.backend
 
-import golem.matrix.ejml.EJMLMatrixFactory
+import golem.matrix.ejml.*
 
 internal var factoryInstance: EJMLMatrixFactory = EJMLMatrixFactory()
 

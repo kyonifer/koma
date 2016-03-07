@@ -9,8 +9,7 @@
 
 package golem
 
-import golem.matrix.Matrix
-import golem.matrix.MatrixFactory
+import golem.matrix.*
 
 /**
  *

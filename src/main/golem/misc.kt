@@ -28,13 +28,12 @@ val SCIENTIFIC_VERY_LONG_NUMBER = "SciNotVLong"
  * of matrices until called again with a different format string. The default
  * setting is "long". Supported options are "long", "short", "verylong".
  */
-fun format(formatStr: String)
-{
+fun format(formatStr: String) {
     // TODO: use enum
     when (formatStr) {
-        "LONG","long","Long" -> matFormat = LONG_NUMBER
-        "SHORT","short","Short" -> matFormat = SHORT_NUMBER
-        "VLONG","VERYLONG", "VeryLong","VLong", "verylong", "vl" -> matFormat = VERY_LONG_NUMBER
+        "LONG", "long", "Long" -> matFormat = LONG_NUMBER
+        "SHORT", "short", "Short" -> matFormat = SHORT_NUMBER
+        "VLONG", "VERYLONG", "VeryLong", "VLong", "verylong", "vl" -> matFormat = VERY_LONG_NUMBER
         "scientific", "sci", "SciNot", "scinot" -> matFormat = SCIENTIFIC_NUMBER
         "scilong", "SciLong", "SciNotLong" -> matFormat = SCIENTIFIC_LONG_NUMBER
         "scivlong", "SciVLong", "SciNotVLong" -> matFormat = SCIENTIFIC_VERY_LONG_NUMBER

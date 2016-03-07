@@ -1,9 +1,8 @@
 package golem.matrix.mtj
 
-import golem.matrix.Matrix
-import golem.matrix.MatrixFactory
-import golem.util.fromCollection
-import golem.round
+import golem.*
+import golem.matrix.*
+import golem.util.*
 import no.uib.cipr.matrix.DenseMatrix
 import java.util.*
 
@@ -45,16 +44,16 @@ class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
 
     override fun rand(size: Int) = rand(size, size)
     override fun rand(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.rand(rows, cols))
-    override fun rand(rows: Int, cols: Int, seed: Long)= MTJMatrix(golem.matrix.mtj.backend.rand(rows, cols, seed))
+    override fun rand(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.rand(rows, cols, seed))
 
     override fun randn(size: Int) = randn(size, size)
     override fun randn(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols))
     override fun randn(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols, seed))
     override fun arange(start: Double, stop: Double, increment: Double): MTJMatrix {
-        var len = round((stop-start)/increment).toInt()
-        var out = this.zeros(1,len)
+        var len = round((stop - start) / increment).toInt()
+        var out = this.zeros(1, len)
         for (i in 0 until len)
-            out[i] = start + i*increment
+            out[i] = start + i * increment
 
         return out
     }
