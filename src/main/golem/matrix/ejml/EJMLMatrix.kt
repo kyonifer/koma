@@ -3,6 +3,7 @@ package golem.matrix.ejml
 import golem.*
 import golem.matrix.*
 import golem.matrix.ejml.backend.*
+import org.ejml.data.DenseMatrix64F
 import org.ejml.ops.CommonOps
 import org.ejml.ops.MatrixIO
 import org.ejml.simple.SimpleMatrix
@@ -66,7 +67,14 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
     override fun getCol(col: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
     override fun plus(other: Matrix<Double>) = EJMLMatrix(this.storage.plus(castOrBail(other).storage))
     override fun plus(other: Double) = EJMLMatrix(this.storage.plus(other))
-    override fun chol() = EJMLMatrix(SimpleMatrix(this.storage.chol().getT(null)))
+    override fun chol(): EJMLMatrix {
+        val decomp = this.storage.chol()
+        // Copy required to prevent decompose implementations distorting the input matrix
+        if (decomp.decompose(this.storage.matrix.copy()))
+            return EJMLMatrix(SimpleMatrix(decomp.getT(null)))
+        else
+            throw Exception("Decomposition failed")
+    }
     override fun inv() = EJMLMatrix(this.storage.inv())
     override fun det() = this.storage.determinant()
     override fun pinv() = EJMLMatrix(this.storage.pseudoInverse())

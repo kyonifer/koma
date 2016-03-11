@@ -53,7 +53,7 @@ operator fun SimpleMatrix.plus(other: Int) = this.plus(other.toDouble(), this)
 operator fun SimpleMatrix.plus(other: Double) = this.plus(other, this)
 
 // Decompositions (Already has eig, svd) [expm,schur not available]
-fun SimpleMatrix.chol() = DecompositionFactory.chol(this.numCols(), false)
+fun SimpleMatrix.chol() = DecompositionFactory.chol(this.numCols(), true)
 
 fun SimpleMatrix.LU() = DecompositionFactory.lu(this.numRows(), this.numCols())
 fun SimpleMatrix.QR() = DecompositionFactory.qr(this.numRows(), this.numCols())
