@@ -90,7 +90,7 @@ fun DenseMatrix.prod(): Double {
     return this.data.reduce { a, b -> a * b }
 }
 
-fun DenseMatrix.chol() = DenseCholesky.factorize(this).l
+fun DenseMatrix.chol() = DenseCholesky(this.numRows(), false).factor(LowerSPDDenseMatrix(this)).l
 fun DenseMatrix.svd() = SVD.factorize(this)
 fun DenseMatrix.eig() = EVD.factorize(this)
 
