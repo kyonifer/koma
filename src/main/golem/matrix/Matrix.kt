@@ -122,15 +122,18 @@ interface Matrix<T> : Iterable<T>, Serializable {
 
 
     fun repr(): String {
-        var formatter = DecimalFormat(when (matFormat) {
-                                          SHORT_NUMBER -> "0.00##"
-                                          LONG_NUMBER -> "0.00############"
-                                          VERY_LONG_NUMBER -> "0.00#############################"
-                                          SCIENTIFIC_NUMBER -> "0.00#####E0#"
-                                          SCIENTIFIC_LONG_NUMBER -> "0.00############E0#"
-                                          SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
-                                          else -> "0.00############"
-                                      })
+
+        val fmtString = when (matFormat) {
+            SHORT_NUMBER                -> "0.00##"
+            LONG_NUMBER                 -> "0.00############"
+            VERY_LONG_NUMBER            -> "0.00#############################"
+            SCIENTIFIC_NUMBER           -> "0.00#####E0#"
+            SCIENTIFIC_LONG_NUMBER      -> "0.00############E0#"
+            SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
+            else                        -> "0.00############"
+        }
+
+        var formatter = DecimalFormat(fmtString)
 
         val lens = IntArray(numCols())
         eachIndexed { row, col, element ->

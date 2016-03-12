@@ -12,6 +12,7 @@ package golem
 
 import golem.matrix.*
 
+//@formatter:off
 
 /**
  * A helper object that allows for quick construction of matrix literals.
@@ -87,6 +88,7 @@ object mat {
     }
 }
 
+// @formatter:on
 /**
  * A helper object for the builder DSL. See [mat].
  */
