@@ -80,7 +80,7 @@ Matrices have useful map functions that return matrices for chaining operations 
     val allGreater = x.all { it > 1 }
 
     // Apply a function to a row at a time and store the outputs in a contiguous matrix
-    val sins = x.eachRow { row -> sin(row) }
+    val sins = x.mapRows { row -> sin(row) }
     
     // Print all elements greater than 1
     x.each { if (it>1) println(it) }
