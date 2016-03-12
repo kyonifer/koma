@@ -127,7 +127,7 @@ Output:
 000067.000
 ```
 
-Many special functions are supported (see [here](src/main/golem/matrixfuncs.kt) for a complete list):
+Many special functions are supported (see [the matrix interface](src/main/golem/matrix/Matrix.kt) for a complete list):
 
 ```Kotlin
 
@@ -138,8 +138,7 @@ Many special functions are supported (see [here](src/main/golem/matrixfuncs.kt) 
     a.diag()  // Diagonal vector
     a.inv()   // Matrix inverse
     a.norm()  // Matrix norm
-        
-    // ... and many more.
+
 ```
 
 Scalar functions can be applied elementwise to matrices (see [here](src/main/golem/scalarfuncs.kt) for a complete list):
