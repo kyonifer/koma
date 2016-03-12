@@ -10,6 +10,7 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.PrintStream
 import java.text.DecimalFormat
+import java.util.*
 
 /**
  * An implementation of the Matrix<Double> interface using MTJ.
@@ -163,21 +164,33 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
 
         // Numbers are numChars, precision
         var formatter = DecimalFormat(when (matFormat) {
-                                          SHORT_NUMBER -> "000000.000"
-                                          LONG_NUMBER -> "00000000000000.000000000000"
-                                          VERY_LONG_NUMBER -> "00000000000000000000.00000000000000000000"
-                                          SCIENTIFIC_NUMBER -> "0.000####E0#"
-                                          SCIENTIFIC_LONG_NUMBER -> "0.000###########E0#"
-                                          SCIENTIFIC_VERY_LONG_NUMBER -> "0.000###########################E0#"
-                                          else -> "00000000000000.00000000"
+                                          SHORT_NUMBER -> "0.00##"
+                                          LONG_NUMBER -> "0.00############"
+                                          VERY_LONG_NUMBER -> "0.00#############################"
+                                          SCIENTIFIC_NUMBER -> "0.00#####E0#"
+                                          SCIENTIFIC_LONG_NUMBER -> "0.00############E0#"
+                                          SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
+                                          else -> "0.00############"
                                       })
-
+        val formattedNums = ArrayList<String>()
+        var maxLen = -1
         this.forEachIndexed { i, ele ->
-            if (i != 0 && i % this.storage.numColumns() == 0)
-                pstream.append("\n")
-            pstream.append(formatter.format(ele))
-            pstream.append("  ")
+            val formatEle = formatter.format(ele)
+            formattedNums.add(formatEle)
+            if (formatEle.length > maxLen)
+                maxLen = formatEle.length
         }
+        pstream.append("mat[ ")
+        formattedNums.forEachIndexed { i, fmtStr ->
+            if (i != 0 && i % this.storage.numColumns() == 0)
+                pstream.append("end\n     ")
+
+            pstream.append(fmtStr)
+            val alignSpaces = 3 + (maxLen - fmtStr.length)
+            (1..alignSpaces).forEach { pstream.append(" ") }
+
+        }
+        pstream.append("]")
 
         return bstream.toString()
     }
