@@ -120,6 +120,7 @@ interface Matrix<T> : Iterable<T>, Serializable {
      */
     fun getFactory(): MatrixFactory<Matrix<T>>
 
+
     fun repr(): String {
         var formatter = DecimalFormat(when (matFormat) {
                                           SHORT_NUMBER -> "0.00##"
@@ -130,27 +131,30 @@ interface Matrix<T> : Iterable<T>, Serializable {
                                           SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
                                           else -> "0.00############"
                                       })
+
         val lens = IntArray(numCols())
-        eachIndexed { r, c, e ->
-            val formatted = formatter.format(e)
-            if (lens[c] < formatted.length) lens[c] = formatted.length
+        eachIndexed { row, col, element ->
+            val formatted = formatter.format(element)
+            if (lens[col] < formatted.length) lens[col] = formatted.length
         }
         val bstream = ByteArrayOutputStream()
         val pstream = PrintStream(bstream)
 
-        var indent = "mat[ "
-        eachIndexed { r, c, e ->
-            var formatted = formatter.format(e)
-            if (c == 0) {
-                if (r > 0)
+        var indent = "mat["
+        eachIndexed { row, col, element ->
+            var formatted = formatter.format(element)
+            if (col == 0) {
+                if (row > 0)
                     pstream.append("end\n")
                 pstream.append(indent)
-                indent = "     "
+                indent = "    "
             }
             if (formatted[0] != '-')
                 formatted = " " + formatted
             pstream.append(formatted)
-            (-2..(lens[c] - formatted.length)).forEach { pstream.append(" ") }
+            if (col != lens.size - 1)
+                pstream.append(",")
+            (-1..(lens[col] - formatted.length)).forEach { pstream.append(" ") }
         }
         pstream.append("]")
 
