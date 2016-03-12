@@ -156,44 +156,8 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         return MTJIterator(this)
     }
 
-    override fun repr() = this.toString()
+    override fun toString() = this.repr()
 
-    override fun toString(): String {
-        val bstream = ByteArrayOutputStream()
-        val pstream = PrintStream(bstream)
-
-        // Numbers are numChars, precision
-        var formatter = DecimalFormat(when (matFormat) {
-                                          SHORT_NUMBER -> "0.00##"
-                                          LONG_NUMBER -> "0.00############"
-                                          VERY_LONG_NUMBER -> "0.00#############################"
-                                          SCIENTIFIC_NUMBER -> "0.00#####E0#"
-                                          SCIENTIFIC_LONG_NUMBER -> "0.00############E0#"
-                                          SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
-                                          else -> "0.00############"
-                                      })
-        val formattedNums = ArrayList<String>()
-        var maxLen = -1
-        this.forEachIndexed { i, ele ->
-            val formatEle = formatter.format(ele)
-            formattedNums.add(formatEle)
-            if (formatEle.length > maxLen)
-                maxLen = formatEle.length
-        }
-        pstream.append("mat[ ")
-        formattedNums.forEachIndexed { i, fmtStr ->
-            if (i != 0 && i % this.storage.numColumns() == 0)
-                pstream.append("end\n     ")
-
-            pstream.append(fmtStr)
-            val alignSpaces = 3 + (maxLen - fmtStr.length)
-            (1..alignSpaces).forEach { pstream.append(" ") }
-
-        }
-        pstream.append("]")
-
-        return bstream.toString()
-    }
 
     // TODO: Fix this
     /**

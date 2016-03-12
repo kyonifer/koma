@@ -146,25 +146,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
         return MTJIterator(this)
     }
 
-    override fun repr() = this.toString()
-
-    override fun toString(): String {
-        val stream = ByteArrayOutputStream()
-
-        // Numbers are numChars, precision
-        when (matFormat) {
-            SHORT_NUMBER -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 6, 3)
-            }
-            LONG_NUMBER -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 14, 12)
-            }
-            VERY_LONG_NUMBER -> {
-                MatrixIO.print(PrintStream(stream), this.storage.matrix, 20, 20)
-            }
-        }
-        return stream.toString()
-    }
+    override fun toString() = this.repr()
 
     // TODO: Fix this
     /**

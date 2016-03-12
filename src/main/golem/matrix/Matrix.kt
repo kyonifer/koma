@@ -1,8 +1,8 @@
 package golem.matrix
 
-import java.io.ObjectOutputStream
-import java.io.Serializable
-import java.io.StreamCorruptedException
+import golem.*
+import java.io.*
+import java.text.DecimalFormat
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -120,8 +120,42 @@ interface Matrix<T> : Iterable<T>, Serializable {
      */
     fun getFactory(): MatrixFactory<Matrix<T>>
 
-    // Print the internal
-    fun repr(): String
+    fun repr(): String {
+        var formatter = DecimalFormat(when (matFormat) {
+                                          SHORT_NUMBER -> "0.00##"
+                                          LONG_NUMBER -> "0.00############"
+                                          VERY_LONG_NUMBER -> "0.00#############################"
+                                          SCIENTIFIC_NUMBER -> "0.00#####E0#"
+                                          SCIENTIFIC_LONG_NUMBER -> "0.00############E0#"
+                                          SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
+                                          else -> "0.00############"
+                                      })
+        val lens = IntArray(numCols())
+        eachIndexed { r, c, e ->
+            val formatted = formatter.format(e)
+            if (lens[c] < formatted.length) lens[c] = formatted.length
+        }
+        val bstream = ByteArrayOutputStream()
+        val pstream = PrintStream(bstream)
+
+        var indent = "mat[ "
+        eachIndexed { r, c, e ->
+            var formatted = formatter.format(e)
+            if (c == 0) {
+                if (r > 0)
+                    pstream.append("end\n")
+                pstream.append(indent)
+                indent = "     "
+            }
+            if (formatted[0] != '-')
+                formatted = " " + formatted
+            pstream.append(formatted)
+            (-2..(lens[c] - formatted.length)).forEach { pstream.append(" ") }
+        }
+        pstream.append("]")
+
+        return bstream.toString()
+    }
 
     val T: Matrix<T>
         get() = this.transpose()
