@@ -4,7 +4,7 @@
  * Otherwise, another defaults_* may be used (see build.gradle for details).
  */
 
-@file:JvmName("Golem")
+@file:JvmName("Options")
 @file:JvmMultifileClass
 
 package golem
