@@ -1,13 +1,10 @@
 @file:JvmName("SymmetryValidation")
 
 package golem.util.validation
-import golem.validateMatrices
 
+import golem.*
 
-/**
- * Require the current matrix to be symmetric.
- */
-val ValidationContext.symmetric: ValidationContext get() {
+fun ValidationContext.symmetric(precision: Double = 1e-5): ValidationContext {
     if (!validateMatrices) return this
     val rows = currentMatrix.numRows()
     val cols = currentMatrix.numCols()
@@ -17,10 +14,15 @@ val ValidationContext.symmetric: ValidationContext get() {
     }
     for (row in 0.until(rows))
         for (col in row.until(cols))
-            if (currentMatrix[row, col] != currentMatrix[col, row]) {
+            if (abs(currentMatrix[row, col] - currentMatrix[col, row]) > precision) {
                 val msg = "${currentMatrixName} must be symmetric, but " +
-                    "${currentMatrixName}[${row}, ${col}] != ${currentMatrixName}[${col}, ${row}]."
+                          "${currentMatrixName}[${row}, ${col}] != ${currentMatrixName}[${col}, ${row}]."
                 throw IllegalArgumentException(msg)
             }
     return this
 }
+
+/**
+ * Require the current matrix to be symmetric.
+ */
+val ValidationContext.symmetric: ValidationContext get() = symmetric()
