@@ -1,8 +1,18 @@
 package golem.containers
 
 /**
- * A placeholder for timedata (something which specifies the time reference)
+ * A value indicating the time reference (not an enum class to facilitate interop)
  */
-enum class TimeStandard {
-    GPS, WALL, UNIX, OTHER
+class TimeStandard(var value: Int) {
+    companion object {
+        @JvmField
+        val GPS = TimeStandard(1)
+        @JvmField
+        val WALL = TimeStandard(2)
+        @JvmField
+        val UNIX = TimeStandard(3)
+        @JvmField
+        val OTHER = TimeStandard(4)
+    }
 }
+
