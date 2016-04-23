@@ -13,15 +13,14 @@ import java.text.DecimalFormat
 interface Matrix<T> : Iterable<T>, Serializable {
     // Algebraic Operators
     operator fun mod(other: Matrix<T>): Matrix<T>
-
     operator fun div(other: Int): Matrix<T>
-    operator fun div(other: Double): Matrix<T>
+    operator fun div(other: T): Matrix<T>
     operator fun times(other: Matrix<T>): Matrix<T>
-    operator fun times(other: Double): Matrix<T>
+    operator fun times(other: T): Matrix<T>
     operator fun unaryMinus(): Matrix<T>
-    operator fun minus(other: Double): Matrix<T>
+    operator fun minus(other: T): Matrix<T>
     operator fun minus(other: Matrix<T>): Matrix<T>
-    operator fun plus(other: Double): Matrix<T>
+    operator fun plus(other: T): Matrix<T>
     operator fun plus(other: Matrix<T>): Matrix<T>
     fun transpose(): Matrix<T>
     fun elementTimes(other: Matrix<T>): Matrix<T>
