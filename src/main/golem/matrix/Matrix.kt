@@ -41,7 +41,7 @@ interface Matrix<T> : Iterable<T>, Serializable {
 
     fun copy(): Matrix<T>
 
-    // For speed optimized code (if backend isnt chosen type, may incur performance loss)
+    // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
     // We can get rid of this when Java 10 generic specialization comes!
     fun getInt(i: Int, j: Int): Int
     fun getDouble(i: Int, j: Int): Double
