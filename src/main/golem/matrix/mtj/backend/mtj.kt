@@ -9,6 +9,14 @@ import java.util.*
 val Matrix.T: Matrix
     get() = this.transpose()
 
+fun DenseMatrix.mapMat(f: (Double) -> Double): DenseMatrix {
+    var out = DenseMatrix(this.numRows(), this.numColumns())
+
+    for (row in 0..this.numRows() - 1)
+        for (col in 0..this.numColumns() - 1)
+            out[row, col] = f(this[row, col])
+    return out
+}
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
 operator fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
@@ -18,13 +26,7 @@ operator fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
 }
 
 operator fun DenseMatrix.times(other: Int) = this.times(other.toDouble())
-operator fun DenseMatrix.times(other: Double): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), this.numColumns())
-    for (i in 0..this.numRows() - 1)
-        for (j in 0..this.numColumns() - 1)
-            out[i, j] = this[i, j] * other
-    return out
-}
+operator fun DenseMatrix.times(other: Double) = this.mapMat { it * other }
 
 // Element multiplication
 operator fun DenseMatrix.mod(other: DenseMatrix): DenseMatrix {
@@ -61,13 +63,7 @@ operator fun DenseMatrix.set(i: Int, j: Int, v: Double) = this.set(i, j, v)
 // Scalar Arithmetic not available since extension functions cant override iterable plus()
 fun DenseMatrix.plusElement(other: Int) = this.plusElement(other.toDouble())
 
-fun DenseMatrix.plusElement(other: Double): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), this.numColumns())
-    for (i in 0..this.numRows() - 1)
-        for (j in 0..this.numColumns() - 1)
-            out[i, j] = this[i, j] + other
-    return out
-}
+fun DenseMatrix.plusElement(other: Double) = this.mapMat { it + other }
 
 fun DenseMatrix.plusMatrix(other: DenseMatrix): DenseMatrix {
     if (other.numRows() == 1 && other.numColumns() == 1)
@@ -78,17 +74,9 @@ fun DenseMatrix.plusMatrix(other: DenseMatrix): DenseMatrix {
 }
 
 fun DenseMatrix.powElement(other: Int) = this.powElement(other.toDouble())
-fun DenseMatrix.powElement(other: Double): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), this.numColumns())
-    for (i in 0..this.numRows() - 1)
-        for (j in 0..this.numColumns() - 1)
-            out[i, j] = pow(this[i, j], other)
-    return out
-}
+fun DenseMatrix.powElement(other: Double) = this.mapMat { pow(it, other) }
 
-fun DenseMatrix.prod(): Double {
-    return this.data.reduce { a, b -> a * b }
-}
+fun DenseMatrix.prod() = this.data.reduce { a, b -> a * b }
 
 fun DenseMatrix.chol() = DenseCholesky(this.numRows(), false).factor(LowerSPDDenseMatrix(this)).l
 fun DenseMatrix.svd() = SVD.factorize(this)
@@ -157,11 +145,7 @@ fun DenseMatrix.det(): Double {
 
 fun rand(rows: Int, cols: Int, seed: Long): DenseMatrix {
     random.setSeed(seed)
-    var out = DenseMatrix(rows, cols)
-    for (i in 0..rows - 1)
-        for (j in 0..cols - 1)
-            out[i, j] = random.nextDouble()
-    return out
+    return DenseMatrix(rows, cols).mapMat { random.nextDouble() }
 }
 
 fun rand(rows: Int, cols: Int) = rand(rows, cols, System.currentTimeMillis())
@@ -172,19 +156,7 @@ fun randn(len: Int) = randn(len, len)
 fun randn(rows: Int, cols: Int) = randn(rows, cols, System.currentTimeMillis())
 fun randn(rows: Int, cols: Int, seed: Long): DenseMatrix {
     val random = Random(seed)
-    val out = DenseMatrix(rows, cols)
-    for (i in 0..rows - 1)
-        for (j in 0..cols - 1)
-            out[i, j] = random.nextGaussian()
-    return out
-}
-
-fun DenseMatrix.map(f: (Double) -> Double): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), this.numColumns())
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numColumns() - 1)
-            out[row, col] = f(this[row, col])
-    return out
+    return DenseMatrix(rows, cols).mapMat { random.nextGaussian() }
 }
 
 object mat {
