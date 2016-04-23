@@ -85,12 +85,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
     override fun trace() = this.storage.trace()
     override fun epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
     override fun epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
-    override fun pow(exponent: Int): EJMLMatrix {
-        var out = this.copy()
-        for (i in 1..exponent - 1)
-            out *= this
-        return out
-    }
+
 
     override fun setCol(index: Int, col: Matrix<Double>) {
         for (i in 0..col.numRows() - 1)

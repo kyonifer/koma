@@ -98,12 +98,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         return this.storage.det()
     }
 
-    override fun pow(exponent: Int): MTJMatrix {
-        var out = this.copy()
-        for (i in 1..exponent - 1)
-            out *= this
-        return out
-    }
 
     override fun setCol(index: Int, col: Matrix<Double>) {
         for (i in 0..col.numRows() - 1)

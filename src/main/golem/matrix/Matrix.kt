@@ -26,7 +26,6 @@ interface Matrix<T> : Iterable<T>, Serializable {
     fun elementTimes(other: Matrix<T>): Matrix<T>
     fun epow(other: Double): Matrix<T>
     infix fun epow(other: Int): Matrix<T>
-    infix fun pow(exponent: Int): Matrix<T>
 
     // Dimensions
     fun numRows(): Int
@@ -186,4 +185,11 @@ interface Matrix<T> : Iterable<T>, Serializable {
         }
         return MatrixIterator(this)
     }
+    infix fun pow(exponent: Int): Matrix<T> {
+        var out = this.copy()
+        for (i in 1..exponent - 1)
+            out *= this
+        return out
+    }
+
 }
