@@ -6,13 +6,13 @@ import golem.*
 import golem.matrix.*
 
 /**
- * A backend agnostic implementation of the matrix exponential.
+ * A backend agnostic implementation of the matrix exponential (i.e. e to the matrix).
  */
-fun expm(matrix: Matrix<Double>)
+fun Matrix<Double>.matExponential()
         : Matrix<Double> {
 
-    var solveProvider = { A: Matrix<Double>, B: Matrix<Double> -> matrix.solve(A, B) }
-    var A = matrix
+    var solveProvider = { A: Matrix<Double>, B: Matrix<Double> -> this.solve(A, B) }
+    var A = this
     var A_L1 = A.normIndP1()
     var n_squarings = 0
 

@@ -2,6 +2,7 @@ package golem.matrix.ejml
 
 import golem.*
 import golem.matrix.*
+import golem.matrix.common.*
 import golem.matrix.ejml.backend.*
 import org.ejml.data.DenseMatrix64F
 import org.ejml.ops.CommonOps
@@ -111,7 +112,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
     }
 
     override fun expm(): Matrix<Double> {
-        return golem.matrix.common.expm(this)
+        return this.matExponential()
     }
 
     override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {

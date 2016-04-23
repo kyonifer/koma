@@ -2,6 +2,7 @@ package golem.matrix.mtj
 
 import golem.*
 import golem.matrix.*
+import golem.matrix.common.*
 import golem.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
@@ -123,7 +124,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
     }
 
     override fun expm(): Matrix<Double> {
-        return golem.matrix.common.expm(this)
+        return this.matExponential()
     }
 
     override fun LU(): Triple<MTJMatrix, MTJMatrix, MTJMatrix> {
