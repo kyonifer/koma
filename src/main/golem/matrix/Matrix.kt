@@ -10,7 +10,6 @@ import java.text.DecimalFormat
  * implement this class and MatrixFactory.
  */
 
-// Recursive generic allows us to specialize for a particular internal implementation
 interface Matrix<T> : Iterable<T>, Serializable {
     // Algebraic Operators
     operator fun mod(other: Matrix<T>): Matrix<T>
@@ -32,12 +31,10 @@ interface Matrix<T> : Iterable<T>, Serializable {
 
     // Dimensions
     fun numRows(): Int
-
     fun numCols(): Int
 
     // Index syntax
     operator fun set(i: Int, v: T)
-
     operator fun set(i: Int, j: Int, v: T)
 
     operator fun get(i: Int, j: Int): T
@@ -48,7 +45,6 @@ interface Matrix<T> : Iterable<T>, Serializable {
     // For speed optimized code (if backend isnt chosen type, may incur performance loss)
     // We can get rid of this when Java 10 generic specialization comes!
     fun getInt(i: Int, j: Int): Int
-
     fun getDouble(i: Int, j: Int): Double
     fun getFloat(i: Int, j: Int): Float
     fun getInt(i: Int): Int
@@ -76,7 +72,6 @@ interface Matrix<T> : Iterable<T>, Serializable {
 
     // Decompositions (Already has eig, svd) [expm,schur not available]
     fun chol(): Matrix<T>
-
     fun LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>>
     fun QR(): Pair<Matrix<T>, Matrix<T>>
     // TODO: need schur, svd, eig
@@ -84,12 +79,10 @@ interface Matrix<T> : Iterable<T>, Serializable {
 
     // Advanced Functions
     fun expm(): Matrix<T>
-
     fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
 
     // Basic Functions
     fun inv(): Matrix<T>
-
     fun det(): T
     fun pinv(): Matrix<T>
     fun normF(): T
@@ -103,6 +96,9 @@ interface Matrix<T> : Iterable<T>, Serializable {
     fun argMin(): Int // Row major 1D index
     fun norm(): T // L2 (Euclidean) norm
     fun trace(): T
+    /**
+     * Transpose operator.
+     */
     fun T(): Matrix<T> // In MATLAB, this appears at foo.T
 
     /**
@@ -164,6 +160,9 @@ interface Matrix<T> : Iterable<T>, Serializable {
         return bstream.toString()
     }
 
+    /**
+     * Transpose operator.
+     */
     val T: Matrix<T>
         get() = this.transpose()
 
