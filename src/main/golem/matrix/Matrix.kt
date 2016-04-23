@@ -175,4 +175,15 @@ interface Matrix<T> : Iterable<T>, Serializable {
         throw StreamCorruptedException("No Data for Matrix In Stream")
     }
 
+    override fun iterator(): Iterator<T> {
+        class MatrixIterator<T>(var matrix: Matrix<T>) : Iterator<T> {
+            private var cursor = 0
+            override fun next(): T {
+                cursor += 1
+                return matrix[cursor - 1]
+            }
+            override fun hasNext() = cursor < matrix.numCols() * matrix.numRows()
+        }
+        return MatrixIterator(this)
+    }
 }

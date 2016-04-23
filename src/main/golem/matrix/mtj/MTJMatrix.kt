@@ -143,18 +143,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         return Pair(MTJMatrix(Q), MTJMatrix(R))
     }
 
-    override fun iterator(): Iterator<Double> {
-        class MTJIterator(var matrix: MTJMatrix) : Iterator<Double> {
-            private var cursor = 0
-            override fun next(): Double {
-                cursor += 1
-                return matrix[cursor - 1]
-            }
-
-            override fun hasNext() = cursor < matrix.numCols() * matrix.numRows()
-        }
-        return MTJIterator(this)
-    }
 
     override fun toString() = this.repr()
 
