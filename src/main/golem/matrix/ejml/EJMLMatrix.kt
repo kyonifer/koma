@@ -110,9 +110,8 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
         return out
     }
 
-    override fun expm(): EJMLMatrix {
-        // Casts are safe since generation happens from mat.getFactory()
-        return golem.matrix.common.expm(this) as EJMLMatrix
+    override fun expm(): Matrix<Double> {
+        return golem.matrix.common.expm(this)
     }
 
     override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {

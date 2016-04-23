@@ -122,9 +122,8 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         return out
     }
 
-    override fun expm(): MTJMatrix {
-        // Casts are safe since generation happens from mat.getFactory()
-        return golem.matrix.common.expm(this) as MTJMatrix
+    override fun expm(): Matrix<Double> {
+        return golem.matrix.common.expm(this)
     }
 
     override fun LU(): Triple<MTJMatrix, MTJMatrix, MTJMatrix> {
