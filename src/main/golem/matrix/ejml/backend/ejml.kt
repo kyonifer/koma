@@ -1,6 +1,6 @@
 /**
  * Some functions to make ejml matrices more usable directly in Kotlin.
- * If raw performance isnt needed, try using math.matrix facade instead,
+ * If raw performance isnt needed, try using golem.matrix.Matrix facade instead,
  * which wraps this class and allows you to swap out matrix implementations.
  *
  * In particular, this enables you to write e.g.
