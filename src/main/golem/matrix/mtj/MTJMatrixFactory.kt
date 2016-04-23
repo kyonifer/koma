@@ -2,12 +2,13 @@ package golem.matrix.mtj
 
 import golem.*
 import golem.matrix.*
+import golem.matrix.common.*
 import golem.util.*
 import no.uib.cipr.matrix.DenseMatrix
 import java.util.*
 
 
-class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
+class MTJMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
     override fun zeros(rows: Int, cols: Int) = MTJMatrix(DenseMatrix(rows, cols))
 
     override fun zeros(size: Int) = zeros(size, size)
@@ -49,25 +50,5 @@ class MTJMatrixFactory : MatrixFactory<Matrix<Double>> {
     override fun randn(size: Int) = randn(size, size)
     override fun randn(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols))
     override fun randn(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols, seed))
-    override fun arange(start: Double, stop: Double, increment: Double): MTJMatrix {
-        var len = round((stop - start) / increment).toInt()
-        var out = this.zeros(1, len)
-        for (i in 0 until len)
-            out[i] = start + i * increment
 
-        return out
-    }
-
-    override fun arange(start: Double, stop: Double): MTJMatrix {
-        return arange(start, stop, 1.0 * java.lang.Math.signum(stop - start))
-    }
-
-    override fun arange(start: Int, stop: Int, increment: Int): MTJMatrix {
-        return arange(start.toDouble(), stop.toDouble(), increment.toDouble())
-    }
-
-    override fun arange(start: Int, stop: Int): MTJMatrix {
-        val inc = 1.0 * java.lang.Math.signum(stop.toDouble() - start.toDouble())
-        return arange(start.toDouble(), stop.toDouble(), inc)
-    }
 }

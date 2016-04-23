@@ -18,7 +18,7 @@ import java.util.*
  * You should rarely use this class directly, instead use one of the
  * top-level functions in creators.kt (e.g. zeros(5,5)).
  */
-class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
+class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.T.storage.data
@@ -121,10 +121,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double> {
         var out = this.getFactory().zeros(A.numCols(), 1)
         castOrBail(A).storage.solve(castOrBail(B).storage, out.storage)
         return out
-    }
-
-    override fun expm(): Matrix<Double> {
-        return this.matExponential()
     }
 
     override fun LU(): Triple<MTJMatrix, MTJMatrix, MTJMatrix> {

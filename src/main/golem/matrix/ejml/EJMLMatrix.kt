@@ -18,7 +18,7 @@ import java.io.PrintStream
  * You should rarely use this class directly, instead use one of the
  * top-level functions in creators.kt (e.g. zeros(5,5)).
  */
-class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
+class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.storage.matrix.getData()
@@ -109,10 +109,6 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double> {
         var out = this.getFactory().zeros(A.numCols(), 1)
         CommonOps.solve(castOrBail(A).storage.matrix, castOrBail(B).storage.matrix, out.storage.matrix)
         return out
-    }
-
-    override fun expm(): Matrix<Double> {
-        return this.matExponential()
     }
 
     override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {

@@ -2,11 +2,12 @@ package golem.matrix.ejml
 
 import golem.*
 import golem.matrix.*
+import golem.matrix.common.*
 import golem.util.*
 import org.ejml.simple.SimpleMatrix
 import java.util.*
 
-class EJMLMatrixFactory : MatrixFactory<Matrix<Double>> {
+class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
     override fun zeros(rows: Int, cols: Int) = EJMLMatrix(golem.matrix.ejml.backend.zeros(rows, cols))
 
     override fun zeros(size: Int) = zeros(size, size)
@@ -65,30 +66,6 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>> {
 
     override fun randn(rows: Int, cols: Int, seed: Long): EJMLMatrix {
         return EJMLMatrix(golem.matrix.ejml.backend.randn(rows, cols, seed))
-    }
-
-    // Todo: Add these in
-    //fun linspace(...)
-    override fun arange(start: Double, stop: Double, increment: Double): EJMLMatrix {
-        var len = round((stop - start) / increment).toInt()
-        var out = this.zeros(1, len)
-        for (i in 0 until len)
-            out[i] = start + i * increment
-
-        return out
-    }
-
-    override fun arange(start: Double, stop: Double): EJMLMatrix {
-        return arange(start, stop, 1.0 * java.lang.Math.signum(stop - start))
-    }
-
-    override fun arange(start: Int, stop: Int, increment: Int): EJMLMatrix {
-        return arange(start.toDouble(), stop.toDouble(), increment.toDouble())
-    }
-
-    override fun arange(start: Int, stop: Int): EJMLMatrix {
-        val inc = 1.0 * java.lang.Math.signum(stop.toDouble() - start.toDouble())
-        return arange(start.toDouble(), stop.toDouble(), inc)
     }
 
 }
