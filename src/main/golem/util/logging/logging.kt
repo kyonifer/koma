@@ -17,6 +17,7 @@
  * doesnt contain this functionality in its API).
  */
 @file:JvmName("Logging")
+
 package golem.util.logging
 
 import ch.qos.logback.classic.LoggerContext
@@ -37,7 +38,7 @@ import org.slf4j.helpers.Util
  * Outputs at the chosen [level] the string returned by [builder]
  */
 fun Any.log(level: Level = Level.DEBUG, builder: () -> String) {
-    val logger = this.getLogger()
+    val logger = getLogger(this)
     when (level) {
         Level.DEBUG -> {
             if (logger.isDebugEnabled())
@@ -85,30 +86,6 @@ fun Any.logAsYaml(methodName: String,
 }
 
 /**
- * MATLAB friendly replacement for LoggerFactory.getLogger. Calls logback manually if we are being
- * called from within a MATLAB context, as if we didn't slf4j will break and find MATLABs StaticLoggerBinder
- * instance. If we aren't in a MATLAB context, call LoggerFactory.getLogger as usual.
- */
-fun Any.getLogger(): Logger {
-    if (!isMatlab)
-        return LoggerFactory.getLogger(this.javaClass)
-    return ManualLogbackGenerator.getLoggerFactory().getLogger(this.javaClass)
-}
-
-/**
- * Set the log level for the logger associated with the receiver class.
- */
-fun Any.setLogLevel(level: Level) {
-    try {
-        var logger = this.getLogger() as ch.qos.logback.classic.Logger
-        logger.level = mapLevels(level)
-    } catch(e: Exception) {
-        this.log(Level.ERROR) { "Cannot set log level! call only works when logback is being used." }
-    }
-}
-
-
-/**
  * Contains if we are in a MATLAB context (i.e. MATLAB classes are on the classpath)
  */
 val isMatlab: Boolean = fun(): Boolean {
@@ -125,13 +102,24 @@ val isMatlab: Boolean = fun(): Boolean {
  * called from within a MATLAB context, as if we didn't slf4j will break and find MATLABs StaticLoggerBinder
  * instance. If we aren't in a MATLAB context, call LoggerFactory.getLogger as usual.
  */
+fun getLogger(instance: Any): Logger {
+    if (!isMatlab)
+        return LoggerFactory.getLogger(instance.javaClass)
+    return ManualLogbackGenerator.getLoggerFactory().getLogger(instance.javaClass)
+}
+/**
+ * MATLAB friendly replacement for LoggerFactory.getLogger. Calls logback manually if we are being
+ * called from within a MATLAB context, as if we didn't slf4j will break and find MATLABs StaticLoggerBinder
+ * instance. If we aren't in a MATLAB context, call LoggerFactory.getLogger as usual.
+ */
 fun getLogger(name: String): Logger {
     if (!isMatlab)
         return LoggerFactory.getLogger(name)
     return ManualLogbackGenerator.getLoggerFactory().getLogger(name)
 }
+
 /**
- * Set the log level for the logger associated with the classname contained in [name].
+ * Set the log level for the logger associated with the fully qualified classname contained in [name].
  */
 fun setLogLevel(name: String, level: Level) {
     try {
@@ -139,13 +127,37 @@ fun setLogLevel(name: String, level: Level) {
         logger.level = mapLevels(level)
     } catch(e: Exception) {
         getLogger("setLogLevel").log(Level.ERROR) {
-            "Cannot set log level! call only works when logback is being used."
+            "Cannot set log level! setLogLevel only works when logback is being used."
         }
     }
 }
 
 /**
- * Set the log level for the logger associated with the classname contained in [name].
+ * Set the log level for the logger associated with the [instance] class.
+ */
+fun setLogLevel(instance: Any, level: Level) {
+    try {
+        var logger = getLogger(instance) as ch.qos.logback.classic.Logger
+        logger.level = mapLevels(level)
+    } catch(e: ClassNotFoundException) {
+        getLogger("setLogLevel").log(Level.ERROR) { "Cannot set log level! setLogLevel only works when logback is being used." }
+    }
+}
+
+/**
+ * Set the log level for the logger associated with the [instance] class.
+ */
+fun setLogLevel(instance: Any, level: String) {
+    try {
+        var logger = getLogger(instance) as ch.qos.logback.classic.Logger
+        logger.level = mapLevels(level)
+    } catch(e: ClassNotFoundException) {
+        getLogger("setLogLevel").log(Level.ERROR) { "Cannot set log level! setLogLevel only works when logback is being used." }
+    }
+}
+
+/**
+ * Set the log level for the logger associated with the fully qualified classname contained in [name].
  */
 fun setLogLevel(name: String, level: String) {
     try {
@@ -153,7 +165,7 @@ fun setLogLevel(name: String, level: String) {
         logger.level = mapLevels(level)
     } catch(e: Exception) {
         getLogger("setLogLevel").log(Level.ERROR) {
-            "Cannot set log level! call only works when logback is being used."
+            "Cannot set log level! setLogLevel only works when logback is being used."
         }
     }
 }
@@ -213,6 +225,7 @@ private fun mapLevels(slfLevel: Level): ch.qos.logback.classic.Level {
         Level.WARN  -> ch.qos.logback.classic.Level.WARN
     }
 }
+
 /**
  * Map strings to logback levels.
  */
@@ -225,7 +238,7 @@ private fun mapLevels(stringLevel: String): ch.qos.logback.classic.Level? {
         "TRACE" -> ch.qos.logback.classic.Level.TRACE
         "WARN"  -> ch.qos.logback.classic.Level.WARN
         "OFF"   -> ch.qos.logback.classic.Level.OFF
-        else -> {
+        else    -> {
             getLogger("mapLevels").error("Unknown log level $stringLevel")
             return null
         }
