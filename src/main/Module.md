@@ -23,4 +23,6 @@ A set of convenient wrappers for using MTJ standalone if ever needed.
 Utility functions.
 # Package golem.util.test
 Utility functions for writing tests with matrices.
+# Package golem.util.validation
+A set of tools for automatically validating matrix dimensions, bounds, and other properties.
 
