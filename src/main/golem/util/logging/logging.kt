@@ -93,6 +93,8 @@ val isMatlab: Boolean = fun(): Boolean {
         var matlab = Class.forName("com.mathworks.jmi.Matlab")
     } catch (e: ClassNotFoundException) {
         return false
+    } catch (e: NoClassDefFoundError) {
+        return false
     }
     return true
 }()
