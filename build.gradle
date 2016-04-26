@@ -26,7 +26,13 @@ dependencies {
         exclude group: 'com.github.fommil.netlib'
     }
 
-    compile ('org.slf4j:slf4j-api:1.7.21')
+    compile 'org.slf4j:slf4j-api:1.7.21'
+
+    // Unfortunately we have to import logback directly here to interop with MATLAB
+    // (see golem.util.logging for more information). Note that outside of calling from MATLAB,
+    // Golem will use the vanilla slf4j API and therefore golem users may use their own slf4j backend and
+    // not use logback. Logback is only called directly in codepaths that support MATLAB interop.
+    compile 'ch.qos.logback:logback-classic:1.1.7'
 
     // Plotting
     compile('org.knowm.xchart:xchart:2.6.0') {
