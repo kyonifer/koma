@@ -198,7 +198,6 @@ private object ManualLogbackGenerator {
         } catch (t: Throwable) {
             Util.report("Failed to instantiate [${LoggerContext::class.java}]", t)
         }
-        setLogLevel(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME, Level.ERROR)
     }
 
     @JvmStatic
