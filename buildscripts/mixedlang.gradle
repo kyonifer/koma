@@ -7,6 +7,9 @@ sourceSets {
         kotlin {
             srcDirs = ['src/main']
         }
+        resources {
+            srcDirs = ['resources/main']
+        }
         if (hasProperty('groovySupport')) {
             groovy {
                 srcDirs = ['src/main']
@@ -24,6 +27,9 @@ sourceSets {
         }
         kotlin {
             srcDirs = ['src/test']
+        }
+        resources {
+            srcDirs = ['resources/test']
         }
         if (hasProperty('groovySupport')) {
             groovy {
