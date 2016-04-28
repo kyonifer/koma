@@ -124,13 +124,9 @@ fun getLogger(name: String): Logger {
  * Set the log level for the logger associated with the fully qualified classname contained in [name].
  */
 fun setLogLevel(name: String, level: Level) {
-    try {
+    catchWrongLoggerBackend {
         val logger = getLogger(name) as ch.qos.logback.classic.Logger
         logger.level = mapLevels(level)
-    } catch(e: Exception) {
-        getLogger("setLogLevel").log(Level.ERROR) {
-            "Cannot set log level! setLogLevel only works when logback is being used."
-        }
     }
 }
 
@@ -138,11 +134,9 @@ fun setLogLevel(name: String, level: Level) {
  * Set the log level for the logger associated with the [instance] class.
  */
 fun setLogLevel(instance: Any, level: Level) {
-    try {
-        var logger = getLogger(instance) as ch.qos.logback.classic.Logger
+    catchWrongLoggerBackend {
+        val logger = getLogger(instance) as ch.qos.logback.classic.Logger
         logger.level = mapLevels(level)
-    } catch(e: ClassNotFoundException) {
-        getLogger("setLogLevel").log(Level.ERROR) { "Cannot set log level! setLogLevel only works when logback is being used." }
     }
 }
 
@@ -150,11 +144,9 @@ fun setLogLevel(instance: Any, level: Level) {
  * Set the log level for the logger associated with the [instance] class.
  */
 fun setLogLevel(instance: Any, level: String) {
-    try {
-        var logger = getLogger(instance) as ch.qos.logback.classic.Logger
+    catchWrongLoggerBackend {
+        val logger = getLogger(instance) as ch.qos.logback.classic.Logger
         logger.level = mapLevels(level)
-    } catch(e: ClassNotFoundException) {
-        getLogger("setLogLevel").log(Level.ERROR) { "Cannot set log level! setLogLevel only works when logback is being used." }
     }
 }
 
@@ -162,13 +154,9 @@ fun setLogLevel(instance: Any, level: String) {
  * Set the log level for the logger associated with the fully qualified classname contained in [name].
  */
 fun setLogLevel(name: String, level: String) {
-    try {
+    catchWrongLoggerBackend {
         val logger = getLogger(name) as ch.qos.logback.classic.Logger
         logger.level = mapLevels(level)
-    } catch(e: Exception) {
-        getLogger("setLogLevel").log(Level.ERROR) {
-            "Cannot set log level! setLogLevel only works when logback is being used."
-        }
     }
 }
 
@@ -243,5 +231,14 @@ private fun mapLevels(stringLevel: String): ch.qos.logback.classic.Level? {
             getLogger("mapLevels").error("Unknown log level $stringLevel")
             return null
         }
+    }
+}
+private fun catchWrongLoggerBackend(f: ()->Unit) {
+    try {
+        f()
+    } catch(e: ClassNotFoundException) {
+        getLogger("setLogLevel").log(Level.ERROR) { "Cannot set log level! setLogLevel only works when logback is being used." }
+    } catch(e: NoClassDefFoundError) {
+        getLogger("setLogLevel").log(Level.ERROR) { "Cannot set log level! setLogLevel only works when logback is being used." }
     }
 }
