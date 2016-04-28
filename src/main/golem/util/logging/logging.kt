@@ -86,7 +86,7 @@ fun Any.logAsYaml(methodName: String,
 }
 
 /**
- * Contains if we are in a MATLAB context (i.e. MATLAB classes are on the classpath)
+ * Whether we are in a MATLAB context or not (i.e. MATLAB classes are on the classpath)
  */
 val isMatlab: Boolean = fun(): Boolean {
     try {
