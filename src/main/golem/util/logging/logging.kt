@@ -112,6 +112,7 @@ fun getLogger(instance: Any): Logger {
         return LoggerFactory.getLogger(instance.javaClass)
     return ManualLogbackGenerator.getLoggerFactory().getLogger(instance.javaClass)
 }
+
 /**
  * MATLAB friendly replacement for LoggerFactory.getLogger. Calls logback manually if we are being
  * called from within a MATLAB context, as if we didn't slf4j will break and find MATLABs StaticLoggerBinder
@@ -236,7 +237,8 @@ private fun mapLevels(stringLevel: String): ch.qos.logback.classic.Level? {
         }
     }
 }
-private fun catchWrongLoggerBackend(f: ()->Unit) {
+
+private fun catchWrongLoggerBackend(f: () -> Unit) {
     try {
         f()
     } catch(e: ClassNotFoundException) {
