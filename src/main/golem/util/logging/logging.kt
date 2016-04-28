@@ -178,7 +178,7 @@ fun setLogLevel(name: String, level: String) {
 private object ManualLogbackGenerator {
     var initialized = false
     var context = ch.qos.logback.classic.LoggerContext()
-    var KEY = Object()
+    val KEY = Object()
     val contextSelectorBinder = ContextSelectorStaticBinder.getSingleton();
 
     init {
