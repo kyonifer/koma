@@ -3,7 +3,12 @@
  *
  * One goal of golem is to be able to write scientific code that is consumable from common scientific
  * environments. Unfortunately, MATLAB uses slf4j internally which causes issues with a straight usage
- * of the slf4j-api. In this namespace we provide a set of logging functions which operate normally
+ * of the slf4j-api. In particular, the slf4j classloader will pick up the StaticLoggerBinder that MATLAB
+ * exports, making the slf4j static methods inoperable. We get around this by detecting if we are in a
+ * MATLAB context and building a logback context manually. This requires us to statically link against
+ * logback (or use a ridiculous amount of reflection, which was not done).
+ *
+ * In this namespace we provide a set of logging functions which operate normally
  * (i.e. use slf4j-api and allow for a pluggable backend logger) when run on the JVM normally but force
  * using logback manually when they detect we are running embedded inside MATLAB. You may therefore
  * replace your calls to slf4j with the functions found here and see no difference in ordinary usage, but
