@@ -76,19 +76,17 @@ fun Any.log(level: Level = Level.DEBUG, message: Any) = this.log(level, { messag
 /**
  * Dumps a set of variables out as a YAML formatted debug message.
  */
-fun Any.logAsYaml(methodName: String,
-                  vararg nameValuePairs: Pair<*, *>,
-                  level: Level = Level.DEBUG) {
-    this.log(level) {
-        nameValuePairs
-                .map { pair ->
-                    "${pair.first.toString().prependIndent("    ")}: |\n" +
-                    "${pair.second.toString().replaceIndent("        ")}"
-                }
-                .joinToString(separator = "\n",
-                              prefix = "$methodName: %\n")
-    }
+fun asYaml(methodName: String,
+           vararg nameValuePairs: Pair<*, *>): String {
+    return nameValuePairs
+            .map { pair ->
+                "${pair.first.toString().prependIndent("    ")}: |\n" +
+                "${pair.second.toString().replaceIndent("        ")}"
+            }
+            .joinToString(separator = "\n",
+                          prefix = "$methodName: %\n")
 }
+
 
 /**
  * Whether we are in a MATLAB context or not (i.e. MATLAB classes are on the classpath)
