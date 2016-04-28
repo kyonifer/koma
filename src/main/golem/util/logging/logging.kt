@@ -95,7 +95,7 @@ fun Any.logAsYaml(methodName: String,
  */
 val isMatlab: Boolean = fun(): Boolean {
     try {
-        var matlab = Class.forName("com.mathworks.jmi.Matlab")
+        Class.forName("com.mathworks.jmi.Matlab")
     } catch (e: ClassNotFoundException) {
         return false
     } catch (e: NoClassDefFoundError) {
