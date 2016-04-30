@@ -3,16 +3,16 @@ package golem.containers
 /**
  * A value indicating the time reference (not an enum class to facilitate interop)
  */
-class TimeStandard private constructor(var value: Int) {
+class TimeStandard(val value: String) {
     companion object {
         @JvmField
-        val GPS = TimeStandard(1)
+        val GPS = TimeStandard("GPS")
         @JvmField
-        val WALL = TimeStandard(2)
+        val WALL = TimeStandard("WALL")
         @JvmField
-        val UNIX = TimeStandard(3)
+        val UNIX = TimeStandard("UNIX")
         @JvmField
-        val OTHER = TimeStandard(4)
+        val OTHER = TimeStandard("OTHER")
     }
 }
 
