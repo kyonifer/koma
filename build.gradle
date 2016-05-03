@@ -23,11 +23,11 @@ apply from: 'buildscripts/mixedlang.gradle'
 apply from: 'buildscripts/fatjar.gradle'
 apply from: 'buildscripts/documentation.gradle'
 
-if (hasProperty('bintrayUser'))
-    apply from: 'buildscripts/publishing.gradle'
-
 group = "net.antcenter"
 version = "0.4"
+
+if (hasProperty('bintrayUser'))
+    apply from: 'buildscripts/publishing.gradle'
 
 repositories {
     mavenCentral()
