@@ -12,10 +12,8 @@ buildscript {
     }
 }
 
-if (hasProperty('bintrayUser')) {
-    plugins {
-        id "com.jfrog.bintray" version "1.6"
-    }
+plugins {
+    id "com.jfrog.bintray" version "1.6"
 }
 
 apply plugin: 'java'
