@@ -12,8 +12,10 @@ buildscript {
     }
 }
 
-plugins {
-    id "com.jfrog.bintray" version "1.6"
+if (hasProperty('bintrayUser')) {
+    plugins {
+        id "com.jfrog.bintray" version "1.6"
+    }
 }
 
 apply plugin: 'java'
@@ -21,8 +23,10 @@ apply plugin: 'kotlin'
 
 apply from: 'buildscripts/mixedlang.gradle'
 apply from: 'buildscripts/fatjar.gradle'
-apply from: 'buildscripts/publishing.gradle'
 apply from: 'buildscripts/documentation.gradle'
+
+if (hasProperty('bintrayUser'))
+    apply from: 'buildscripts/publishing.gradle'
 
 group = "net.antcenter"
 version = "0.4"
