@@ -1,15 +1,39 @@
 // Deploy our maven artifact into build/dist/ for later distribution
 apply plugin: 'maven-publish'
 
+
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        mavenCustom(MavenPublication) {
             from components.java
+            artifact sourceJar
+
+            groupId 'golem'
+            artifactId 'golem'
+            version project.version
         }
     }
     repositories {
         maven {
             url "$buildDir/dist"
+        }
+    }
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayApikey
+    publications = ['mavenCustom']
+    pkg {
+        repo = 'maven'
+        name = 'golem'
+        desc = 'A scientific library for Kotlin'
+        licenses = ['Apache-2.0']
+        labels = ['kotlin']
+        vcsUrl = 'https://github.com/kyonifer/golem.git'
+
+        version {
+            name = project.version
         }
     }
 }
