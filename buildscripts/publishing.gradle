@@ -30,7 +30,11 @@ bintray {
         desc = 'A scientific library for Kotlin'
         licenses = ['Apache-2.0']
         labels = ['kotlin']
+
         vcsUrl = 'https://github.com/kyonifer/golem.git'
+        websiteUrl = 'https://github.com/kyonifer'
+        githubRepo = 'kyonifer/golem'
+        githubReleaseNotesFile = 'README.md'
 
         version {
             name = project.version
