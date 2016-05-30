@@ -60,6 +60,9 @@ fun main(args: Array<String>)
 ```
 ![](https://raw.githubusercontent.com/kyonifer/golem/imgs/plotting.png)
 
+## Functionality
+
+### Math Functions
 Matrices have useful map functions that return matrices for chaining operations (see [here](src/main/golem/extensions.kt) for a complete list).
 
 ```Kotlin
@@ -122,16 +125,16 @@ Which produces:
 ```
 Output:
 
-000019.000  
-000043.000  
-000067.000
+mat[ 3.00  end
+     7.00  end
+     17.00 ]
 ```
 
 Many special functions are supported (see [the matrix interface](src/main/golem/matrix/Matrix.kt) for a complete list):
 
 ```Kotlin
 
-    val a = 2*eye(3)+.01
+    val a = 2*eye(3)+.01 // eye is identity matrix
     
     a.chol()  // Cholesky decomposition
     a.det()   // Determinant
@@ -172,3 +175,70 @@ Matrix also implements Iterable<T>, so it inherits all the functions of that typ
     x.find { it > 4 }
 
 ```
+### Pluggable backend.
+
+Golem supports multiple backends to actually do the computation. You can
+set the backend used by default by golem's top-level functions by setting
+a property in the golem namespace:
+
+```Kotlin
+import golem.matrix.ejml.EJMLMatrixFactory
+
+...
+
+// Force the EJML backend to be selected
+golem.factory = EJMLMatrixFactory()
+
+```
+
+By default golem will try to use MTJ and then fall back to EJML. Note
+that you can easily use both matrix types at once if needed, by creating
+matrices manually using the corresponding factory and then using them
+as a Matrix<T>. This attribute can be set from Java and other langs via 
+golem.Options.setFactory(...).
+
+
+### Validation
+
+Golem includes support for matrix dimension / attribute validation. For
+example, suppose you have a function that takes in two matrices A and B.
+If we know that A is a row vector (i.e. Nx1), B is a matrix with 2 rows
+and the same number of columns as A has rows (i.e. 2xN), we could write
+
+```Kotlin
+import golem.matrix.Matrix
+import golem.util.validation.validate
+
+fun foo(A: Matrix<Double>, B: Matrix<Double>) {
+    validate {
+        A("A") { 'N'  x  1  }
+        B("B") {  2   x 'N' }
+    }
+    // Do stuff with A and B...
+}
+```
+
+The validate block will see that you used the same variable 'N' twice, 
+and make sure the matrices passed in have the same length. The DSL
+supports an arbitrary number of inputs of arbitrary dimension and also
+validates attributes like symmetricity. See [the README](https://github.com/kyonifer/golem/tree/master/src/main/golem/util/validation) for more 
+information.
+
+## Roadmap
+
+Planned functionality:
+
+* Add support for JBlas (partial support implemented)
+* Implement Matrix<T> for other primitive types, such as Int (primary difficulty is lack of support in backends)
+* Add a pluggable N-D container that uses backends such as [libDyND](https://github.com/libdynd/libdynd) and [ND4j](http://nd4j.org/)
+* Support arbitrary data storage for non-numerical data (e.g. string) in ND container
+
+## Related Projects
+
+Golem has backends that wrap several other numerical projects on the JVM:
+
+* Pure Java linear algebra: http://ejml.org/
+* Pluggable native libs: https://github.com/fommil/matrix-toolkits-java
+* Blas wrapper: http://jblas.org/
+
+For a data analysis library similar to pandas, check out https://github.com/holgerbrandl/kplyr
