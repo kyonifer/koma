@@ -163,7 +163,7 @@ Matrix indexing and slicing is supported (see [here](src/main/golem/operators.kt
 
 ```
 
-Matrix also implements Iterable<T>, so it inherits all the functions of that type:
+Matrix also implements Iterable, so it inherits all the functions of that type:
 
 ```Kotlin
     val x = randn(5,5)
@@ -175,7 +175,7 @@ Matrix also implements Iterable<T>, so it inherits all the functions of that typ
     x.find { it > 4 }
 
 ```
-### Pluggable backend.
+### Pluggable Backends
 
 Golem supports multiple backends to actually do the computation. You can
 set the backend used by default by golem's top-level functions by setting
@@ -191,11 +191,11 @@ golem.factory = EJMLMatrixFactory()
 
 ```
 
-By default golem will try to use MTJ and then fall back to EJML. Note
-that you can easily use both matrix types at once if needed, by creating
-matrices manually using the corresponding factory and then using them
-as a Matrix<T>. This attribute can be set from Java and other langs via 
-golem.Options.setFactory(...).
+This attribute can be set from Java and other languages via 
+golem.Options.setFactory(...). By default golem will try to use MTJ and 
+then fall back to EJML. Note that you can easily use both matrix types 
+at once if needed, by creating matrices manually using the corresponding
+factory and then using them as a Matrix. 
 
 
 ### Validation
@@ -219,17 +219,17 @@ fun foo(A: Matrix<Double>, B: Matrix<Double>) {
 ```
 
 The validate block will see that you used the same variable 'N' twice, 
-and make sure the matrices passed in have the same length. The DSL
-supports an arbitrary number of inputs of arbitrary dimension and also
-validates attributes like symmetricity. See [the README](https://github.com/kyonifer/golem/tree/master/src/main/golem/util/validation) for more 
-information.
+and make sure the matrices passed in have those dimensions matching. The 
+DSL supports an arbitrary number of inputs of arbitrary dimension and 
+also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/golem/tree/master/src/main/golem/util/validation) 
+for more information.
 
 ## Roadmap
 
 Planned functionality:
 
 * Add support for JBlas (partial support implemented)
-* Implement Matrix<T> for other primitive types, such as Int (primary difficulty is lack of support in backends)
+* Implement Matrix for other primitive types, such as Int (primary difficulty is lack of support in backends)
 * Add a pluggable N-D container that uses backends such as [libDyND](https://github.com/libdynd/libdynd) and [ND4j](http://nd4j.org/)
 * Support arbitrary data storage for non-numerical data (e.g. string) in ND container
 
