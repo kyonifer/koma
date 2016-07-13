@@ -22,16 +22,19 @@ fun assertMatrixEquals(A: Matrix<Double>, B: Matrix<Double>, eps: Double = 1e-6)
     }
 }
 
-private var facs = arrayOf(golem.matrix.ejml.EJMLMatrixFactory(),
-                           golem.matrix.mtj.MTJMatrixFactory())
+private var facs = getAvailableFactories()
 
 /**
- * A helper function to run tests against all backends in sequence. Sets [golem.factory] to each backend
+ * A helper function to run tests against all available backends in sequence. Sets [golem.factory] to each backend
  * consecutively and then runs the passed in block of code. Note that code that manually sets its own backend
  * (e.g. by creating a MTJMatrix instance explicitly) will not be affected by this function. Code that uses
  * top-level functions and generic Matrix<T> functions should work correctly.
+ *
+ * Note: this function sets golem.factory to an arbitrary backend, so reset it afterwards if needed.
  */
 fun allBackends(f: () -> Unit) {
+    if (facs.size == 0)
+        throw IllegalStateException("Asked to test all backends, but no backends found.")
     for (fac in facs) {
         golem.factory = fac
         f()

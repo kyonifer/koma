@@ -1,10 +1,16 @@
 import com.beust.kobalt.*
+import com.beust.kobalt.api.Project
 import com.beust.kobalt.plugin.packaging.*
 
 val kotVersion = "1.0.3"
 val golemVersion = "0.5"
 
-val core = project {
+// Profile configuration variables (set on command line)
+val testBackends = false
+
+val core = project(*getCoreDeps()) {
+    if (testBackends) {println("hi")}
+        else {println("bye")}
     name = "golem-core"
     group = "golem"
     artifactId = name
@@ -116,5 +122,16 @@ val backend_jblas = project(core) {
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("org.jblas:jblas:1.2.3")
+    }
+}
+private fun getCoreDeps():Array<Project> {
+    // Needed due to https://github.com/cbeust/kobalt/issues/270
+    if (testBackends) {
+        println("yes")
+        return arrayOf(backend_jblas, backend_ejml, backend_mtj)
+    }
+    else {
+        println("no")
+        return emptyArray()
     }
 }
