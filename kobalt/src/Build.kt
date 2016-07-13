@@ -23,7 +23,7 @@ val core = project {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("com.beust:jcommander:1.48")
         compile("org.slf4j:slf4j-api:1.7.21")
-        compile("org.knowm.xchart:xchart:2.6.0")
+        compile("org.knowm.xchart:xchart:3.1.0")
     }
 
     assemble {

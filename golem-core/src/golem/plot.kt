@@ -5,10 +5,10 @@ package golem
 
 import golem.matrix.*
 import golem.util.*
-import org.knowm.xchart.Chart
+import org.knowm.xchart.XYChart
 import org.knowm.xchart.QuickChart
-import org.knowm.xchart.SeriesMarker
 import org.knowm.xchart.XChartPanel
+import org.knowm.xchart.style.markers.SeriesMarkers
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.event.WindowEvent
@@ -28,7 +28,7 @@ private val MAX_FIGURES = 100
  * The set of raw objects for all figures currently created. This should not ordinarily be used by the end-user,
  * but may be helpful for advanced plotting. Be careful with threading issues if you modify these.
  */
-var figures = arrayOfNulls<Triple<Chart, JFrame, Int>>(MAX_FIGURES)
+var figures = arrayOfNulls<Triple<XYChart, JFrame, Int>>(MAX_FIGURES)
 
 /**
  * Sets the current figure to plot to. For example, the following plots 2 lines to the first window
@@ -49,7 +49,7 @@ fun figure(num: Int) {
 
 fun title(label: String) {
     var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call title before making a figure")
-    fig.setChartTitle(label)
+    fig.title = label
 }
 
 fun xlabel(label: String) {
@@ -135,13 +135,13 @@ fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel: S
         val lineName = lineLabel ?: "Line #${(numLines + 1).toString()}"
         val series = chart.addSeries(lineName, x, y)
         series.setLineColor(plotColors[color])
-        series.setMarker(SeriesMarker.NONE)
+        series.setMarker(SeriesMarkers.NONE)
 
         frame.repaint()
     }
 }
 
-private fun displayChart(c: Chart): JFrame {
+private fun displayChart(c: XYChart): JFrame {
 
     // Create and set up the window.
     val frame = JFrame("Plot #$currentFigure")
