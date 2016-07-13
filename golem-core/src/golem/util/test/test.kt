@@ -35,6 +35,8 @@ private var facs = getAvailableFactories()
 fun allBackends(f: () -> Unit) {
     if (facs.size == 0)
         throw IllegalStateException("Asked to test all backends, but no backends found.")
+    if (facs.size != 2)
+        println("Warning: only testing against ${facs.size} backends (2 expected)")
     for (fac in facs) {
         golem.factory = fac
         f()
