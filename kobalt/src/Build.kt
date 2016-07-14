@@ -2,7 +2,7 @@ import com.beust.kobalt.*
 import com.beust.kobalt.plugin.packaging.*
 
 val kotVersion = "1.0.3"
-val golemVersion = "0.5"
+val golemVersion = "0.6"
 
 val core = project {
     name = "golem-core"
