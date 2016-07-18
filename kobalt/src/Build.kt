@@ -1,23 +1,34 @@
 import com.beust.kobalt.*
+import com.beust.kobalt.api.Project
 import com.beust.kobalt.plugin.packaging.*
+import com.beust.kobalt.plugin.publish.bintray
 
 val kotVersion = "1.0.3"
 val golemVersion = "0.6"
+val groupName = "golem"
 
-val core = project {
-    name = "golem-core"
-    group = "golem"
+
+fun Project.makeSubProject(projName: String) {
+    name = projName
+    group = groupName
     artifactId = name
     version = golemVersion
-    directory = name
-
+    directory=name
     sourceDirectories {
         path("src")
     }
-
-    sourceDirectoriesTest {
-        path("test")
+    assemble {
+        mavenJars{}
+        jar {}
     }
+    bintray {
+        publish=true
+    }
+}
+
+
+val core = project {
+    makeSubProject("golem-core")
 
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
@@ -25,46 +36,21 @@ val core = project {
         compile("org.slf4j:slf4j-api:1.7.21")
         compile("org.knowm.xchart:xchart:3.1.0")
     }
-
-    assemble {
-        jar {
-        }
-    }
 }
 
 val logging = project {
-    name = "golem-logging"
-    group = "golem"
-    artifactId = name
-    version = golemVersion
-    directory = name
-
-    sourceDirectories {
-        path("src")
-    }
+    makeSubProject("golem-logging")
 
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("org.slf4j:slf4j-api:1.7.21")
         compile("ch.qos.logback:logback-classic:1.1.7")
     }
-
-    assemble {
-        jar {
-        }
-    }
 }
 
 val backend_mtj = project(core) {
-    name = "golem-backend-mtj"
-    group = "golem"
-    artifactId = name
-    version = golemVersion
-    directory = name
+    makeSubProject("golem-backend-mtj")
 
-    sourceDirectories {
-        path("src")
-    }
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4")
@@ -74,15 +60,8 @@ val backend_mtj = project(core) {
 }
 
 val backend_ejml = project(core) {
-    name = "golem-backend-ejml"
-    group = "golem"
-    artifactId = name
-    version = golemVersion
-    directory = name
+    makeSubProject("golem-backend-ejml")
 
-    sourceDirectories {
-        path("src")
-    }
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("org.ejml:all:0.27")
@@ -90,15 +69,8 @@ val backend_ejml = project(core) {
 }
 
 val backend_jblas = project(core) {
-    name = "golem-backend-jblas"
-    group = "golem"
-    artifactId = name
-    version = golemVersion
-    directory = name
+    makeSubProject("golem-backend-jblas")
 
-    sourceDirectories {
-        path("src")
-    }
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("org.jblas:jblas:1.2.3")
@@ -109,7 +81,7 @@ val backend_jblas = project(core) {
 // and kobalt doesnt support cyclic dependencies.
 val backend_tests = project(core, backend_ejml, backend_jblas, backend_mtj) {
     name = "golem-tests"
-    group = "golem"
+    group = groupName
     artifactId = name
     version = golemVersion
     directory = name
