@@ -1,20 +1,22 @@
 ### Golem
 
-Golem is a scientific environment for Kotlin that emphasizes language interop, performance, and flexibility.
+Golem is a scientific environment for Kotlin that emphasizes simplicity, language interop, performance, and flexibility.
 
 ## Project Goals
 
 The project aims to:
 
-- Create a scientific programming environment that is friendly and easy for people used to NumPy or MATLAB
-- Support usage from Kotlin, Java, other JVM languages, and foreign calls from Python or MATLAB
-- Use pluggable back-ends to offload the actual computation
-- Use other projects where possible to avoid duplication
+- Create a scientific programming environment for Kotlin that is friendly and easy to use for people used to NumPy or
+MATLAB
+- Support polyglot usage from Kotlin, Java, other JVM languages, and foreign interop with from Python or MATLAB
+- Use pluggable back-ends to offload the actual computation and interop with libraries expecting to work with another
+ matrix library
+- Use code already written by other projects where possible to avoid duplication
 
 ## Features
 
 Golem has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
-and an underlying object oriented hierarchy which dispatch the function calls. The flat functions are in the
+and an underlying object oriented hierarchy which dispatch those function calls. The flat functions are in the
 top-level files [here](src/main/golem/) while the matrix implementations are [here](src/main/golem/matrix/).
 It is easiest to get up to speed on Golem by reading through the available top-level functions.
 
@@ -25,6 +27,31 @@ We currently have:
 - Pluggable matrix back-end for pure-Java and high-performance modes (via MTJ and EJML)
 
 - Many linear algebra operations supported.
+
+## Using the Library From a Gradle Project
+
+Golem is hosted in jcenter. First add jcenter to your repos:
+
+```Groovy
+repositories {
+    jcenter()
+}
+```
+
+Then add a dependency on golem-core as well as whatever backend you want to
+use for doing the computation. For example, if you want to use golem with the
+MTJ backend, you'd write:
+
+```Groovy
+dependencies{
+    compile group: "golem", name:"golem-backend-mtj", version: "0.6"
+    compile group: "golem", name:"golem-core", version:"0.6"
+}
+```
+Right now only golem-backend-ejml and golem-backend-mtj are supported (ongoing work on jblas).
+Golem will automatically use the backend you add to the project. If you'd like to use more
+than one backend in a project at the same time, see [multiple backends](#multiple-backends)
+ below.
 
 ## Example Usage
 
@@ -175,11 +202,14 @@ Matrix also implements Iterable, so it inherits all the functions of that type:
     x.find { it > 4 }
 
 ```
-### Pluggable Backends
+### Multiple Backends
 
-Golem supports multiple backends to actually do the computation. You can
-set the backend used by default by golem's top-level functions by setting
-a property in the golem namespace:
+Golem supports using multiple backends simultaneously. This is useful if e.g.
+you need to work with multiple libraries which require different matrix containers
+(the unfortunate reality on the JVM at the moment).
+
+You can set the default backend used by default by golem's top-level functions by
+setting a property in the golem namespace:
 
 ```Kotlin
 import golem.matrix.ejml.EJMLMatrixFactory
@@ -192,10 +222,10 @@ golem.factory = EJMLMatrixFactory()
 ```
 
 This attribute can be set from Java and other languages via 
-golem.Options.setFactory(...). By default golem will try to use MTJ and 
-then fall back to EJML. Note that you can easily use both matrix types 
-at once if needed, by creating matrices manually using the corresponding
-factory and then using them as a Matrix. 
+`golem.Options.setFactory(...)`. By default golem will try to use MTJ and
+then fall back to EJML. Note that you can easily create any matrix types
+manually by using the corresponding factory and then passing them into functions
+that take a Matrix<T>.
 
 
 ### Validation

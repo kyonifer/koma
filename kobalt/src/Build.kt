@@ -7,7 +7,6 @@ val kotVersion = "1.0.3"
 val golemVersion = "0.6"
 val groupName = "golem"
 
-
 fun Project.makeSubProject(projName: String) {
     name = projName
     group = groupName
@@ -94,5 +93,6 @@ val backend_tests = project(core, backend_ejml, backend_jblas, backend_mtj) {
     sourceDirectoriesTest {
         path("test")
     }
+    test {include("**Tests.class")}
 
 }
