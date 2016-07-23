@@ -12,7 +12,9 @@ data class Time @JvmOverloads constructor(var time: Double, var timeStandard: Ti
      * @param other: Another Time instance.
      */
     fun checkStandard(other: Time) {
-        if (this.timeStandard != other.timeStandard)
+        if (this.timeStandard != TimeStandard.OTHER &&
+            other.timeStandard != TimeStandard.OTHER &&
+            this.timeStandard != other.timeStandard)
             throw Exception("TimeStandard ${this.timeStandard.value} does not match" +
                     " ${other.timeStandard.value}")
     }
