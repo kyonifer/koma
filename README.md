@@ -1,3 +1,7 @@
+[![GitHub issues](https://img.shields.io/github/issues/kyonifer/golem.svg?maxAge=2592000)](https://github.com/kyonifer/golem/issues)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Bintray](https://img.shields.io/bintray/v/kyonifer/maven/golem-core.svg?maxAge=2592000)](https://bintray.com/kyonifer/maven)
+
 ### Golem
 
 Golem is a scientific environment for Kotlin that emphasizes simplicity, language interop, performance, and flexibility.
