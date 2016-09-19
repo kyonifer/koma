@@ -50,7 +50,8 @@ var factory: MatrixFactory<Matrix<Double>>
  */
 fun getAvailableFactories(): List<MatrixFactory<Matrix<Double>>> {
     val facCandidates = arrayOf("golem.matrix.mtj.MTJMatrixFactory",
-                                "golem.matrix.ejml.EJMLMatrixFactory")
+                                "golem.matrix.ejml.EJMLMatrixFactory",
+                                "golem.matrix.jblas.JBlasMatrixFactory")
     val out: MutableList<MatrixFactory<Matrix<Double>>> = ArrayList()
 
     facCandidates.forEach {

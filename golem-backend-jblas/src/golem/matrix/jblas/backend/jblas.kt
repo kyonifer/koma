@@ -18,14 +18,30 @@
 
 package golem.matrix.jblas.backend
 
+import golem.*
 import org.jblas.*
+
+fun DoubleMatrix.mapMat(f: (Double) -> Double): DoubleMatrix {
+    var out = DoubleMatrix(this.rows, this.columns)
+    for (row in 0..this.rows - 1)
+        for (col in 0..this.columns - 1)
+            out[row, col] = f(this[row, col])
+    return out
+}
 
 // Algebraic Operators
 operator fun DoubleMatrix.plus(other: DoubleMatrix) = this.add(other)
-
 operator fun DoubleMatrix.minus(other: DoubleMatrix) = this.sub(other)
 operator fun DoubleMatrix.times(other: DoubleMatrix) = this.mmul(other)
 operator fun DoubleMatrix.mod(other: DoubleMatrix) = this.mul(other)
+
+fun DoubleMatrix.plusElement(other: Int) = this.plusElement(other.toDouble())
+fun DoubleMatrix.plusElement(other: Double) = this.mapMat { it + other }
+
+fun DoubleMatrix.powElement(other: Int) = this.powElement(other.toDouble())
+fun DoubleMatrix.powElement(other: Double) = this.mapMat { pow(it, other) }
+
+
 
 val DoubleMatrix.T: DoubleMatrix
     get() = this.transpose()
@@ -54,6 +70,12 @@ fun DoubleMatrix.LU() = Decompose.lu(this)
 fun DoubleMatrix.QR() = Decompose.qr(this)
 fun DoubleMatrix.expm() = MatrixFunctions.expm(this)
 fun DoubleMatrix.inv() = Solve.solve(this, DoubleMatrix.eye(this.rows))
+
+fun DoubleMatrix.det(): Double {
+    if (rows!=columns)
+        throw IllegalArgumentException("Determinant only defined for square matrices")
+    return this.LU().u.diag().prod()
+}
 
 fun zeros(rows: Int, cols: Int) = DoubleMatrix.zeros(rows, cols)
 fun ones(rows: Int, cols: Int) = DoubleMatrix.ones(rows, cols)
