@@ -28,6 +28,8 @@ class MatrixFuncsTests {
             assert(a.argMax() == 3)
             a[0, 2] = 44
             assert(a.argMax() == 2)
+            a[1, 1] = 45
+            assert(a.argMax() == 4)
         }
     }
 

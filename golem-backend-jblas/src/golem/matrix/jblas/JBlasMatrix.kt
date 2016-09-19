@@ -1,7 +1,6 @@
 package golem.matrix.jblas
 
 import golem.matrix.*
-import golem.matrix.common.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
@@ -19,7 +18,7 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
     }
 
     override fun getDoubleData() = this.storage.data
-    override fun copy() = JBlasMatrix(DoubleMatrix(this.storage.data))
+    override fun copy() = JBlasMatrix(this.storage.dup())
     override fun epow(other: Double) = JBlasMatrix(this.storage.powElement(other))
     override fun epow(other: Int): Matrix<Double> = JBlasMatrix(this.storage.powElement(other))
     override fun mod(other: Matrix<Double>) = JBlasMatrix(this.storage.mod(castOrBail(other).storage))
@@ -38,9 +37,9 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
     override fun numCols() = this.storage.columns
 
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
-    override fun getDouble(i: Int) = this.storage[i]
+    override fun getDouble(i: Int) = this.storage[rowToColMajor(i)]
     override fun setDouble(i: Int, v: Double) {
-        this.storage.set(i, v)
+        this.storage.set(rowToColMajor(i), v)
     }
 
     override fun setDouble(i: Int, j: Int, v: Double) {
@@ -48,15 +47,19 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
     }
 
     override fun set(i: Int, v: Double) {
-        this.storage.set(i, v)
+        this.storage.set(rowToColMajor(i), v)
     }
 
     override fun set(i: Int, j: Int, v: Double) {
         this.storage.set(i, j, v)
     }
 
-    override fun get(i: Int, j: Int) = this.storage.get(i, j)
-    override fun get(i: Int) = this.storage.get(i)
+    override fun get(i: Int, j: Int): Double {
+        if (i<this.numRows() && j<this.numCols())
+            return this.storage.get(i, j)
+        throw ArrayIndexOutOfBoundsException("Index into row/col $i/$j out of bounds.")
+    }
+    override fun get(i: Int) = this.storage.get(rowToColMajor(i))
 
     override fun getRow(row: Int) = JBlasMatrix(this.storage.getRow(row))
     override fun getCol(col: Int) = JBlasMatrix(this.storage.getColumn(col))
@@ -69,7 +72,7 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
         this.storage.putRow(index, castOrBail(row).storage)
     }
 
-    override fun chol() = JBlasMatrix(this.storage.chol())
+    override fun chol() = JBlasMatrix(this.storage.chol().T)
 
     override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
         val raw = this.storage.LU()
@@ -99,7 +102,7 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
     override fun max() = this.storage.max()
     override fun mean() = this.storage.mean()
     override fun min() = this.storage.min()
-    override fun argMax() = this.storage.argmax()
+    override fun argMax() = colToRowMajor(this.storage.argmax())
     override fun argMin() = this.storage.argmin()
 
     override fun norm(): Double {
@@ -171,10 +174,22 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
                 else
                 // No friendly backend, need to convert manually
                     throw Exception("Operations between matrices with different backends not yet supported.")
-
             }
         }
+    }
 
+    /**
+     * Gets row-major index from a col-major index.
+     */
+    private fun colToRowMajor(idx: Int): Int {
+        return idx % storage.rows * storage.columns + idx / storage.rows
+    }
+
+    /**
+     * Gets col-major index from a row-major index.
+     */
+    private fun rowToColMajor(idx: Int): Int {
+        return idx % storage.columns * storage.rows + idx / storage.columns
     }
 
 }

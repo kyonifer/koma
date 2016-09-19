@@ -30,6 +30,17 @@ class CreatorsTests {
     }
 
     @Test
+    fun testCopy() {
+        allBackends {
+            var a = mat[1, 2, 3 end 3, 4, 5]
+            var b = a.copy()
+            assertMatrixEquals(a,b)
+            assertEquals(a.numRows(),b.numRows())
+            assertEquals(a.numCols(),b.numCols())
+        }
+    }
+
+    @Test
     fun testCreateJaggedArray() {
         allBackends {
             var a = arrayOf(doubleArrayOf(1.0, 2.0, 3.0),

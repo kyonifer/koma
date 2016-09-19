@@ -31,10 +31,15 @@ interface Matrix<T> : Iterable<T>, Serializable {
     fun numRows(): Int
     fun numCols(): Int
 
-    // Index syntax
+    /**
+     * Set the ith element in the matrix. If 2D, selects elements in row-major order.
+     */
     operator fun set(i: Int, v: T)
     operator fun set(i: Int, j: Int, v: T)
 
+    /**
+     * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
+     */
     operator fun get(i: Int, j: Int): T
     operator fun get(i: Int): T
 
@@ -90,8 +95,14 @@ interface Matrix<T> : Iterable<T>, Serializable {
     fun max(): T // add dimension: Int?
     fun mean(): T
     fun min(): T
-    fun argMax(): Int // Row major 1D index
-    fun argMin(): Int // Row major 1D index
+    /**
+     * Row major 1D index.
+     */
+    fun argMax(): Int
+    /**
+     * Row major 1D index.
+     */
+    fun argMin(): Int
     fun norm(): T // L2 (Euclidean) norm
     fun trace(): T
     /**

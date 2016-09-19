@@ -39,11 +39,15 @@ class OperatorsTests {
             for (i in 0..a.numRows() - 1)
                 assertEquals(a[i], a[i, 0])
 
-            a = mat[0, 1 end 2, 3]
+            a = mat[1,2,3,4,5 end
+                    6,7,8,9,0 end
+                    3,4,5,6,7]
+
             assertEquals(a[0], a[0, 0])
             assertEquals(a[1], a[0, 1])
-            assertEquals(a[2], a[1, 0])
-            assertEquals(a[3], a[1, 1])
+            assertEquals(a[5], a[1, 0])
+            assertEquals(a[6], a[1, 1])
+
 
             a = mat[1, 2, 3 end
                     4, 5, 6 end
@@ -72,6 +76,16 @@ class OperatorsTests {
                                1.2, 4, 5]
 
             assertMatrixEquals(expected, a)
+
+            a = mat[1,2,3,4,5 end
+                    6,7,8,9,0 end
+                    3,4,5,6,7]
+            expected = mat[1,2, 3,4,5 end
+                           6,-1,8,9,0 end
+                           3,4, 5,6,7]
+            a[6] = -1
+            assertMatrixEquals(expected, a)
+
 
         }
     }
