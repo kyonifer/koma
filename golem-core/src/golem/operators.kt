@@ -91,7 +91,7 @@ operator fun Matrix<Double>.times(other: Int) = this * other.toDouble()
 /**
  * Calculates the transpose of the matrix.
  */
-val Matrix<Double>.T: Matrix<Double>
+val <T> Matrix<T>.T: Matrix<T>
         // TODO: Make this copy on write.
     get() = this.transpose()
 
@@ -104,8 +104,9 @@ val Matrix<Double>.T: Matrix<Double>
  *
  * @return a new matrix containing the submatrix.
  */
-operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> {
-    var out = zeros(rows.endInclusive - rows.start + 1, cols.endInclusive - cols.start + 1)
+operator fun <T> Matrix<T>.get(rows: IntRange, cols: IntRange): Matrix<T>
+{
+    var out = this.getFactory().zeros(rows.endInclusive - rows.start + 1, cols.endInclusive - cols.start + 1)
     for (row in rows)
         for (col in cols)
             out[row - rows.start, col - cols.start] = this[row, col]
@@ -121,7 +122,8 @@ operator fun Matrix<Double>.get(rows: IntRange, cols: IntRange): Matrix<Double> 
  * @param value the matrix to set the subslice to
  *
  */
-operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Double>) {
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: Matrix<T>)
+{
     for (i in rows)
         for (j in cols)
             this[i, j] = value[i - rows.start, j - cols.start]
@@ -136,7 +138,8 @@ operator fun Matrix<Double>.set(rows: IntRange, cols: IntRange, value: Matrix<Do
  * @param value the matrix to set the subslice to
  *
  */
-operator fun Matrix<Double>.set(rows: Int, cols: IntRange, value: Matrix<Double>) {
+operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: Matrix<T>)
+{
     this[rows..rows, cols] = value
 }
 
@@ -149,19 +152,20 @@ operator fun Matrix<Double>.set(rows: Int, cols: IntRange, value: Matrix<Double>
  * @param value the matrix to set the subslice to
  *
  */
-operator fun Matrix<Double>.set(rows: IntRange, cols: Int, value: Matrix<Double>) {
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: Matrix<T>)
+{
     this[rows, cols..cols] = value
 }
 
 /**
  * Allows for slicing of the rows and selection of a single column
  */
-operator fun Matrix<Double>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
+operator fun <T> Matrix<T>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
 
 /**
  * Allows for slicing of the cols and selection of a single row
  */
-operator fun Matrix<Double>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
+operator fun <T> Matrix<T>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
 
 
 // Todo: ND array:
