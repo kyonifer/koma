@@ -128,6 +128,12 @@ operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: Matrix<T>)
         for (j in cols)
             this[i, j] = value[i - rows.start, j - cols.start]
 }
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: T)
+{
+    for (i in rows)
+        for (j in cols)
+            this[i, j] = value
+}
 
 /**
  * Allow assignment to a slice, e.g. ```matrix[2, 3..4]```=something. Note that the range 3..4 is inclusive, so
@@ -142,6 +148,10 @@ operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: Matrix<T>)
 {
     this[rows..rows, cols] = value
 }
+operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: T)
+{
+    this[rows..rows, cols] = value
+}
 
 /**
  * Allow assignment to a slice, e.g. ```matrix[1..2, 3]```=something. Note that the range 1..2 is inclusive, so
@@ -153,6 +163,10 @@ operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: Matrix<T>)
  *
  */
 operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: Matrix<T>)
+{
+    this[rows, cols..cols] = value
+}
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: T)
 {
     this[rows, cols..cols] = value
 }
