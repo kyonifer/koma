@@ -52,7 +52,7 @@ dependencies{
     compile group: "golem", name:"golem-core", version:"0.6"
 }
 ```
-Right now only golem-backend-ejml and golem-backend-mtj are supported (ongoing work on jblas).
+Right now golem-backend-ejml, golem-backend-mtj, and golem-backend-jblas are supported.
 Golem will automatically use the backend you add to the project. If you'd like to use more
 than one backend in a project at the same time, see [multiple backends](#multiple-backends)
  below.
@@ -262,7 +262,6 @@ for more information.
 
 Planned functionality:
 
-* Add support for JBlas (partial support implemented)
 * Implement Matrix for other primitive types, such as Int (primary difficulty is lack of support in backends)
 * Add a pluggable N-D container that uses backends such as [libDyND](https://github.com/libdynd/libdynd) and [ND4j](http://nd4j.org/)
 * Support arbitrary data storage for non-numerical data (e.g. string) in ND container
