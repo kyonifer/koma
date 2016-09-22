@@ -1,0 +1,1 @@
+include 'golem-core', 'golem-logging', 'golem-backend-ejml', 'golem-backend-mtj', 'golem-backend-jblas', 'golem-tests'
