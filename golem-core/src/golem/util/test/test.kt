@@ -8,6 +8,7 @@ package golem.util.test
 
 import golem.*
 import golem.matrix.*
+import golem.platformsupport.assert
 
 /**
  * Asserts that a matrix A roughly equals a matrix B. eps is the acceptable numerical error.

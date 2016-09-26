@@ -1,0 +1,45 @@
+buildscript {
+    ext.kotlin_version = '1.0.4'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+project(':golem-core') {
+    apply plugin: 'kotlin2js'
+
+    sourceSets {
+        main.kotlin.srcDirs = ['src', 'srcjs']
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-js-library:$kotlin_version"
+    }
+    compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
+}
+
+project(':golem-backend-mathjs') {
+    apply plugin: 'kotlin2js'
+
+    sourceSets {
+        main.kotlin.srcDirs = ['src', 'srcjs']
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-js-library:$kotlin_version"
+    }
+    compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
+}

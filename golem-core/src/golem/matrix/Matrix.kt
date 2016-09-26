@@ -1,8 +1,6 @@
 package golem.matrix
 
 import golem.*
-import java.io.*
-import java.text.DecimalFormat
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -10,7 +8,7 @@ import java.text.DecimalFormat
  * implement this class and MatrixFactory.
  */
 
-interface Matrix<T> : Iterable<T>, Serializable {
+interface Matrix<T> : Iterable<T> {
     // Algebraic Operators
     operator fun mod(other: Matrix<T>): Matrix<T>
     operator fun div(other: Int): Matrix<T>
@@ -126,48 +124,7 @@ interface Matrix<T> : Iterable<T>, Serializable {
     fun getFactory(): MatrixFactory<Matrix<T>>
 
 
-    fun repr(): String {
-
-        val fmtString = when (matFormat) {
-            SHORT_NUMBER                -> "0.00##"
-            LONG_NUMBER                 -> "0.00############"
-            VERY_LONG_NUMBER            -> "0.00#############################"
-            SCIENTIFIC_NUMBER           -> "0.00#####E0#"
-            SCIENTIFIC_LONG_NUMBER      -> "0.00############E0#"
-            SCIENTIFIC_VERY_LONG_NUMBER -> "0.00############################E0#"
-            else                        -> "0.00############"
-        }
-
-        var formatter = DecimalFormat(fmtString)
-
-        val lens = IntArray(numCols())
-        eachIndexed { row, col, element ->
-            val formatted = formatter.format(element)
-            if (lens[col] < formatted.length) lens[col] = formatted.length
-        }
-        val bstream = ByteArrayOutputStream()
-        val pstream = PrintStream(bstream)
-
-        var indent = "mat["
-        eachIndexed { row, col, element ->
-            var formatted = formatter.format(element)
-            if (col == 0) {
-                if (row > 0)
-                    pstream.append("end\n")
-                pstream.append(indent)
-                indent = "    "
-            }
-            if (formatted[0] != '-')
-                formatted = " " + formatted
-            pstream.append(formatted)
-            if (col != lens.size - 1)
-                pstream.append(",")
-            (-1..(lens[col] - formatted.length)).forEach { pstream.append(" ") }
-        }
-        pstream.append("]")
-
-        return bstream.toString()
-    }
+    fun repr(): String = golem.platformsupport.repr(this)
 
     /**
      * Transpose operator.
@@ -175,15 +132,6 @@ interface Matrix<T> : Iterable<T>, Serializable {
     val T: Matrix<T>
         get() = this.transpose()
 
-    fun serializeObject(out: ObjectOutputStream): Unit {
-        out.writeObject(this.numRows())
-        out.writeObject(this.numCols())
-        this.forEach { out.writeObject(it) }
-    }
-
-    fun deserializeObjectNoData() {
-        throw StreamCorruptedException("No Data for Matrix In Stream")
-    }
 
     override fun iterator(): Iterator<T> {
         class MatrixIterator<T>(var matrix: Matrix<T>) : Iterator<T> {

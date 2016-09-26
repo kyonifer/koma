@@ -8,3 +8,5 @@ kobaltBuild/*
 */build/*
 */.gradle/*
 local.properties
+js/.idea/*
+js/*/build/*

@@ -81,7 +81,7 @@ object mat {
                     curRow += 1
                     curCol = 1
                 }
-                else -> throw Exception("Invalid initial value to matrix builder: \n$ele\n${ele.javaClass}")
+                else -> throw Exception("Invalid initial value to matrix builder: \n$ele")
             }
         }
         return out
