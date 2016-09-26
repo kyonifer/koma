@@ -2,6 +2,9 @@ package golem.platformsupport
 
 import golem.*
 import golem.matrix.*
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
+import java.text.DecimalFormat
 
 fun <T> repr(mat: Matrix<T>): String {
     val fmtString = when (matFormat) {

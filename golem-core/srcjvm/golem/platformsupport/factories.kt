@@ -1,6 +1,7 @@
 package golem.platformsupport
 
 import golem.matrix.*
+import java.util.ArrayList
 
 fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
     val facCandidates = arrayOf("golem.matrix.mtj.MTJMatrixFactory",

@@ -202,15 +202,5 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
                                             "Please call getDouble and cast manually if this is intentional.")
     }
 
-    private fun writeObject(out: ObjectOutputStream) = serializeObject(out)
-
-    private fun readObject(oin: ObjectInputStream) {
-        val rows = oin.readObject() as Int
-        val cols = oin.readObject() as Int
-        this.storage = DenseMatrix(rows, cols)
-        this.forEachIndexed { i, d -> this[i] = oin.readObject() as Double }
-    }
-
-    private fun readObjectNoData() = deserializeObjectNoData()
 
 }
