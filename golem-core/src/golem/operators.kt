@@ -66,12 +66,12 @@ operator fun Int.plus(other: Matrix<Double>) = other.plus(this)
 /**
  * Subtract a matrix from a scala
  */
-operator fun Double.minus(other: Matrix<Double>) = other.minus(this)
+operator fun Double.minus(other: Matrix<Double>) = other * -1 + this
 
 /**
  * Subtract a matrix from a scala
  */
-operator fun Int.minus(other: Matrix<Double>) = other.minus(this)
+operator fun Int.minus(other: Matrix<Double>) = other * -1 + this
 
 /**
  * Multiply a scalar by a matrix

@@ -171,6 +171,35 @@ class OperatorsTests {
     }
 
     @Test
+    fun testAdditionScalar() {
+        allBackends {
+            var a = 3
+            var a2 = 3.0
+            var other = mat[3, 5, 7 end
+                            1, 2, 3]
+            var expected = mat[6, 8, 10 end
+                               4, 5, 6 ]
+            assertMatrixEquals(expected, a + other)
+            assertMatrixEquals(expected, a2 + other)
+
+        }
+    }
+
+    @Test
+    fun testMinusScalar() {
+        allBackends {
+            var a = 5
+            var a2 = 5.0
+            var other = mat[1,2,3,4 end 
+                            1,5,9,5]
+            var expected = mat[4, 3,  2, 1 end
+                               4, 0, -4, 0]
+            assertMatrixEquals(expected, a - other)
+            assertMatrixEquals(expected, a2 - other)
+        }
+    }
+
+    @Test
     fun testTranspose() {
         allBackends {
             var a = randn(2, 4)
