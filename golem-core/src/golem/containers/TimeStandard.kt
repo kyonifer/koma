@@ -20,5 +20,8 @@ class TimeStandard(val value: String) {
         @JvmField
         val OTHER = TimeStandard("OTHER")
     }
+
+    /** Return a human-readable representation of this TimeStandard */
+    override fun toString() : String = value
 }
 
