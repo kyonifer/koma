@@ -36,9 +36,9 @@ class ContainersTests {
 
     @Test
     fun testToString() {
-        assertEquals("GPS:0.0", t1.toString())
-        assertEquals("GPS:1.0", t2.toString())
-        assertEquals("WALL:1.0", t3.toString())
-        assertEquals("OTHER:1.0", t4.toString())
+        assertEquals("GPS:0.000", t1.toString())
+        assertEquals("GPS:1.000", t2.toString())
+        assertEquals("WALL:1.000", t3.toString())
+        assertEquals("OTHER:1.000", t4.toString())
     }
 }

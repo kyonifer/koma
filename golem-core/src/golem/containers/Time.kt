@@ -20,6 +20,6 @@ data class Time @JvmOverloads constructor(var time: Double, var timeStandard: Ti
     }
 
     /** Return a human-readable representation of this Time */
-    override fun toString() : String = String.format("%s:%.1f", timeStandard.toString(), time)
+    override fun toString() : String = String.format("%s:%.3f", timeStandard.toString(), time)
 }
 
