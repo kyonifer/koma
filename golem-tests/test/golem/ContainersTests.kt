@@ -3,6 +3,7 @@ package golem
 import golem.containers.Time
 import golem.containers.TimeStandard
 import org.junit.Test
+import org.junit.Assert.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
@@ -33,4 +34,11 @@ class ContainersTests {
         t4.checkStandard(t1)
     }
 
+    @Test
+    fun testToString() {
+        assertEquals("GPS:0.000", t1.toString())
+        assertEquals("GPS:1.000", t2.toString())
+        assertEquals("WALL:1.000", t3.toString())
+        assertEquals("OTHER:1.000", t4.toString())
+    }
 }
