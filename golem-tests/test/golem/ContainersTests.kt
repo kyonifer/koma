@@ -11,7 +11,7 @@ class ContainersTests {
     val t1 = Time(0.0, TimeStandard.GPS)
     val t2 = Time(1.0, TimeStandard.GPS)
     val t3 = Time(1.0, TimeStandard.WALL)
-    val t4 = Time(1.0, TimeStandard.OTHER)
+    val t4 = Time(1.0, TimeStandard.NONE)
 
     /**
      * Nothing to assert- if no error thrown all is well.
@@ -39,6 +39,6 @@ class ContainersTests {
         assertEquals("GPS:0.000", t1.toString())
         assertEquals("GPS:1.000", t2.toString())
         assertEquals("WALL:1.000", t3.toString())
-        assertEquals("OTHER:1.000", t4.toString())
+        assertEquals("NONE:1.000", t4.toString())
     }
 }

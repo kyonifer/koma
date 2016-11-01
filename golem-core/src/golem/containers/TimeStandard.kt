@@ -18,7 +18,7 @@ class TimeStandard(val value: String) {
         val UNIX = TimeStandard("UNIX")
 
         @JvmField
-        val OTHER = TimeStandard("OTHER")
+        val NONE = TimeStandard("NONE")
     }
 
     /** Return a human-readable representation of this TimeStandard */
