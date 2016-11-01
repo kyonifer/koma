@@ -89,6 +89,17 @@ class ValidationContext {
             validator.performValidation(this)
     }
 
+    /**
+     * Check declared matrices against any rules that have been added with addValidator, after
+     * running the given callback.
+     *
+     * @param fn A function to execute before validating.
+     */
+    fun validate(fn: ValidationContext.() -> Unit) {
+        fn()
+        validate()
+    }
+
     inline fun <reified T> metadata(key: String, factory: () -> T): T {
         return metadataStorage.getOrPut(key, { factory() as Any }) as T
     }
@@ -144,8 +155,7 @@ fun testMatrix(matrix: Matrix<Double>, name: String) : ValidationContext  {
  */
 fun validate(fn: ValidationContext.() -> Unit) {
     val ctx = ValidationContext()
-    ctx.fn()
-    ctx.validate()
+    ctx.validate(fn)
 }
 
 /**
