@@ -15,8 +15,8 @@ data class Time @JvmOverloads constructor(var time: Double, var timeStandard: Ti
         if (this.timeStandard != TimeStandard.NONE &&
             other.timeStandard != TimeStandard.NONE &&
             this.timeStandard != other.timeStandard)
-            throw Exception("TimeStandard ${this.timeStandard.value} does not match" +
-                    " ${other.timeStandard.value}")
+            throw Exception("TimeStandard ${this.timeStandard} does not match" +
+                    " ${other.timeStandard}")
     }
 
     /** Return a human-readable representation of this Time */
