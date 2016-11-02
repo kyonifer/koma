@@ -1,14 +1,19 @@
 buildscript {
     ext.kotlin_version = '1.0.4'
+    ext.project_version = '0.6'
 
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     }
 }
+
+apply from: "publishing.gradle"
 
 project(':golem-core') {
     apply plugin: 'kotlin'
@@ -26,6 +31,7 @@ project(':golem-core') {
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "org.knowm.xchart:xchart:3.1.0"
     }
+    project.configurePublishing()
 }
 
 project(':golem-logging') {
@@ -46,6 +52,7 @@ project(':golem-logging') {
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "ch.qos.logback:logback-classic:1.1.7"
     }
+    project.configurePublishing()
 }
 
 project(':golem-backend-mtj') {
@@ -68,6 +75,7 @@ project(':golem-backend-mtj') {
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
         }
     }
+    project.configurePublishing()
 }
 
 project(':golem-backend-ejml') {
@@ -87,7 +95,7 @@ project(':golem-backend-ejml') {
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.ejml:all:0.27"
     }
-
+    project.configurePublishing()
 }
 
 project(':golem-backend-jblas') {
@@ -107,6 +115,7 @@ project(':golem-backend-jblas') {
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.jblas:jblas:1.2.3"
     }
+    project.configurePublishing()
 }
 
 project(':golem-tests') {
@@ -128,5 +137,4 @@ project(':golem-tests') {
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
-
 }

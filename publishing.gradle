@@ -1,0 +1,36 @@
+
+subprojects {
+    project.ext.configurePublishing = {
+        apply plugin: 'com.jfrog.bintray'
+        bintray {
+            user = System.getenv('BINTRAY_USER')
+            key = System.getenv("BINTRAY_KEY")
+            publications = ['MyPublication']
+            pkg {
+                repo = 'maven'
+                name = project.name
+                version {
+                    name=project_version
+                }
+            }
+        }
+        task sourceJar ( type: Jar, dependsOn: classes ) {
+            classifier 'sources'
+            from sourceSets.main.kotlin
+        }
+
+        apply plugin: 'maven-publish'
+        publishing {
+            publications {
+                MyPublication(MavenPublication) {
+                    from components.java
+                    artifact sourceJar
+                    groupId 'golem'
+                    artifactId project.name
+                    version project_version
+                }
+            }
+        }
+
+    }
+}
