@@ -255,7 +255,7 @@ fun foo(A: Matrix<Double>, B: Matrix<Double>) {
 The validate block will see that you used the same variable 'N' twice, 
 and make sure the matrices passed in have those dimensions matching. The 
 DSL supports an arbitrary number of inputs of arbitrary dimension and 
-also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/golem/tree/master/src/main/golem/util/validation) 
+also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/golem/blob/master/golem-core/src/golem/util/validation/README.md)
 for more information.
 
 ## Roadmap
