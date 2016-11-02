@@ -48,8 +48,8 @@ MTJ backend, you'd write:
 
 ```Groovy
 dependencies{
-    compile group: "golem", name:"golem-backend-mtj", version: "0.6"
-    compile group: "golem", name:"golem-core", version:"0.6"
+    compile group: "golem", name:"golem-backend-mtj", version: "0.7"
+    compile group: "golem", name:"golem-core", version:"0.7"
 }
 ```
 Right now golem-backend-ejml, golem-backend-mtj, and golem-backend-jblas are supported.
