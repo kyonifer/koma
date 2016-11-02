@@ -213,7 +213,7 @@ you need to work with multiple libraries which require different matrix containe
 (the unfortunate reality on the JVM at the moment).
 
 You can set the default backend used by default by golem's top-level functions by
-setting a property in the golem namespace:
+setting a property in the golem namespace. In Kotlin this looks like:
 
 ```Kotlin
 import golem.matrix.ejml.EJMLMatrixFactory
@@ -226,10 +226,10 @@ golem.factory = EJMLMatrixFactory()
 ```
 
 This attribute can be set from Java and other languages via 
-`golem.Options.setFactory(...)`. By default golem will try to use MTJ and
-then fall back to EJML. Note that you can easily create any matrix types
-manually by using the corresponding factory and then passing them into functions
-that take a Matrix<T>.
+`golem.Options.setFactory(...)`. By default golem will try to use MTJ,
+EJML, and then JBlas in that order. Note that you can easily create any matrix
+types manually by using the corresponding factory and then passing them into
+functions that take a Matrix<T>.
 
 
 ### Validation
