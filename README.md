@@ -212,25 +212,43 @@ Golem supports using multiple backends simultaneously. This is useful if e.g.
 you need to work with multiple libraries which require different matrix containers
 (the unfortunate reality on the JVM at the moment).
 
-You can set the default backend used by default by golem's top-level functions by
-setting a property in the golem namespace. In Kotlin this looks like:
+You can change the backend being used by golem's top-level functions at
+any time by setting a property in the golem namespace. In Kotlin this looks
+like:
 
 ```Kotlin
 import golem.matrix.ejml.EJMLMatrixFactory
-
 ...
 
-// Force the EJML backend to be selected
+// Make subsequent function calls use the EJML backend
 golem.factory = EJMLMatrixFactory()
 
+val a = zeros(3,3) // An EJMLMatrix
+
+// Make subsequent function calls use the MTJ backend
+// (doesnt affect previous returns)
+golem.factory = MTJMatrixFactory()
+
+val b = zeros(3,3) // Now returns an MTJMatrix
 ```
 
-This attribute can be set from Java and other languages via 
-`golem.Options.setFactory(...)`. By default golem will try to use MTJ,
-EJML, and then JBlas in that order. Note that you can easily create any matrix
-types manually by using the corresponding factory and then passing them into
-functions that take a Matrix<T>.
+This property can be set from Java and other languages via
+`golem.Options.setFactory(...)`. If not set, golem will default
+to using MTJ, EJML, and then JBlas in that order.
 
+It is also possible to create any matrix type manually by using the
+corresponding factory. For example, even if `golem.factory` is set to
+MTJMatrixFactory, you could write
+
+```kotlin
+val eFac = EJMLMatrixFactory()
+val a = eFac.eye(3, 3)
+val b = eFac.ones(3, 3)
+println(a+b) // Uses EJML's addition algorithm, not MTJ's
+```
+
+This makes it easy to use libraries requiring different matrix
+containers simultaneously.
 
 ### Validation
 
