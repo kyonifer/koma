@@ -151,4 +151,92 @@ interface Matrix<T> : Iterable<T> {
         return out
     }
 
+
+    /**
+     * Allow slicing, e.g. ```matrix[1..2, 3..4]```. Note that the range 1..2 is inclusive, so
+     * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+     *
+     * @param rows the set of rows to select
+     * @param cols the set of columns to select
+     *
+     * @return a new matrix containing the submatrix.
+     */
+    operator fun get(rows: IntRange, cols: IntRange): Matrix<T>
+    {
+        var out = this.getFactory().zeros(rows.endInclusive - rows.start + 1, cols.endInclusive - cols.start + 1)
+        for (row in rows)
+            for (col in cols)
+                out[row - rows.start, col - cols.start] = this[row, col]
+        return out
+    }
+
+    /**
+     * Allow assignment to a slice, e.g. ```matrix[1..2, 3..4]```=something. Note that the range 1..2 is inclusive, so
+     * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+     *
+     * @param rows the set of rows to select
+     * @param cols the set of columns to select
+     * @param value the matrix to set the subslice to
+     *
+     */
+    operator fun set(rows: IntRange, cols: IntRange, value: Matrix<T>)
+    {
+        for (i in rows)
+            for (j in cols)
+                this[i, j] = value[i - rows.start, j - cols.start]
+    }
+    operator fun set(rows: IntRange, cols: IntRange, value: T)
+    {
+        for (i in rows)
+            for (j in cols)
+                this[i, j] = value
+    }
+
+    /**
+     * Allow assignment to a slice, e.g. ```matrix[2, 3..4]```=something. Note that the range 3..4 is inclusive, so
+     * it will retrieve col 3 and 4. Use 1.until(2) for a non-inclusive range.
+     *
+     * @param rows the row to select
+     * @param cols the set of columns to select
+     * @param value the matrix to set the subslice to
+     *
+     */
+    operator fun set(rows: Int, cols: IntRange, value: Matrix<T>)
+    {
+        this[rows..rows, cols] = value
+    }
+    operator fun set(rows: Int, cols: IntRange, value: T)
+    {
+        this[rows..rows, cols] = value
+    }
+
+    /**
+     * Allow assignment to a slice, e.g. ```matrix[1..2, 3]```=something. Note that the range 1..2 is inclusive, so
+     * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+     *
+     * @param rows the set of rows to select
+     * @param cols the column to select
+     * @param value the matrix to set the subslice to
+     *
+     */
+    operator fun set(rows: IntRange, cols: Int, value: Matrix<T>)
+    {
+        this[rows, cols..cols] = value
+    }
+    operator fun set(rows: IntRange, cols: Int, value: T)
+    {
+        this[rows, cols..cols] = value
+    }
+
+    /**
+     * Allows for slicing of the rows and selection of a single column
+     */
+    operator fun get(rows: IntRange, cols: Int) = this[rows, cols..cols]
+
+    /**
+     * Allows for slicing of the cols and selection of a single row
+     */
+    operator fun get(rows: Int, cols: IntRange) = this[rows..rows, cols]
+
+
 }
