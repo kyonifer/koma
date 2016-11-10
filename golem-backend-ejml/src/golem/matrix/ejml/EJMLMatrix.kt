@@ -1,17 +1,10 @@
 package golem.matrix.ejml
 
-import golem.*
 import golem.matrix.*
 import golem.matrix.common.*
 import golem.matrix.ejml.backend.*
-import org.ejml.data.DenseMatrix64F
 import org.ejml.ops.CommonOps
-import org.ejml.ops.MatrixIO
 import org.ejml.simple.SimpleMatrix
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
-import java.io.PrintStream
 
 /**
  * An implementation of the Matrix<Double> interface using EJML.
@@ -76,6 +69,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
         else
             throw Exception("Decomposition failed")
     }
+
     override fun inv() = EJMLMatrix(this.storage.inv())
     override fun det() = this.storage.determinant()
     override fun pinv() = EJMLMatrix(this.storage.pseudoInverse())
@@ -136,7 +130,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     private fun castOrBail(mat: Matrix<Double>): EJMLMatrix {
         when (mat) {
             is EJMLMatrix -> return mat
-            else -> {
+            else          -> {
                 val base = mat.getBaseMatrix()
                 if (base is SimpleMatrix)
                     return EJMLMatrix(base)

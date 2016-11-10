@@ -1,17 +1,10 @@
 package golem.matrix.mtj
 
-import golem.*
 import golem.matrix.*
 import golem.matrix.common.*
 import golem.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
-import java.io.PrintStream
-import java.text.DecimalFormat
-import java.util.*
 
 /**
  * An implementation of the Matrix<Double> interface using MTJ.
@@ -22,8 +15,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.T.storage.data
-
-    // TODO: Fix UnsupportedOperationException
 
     override fun diag(): MTJMatrix {
         return MTJMatrix(this.storage.diag())
@@ -146,7 +137,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     private fun castOrBail(mat: Matrix<Double>): MTJMatrix {
         when (mat) {
             is MTJMatrix -> return mat
-            else -> {
+            else         -> {
                 val base = mat.getBaseMatrix()
                 if (base is DenseMatrix)
                     return MTJMatrix(base)
