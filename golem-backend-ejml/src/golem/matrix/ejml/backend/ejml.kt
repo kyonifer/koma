@@ -72,26 +72,29 @@ fun ones(rows: Int, cols: Int): SimpleMatrix {
     return out
 }
 
-fun rand(rows: Int, cols: Int, seed: Long) = SimpleMatrix.random(rows, cols, 0.0, 1.0, Random(seed))
-fun rand(len: Int, seed: Long) = SimpleMatrix.random(1, len, 0.0, 1.0, Random(seed))
-fun rand(len: Int) = rand(len, System.currentTimeMillis())
-
-fun randn(len: Int): SimpleMatrix {
-    return randn(len, len)
+fun rand(rows: Int, cols: Int, seed: Long): SimpleMatrix {
+    if (seed != curSeed) {
+        random.setSeed(seed)
+        curSeed = seed
+    }
+    return SimpleMatrix.random(rows, cols, 0.0, 1.0, random)
 }
-
-fun randn(rows: Int, cols: Int): SimpleMatrix {
-    return randn(rows, cols, System.currentTimeMillis())
-}
+fun rand(rows: Int, cols: Int) = rand(rows, cols, curSeed)
+fun rand(len: Int) = rand(1, len, curSeed)
 
 fun randn(rows: Int, cols: Int, seed: Long): SimpleMatrix {
-    val random = Random(seed)
+    if (seed != curSeed) {
+        random.setSeed(seed)
+        curSeed = seed
+    }
     val out = SimpleMatrix(rows, cols)
     for (i in 0..rows - 1)
         for (j in 0..cols - 1)
             out[i, j] = random.nextGaussian()
     return out
 }
+fun randn(len: Int) = randn(len, len, curSeed)
+fun randn(rows: Int, cols: Int) = randn(rows, cols, curSeed)
 
 fun SimpleMatrix.map(f: (Double) -> Double): SimpleMatrix {
     var out = SimpleMatrix(this.numRows(), this.numCols())

@@ -6,4 +6,5 @@ import golem.matrix.mtj.*
 
 
 internal var factoryInstance: MTJMatrixFactory = MTJMatrixFactory()
-internal var random = java.util.Random()
+internal var curSeed = System.currentTimeMillis()
+internal var random = java.util.Random(curSeed)

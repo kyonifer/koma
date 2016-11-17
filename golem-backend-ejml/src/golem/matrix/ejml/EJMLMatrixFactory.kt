@@ -8,6 +8,7 @@ import org.ejml.simple.SimpleMatrix
 import java.util.*
 
 class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
+
     override fun zeros(rows: Int, cols: Int) = EJMLMatrix(golem.matrix.ejml.backend.zeros(rows, cols))
 
     override fun zeros(size: Int) = zeros(size, size)
@@ -49,11 +50,11 @@ class EJMLMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
     }
 
     override fun rand(rows: Int, cols: Int): EJMLMatrix {
-        return rand(rows, cols, System.currentTimeMillis())
+        return EJMLMatrix(golem.matrix.ejml.backend.rand(rows, cols))
     }
 
     override fun rand(rows: Int, cols: Int, seed: Long): EJMLMatrix {
-        return EJMLMatrix(SimpleMatrix.random(rows, cols, 0.0, 1.0, Random(seed)))
+        return EJMLMatrix(golem.matrix.ejml.backend.rand(rows, cols, seed))
     }
 
     override fun randn(size: Int): EJMLMatrix {

@@ -144,18 +144,24 @@ fun DenseMatrix.det(): Double {
 
 
 fun rand(rows: Int, cols: Int, seed: Long): DenseMatrix {
-    random.setSeed(seed)
+    if (seed != curSeed) {
+        random.setSeed(seed)
+        curSeed = seed
+    }
     return DenseMatrix(rows, cols).mapMat { random.nextDouble() }
 }
 
-fun rand(rows: Int, cols: Int) = rand(rows, cols, System.currentTimeMillis())
+fun rand(rows: Int, cols: Int) = rand(rows, cols, curSeed)
 fun rand(len: Int, seed: Long) = rand(1, len, seed)
-fun rand(len: Int) = rand(len, System.currentTimeMillis())
+fun rand(len: Int) = rand(len, curSeed)
 
 fun randn(len: Int) = randn(len, len)
-fun randn(rows: Int, cols: Int) = randn(rows, cols, System.currentTimeMillis())
+fun randn(rows: Int, cols: Int) = randn(rows, cols, curSeed)
 fun randn(rows: Int, cols: Int, seed: Long): DenseMatrix {
-    val random = Random(seed)
+    if (seed != curSeed) {
+        random.setSeed(seed)
+        curSeed = seed
+    }
     return DenseMatrix(rows, cols).mapMat { random.nextGaussian() }
 }
 
