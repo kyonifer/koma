@@ -19,7 +19,7 @@ fun zeros(rows: Int, cols: Int): Matrix<Double> = factory.zeros(rows, cols)
 /**
  * Creates a square zero-filled matrix with the given size
  */
-fun zeros(size: Int): Matrix<Double> = factory.zeros(1, size)
+fun zeros(size: Int): Matrix<Double> = factory.zeros(size, size)
 
 /**
  * Creates a matrix filled with the given range of values.
@@ -39,7 +39,7 @@ fun create(data: Array<DoubleArray>): Matrix<Double> = factory.create(data)
 /**
  * Creates a one-filled square matrix with the given size
  */
-fun ones(size: Int): Matrix<Double> = factory.ones(1, size)
+fun ones(size: Int): Matrix<Double> = factory.ones(size, size)
 
 /**
  * Creates a one-filled matrix with the given size

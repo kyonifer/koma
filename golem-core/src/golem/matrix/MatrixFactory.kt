@@ -17,7 +17,7 @@ interface MatrixFactory<T> {
     fun zeros(rows: Int, cols: Int): T
 
     /**
-     * Generate a zero initialized matrix of the requested shape.
+     * Generate a zero initialized square matrix of the requested shape.
      */
     fun zeros(size: Int): T
 
@@ -37,7 +37,7 @@ interface MatrixFactory<T> {
     fun create(data: Array<DoubleArray>): T
 
     /**
-     * Creates a one initialized matrix of the requested shape
+     * Creates a one initialized square matrix of the requested shape
      */
     fun ones(size: Int): T
 
