@@ -5,6 +5,7 @@ import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
+import kotlin.test.assertFalse
 
 class CreatorsTests {
     @Test
@@ -97,8 +98,26 @@ class CreatorsTests {
     fun testRandn() {
         allBackends {
             var a = 2 * randn(1, 1000000)
-
             Assert.assertEquals(0.0, mean(a), .01)
+            val aAgg = zeros(1, 1000000).mapMat { 2*randn(1)[0] }
+            Assert.assertEquals(0.0, mean(aAgg), .01)
+
+            val b = randn(3)
+            val c = randn(3)
+            assertFalse { (b-c).any { it == 0.0 } }
+        }
+    }
+    @Test
+    fun testRand() {
+        allBackends {
+            var a = 2 * rand(1, 1000000)
+            Assert.assertEquals(1.0, mean(a), .01)
+            val aAgg = zeros(1, 1000000).mapMat { 2*rand(1)[0] }
+            Assert.assertEquals(1.0, mean(aAgg), .01)
+
+            val b = rand(3)
+            val c = rand(3)
+            assertFalse { (b-c).any { it == 0.0 } }
         }
     }
 }
