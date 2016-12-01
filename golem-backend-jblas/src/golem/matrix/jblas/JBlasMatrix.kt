@@ -1,6 +1,7 @@
 package golem.matrix.jblas
 
 import golem.matrix.*
+import golem.matrix.common.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
@@ -21,18 +22,19 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun copy() = JBlasMatrix(this.storage.dup())
     override fun epow(other: Double) = JBlasMatrix(this.storage.powElement(other))
     override fun epow(other: Int): Matrix<Double> = JBlasMatrix(this.storage.powElement(other))
-    override fun mod(other: Matrix<Double>) = JBlasMatrix(this.storage.mod(castOrBail(other).storage))
+    override fun mod(other: Matrix<Double>) = JBlasMatrix(this.storage.mod(castOrBail(other, ::JBlasMatrix).storage))
     override fun transpose() = JBlasMatrix(this.storage.transpose())
     override fun div(other: Int) = JBlasMatrix(this.storage.div(other.toDouble()))
     override fun div(other: Double) = JBlasMatrix(this.storage.div(other))
-    override fun times(other: Matrix<Double>) = JBlasMatrix(this.storage.times(castOrBail(other).storage))
+    override fun times(other: Matrix<Double>) = JBlasMatrix(this.storage.times(castOrBail(other, ::JBlasMatrix)
+                                                                                       .storage))
     override fun times(other: Double) = JBlasMatrix(this.storage.mul(other))
-    override fun elementTimes(other: Matrix<Double>) = JBlasMatrix(this.storage.mod(castOrBail(other).storage))
+    override fun elementTimes(other: Matrix<Double>) = JBlasMatrix(this.storage.mod(castOrBail(other, ::JBlasMatrix).storage))
     override fun unaryMinus() = this.times(-1.0)
     override fun minus(other: Double) = JBlasMatrix(this.storage.sub(other))
-    override fun minus(other: Matrix<Double>) = JBlasMatrix(this.storage.minus(castOrBail(other).storage))
+    override fun minus(other: Matrix<Double>) = JBlasMatrix(this.storage.minus(castOrBail(other, ::JBlasMatrix).storage))
     override fun plus(other: Double) = JBlasMatrix(this.storage.plusElement(other))
-    override fun plus(other: Matrix<Double>) = JBlasMatrix(this.storage.plus(castOrBail(other).storage))
+    override fun plus(other: Matrix<Double>) = JBlasMatrix(this.storage.plus(castOrBail(other, ::JBlasMatrix).storage))
     override fun numRows() = this.storage.rows
     override fun numCols() = this.storage.columns
 
@@ -65,11 +67,11 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun getCol(col: Int) = JBlasMatrix(this.storage.getColumn(col))
 
     override fun setCol(index: Int, col: Matrix<Double>) {
-        this.storage.putColumn(index, castOrBail(col).storage)
+        this.storage.putColumn(index, castOrBail(col, ::JBlasMatrix).storage)
     }
 
     override fun setRow(index: Int, row: Matrix<Double>) {
-        this.storage.putRow(index, castOrBail(row).storage)
+        this.storage.putRow(index, castOrBail(row, ::JBlasMatrix).storage)
     }
 
     override fun chol() = JBlasMatrix(this.storage.chol().T)
@@ -161,21 +163,6 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun setFloat(i: Int, j: Int, v: Float) {
         throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
                                             "Please call getDouble and cast manually if this is intentional.")
-    }
-
-
-    private fun castOrBail(mat: Matrix<Double>): JBlasMatrix {
-        when (mat) {
-            is JBlasMatrix -> return mat
-            else           -> {
-                val base = mat.getBaseMatrix()
-                if (base is DoubleMatrix)
-                    return JBlasMatrix(base)
-                else
-                // No friendly backend, need to convert manually
-                    throw Exception("Operations between matrices with different backends not yet supported.")
-            }
-        }
     }
 
     /**

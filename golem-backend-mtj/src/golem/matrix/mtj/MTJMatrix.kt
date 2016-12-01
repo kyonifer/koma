@@ -50,13 +50,13 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numColumns()
-    override fun times(other: Matrix<Double>) = MTJMatrix(this.storage.times(castOrBail(other).storage))
+    override fun times(other: Matrix<Double>) = MTJMatrix(this.storage.times(castOrBail(other, ::MTJMatrix).storage))
     override fun times(other: Double) = MTJMatrix(this.storage.times(other))
-    override fun elementTimes(other: Matrix<Double>) = MTJMatrix(this.storage.mod(castOrBail(other).storage))
+    override fun elementTimes(other: Matrix<Double>) = MTJMatrix(this.storage.mod(castOrBail(other, ::MTJMatrix).storage))
     override fun mod(other: Matrix<Double>) = elementTimes(other)
     override fun unaryMinus() = MTJMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = MTJMatrix(this.storage.minusElement(other))
-    override fun minus(other: Matrix<Double>) = MTJMatrix(this.storage.minus(castOrBail(other).storage))
+    override fun minus(other: Matrix<Double>) = MTJMatrix(this.storage.minus(castOrBail(other, ::MTJMatrix).storage))
     override fun div(other: Int) = MTJMatrix(this.storage.div(other))
     override fun div(other: Double) = MTJMatrix(this.storage.div(other))
     override fun transpose(): MTJMatrix {
@@ -77,7 +77,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     }
 
     override fun getCol(col: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage, col)))
-    override fun plus(other: Matrix<Double>) = MTJMatrix(this.storage.plusMatrix(castOrBail(other).storage))
+    override fun plus(other: Matrix<Double>) = MTJMatrix(this.storage.plusMatrix(castOrBail(other, ::MTJMatrix).storage))
     override fun plus(other: Double) = MTJMatrix(this.storage.plusElement(other))
     override fun chol() = MTJMatrix(DenseMatrix(this.storage.chol()))
     override fun inv() = MTJMatrix(this.storage.inv())
@@ -110,7 +110,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): MTJMatrix {
         var out = this.getFactory().zeros(A.numCols(), 1)
-        castOrBail(A).storage.solve(castOrBail(B).storage, out.storage)
+        castOrBail(A, ::MTJMatrix).storage.solve(castOrBail(B, ::MTJMatrix).storage, out.storage)
         return out
     }
 
@@ -128,26 +128,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun toString() = this.repr()
 
 
-    // TODO: Fix this
-    /**
-     * Eventually we will support operations between matrices with different
-     * backends. However, for now we'll exception out of it.
-     *
-     */
-    private fun castOrBail(mat: Matrix<Double>): MTJMatrix {
-        when (mat) {
-            is MTJMatrix -> return mat
-            else         -> {
-                val base = mat.getBaseMatrix()
-                if (base is DenseMatrix)
-                    return MTJMatrix(base)
-                else
-                // No friendly backend, need to convert manually
-                    throw Exception("Operations between matrices with different backends not yet supported.")
-
-            }
-        }
-    }
 
     /* These methods are defined in order to support fast non-generic calls. However,
        since our type is Double we'll disable them here in case someone accidentally

@@ -12,12 +12,38 @@ import golem.matrix.*
 abstract class DoubleMatrixBase : Matrix<Double> {
 
     /**
+     * Attempts to downcast a matrix to its specific subclass,
+     * accepting both inner wrapped types and outer types.
+     * Requires the [TOuter] constructor to be passed in because
+     * reified generics don't support ctor calls.
+     */
+    protected inline fun
+            <reified TOuter, reified TInner>
+            castOrBail(mat: Matrix<Double>,
+                       makeOuter: (TInner) -> TOuter): TOuter {
+
+        when (mat) {
+            is TOuter -> return mat
+            else      -> {
+                val base = this.getBaseMatrix()
+                if (base is TInner)
+                    return makeOuter(base)
+                else
+                // No friendly backend, need to convert manually
+                    throw Exception("Operations between matrices with different backends not yet supported.")
+
+            }
+        }
+
+    }
+
+    /**
      * A backend agnostic implementation of the matrix exponential (i.e. e to the matrix).
      */
     override fun expm(): Matrix<Double> {
 
         var solveProvider = { A: Matrix<Double>, B: Matrix<Double> -> this.solve(A, B) }
-        var A:Matrix<Double> = this
+        var A: Matrix<Double> = this
         var A_L1 = A.normIndP1()
         var n_squarings = 0
 
