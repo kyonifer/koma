@@ -4,7 +4,7 @@ import golem.matrix.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
-class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double> {
+class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 
     override fun T() = this.T
