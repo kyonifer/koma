@@ -9,6 +9,7 @@ import org.knowm.xchart.XYChart
 import org.knowm.xchart.QuickChart
 import org.knowm.xchart.XChartPanel
 import org.knowm.xchart.style.markers.SeriesMarkers
+
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.event.WindowEvent
@@ -24,6 +25,7 @@ import javax.swing.WindowConstants
 // by figure(numberHere)
 private var currentFigure = 1
 private val MAX_FIGURES = 100
+
 /**
  * The set of raw objects for all figures currently created. This should not ordinarily be used by the end-user,
  * but may be helpful for advanced plotting. Be careful with threading issues if you modify these.
@@ -60,6 +62,11 @@ fun xlabel(label: String) {
 fun ylabel(label: String) {
     var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call ylabel before making a figure")
     fig.setYAxisTitle(label)
+}
+
+fun saveFig(path: String){
+    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call saveFig before making a figure")
+    VectorGraphicsEncoder.saveVectorGraphic(fig, path, VectorGraphicsFormat.valueOf("PDF"))
 }
 
 
@@ -224,9 +231,8 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
 }
 
 fun main(args: Array<String>) {
-    plot(randn(50), "p")
-    plot(randn(50), 'o')
-
+    plot(randn(50), "p", "d")
+    plot(randn(50), 'o', "e")
 }
 
 val plotColors = mapOf(Pair("k", Color.BLACK),
