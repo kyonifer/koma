@@ -25,7 +25,7 @@ abstract class DoubleMatrixBase : Matrix<Double> {
         when (mat) {
             is TOuter -> return mat
             else      -> {
-                val base = this.getBaseMatrix()
+                val base = mat.getBaseMatrix()
                 if (base is TInner)
                     return makeOuter(base)
                 else
