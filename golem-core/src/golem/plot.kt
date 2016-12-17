@@ -48,17 +48,17 @@ fun figure(num: Int) {
 }
 
 fun title(label: String) {
-    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call title before making a figure")
+    val fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call title before making a figure")
     fig.title = label
 }
 
 fun xlabel(label: String) {
-    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call xlabel before making a figure")
+    val fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call xlabel before making a figure")
     fig.setXAxisTitle(label)
 }
 
 fun ylabel(label: String) {
-    var fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call ylabel before making a figure")
+    val fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call ylabel before making a figure")
     fig.setYAxisTitle(label)
 }
 
@@ -87,8 +87,8 @@ fun plot(x: Any?, y: Any, color: String = "k", lineLabel: String? = null) {
         return plot(null, x, y.toString(), color.toString())
 
 
-    var xdata: DoubleArray
-    var ydata: DoubleArray
+    val xdata: DoubleArray
+    val ydata: DoubleArray
 
     ydata = when (y) {
         is IntArray -> fromCollection(y.map { it.toDouble() })
@@ -118,19 +118,20 @@ fun plot(x: Any?, y: Any, color: String = "k", lineLabel: String? = null) {
 @JvmOverloads
 fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel: String? = null) {
 
+    val fig = figures[currentFigure]
     // If we've never shown this plot before OR someone closed the window, make a new frame and chart
-    if (figures[currentFigure] == null) {
-        var lineName = lineLabel ?: "Plot #${currentFigure.toString()}"
+    if (fig == null) {
+        val lineName = lineLabel ?: "Plot #${currentFigure.toString()}"
         val chart = QuickChart.getChart(lineName, "X", "Y", lineName, x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
-        var series = chart.seriesMap.values.first()
+        val series = chart.seriesMap.values.first()
         series.setLineColor(plotColors[color])
 
     }
     // Adding a line to an existing chart
     else {
-        var (chart, frame, numLines) = figures[currentFigure]!!
+        val (chart, frame, numLines) = fig
         figures[currentFigure] = Triple(chart, frame, numLines + 1)
         val lineName = lineLabel ?: "Line #${(numLines + 1).toString()}"
         val series = chart.addSeries(lineName, x, y)
@@ -201,7 +202,7 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
 
-    var image = BufferedImage(mat.numCols(),
+    val image = BufferedImage(mat.numCols(),
                               mat.numRows(),
                               representation)
 
@@ -209,9 +210,9 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
         for (c in 0..mat.numCols() - 1)
             image.setRGB(c, r, (mat[r, c]).toInt())
 
-    var frame = JFrame()
+    val frame = JFrame()
     frame.defaultCloseOperation = WindowConstants.DISPOSE_ON_CLOSE
-    var panel = object : JLabel() {
+    val panel = object : JLabel() {
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
             g.drawImage(image, 0, 0, null)
@@ -220,12 +221,6 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
     frame.add(panel)
     frame.setSize(mat.numCols(), mat.numRows())
     frame.isVisible = true
-
-}
-
-fun main(args: Array<String>) {
-    plot(randn(50), "p")
-    plot(randn(50), 'o')
 
 }
 
