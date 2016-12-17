@@ -5,8 +5,10 @@ package golem
 
 import golem.matrix.*
 import golem.util.*
+import org.knowm.xchart.BitmapEncoder
 import org.knowm.xchart.XYChart
 import org.knowm.xchart.QuickChart
+import org.knowm.xchart.VectorGraphicsEncoder
 import org.knowm.xchart.XChartPanel
 import org.knowm.xchart.style.markers.SeriesMarkers
 import java.awt.Color
@@ -24,6 +26,9 @@ import javax.swing.WindowConstants
 // by figure(numberHere)
 private var currentFigure = 1
 private val MAX_FIGURES = 100
+// Set the default raster dpi to 300 for plots saved to disk.
+var DPI = 300
+
 /**
  * The set of raw objects for all figures currently created. This should not ordinarily be used by the end-user,
  * but may be helpful for advanced plotting. Be careful with threading issues if you modify these.
@@ -222,6 +227,29 @@ fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GR
     frame.setSize(mat.numCols(), mat.numRows())
     frame.isVisible = true
 
+}
+
+fun savefig(path: String){
+    val fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call savefig before making a figure")
+
+    fun saveVector(fmt: VectorGraphicsEncoder.VectorGraphicsFormat) {
+        val noExt = path.dropLast(4)
+        VectorGraphicsEncoder.saveVectorGraphic(fig, noExt, fmt)
+    }
+    fun saveRaster(fmt: BitmapEncoder.BitmapFormat) {
+        BitmapEncoder.saveBitmapWithDPI(fig, path, fmt, DPI);
+    }
+    val type = path.split(".").last()
+    when(type) {
+        // bmp is currently skipped since xchart throws https://git.io/v15Jy
+        "svg" -> saveVector(VectorGraphicsEncoder.VectorGraphicsFormat.SVG)
+        "pdf" -> saveVector(VectorGraphicsEncoder.VectorGraphicsFormat.PDF)
+        "eps" -> saveVector(VectorGraphicsEncoder.VectorGraphicsFormat.EPS)
+        "gif" -> saveRaster(BitmapEncoder.BitmapFormat.GIF)
+        "jpg" -> saveRaster(BitmapEncoder.BitmapFormat.JPG)
+        "png" -> saveRaster(BitmapEncoder.BitmapFormat.PNG)
+        else -> throw IllegalArgumentException("Can only generate .gif, .jpg, .png, .svg, .pdf, and .eps files")
+    }
 }
 
 val plotColors = mapOf(Pair("k", Color.BLACK),
