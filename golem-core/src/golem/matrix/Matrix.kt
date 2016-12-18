@@ -121,7 +121,7 @@ interface Matrix<T> : Iterable<T> {
     /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
      */
-    fun getFactory(): MatrixFactory<Matrix<T>>
+    fun getFactory(): MatrixFactory<out Matrix<T>>
 
 
     fun repr(): String = golem.platformsupport.repr(this)

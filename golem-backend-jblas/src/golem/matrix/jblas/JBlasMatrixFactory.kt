@@ -5,7 +5,7 @@ import golem.matrix.common.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
-class JBlasMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
+class JBlasMatrixFactory : DoubleFactoryBase<JBlasMatrix>() {
     override fun zeros(rows: Int, cols: Int) = JBlasMatrix(golem.matrix.jblas.backend.zeros(rows, cols))
     override fun zeros(size: Int) = JBlasMatrix(golem.matrix.jblas.backend.zeros(size, size))
     override fun create(data: IntRange) = JBlasMatrix(DoubleMatrix(data.map { it.toDouble() }))
@@ -24,7 +24,7 @@ class JBlasMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
     override fun rand(size: Int) = JBlasMatrix(golem.matrix.jblas.backend.rand(size))
     override fun rand(rows: Int, cols: Int) = JBlasMatrix(golem.matrix.jblas.backend.rand(rows, cols))
 
-    override fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> {
+    override fun rand(rows: Int, cols: Int, seed: Long): JBlasMatrix {
         println("Warning: JBlas RNG doesnt support seeds")
         return JBlasMatrix(golem.matrix.jblas.backend.rand(rows, cols))
     }
@@ -33,7 +33,7 @@ class JBlasMatrixFactory : MatrixFactory<Matrix<Double>>, DoubleFactoryBase() {
 
     override fun randn(rows: Int, cols: Int) = JBlasMatrix(golem.matrix.jblas.backend.randn(rows, cols))
 
-    override fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> {
+    override fun randn(rows: Int, cols: Int, seed: Long): JBlasMatrix {
         println("Warning: JBlas RNG doesnt support seeds")
         return JBlasMatrix(golem.matrix.jblas.backend.randn(rows, cols))
     }
