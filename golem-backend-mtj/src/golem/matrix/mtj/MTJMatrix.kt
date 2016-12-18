@@ -50,13 +50,16 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numColumns()
-    override fun times(other: Matrix<Double>) = MTJMatrix(this.storage.times(castOrBail(other, ::MTJMatrix).storage))
+    override fun times(other: Matrix<Double>) =
+            MTJMatrix(this.storage.times(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
     override fun times(other: Double) = MTJMatrix(this.storage.times(other))
-    override fun elementTimes(other: Matrix<Double>) = MTJMatrix(this.storage.mod(castOrBail(other, ::MTJMatrix).storage))
+    override fun elementTimes(other: Matrix<Double>) =
+            MTJMatrix(this.storage.mod(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
     override fun mod(other: Matrix<Double>) = elementTimes(other)
     override fun unaryMinus() = MTJMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = MTJMatrix(this.storage.minusElement(other))
-    override fun minus(other: Matrix<Double>) = MTJMatrix(this.storage.minus(castOrBail(other, ::MTJMatrix).storage))
+    override fun minus(other: Matrix<Double>) =
+            MTJMatrix(this.storage.minus(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
     override fun div(other: Int) = MTJMatrix(this.storage.div(other))
     override fun div(other: Double) = MTJMatrix(this.storage.div(other))
     override fun transpose(): MTJMatrix {
@@ -77,7 +80,8 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     }
 
     override fun getCol(col: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage, col)))
-    override fun plus(other: Matrix<Double>) = MTJMatrix(this.storage.plusMatrix(castOrBail(other, ::MTJMatrix).storage))
+    override fun plus(other: Matrix<Double>) =
+            MTJMatrix(this.storage.plusMatrix(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
     override fun plus(other: Double) = MTJMatrix(this.storage.plusElement(other))
     override fun chol() = MTJMatrix(DenseMatrix(this.storage.chol()))
     override fun inv() = MTJMatrix(this.storage.inv())
@@ -110,7 +114,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): MTJMatrix {
         var out = this.getFactory().zeros(A.numCols(), 1)
-        castOrBail(A, ::MTJMatrix).storage.solve(castOrBail(B, ::MTJMatrix).storage, out.storage)
+        castOrCopy(A, ::MTJMatrix, getFactory()).storage.solve(castOrCopy(B, ::MTJMatrix, getFactory()).storage, out.storage)
         return out
     }
 
