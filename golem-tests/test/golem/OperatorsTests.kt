@@ -28,6 +28,29 @@ class OperatorsTests {
             assertMatrixEquals(mat[2, 5, 8].T, a[0..2, 1])
             assertMatrixEquals(mat[4, 5], a[1, 0..1])
             assertMatrixEquals(mat[5, 6 end 8, 9], a[1..2, 1..2])
+            assertMatrixEquals(a, a[all,all])
+            assertMatrixEquals(a, a[0..end,0..end])
+            assertMatrixEquals(mat[5, 6 end 8, 9], a[1..end,1..end])
+            assertMatrixEquals(mat[5], a[1..end-1,1..end-1])
+            assertMatrixEquals(mat[2, 3 end 5, 6], a[0..end-1,1..end])
+            assertMatrixEquals(mat[4, 5 end 7, 8], a[1..end,0..end-1])
+
+
+        }
+    }
+
+    @Test
+    fun testNegativeRanges() {
+        allBackends {
+            var a = mat[1, 2, 3 end
+                        4, 5, 6 end
+                        7, 8, 9]
+            assertMatrixEquals(mat[5, 6 end 8, 9], a[1..2, 1..2])
+            assertMatrixEquals(mat[5, 6 end 8, 9], a[1..-1, 1..-1])
+            assertMatrixEquals(mat[4, 5 end 7, 8], a[1..-1, 0..-2])
+            assertMatrixEquals(mat[4, 5], a[1..-2, 0..-2])
+            assertMatrixEquals(mat[9], a[2..-1, 2..-1])
+
 
         }
     }

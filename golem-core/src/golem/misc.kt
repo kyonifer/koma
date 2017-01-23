@@ -12,6 +12,9 @@ val SCIENTIFIC_NUMBER = "SciNot"
 val SCIENTIFIC_LONG_NUMBER = "SciNotLong"
 val SCIENTIFIC_VERY_LONG_NUMBER = "SciNotVLong"
 
+val end = -1
+val all = 0..end
+
 /**
  * Sets the format for Golem to display numbers in. For example, calling
  *

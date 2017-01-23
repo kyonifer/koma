@@ -163,10 +163,14 @@ interface Matrix<T> : Iterable<T> {
      */
     operator fun get(rows: IntRange, cols: IntRange): Matrix<T>
     {
-        var out = this.getFactory().zeros(rows.endInclusive - rows.start + 1, cols.endInclusive - cols.start + 1)
-        for (row in rows)
-            for (col in cols)
-                out[row - rows.start, col - cols.start] = this[row, col]
+        val wrows = wrapRange(rows, numRows())
+        val wcols = wrapRange(cols, numCols())
+
+        var out = this.getFactory().zeros(wrows.endInclusive - wrows.start + 1,
+                                          wcols.endInclusive - wcols.start + 1)
+        for (row in wrows)
+            for (col in wcols)
+                out[row - wrows.start, col - wcols.start] = this[row, col]
         return out
     }
 
@@ -181,14 +185,20 @@ interface Matrix<T> : Iterable<T> {
      */
     operator fun set(rows: IntRange, cols: IntRange, value: Matrix<T>)
     {
-        for (i in rows)
-            for (j in cols)
-                this[i, j] = value[i - rows.start, j - cols.start]
+        val wrows = wrapRange(rows, numRows())
+        val wcols = wrapRange(cols, numCols())
+
+        for (i in wrows)
+            for (j in wcols)
+                this[i, j] = value[i - wrows.start, j - wcols.start]
     }
     operator fun set(rows: IntRange, cols: IntRange, value: T)
     {
-        for (i in rows)
-            for (j in cols)
+        val wrows = wrapRange(rows, numRows())
+        val wcols = wrapRange(cols, numCols())
+
+        for (i in wrows)
+            for (j in wcols)
                 this[i, j] = value
     }
 
@@ -238,5 +248,9 @@ interface Matrix<T> : Iterable<T> {
      */
     operator fun get(rows: Int, cols: IntRange) = this[rows..rows, cols]
 
-
+    private fun wrapRange(range: IntRange, max: Int) =
+            if(range.endInclusive >= 0)
+                range
+            else
+                range.start..(max+range.endInclusive)
 }
