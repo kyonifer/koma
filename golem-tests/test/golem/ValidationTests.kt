@@ -1,22 +1,19 @@
 package golem
 
-import golem.*
 import golem.matrix.*
-import golem.util.test.*
 import golem.util.validation.*
-import org.junit.Test
 import org.junit.Rule
+import org.junit.Test
 import org.junit.rules.ExpectedException
 
 //@formatter: off
 class ValidationTests {
     // Visual tests are tests which fail on purpose so you can examine the output.  In this file, the visual tests show
     // you the exception messages so you can check that they're human-readable and formatted nicely.
-    public val visualTestsOn = false
+    val visualTestsOn = false
 
     @Rule
-    @JvmField
-    public val exception = ExpectedException.none()
+    @JvmField val exception = ExpectedException.none()
 
     @Test
     fun test_simpleBoundsChcek() {

@@ -21,7 +21,7 @@ class OperatorsTests {
     @Test
     fun testRanges() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
             assertMatrixEquals(mat[1, 4, 7].T, a[0..2, 0])
@@ -42,7 +42,7 @@ class OperatorsTests {
     @Test
     fun testNegativeRanges() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
             assertMatrixEquals(mat[5, 6 end 8, 9], a[1..2, 1..2])
@@ -120,13 +120,13 @@ class OperatorsTests {
     @Test
     fun test2DSet() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         3, 4, 5]
 
             a[1, 1] = -1.1
             a[0, 2] = 4.5
 
-            var expected = mat[1, 2, 4.5 end
+            val expected = mat[1, 2, 4.5 end
                                3, -1.1, 5]
 
             assertMatrixEquals(expected, a)
@@ -137,7 +137,7 @@ class OperatorsTests {
     @Test
     fun test2DIndex() {
         allBackends {
-            var a = mat[0, 1 end 2, 3]
+            val a = mat[0, 1 end 2, 3]
             assertEquals(0.0, a[0, 0])
             assertEquals(1.0, a[0, 1])
             assertEquals(2.0, a[1, 0])
@@ -148,10 +148,10 @@ class OperatorsTests {
     @Test
     fun testScalarMultiplication() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            var out = a.mapMat { it * 30 }
+            val out = a.mapMat { it * 30 }
             assertMatrixEquals(out, a * 30)
         }
 
@@ -160,10 +160,10 @@ class OperatorsTests {
     @Test
     fun testMultiplication() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            var out = mat[30, 36, 42 end
+            val out = mat[30, 36, 42 end
                           66, 81, 96 end
                           102, 126, 150]
             assertMatrixEquals(out, a * a)
@@ -195,8 +195,8 @@ class OperatorsTests {
     @Test
     fun testAddition() {
         allBackends {
-            var a = mat[1, 2, 3, 2, 1]
-            var other = mat[0, 1, -1, .5, 4.5]
+            val a = mat[1, 2, 3, 2, 1]
+            val other = mat[0, 1, -1, .5, 4.5]
             var expected = mat[5, 6, 7, 6, 5]
             assertMatrixEquals(expected, a + 4)
             expected = mat[1, 3, 2, 2.5, 5.5]
@@ -207,8 +207,8 @@ class OperatorsTests {
     @Test
     fun testMinus() {
         allBackends {
-            var a = mat[1, 2, 3, 2, 1]
-            var other = mat[0, 1.1, 0, -1, 4]
+            val a = mat[1, 2, 3, 2, 1]
+            val other = mat[0, 1.1, 0, -1, 4]
             var expected = mat[-1, -2, -3, -2, -1]
             assertMatrixEquals(expected, -a)
 
@@ -221,11 +221,11 @@ class OperatorsTests {
     @Test
     fun testAdditionScalar() {
         allBackends {
-            var a = 3
-            var a2 = 3.0
-            var other = mat[3, 5, 7 end
+            val a = 3
+            val a2 = 3.0
+            val other = mat[3, 5, 7 end
                             1, 2, 3]
-            var expected = mat[6, 8, 10 end
+            val expected = mat[6, 8, 10 end
                                4, 5, 6 ]
             assertMatrixEquals(expected, a + other)
             assertMatrixEquals(expected, a2 + other)
@@ -236,11 +236,11 @@ class OperatorsTests {
     @Test
     fun testMinusScalar() {
         allBackends {
-            var a = 5
-            var a2 = 5.0
-            var other = mat[1,2,3,4 end 
+            val a = 5
+            val a2 = 5.0
+            val other = mat[1,2,3,4 end
                             1,5,9,5]
-            var expected = mat[4, 3,  2, 1 end
+            val expected = mat[4, 3,  2, 1 end
                                4, 0, -4, 0]
             assertMatrixEquals(expected, a - other)
             assertMatrixEquals(expected, a2 - other)
@@ -264,7 +264,7 @@ class OperatorsTests {
     @Test
     fun test2DIndexFail() {
         allBackends {
-            var a = mat[0, 1 end 2, 3]
+            val a = mat[0, 1 end 2, 3]
             assertFails {
                 a[2, 0]
             }

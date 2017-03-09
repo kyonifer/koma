@@ -10,7 +10,7 @@ class MatrixFuncsTests {
     @Test
     fun testArgMin() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                     4, 3, -1]
 
             assert(a.argMin() == 5)
@@ -22,7 +22,7 @@ class MatrixFuncsTests {
     @Test
     fun testArgMax() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 3, -1]
 
             assert(a.argMax() == 3)
@@ -49,7 +49,7 @@ class MatrixFuncsTests {
     @Test
     fun testInverse() {
         allBackends {
-            var a = eye(5, 5) * 4.5
+            val a = eye(5, 5) * 4.5
             assertMatrixEquals(eye(5, 5) * (1 / 4.5), a.inv())
         }
     }
@@ -61,7 +61,7 @@ class MatrixFuncsTests {
                         3, 4]
             a = a epow 3
 
-            var aE = mat[1 pow 3, 2 pow 3 end
+            val aE = mat[1 pow 3, 2 pow 3 end
                          (3 pow 3), 4 pow 3]
 
             assertMatrixEquals(a, aE)
@@ -71,11 +71,11 @@ class MatrixFuncsTests {
     @Test
     fun testPow() {
         allBackends {
-            var a = mat[2, 0, 0 end
+            val a = mat[2, 0, 0 end
                         0, 1, 0 end
                         0, 0, 4]
 
-            var a3 = a pow 3
+            val a3 = a pow 3
 
             assertMatrixEquals(a3, a * a * a)
         }
@@ -84,12 +84,12 @@ class MatrixFuncsTests {
     @Test
     fun testSin() {
         allBackends {
-            var a = zeros(2, 2)
+            val a = zeros(2, 2)
             a[0, 0] = PI / 2
             a[0, 1] = 3.0
             a[1, 0] = -PI / 2
 
-            var expected = mat[1.0, 0.14112000805986721 end
+            val expected = mat[1.0, 0.14112000805986721 end
                                -1.0, 0.0]
 
             assertMatrixEquals(expected, sin(a))
@@ -100,9 +100,9 @@ class MatrixFuncsTests {
     @Test
     fun testAbs() {
         allBackends {
-            var a = mat[1, -2, 3 end
+            val a = mat[1, -2, 3 end
                         4, 5, -6]
-            var expected = mat[1, 2, 3 end
+            val expected = mat[1, 2, 3 end
                                4, 5, 6]
             assertMatrixEquals(expected, abs(a))
         }
@@ -111,8 +111,8 @@ class MatrixFuncsTests {
     @Test
     fun testCeil() {
         allBackends {
-            var a = mat[1.1, 2.2, 3, 4.9, -1.1]
-            var expected = mat[2, 3, 3, 5, -1]
+            val a = mat[1.1, 2.2, 3, 4.9, -1.1]
+            val expected = mat[2, 3, 3, 5, -1]
 
             assertMatrixEquals(expected, ceil(a))
 
@@ -122,13 +122,13 @@ class MatrixFuncsTests {
     @Test
     fun testCos() {
         allBackends {
-            var a = zeros(2, 2)
+            val a = zeros(2, 2)
             a[0, 0] = PI / 2
             a[0, 1] = 3.0
             a[1, 0] = -PI / 4
             a[1, 1] = 0
 
-            var expected = mat[0.0, -0.98999249660044542 end
+            val expected = mat[0.0, -0.98999249660044542 end
                                1 / sqrt(2), 1.0]
 
             assertMatrixEquals(expected, cos(a))
@@ -138,8 +138,8 @@ class MatrixFuncsTests {
     @Test
     fun testExp() {
         allBackends {
-            var a = mat[0, 1, 2]
-            var expected = mat[1, E, E pow 2]
+            val a = mat[0, 1, 2]
+            val expected = mat[1, E, E pow 2]
             assertMatrixEquals(expected, exp(a))
 
         }
@@ -148,9 +148,9 @@ class MatrixFuncsTests {
     @Test
     fun testLog() {
         allBackends {
-            var a = mat[3.3, 5.4, 1.1]
-            var expected = a.mapMat { log(it) }
-            var expected2 = mat[1.19392247, 1.68639895, 0.09531018]
+            val a = mat[3.3, 5.4, 1.1]
+            val expected = a.mapMat { log(it) }
+            val expected2 = mat[1.19392247, 1.68639895, 0.09531018]
             assertMatrixEquals(expected, log(a))
             assertMatrixEquals(expected2, log(a))
         }
@@ -159,7 +159,7 @@ class MatrixFuncsTests {
     @Test
     fun testLogFail() {
         allBackends {
-            var a = mat[3.3, 5.4, -1.1]
+            val a = mat[3.3, 5.4, -1.1]
             assertMatrixEquals(mat[log(3.3), log(5.4)], log(a[0, 0..1]))
             assert(log(a[2]).equals(Double.NaN))
         }
@@ -168,8 +168,8 @@ class MatrixFuncsTests {
     @Test
     fun testSign() {
         allBackends {
-            var a = mat[1, -2.2, 3, 0]
-            var expected = mat[1, -1, 1, 0]
+            val a = mat[1, -2.2, 3, 0]
+            val expected = mat[1, -1, 1, 0]
             assertMatrixEquals(expected, sign(a))
         }
     }
@@ -177,8 +177,8 @@ class MatrixFuncsTests {
     @Test
     fun testSqrt() {
         allBackends {
-            var a = mat[4, 2, 3]
-            var expected = a.mapMat { sqrt(it) }
+            val a = mat[4, 2, 3]
+            val expected = a.mapMat { sqrt(it) }
             assertMatrixEquals(expected, sqrt(a))
         }
     }
@@ -186,9 +186,9 @@ class MatrixFuncsTests {
     @Test
     fun testTan() {
         allBackends {
-            var a = mat[1, -1, 35]
-            var expected = a.mapMat { tan(it) }
-            var expected2 = mat[1.55740772, -1.55740772, 0.47381472]
+            val a = mat[1, -1, 35]
+            val expected = a.mapMat { tan(it) }
+            val expected2 = mat[1.55740772, -1.55740772, 0.47381472]
             assertMatrixEquals(expected, tan(a))
             assertMatrixEquals(expected2, tan(a))
 
@@ -198,8 +198,8 @@ class MatrixFuncsTests {
     @Test
     fun testRound() {
         allBackends {
-            var a = mat[1.1, 1.5, 1.6, 1.9, -1.1, -1.5, -1.7]
-            var expected = mat[1, 2, 2, 2, -1, -1, -2]
+            val a = mat[1.1, 1.5, 1.6, 1.9, -1.1, -1.5, -1.7]
+            val expected = mat[1, 2, 2, 2, -1, -1, -2]
             assertMatrixEquals(expected, round(a))
         }
     }
@@ -207,8 +207,8 @@ class MatrixFuncsTests {
     @Test
     fun testFloor() {
         allBackends {
-            var a = mat[1.1, 1.5, 1.6, 1.9, -1.1, -1.5, -1.7]
-            var expected = mat[1, 1, 1, 1, -2, -2, -2]
+            val a = mat[1.1, 1.5, 1.6, 1.9, -1.1, -1.5, -1.7]
+            val expected = mat[1, 1, 1, 1, -2, -2, -2]
             assertMatrixEquals(expected, floor(a))
 
         }
@@ -217,10 +217,10 @@ class MatrixFuncsTests {
     @Test
     fun testLogb() {
         allBackends {
-            var a = mat[.5, 0.1, 5.5]
-            var expected = a.mapMat { logb(4, it) }
-            var expected2 = mat[-1.0, -3.32192809, 2.45943162]
-            var expected3 = mat[-0.30103, -1.0, 0.74036269]
+            val a = mat[.5, 0.1, 5.5]
+            val expected = a.mapMat { logb(4, it) }
+            val expected2 = mat[-1.0, -3.32192809, 2.45943162]
+            val expected3 = mat[-0.30103, -1.0, 0.74036269]
             assertMatrixEquals(expected, logb(4, a))
             assertMatrixEquals(expected2, logb(2, a))
             assertMatrixEquals(expected3, logb(10, a))
@@ -229,12 +229,12 @@ class MatrixFuncsTests {
 
     @Test
     fun testVHstack() {
-        var a = mat[1, 2 end
+        val a = mat[1, 2 end
                     3, 4]
-        var b = mat[-1, -2 end
+        val b = mat[-1, -2 end
                     -3, -4]
-        var out = vstack(hstack(a, b), hstack(-2 * a, 0 * b))
-        var expected = mat[1, 2, -1, -2 end
+        val out = vstack(hstack(a, b), hstack(-2 * a, 0 * b))
+        val expected = mat[1, 2, -1, -2 end
                            3, 4, -3, -4 end
                            -2, -4, 0, 0 end
                            -6, -8, 0, 0]

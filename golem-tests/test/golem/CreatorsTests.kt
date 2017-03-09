@@ -11,7 +11,7 @@ class CreatorsTests {
     @Test
     fun testZeros() {
         allBackends {
-            var a = zeros(5, 1)
+            val a = zeros(5, 1)
             for (i in 0..a.numRows() - 1)
                 a[i, 0] = i + 1
             assertMatrixEquals(a, mat[1, 2, 3, 4, 5].T)
@@ -22,8 +22,8 @@ class CreatorsTests {
     @Test
     fun testCreate() {
         allBackends {
-            var a = create(0..4)
-            var b = mat[0, 1, 2, 3, 4]
+            val a = create(0..4)
+            val b = mat[0, 1, 2, 3, 4]
 
             assertMatrixEquals(a, b)
             assertMatrixEquals(a.T, b.T)
@@ -33,8 +33,8 @@ class CreatorsTests {
     @Test
     fun testCopy() {
         allBackends {
-            var a = mat[1, 2, 3 end 3, 4, 5]
-            var b = a.copy()
+            val a = mat[1, 2, 3 end 3, 4, 5]
+            val b = a.copy()
             assertMatrixEquals(a,b)
             assertEquals(a.numRows(),b.numRows())
             assertEquals(a.numCols(),b.numCols())
@@ -69,7 +69,7 @@ class CreatorsTests {
     @Test
     fun testOnes() {
         allBackends {
-            var a = ones(3, 5)
+            val a = ones(3, 5)
             assertEquals(a[4], 1.0)
             assertEquals(a[2, 2], 1.0)
             assertMatrixEquals(zeros(3, 5).fill { i, j -> 1.0 }, a)
@@ -79,8 +79,8 @@ class CreatorsTests {
     @Test
     fun testEye() {
         allBackends {
-            var a = eye(3)
-            var expected = zeros(3, 3).mapMatIndexed { i, j, d -> if (i == j) 1.0 else 0.0 }
+            val a = eye(3)
+            val expected = zeros(3, 3).mapMatIndexed { i, j, d -> if (i == j) 1.0 else 0.0 }
             assertMatrixEquals(expected, a)
         }
     }
@@ -88,8 +88,8 @@ class CreatorsTests {
     @Test
     fun testArange() {
         allBackends {
-            var a = arange(1.0, 1.5, .1)
-            var expected = mat[1.0, 1.1, 1.2, 1.3, 1.4]
+            val a = arange(1.0, 1.5, .1)
+            val expected = mat[1.0, 1.1, 1.2, 1.3, 1.4]
             assertMatrixEquals(expected, a)
         }
     }
@@ -97,7 +97,7 @@ class CreatorsTests {
     @Test
     fun testRandn() {
         allBackends {
-            var a = 2 * randn(1, 1000000)
+            val a = 2 * randn(1, 1000000)
             Assert.assertEquals(0.0, mean(a), .01)
             val aAgg = zeros(1, 1000000).mapMat { 2*randn(1)[0] }
             Assert.assertEquals(0.0, mean(aAgg), .01)
@@ -110,7 +110,7 @@ class CreatorsTests {
     @Test
     fun testRand() {
         allBackends {
-            var a = 2 * rand(1, 1000000)
+            val a = 2 * rand(1, 1000000)
             Assert.assertEquals(1.0, mean(a), .01)
             val aAgg = zeros(1, 1000000).mapMat { 2*rand(1)[0] }
             Assert.assertEquals(1.0, mean(aAgg), .01)

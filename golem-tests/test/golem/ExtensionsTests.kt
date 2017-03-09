@@ -24,9 +24,9 @@ class ExtensionsTests {
     @Test
     fun testFill() {
         allBackends {
-            var a = zeros(2, 2)
+            val a = zeros(2, 2)
             a.fill { i, j -> i + j * 1.0 }
-            var expected = mat[0, 1 end
+            val expected = mat[0, 1 end
                                1, 2]
 
             assertMatrixEquals(expected, a)
@@ -36,10 +36,10 @@ class ExtensionsTests {
     @Test
     fun testEachRow() {
         allBackends {
-            var a = mat[1, 0, 3 end
+            val a = mat[1, 0, 3 end
                         5, 1, 6]
 
-            var out = arrayOf(0, 0)
+            val out = arrayOf(0, 0)
 
             a.eachRow { out[it[1].toInt()] = it[0].toInt() }
 
@@ -51,10 +51,10 @@ class ExtensionsTests {
     @Test
     fun testEachCol() {
         allBackends {
-            var a = mat[1, 0, 2 end
+            val a = mat[1, 0, 2 end
                         -2, 2, 6]
 
-            var out = arrayOf(0, 0, 0)
+            val out = arrayOf(0, 0, 0)
 
             a.eachCol { out[it[0].toInt()] = it[1].toInt() }
 
@@ -68,7 +68,7 @@ class ExtensionsTests {
     @Test
     fun testEach() {
         allBackends {
-            var a = mat[1, 0, 2 end
+            val a = mat[1, 0, 2 end
                         -2, 2, 6]
 
             var out = 0.0
@@ -82,9 +82,9 @@ class ExtensionsTests {
     @Test
     fun testEachIndexed() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6]
-            var out = zeros(2, 3)
+            val out = zeros(2, 3)
             a.eachIndexed { row, col, ele ->
                 out[row, col] = ele + 3
             }
@@ -95,11 +95,11 @@ class ExtensionsTests {
     @Test
     fun testMapElements() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
 
-            var expected = mat[.5, 1, 1.5 end
+            val expected = mat[.5, 1, 1.5 end
                                2, 2.5, 3   end
                                3.5, 4, 4.5]
             assertMatrixEquals(expected, a.mapMat { it / 2 })
@@ -109,14 +109,14 @@ class ExtensionsTests {
     @Test
     fun testMapElementsIndexed() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
 
-            var expected = mat[0, 0, 0   end
+            val expected = mat[0, 0, 0   end
                                0, 2.5, 6   end
                                0, 8, 18]
-            var out = a.mapMatIndexed { row, col, ele ->
+            val out = a.mapMatIndexed { row, col, ele ->
                 ele / 2 * row * col
             }
             assertMatrixEquals(expected, out)
@@ -126,11 +126,11 @@ class ExtensionsTests {
     @Test
     fun testMapRows() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
 
-            var expected = mat[3, 2, 1, 3 end
+            val expected = mat[3, 2, 1, 3 end
                                6, 5, 4, 6 end
                                9, 8, 7, 9]
 
@@ -141,13 +141,13 @@ class ExtensionsTests {
     @Test
     fun testMapRowsToList() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6]
-            var out = a.mapRowsToList {
+            val out = a.mapRowsToList {
                 it[0].toString()
             }
 
-            assert(out[1].equals("4.0"))
+            assert(out[1] == "4.0")
 
         }
     }
@@ -155,11 +155,11 @@ class ExtensionsTests {
     @Test
     fun testMapCols() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
 
-            var expected = mat[7, 8, 9 end
+            val expected = mat[7, 8, 9 end
                                4, 5, 6 end
                                1, 2, 3 end
                                7, 8, 9]
@@ -171,13 +171,13 @@ class ExtensionsTests {
     @Test
     fun testMapColsToList() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6]
-            var out = a.mapColsToList {
+            val out = a.mapColsToList {
                 it[0].toString()
             }
 
-            assert(out[1].equals("2.0"))
+            assert(out[1] == "2.0")
 
         }
     }
@@ -185,12 +185,12 @@ class ExtensionsTests {
     @Test
     fun testTo2DArray() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6]
-            var expected = arrayOf(doubleArrayOf(1.0, 2.0, 3.0),
+            val expected = arrayOf(doubleArrayOf(1.0, 2.0, 3.0),
                                    doubleArrayOf(4.0, 5.0, 6.0))
 
-            var out = a.to2DArray()
+            val out = a.to2DArray()
             for (row in 0..1)
                 for (col in 0..2)
                     assert(out[row][col] == expected[row][col])
@@ -202,36 +202,36 @@ class ExtensionsTests {
     @Test
     fun testAny() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            assert(a.any { it > 8.5 } == true)
-            assert(a.any { it > 7 } == true)
-            assert(a.any { it > 9 } == false)
+            assert(a.any { it > 8.5 })
+            assert(a.any { it > 7 })
+            assert(!a.any { it > 9 })
         }
     }
 
     @Test
     fun testAll() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            assert(a.all { it > 0.9 } == true)
-            assert(a.all { it > 1.0 } == false)
-            assert(a.all { it > 8 } == false)
+            assert(a.all { it > 0.9 })
+            assert(!a.all { it > 1.0 })
+            assert(!a.all { it > 8 })
         }
     }
 
     @Test
     fun testMapFromIterable() {
         allBackends {
-            var a = mat[1, 2, 3 end
+            val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            var out = a.map { it.toString() }
-            assert(out[0].equals("1.0"))
-            assert(out[4].equals("5.0"))
+            val out = a.map { it.toString() }
+            assert(out[0] == "1.0")
+            assert(out[4] == "5.0")
         }
     }
 }

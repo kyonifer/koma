@@ -1,10 +1,8 @@
 package golem
 
-import golem.containers.Time
-import golem.containers.TimeStandard
-import org.junit.Test
+import golem.containers.*
 import org.junit.Assert.assertEquals
-import kotlin.test.assertFails
+import org.junit.Test
 import kotlin.test.assertFailsWith
 
 class ContainersTests {
