@@ -45,7 +45,7 @@ var figures = arrayOfNulls<Triple<XYChart, JFrame, Int>>(MAX_FIGURES)
  * figure(2)
  * randn(3)
  *
- * @param The window to plot any new lines to
+ * @param num The window to plot any new lines to
  *
  */
 fun figure(num: Int) {
