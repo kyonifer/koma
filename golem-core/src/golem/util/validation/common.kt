@@ -2,15 +2,8 @@
 
 package golem.util.validation
 
-import golem.validateMatrices
-import golem.matrix.Matrix
-import kotlin.collections.Iterable
-import kotlin.collections.MutableList
-import kotlin.collections.MutableMap
-import kotlin.collections.MutableSet
-import java.util.LinkedHashMap
-import java.util.ArrayList
-import java.util.HashSet
+import golem.*
+import golem.matrix.*
 
 
 private val DEFAULT_NAME = "matrix"

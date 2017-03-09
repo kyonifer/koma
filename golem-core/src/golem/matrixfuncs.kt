@@ -56,7 +56,7 @@ fun abs(arr: Matrix<Double>) = arr.mapMat { Math.abs(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it.toDouble()).toDouble() }
+fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it) }
 
 /**
  * Returns a matrix of the cos of each element in the input matrix.
@@ -170,7 +170,7 @@ fun round(arr: Matrix<Double>) = arr.mapMat { Math.round(it).toDouble() }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it.toDouble()).toDouble() }
+fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it) }
 
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix
@@ -283,7 +283,7 @@ fun expm(A: Matrix<Double>) = A.expm()
  * @Return 3x3 skew symmetric matrix
  */
 fun skew(angles: Matrix<Double>): Matrix<Double> {
-    var s = mat [0, -angles[2], angles[1] end
+    val s = mat [0, -angles[2], angles[1] end
             angles[2], 0, -angles[0] end
             -angles[1], angles[0], 0]
     return s
@@ -305,7 +305,7 @@ fun hstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     arrs.forEach { if (it.numRows() != outRows) throw IllegalArgumentException("All matrices passed to hstack must have the same number of rows.") }
     arrs.forEach { outCols += it.numCols() }
 
-    var out = zeros(outRows, outCols)
+    val out = zeros(outRows, outCols)
     var cursor = 0
     arrs.forEach {
         out[0..outRows - 1, cursor..(cursor + it.numCols() - 1)] = it
@@ -320,7 +320,7 @@ fun vstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     arrs.forEach { if (it.numCols() != outCols) throw IllegalArgumentException("All matrices passed to vstack must have the same number of cols.") }
     arrs.forEach { outRows += it.numRows() }
 
-    var out = zeros(outRows, outCols)
+    val out = zeros(outRows, outCols)
     var cursor = 0
     arrs.forEach {
         out[cursor..(cursor + it.numRows() - 1), 0..outCols - 1] = it

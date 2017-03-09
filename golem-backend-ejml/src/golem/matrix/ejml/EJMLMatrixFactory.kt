@@ -1,11 +1,9 @@
 package golem.matrix.ejml
 
 import golem.*
-import golem.matrix.*
 import golem.matrix.common.*
 import golem.util.*
 import org.ejml.simple.SimpleMatrix
-import java.util.*
 
 class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
 
@@ -14,7 +12,7 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
     override fun zeros(size: Int) = zeros(size, size)
 
     override fun create(data: IntRange): EJMLMatrix {
-        var dataArray = fromCollection(data.map { it.toDouble() })
+        val dataArray = fromCollection(data.map { it.toDouble() })
         return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
     }
 
@@ -39,7 +37,7 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
     }
 
     override fun eye(rows: Int, cols: Int): EJMLMatrix {
-        var out = golem.matrix.ejml.backend.zeros(rows, cols)
+        val out = golem.matrix.ejml.backend.zeros(rows, cols)
         for (i in 0..min(rows, cols) - 1)
             out[i, i] = 1.0
         return EJMLMatrix(out)

@@ -166,7 +166,7 @@ interface Matrix<T> : Iterable<T> {
         val wrows = wrapRange(rows, numRows())
         val wcols = wrapRange(cols, numCols())
 
-        var out = this.getFactory().zeros(wrows.endInclusive - wrows.start + 1,
+        val out = this.getFactory().zeros(wrows.endInclusive - wrows.start + 1,
                                           wcols.endInclusive - wcols.start + 1)
         for (row in wrows)
             for (col in wcols)

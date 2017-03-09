@@ -10,8 +10,8 @@ import golem.platformsupport.*
  */
 abstract class DoubleFactoryBase<T: Matrix<Double>> : MatrixFactory<T> {
     override fun arange(start: Double, stop: Double, increment: Double): T {
-        var len = round((stop - start) / increment).toInt()
-        var out = this.zeros(1, len)
+        val len = round((stop - start) / increment).toInt()
+        val out = this.zeros(1, len)
         for (i in 0 until len)
             out[i] = start + i * increment
 

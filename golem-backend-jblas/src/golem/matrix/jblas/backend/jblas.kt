@@ -22,7 +22,7 @@ import golem.*
 import org.jblas.*
 
 fun DoubleMatrix.mapMat(f: (Double) -> Double): DoubleMatrix {
-    var out = DoubleMatrix(this.rows, this.columns)
+    val out = DoubleMatrix(this.rows, this.columns)
     for (row in 0..this.rows - 1)
         for (col in 0..this.columns - 1)
             out[row, col] = f(this[row, col])
@@ -52,7 +52,7 @@ operator fun DoubleMatrix.set(i: Int, j: Int, v: Int) = this.put(i, j, v.toDoubl
 
 // Pretty Printing
 fun DoubleMatrix.repr(): String {
-    var out = StringBuilder()
+    val out = StringBuilder()
 
     for (row in RowsAsListView(this)) {
         out.append(row)
@@ -90,7 +90,7 @@ object arr {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val len = ts.count()
-        var out = DoubleArray(len)
+        val out = DoubleArray(len)
         for (i in (0..len - 1)) {
             // Smart cast doesn't work on indexed collection
             val ele = ts[i]
@@ -110,10 +110,10 @@ object mat {
 
         val numStops = (ts.filter { it is Pair<*, *> }).count()
         val numRows = numStops + 1
-        val numElements = ts.count() - numStops + 2 * numStops;
+        val numElements = ts.count() - numStops + 2 * numStops
         val numCols = numElements / numRows
 
-        var out = DoubleMatrix(numRows, numCols)
+        val out = DoubleMatrix(numRows, numCols)
         var curRow = 0
         var curCol = 0
 

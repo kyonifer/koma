@@ -22,7 +22,6 @@ package golem.matrix.ejml.backend
 import org.ejml.factory.DecompositionFactory
 import org.ejml.ops.CommonOps
 import org.ejml.simple.SimpleMatrix
-import java.util.*
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
 operator fun SimpleMatrix.times(other: SimpleMatrix) = this.mult(other)
@@ -97,7 +96,7 @@ fun randn(len: Int) = randn(len, len, curSeed)
 fun randn(rows: Int, cols: Int) = randn(rows, cols, curSeed)
 
 fun SimpleMatrix.map(f: (Double) -> Double): SimpleMatrix {
-    var out = SimpleMatrix(this.numRows(), this.numCols())
+    val out = SimpleMatrix(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             out[row, col] = f(this[row, col])
@@ -109,7 +108,7 @@ object arr {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val len = ts.count()
-        var out = DoubleArray(len)
+        val out = DoubleArray(len)
         for (i in (0..len - 1)) {
             // Smart cast doesn't work on indexed collection
             val ele = ts[i]
@@ -129,10 +128,10 @@ object mat {
 
         val numStops = (ts.filter { it is Pair<*, *> }).count()
         val numRows = numStops + 1
-        val numElements = ts.count() - numStops + 2 * numStops;
+        val numElements = ts.count() - numStops + 2 * numStops
         val numCols = numElements / numRows
 
-        var out = SimpleMatrix(numRows, numCols)
+        val out = SimpleMatrix(numRows, numCols)
         var curRow = 0
         var curCol = 0
 

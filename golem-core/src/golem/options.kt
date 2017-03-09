@@ -10,7 +10,6 @@
 package golem
 
 import golem.matrix.*
-import java.util.*
 
 
 private var _factory: MatrixFactory<Matrix<Double>>? = null
@@ -30,7 +29,7 @@ var factory: MatrixFactory<Matrix<Double>>
         }
         else {
             val facs = getAvailableFactories()
-            if(facs.size>0) {
+            if(facs.isNotEmpty()) {
                 _factory = facs[0]
                 return facs[0]
             }
@@ -39,7 +38,7 @@ var factory: MatrixFactory<Matrix<Double>>
                                         " put one on your classpath.")
         }
     }
-    set(factory: MatrixFactory<Matrix<Double>>) {
+    set(factory) {
         _factory = factory
     }
 

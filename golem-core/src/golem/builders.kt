@@ -51,7 +51,7 @@ object mat {
         if (numRows * numCols != numElements)
             throw IllegalArgumentException("When building matrices with mat[] please give even rows/cols")
 
-        var out = zeros(numRows, numCols)
+        val out = zeros(numRows, numCols)
         var curRow = 0
         var curCol = 0
 

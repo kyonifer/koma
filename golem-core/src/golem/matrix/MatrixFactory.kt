@@ -10,7 +10,7 @@ package golem.matrix
  * A set of constructors that must be implemented by a golem backend. Generates various types of matrices.
  * Generic parameter is a type of matrix, i.e. T=Matrix<Double> or T=Matrix<Int>, etc.
  */
-interface MatrixFactory<T> {
+interface MatrixFactory<out T> {
     /**
      * Generate a zero initialized matrix of the requested shape.
      */

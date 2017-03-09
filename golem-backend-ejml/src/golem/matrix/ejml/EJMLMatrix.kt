@@ -105,7 +105,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
         get() = this.transpose()
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): EJMLMatrix {
-        var out = this.getFactory().zeros(A.numCols(), 1)
+        val out = this.getFactory().zeros(A.numCols(), 1)
         CommonOps.solve(castOrCopy(A, ::EJMLMatrix, getFactory()).storage.matrix,
                         castOrCopy(B, ::EJMLMatrix, getFactory()).storage.matrix,
                         out.storage.matrix)

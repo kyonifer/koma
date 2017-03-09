@@ -17,7 +17,7 @@ fun <T> repr(mat: Matrix<T>): String {
         else                        -> "0.00############"
     }
 
-    var formatter = DecimalFormat(fmtString)
+    val formatter = DecimalFormat(fmtString)
 
     val bstream = ByteArrayOutputStream()
     val pstream = PrintStream(bstream)

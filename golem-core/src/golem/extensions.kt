@@ -22,7 +22,7 @@ import java.util.*
  *
  */
 fun <T> Matrix<T>.cumSum(): Matrix<T> {
-    var out = this.getFactory().zeros(1, this.numRows() * this.numCols())
+    val out = this.getFactory().zeros(1, this.numRows() * this.numCols())
     for (i in 0..(this.numRows() * this.numCols() - 1)) {
         val ele = this.getDouble(i)
         out.setDouble(i, if (i == 0) ele else ele + out.getDouble(i - 1))
@@ -94,7 +94,7 @@ fun <T> Matrix<T>.eachCol(f: (Matrix<T>) -> Unit) {
  * @return the new matrix after each element is mapped through f
  */
 fun <T> Matrix<T>.mapMat(f: (T) -> T): Matrix<T> {
-    var out = this.getFactory().zeros(this.numRows(), this.numCols())
+    val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             out[row, col] = f(this[row, col])
@@ -111,7 +111,7 @@ fun <T> Matrix<T>.mapMat(f: (T) -> T): Matrix<T> {
  * @return the new matrix after each element is mapped through f
  */
 fun <T> Matrix<T>.mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
-    var out = this.getFactory().zeros(this.numRows(), this.numCols())
+    val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             out[row, col] = f(row, col, this[row, col])
@@ -129,11 +129,11 @@ fun <T> Matrix<T>.mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T>
  */
 fun <T> Matrix<T>.mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
-    var outRows = Array(this.numRows()) {
+    val outRows = Array(this.numRows()) {
         f(this.getRow(it))
     }
 
-    var out = this.getFactory().zeros(this.numRows(), outRows[0].numCols())
+    val out = this.getFactory().zeros(this.numRows(), outRows[0].numCols())
 
     outRows.forEachIndexed { i, matrix ->
         if (matrix.numCols() != out.numCols())
@@ -153,7 +153,7 @@ fun <T> Matrix<T>.mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
  * rows must be the same length.
  */
 fun <T, U> Matrix<T>.mapRowsToList(f: (Matrix<T>) -> U): List<U> {
-    var a = ArrayList<U>(this.numRows())
+    val a = ArrayList<U>(this.numRows())
     this.eachRow {
         a.add(f(it))
     }
@@ -171,13 +171,13 @@ fun <T, U> Matrix<T>.mapRowsToList(f: (Matrix<T>) -> U): List<U> {
  */
 fun <T> Matrix<T>.mapCols(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
-    var outCols = Array(this.numCols()) {
-        var out = f(this.getCol(it))
+    val outCols = Array(this.numCols()) {
+        val out = f(this.getCol(it))
         // If user creates a row vector auto convert to column for them
         if (out.numRows() == 1) out.T else out
     }
 
-    var out = this.getFactory().zeros(outCols[0].numRows(), this.numCols())
+    val out = this.getFactory().zeros(outCols[0].numRows(), this.numCols())
 
     outCols.forEachIndexed { i, matrix ->
         if (matrix.numRows() != out.numRows())
@@ -198,7 +198,7 @@ fun <T> Matrix<T>.mapCols(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
  */
 
 fun <T, U> Matrix<T>.mapColsToList(f: (Matrix<T>) -> U): List<U> {
-    var a = ArrayList<U>(this.numCols())
+    val a = ArrayList<U>(this.numCols())
     this.eachCol {
         a.add(f(it))
     }
@@ -241,7 +241,7 @@ fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
  * @return a 2D array copy of the matrix.
  */
 fun Matrix<Double>.to2DArray(): Array<DoubleArray> {
-    var out = Array(numRows(), { DoubleArray(numCols()) })
+    val out = Array(numRows(), { DoubleArray(numCols()) })
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             out[row][col] = this.getDouble(row, col)

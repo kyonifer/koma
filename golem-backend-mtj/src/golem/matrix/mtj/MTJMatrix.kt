@@ -63,7 +63,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun div(other: Int) = MTJMatrix(this.storage.div(other))
     override fun div(other: Double) = MTJMatrix(this.storage.div(other))
     override fun transpose(): MTJMatrix {
-        var out = DenseMatrix(this.numCols(), numRows())
+        val out = DenseMatrix(this.numCols(), numRows())
         return MTJMatrix(DenseMatrix(this.storage.transpose(out)))
     }
 
@@ -73,7 +73,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun get(i: Int, j: Int) = this.storage.get(i, j)
     override fun get(i: Int) = this.storage[i]
     override fun getRow(row: Int): MTJMatrix {
-        var out = DenseMatrix(1, this.numCols())
+        val out = DenseMatrix(1, this.numCols())
         for (col in 0 until this.numCols())
             out.set(0, col, this[row, col])
         return MTJMatrix(out)
@@ -113,7 +113,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
         get() = this.transpose()
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): MTJMatrix {
-        var out = this.getFactory().zeros(A.numCols(), 1)
+        val out = this.getFactory().zeros(A.numCols(), 1)
         castOrCopy(A, ::MTJMatrix, getFactory()).storage.solve(castOrCopy(B, ::MTJMatrix, getFactory()).storage, out.storage)
         return out
     }

@@ -1,6 +1,5 @@
 package golem.matrix.jblas
 
-import golem.matrix.*
 import golem.matrix.common.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
@@ -15,7 +14,7 @@ class JBlasMatrixFactory : DoubleFactoryBase<JBlasMatrix>() {
     override fun ones(rows: Int, cols: Int) = JBlasMatrix(DoubleMatrix(rows, cols).mapMat { 1.0 })
     override fun eye(size: Int) = JBlasMatrix(DoubleMatrix.eye(size))
     override fun eye(rows: Int, cols: Int): JBlasMatrix {
-        var out = DoubleMatrix(rows, cols)
+        val out = DoubleMatrix(rows, cols)
         for (i in 0..rows - 1)
             out[i, i] = 1.0
         return JBlasMatrix(out)

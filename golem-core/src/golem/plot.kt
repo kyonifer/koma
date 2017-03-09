@@ -59,7 +59,7 @@ fun title(label: String) {
 
 fun xlabel(label: String) {
     val fig = figures[currentFigure]?.first ?: throw IllegalStateException("Cannot call xlabel before making a figure")
-    fig.setXAxisTitle(label)
+    fig.xAxisTitle = label
 }
 
 fun ylabel(label: String) {
@@ -89,7 +89,7 @@ fun plot(x: Any?, y: Any, color: String = "k", lineLabel: String? = null) {
 
     // Someone might have tried to called us as plot(data,"color") or plot(data, "color", "name")
     if ((y is String || y is Char) && x != null)
-        return plot(null, x, y.toString(), color.toString())
+        return plot(null, x, y.toString(), color)
 
 
     val xdata: DoubleArray
@@ -107,7 +107,7 @@ fun plot(x: Any?, y: Any, color: String = "k", lineLabel: String? = null) {
         is IntRange -> fromCollection(x.toList().map { it.toDouble() })
         is DoubleArray -> fromCollection(x.toList())
         is Matrix<*> -> x.getDoubleData()
-        null -> fromCollection((0..(ydata.size.toInt() - 1)).toList().map { it.toDouble() })
+        null -> fromCollection((0..(ydata.size - 1)).toList().map { it.toDouble() })
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
     plotArrays(xdata, ydata, color, lineLabel)
@@ -126,22 +126,22 @@ fun plotArrays(x: DoubleArray, y: DoubleArray, color: String = "k", lineLabel: S
     val fig = figures[currentFigure]
     // If we've never shown this plot before OR someone closed the window, make a new frame and chart
     if (fig == null) {
-        val lineName = lineLabel ?: "Plot #${currentFigure.toString()}"
+        val lineName = lineLabel ?: "Plot #$currentFigure"
         val chart = QuickChart.getChart(lineName, "X", "Y", lineName, x, y)
         val frame = displayChart(chart)
         figures[currentFigure] = Triple(chart, frame, 1)
         val series = chart.seriesMap.values.first()
-        series.setLineColor(plotColors[color])
+        series.lineColor = plotColors[color]
 
     }
     // Adding a line to an existing chart
     else {
         val (chart, frame, numLines) = fig
         figures[currentFigure] = Triple(chart, frame, numLines + 1)
-        val lineName = lineLabel ?: "Line #${(numLines + 1).toString()}"
+        val lineName = lineLabel ?: "Line #${(numLines + 1)}"
         val series = chart.addSeries(lineName, x, y)
-        series.setLineColor(plotColors[color])
-        series.setMarker(SeriesMarkers.NONE)
+        series.lineColor = plotColors[color]
+        series.marker = SeriesMarkers.NONE
 
         frame.repaint()
     }
@@ -237,7 +237,7 @@ fun savefig(path: String){
         VectorGraphicsEncoder.saveVectorGraphic(fig, noExt, fmt)
     }
     fun saveRaster(fmt: BitmapEncoder.BitmapFormat) {
-        BitmapEncoder.saveBitmapWithDPI(fig, path, fmt, DPI);
+        BitmapEncoder.saveBitmapWithDPI(fig, path, fmt, DPI)
     }
     val type = path.split(".").last()
     when(type) {

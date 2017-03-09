@@ -46,23 +46,23 @@ fun Any.log(level: Level = Level.DEBUG, builder: () -> String) {
     val logger = getLogger(this)
     when (level) {
         Level.DEBUG -> {
-            if (logger.isDebugEnabled())
+            if (logger.isDebugEnabled)
                 logger.debug(builder())
         }
         Level.ERROR -> {
-            if (logger.isErrorEnabled())
+            if (logger.isErrorEnabled)
                 logger.error(builder())
         }
         Level.TRACE -> {
-            if (logger.isTraceEnabled())
+            if (logger.isTraceEnabled)
                 logger.trace(builder())
         }
         Level.INFO  -> {
-            if (logger.isInfoEnabled())
+            if (logger.isInfoEnabled)
                 logger.info(builder())
         }
         Level.WARN  -> {
-            if (logger.isWarnEnabled())
+            if (logger.isWarnEnabled)
                 logger.warn(builder())
         }
     }
@@ -81,7 +81,7 @@ fun asYaml(methodName: String,
     return nameValuePairs
             .map { pair ->
                 "${pair.first.toString().prependIndent("    ")}: |\n" +
-                "${pair.second.toString().replaceIndent("        ")}"
+                pair.second.toString().replaceIndent("        ")
             }
             .joinToString(separator = "\n",
                           prefix = "$methodName: %\n")
@@ -171,7 +171,7 @@ private object ManualLogbackGenerator {
     var initialized = false
     var context = ch.qos.logback.classic.LoggerContext()
     val KEY = Object()
-    val contextSelectorBinder = ContextSelectorStaticBinder.getSingleton();
+    val contextSelectorBinder = ContextSelectorStaticBinder.getSingleton()
 
     init {
         context.name = CoreConstants.DEFAULT_CONTEXT_NAME
@@ -198,10 +198,10 @@ private object ManualLogbackGenerator {
         if (!initialized) {
             return context
         }
-        if (contextSelectorBinder.getContextSelector() == null) {
+        if (contextSelectorBinder.contextSelector == null) {
             throw IllegalStateException("contextSelector cannot be null.")
         }
-        return contextSelectorBinder.getContextSelector().getLoggerContext()
+        return contextSelectorBinder.contextSelector.loggerContext
     }
 }
 
@@ -223,7 +223,7 @@ private fun mapLevels(slfLevel: Level): ch.qos.logback.classic.Level {
  * Map strings to logback levels.
  */
 private fun mapLevels(stringLevel: String): ch.qos.logback.classic.Level? {
-    var levelUpper = stringLevel.toUpperCase()
+    val levelUpper = stringLevel.toUpperCase()
     return when (levelUpper) {
         "ERROR" -> ch.qos.logback.classic.Level.ERROR
         "DEBUG" -> ch.qos.logback.classic.Level.DEBUG

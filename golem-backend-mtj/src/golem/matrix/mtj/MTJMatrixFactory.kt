@@ -1,7 +1,5 @@
 package golem.matrix.mtj
 
-import golem.*
-import golem.matrix.*
 import golem.matrix.common.*
 import golem.util.*
 import no.uib.cipr.matrix.DenseMatrix
@@ -14,7 +12,7 @@ class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
     override fun zeros(size: Int) = zeros(size, size)
 
     override fun create(data: IntRange): MTJMatrix {
-        var dataArray = fromCollection(data.map { it.toDouble() })
+        val dataArray = fromCollection(data.map { it.toDouble() })
         return MTJMatrix(DenseMatrix(1, dataArray.size, dataArray, false))
     }
 
@@ -29,7 +27,7 @@ class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
     override fun ones(size: Int) = ones(size, size)
 
     override fun ones(rows: Int, cols: Int): MTJMatrix {
-        var out = DenseMatrix(rows, cols)
+        val out = DenseMatrix(rows, cols)
         Arrays.fill(out.data, 1.0)
         return MTJMatrix(out)
     }
@@ -37,7 +35,7 @@ class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
     override fun eye(size: Int) = eye(size, size)
 
     override fun eye(rows: Int, cols: Int): MTJMatrix {
-        var out = DenseMatrix(rows, cols)
+        val out = DenseMatrix(rows, cols)
         for (i in 0..rows - 1)
             out[i, i] = 1.0
         return MTJMatrix(out)

@@ -10,7 +10,7 @@ val Matrix.T: Matrix
     get() = this.transpose()
 
 fun DenseMatrix.mapMat(f: (Double) -> Double): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), this.numColumns())
+    val out = DenseMatrix(this.numRows(), this.numColumns())
 
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numColumns() - 1)
@@ -20,7 +20,7 @@ fun DenseMatrix.mapMat(f: (Double) -> Double): DenseMatrix {
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
 operator fun DenseMatrix.times(other: DenseMatrix): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), other.numColumns())
+    val out = DenseMatrix(this.numRows(), other.numColumns())
     this.mult(other, out)
     return out
 }
@@ -30,7 +30,7 @@ operator fun DenseMatrix.times(other: Double) = this.mapMat { it * other }
 
 // Element multiplication
 operator fun DenseMatrix.mod(other: DenseMatrix): DenseMatrix {
-    var out = DenseMatrix(this.numRows(), this.numColumns())
+    val out = DenseMatrix(this.numRows(), this.numColumns())
     for (i in 0..this.numRows() - 1)
         for (j in 0..this.numColumns() - 1)
             out[i, j] = this[i, j] * other[i, j]
@@ -83,17 +83,17 @@ fun DenseMatrix.svd() = SVD.factorize(this)
 fun DenseMatrix.eig() = EVD.factorize(this)
 
 fun DenseMatrix.LU(): Triple<DenseMatrix, DenseMatrix, DenseMatrix> {
-    var LUout = DenseLU.factorize(this)
-    var p = DenseMatrix(LUout.p)
-    var L = DenseMatrix(LUout.l)
-    var U = DenseMatrix(LUout.u)
+    val LUout = DenseLU.factorize(this)
+    val p = DenseMatrix(LUout.p)
+    val L = DenseMatrix(LUout.l)
+    val U = DenseMatrix(LUout.u)
     return Triple(p, L, U)
 }
 
 fun DenseMatrix.QR(): Pair<DenseMatrix, DenseMatrix> {
-    var QRout = QR.factorize(this)
-    var Q = QRout.q
-    var R = QRout.r
+    val QRout = QR.factorize(this)
+    val Q = QRout.q
+    val R = QRout.r
     return Pair(Q, DenseMatrix(R))
 }
 //schur, svd, chol, eig, qr, lu
@@ -104,13 +104,13 @@ fun zeros(rows: Int, cols: Int) = DenseMatrix(rows, cols)
 
 fun eye(size: Int) = Matrices.identity(size)
 fun ones(rows: Int, cols: Int): DenseMatrix {
-    var out = DenseMatrix(rows, cols)
+    val out = DenseMatrix(rows, cols)
     Arrays.fill(out.data, 1.0)
     return out
 }
 
 fun DenseMatrix.diag(): DenseMatrix {
-    var out = DenseMatrix(1, golem.min(this.numColumns(), this.numRows()))
+    val out = DenseMatrix(1, golem.min(this.numColumns(), this.numRows()))
     for (i in 0..out.numColumns() - 1)
         out[0, i] = this[i, i]
     return out
@@ -118,23 +118,23 @@ fun DenseMatrix.diag(): DenseMatrix {
 
 // Basic Functions
 fun DenseMatrix.inv(): DenseMatrix {
-    var out = eye(this.numColumns())
+    val out = eye(this.numColumns())
     this.solve(eye(this.numColumns()), out)
     return out
 }
 
 fun DenseMatrix.det(): Double {
-    var decomp = DenseLU.factorize(this)
-    var L = DenseMatrix(decomp.l)
-    var U = DenseMatrix(decomp.u)
+    val decomp = DenseLU.factorize(this)
+    val L = DenseMatrix(decomp.l)
+    val U = DenseMatrix(decomp.u)
 
-    var pivots = decomp.pivots
+    val pivots = decomp.pivots
     var swaps = 0
     pivots.forEachIndexed { idx, piv ->
         if (idx + 1 != piv)
             swaps += 1
     }
-    var out = L.diag().prod() * U.diag().prod() * (if (swaps % 2 == 0) 1 else -1)
+    val out = L.diag().prod() * U.diag().prod() * (if (swaps % 2 == 0) 1 else -1)
 
 
     return out
@@ -174,7 +174,7 @@ object mat {
         val numElements = ts.count() - numStops + 2 * numStops
         val numCols = numElements / numRows
 
-        var out = DenseMatrix(numRows, numCols)
+        val out = DenseMatrix(numRows, numCols)
         var curRow = 0
         var curCol = 0
 
