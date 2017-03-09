@@ -67,12 +67,12 @@ fun fill(rows: Int, cols: Int, func: (Int, Int) -> Double) = zeros(rows, cols).f
 fun fill(rows: Int, cols: Int, value: Double) = zeros(rows, cols).fill({ r, c -> value })
 
 /**
- * Creates an 1x[cols] matrix filled with unit normal random numbers
+ * Creates an 1x[cols] matrix filled with unit uniform random numbers
  */
 fun rand(cols: Int): Matrix<Double> = factory.rand(1, cols)
 
 /**
- * Creates an matrix filled with unit normal random numbers
+ * Creates an matrix filled with unit uniform random numbers
  */
 fun rand(rows: Int, cols: Int): Matrix<Double> = factory.rand(rows, cols)
 
