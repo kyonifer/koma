@@ -13,6 +13,10 @@ buildscript {
     }
 }
 
+plugins {
+  id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
 apply from: "publishing.gradle"
 
 project(':golem-core') {
@@ -143,4 +147,17 @@ project(':golem-tests') {
                 '-Dcom.github.fommil.netlib.LAPACK=com.github.fommil.netlib.F2jLAPACK' +
                 '-Dcom.github.fommil.netlib.ARPACK=com.github.fommil.netlib.F2jARPACK'
     }
+}
+
+// Enable making a fatjar with the root proj
+apply plugin: "java"
+repositories {
+	jcenter()
+}
+dependencies {
+	compile project(":golem-core")
+	compile project(":golem-logging")
+	compile project(":golem-backend-ejml")
+	compile project(":golem-backend-jblas")
+	compile project(":golem-backend-mtj")
 }
