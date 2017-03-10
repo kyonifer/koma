@@ -21,7 +21,7 @@ MATLAB
 
 Golem has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
 and an underlying object oriented hierarchy which dispatch those function calls. The flat functions are in the
-top-level files [here](src/main/golem/) while the matrix implementations are [here](src/main/golem/matrix/).
+top-level files [here](golem-core/src/golem/) while the matrix implementations are [here](golem-core/src/golem/matrix/).
 It is easiest to get up to speed on Golem by reading through the available top-level functions.
 
 We currently have:
@@ -94,7 +94,8 @@ fun main(args: Array<String>)
 ## Functionality
 
 ### Math Functions
-Matrices have useful map functions that return matrices for chaining operations (see [here](src/main/golem/extensions.kt) for a complete list).
+Matrices have useful map functions that return matrices for chaining operations (see [here]
+(golem-core/src/golem/extensions.kt) for a complete list).
 
 ```Kotlin
 
@@ -161,7 +162,7 @@ mat[ 3.00  end
      17.00 ]
 ```
 
-Many special functions are supported (see [the matrix interface](src/main/golem/matrix/Matrix.kt) for a complete list):
+Many special functions are supported (see [the matrix interface](golem-core/src/golem/matrix/Matrix.kt) for a complete list):
 
 ```Kotlin
 
@@ -175,7 +176,7 @@ Many special functions are supported (see [the matrix interface](src/main/golem/
 
 ```
 
-Scalar functions can be applied elementwise to matrices (see [here](src/main/golem/scalarfuncs.kt) for a complete list):
+Scalar functions can be applied elementwise to matrices (see [here](golem-core/src/golem/scalarfuncs.kt) for a complete list):
 
 ```Kotlin
     val x = create(0..100)/5.0  // Matrix of 0, 1/5, 2/5, ...
@@ -183,7 +184,7 @@ Scalar functions can be applied elementwise to matrices (see [here](src/main/gol
     plot(y)                     // Plot of sin function
 ```
 
-Matrix indexing and slicing is supported (see [here](src/main/golem/operators.kt) for a list of operators as well as the Matrix<T> type):
+Matrix indexing and slicing is supported (see [here](golem-core/src/golem/operators.kt) for a list of operators as well as the Matrix<T> type):
 
 ```Kotlin
 
