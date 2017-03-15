@@ -12,16 +12,15 @@ The project aims to:
 
 - Create a scientific programming environment for Kotlin that is friendly and easy to use for people used to NumPy or
 MATLAB
-- Support polyglot usage from Kotlin, Java, other JVM languages, and foreign interop with from Python or MATLAB
-- Use pluggable back-ends to offload the actual computation and interop with libraries expecting to work with another
- matrix library
+- Support polyglot usage from Kotlin, Java, and other JVM languages, as well as foreign interop with Python or MATLAB code
+- Use pluggable back-ends to offload the actual computation to pre-existing libraries
 - Use code already written by other projects where possible to avoid duplication
 
 ## Features
 
 Golem has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
 and an underlying object oriented hierarchy which dispatch those function calls. The flat functions are in the
-top-level files [here](golem-core/src/golem/) while the matrix implementations are [here](golem-core/src/golem/matrix/).
+top-level files [here](golem-core/src/golem/) and the underlying matrix implementations use the interfaces defined [here](golem-core/src/golem/matrix/).
 It is easiest to get up to speed on Golem by reading through the available top-level functions.
 
 We currently have:
