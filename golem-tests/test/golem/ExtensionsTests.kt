@@ -8,6 +8,34 @@ import org.junit.Test
 class ExtensionsTests {
 
     @Test
+    fun testSelectRows() {
+        allBackends { 
+            val a = mat[1, 2, 3, 4 end 
+                        5, 6, 7, 8 end 
+                        9,10,11,12]
+            val exp = mat[1, 2, 3, 4 end 
+                          9,10,11,12 end 
+                          9,10,11,12 end 
+                          1, 2, 3, 4]
+            assertMatrixEquals(expected=exp,
+                               actual=a.selectRows(0,2,2,0))
+        }
+    }
+    @Test
+    fun testSelectCols() {
+        allBackends { 
+            val a = mat[1, 2, 3, 4 end 
+                        5, 6, 7, 8 end 
+                        9,10,11,12]
+            val exp = mat[1, 4, 3, 3 end 
+                          5, 8, 7, 7 end 
+                          9,12,11,11]
+            assertMatrixEquals(expected=exp,
+                               actual=a.selectCols(0,3,2,2))
+        }
+    }
+    
+    @Test
     fun testCumSum() {
         allBackends {
             var a = mat[1, 2, 3, 4, 1]

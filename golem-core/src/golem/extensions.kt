@@ -14,6 +14,26 @@ import golem.matrix.*
 import java.util.*
 
 /**
+ * Select a set of cols from a matrix to form the cols of a new matrix.
+ * For example, if you wanted a new matrix consisting of the first, second, and
+ * fifth cols of an input matrix, you would write ```input.selectCols(0,1,4)```.
+ */
+fun <T> Matrix<T>.selectCols(vararg idxs: Int) = 
+        getFactory()
+                .zeros(this.numRows(), idxs.size)
+                .fill { row, col -> this[row, idxs[col]] }
+
+/**
+ * Select a set of rows from a matrix to form the rows of a new matrix.
+ * For example, if you wanted a new matrix consisting of the first, second, and
+ * fifth rows of an input matrix, you would write ```input.selectRows(0,1,4)```.
+ */
+fun <T> Matrix<T>.selectRows(vararg idxs: Int) =
+        getFactory()
+                .zeros(idxs.size, this.numCols())
+                .fill { row, col -> this[idxs[row], col] }
+
+/**
  * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
  * ```cumsum(mat[1,2,3])``` would return ```mat[1,3,6]```. Assumes matrix type is convertible to
  * double.
@@ -29,7 +49,6 @@ fun <T> Matrix<T>.cumSum(): Matrix<T> {
     }
     return out
 }
-
 /**
  * Fills the matrix with the values returned by the input function.
  *

@@ -40,6 +40,18 @@ class CreatorsTests {
             assertEquals(a.numCols(),b.numCols())
         }
     }
+    
+    @Test
+    fun testCreate2DShaped() {
+        allBackends { 
+            val a = arrayOf(1.0,2.0,3.0,4.0,5.0,6.0).toDoubleArray()
+            val out = create(a, numRows = 2, numCols = 3)
+            val expected = mat[1,2,3 end 
+                               4,5,6]
+            assertMatrixEquals(expected=expected,
+                               actual=out)
+        }
+    }
 
     @Test
     fun testCreateJaggedArray() {

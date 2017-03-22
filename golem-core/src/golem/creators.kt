@@ -32,6 +32,14 @@ fun create(data: IntRange): Matrix<Double> = factory.create(data)
 fun create(data: DoubleArray): Matrix<Double> = factory.create(data).asRowVector()
 
 /**
+ * Creates a matrix filled with the given set of values in row-major order.
+ */
+fun create(data: DoubleArray, numRows: Int, numCols: Int): Matrix<Double> = 
+        factory.zeros(numRows,numCols).also { 
+            data.forEachIndexed { idx, value -> it[idx]=value } 
+        }
+
+/**
  * Creates a matrix filled with the given data, assuming input is row major.
  */
 fun create(data: Array<DoubleArray>): Matrix<Double> = factory.create(data)
