@@ -23,6 +23,11 @@ fun <T> Matrix<T>.selectCols(vararg idxs: Int) =
                 .zeros(this.numRows(), idxs.size)
                 .fill { row, col -> this[row, idxs[col]] }
 
+fun <T, U: Number> Matrix<T>.selectCols(idxs: Matrix<U>) =
+        getFactory()
+                .zeros(this.numRows(), idxs.numRows()*idxs.numCols())
+                .fill { row, col -> this[row, idxs[col].toInt()] }
+
 /**
  * Select a set of rows from a matrix to form the rows of a new matrix.
  * For example, if you wanted a new matrix consisting of the first, second, and
@@ -32,6 +37,12 @@ fun <T> Matrix<T>.selectRows(vararg idxs: Int) =
         getFactory()
                 .zeros(idxs.size, this.numCols())
                 .fill { row, col -> this[idxs[row], col] }
+
+fun <T, U: Number> Matrix<T>.selectRows(idxs: Matrix<U>) =
+        getFactory()
+                .zeros(idxs.numRows()*idxs.numCols(), this.numCols())
+                .fill { row, col -> this[idxs[row].toInt(), col] }
+
 
 /**
  * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,

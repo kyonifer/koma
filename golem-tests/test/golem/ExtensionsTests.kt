@@ -19,6 +19,12 @@ class ExtensionsTests {
                           1, 2, 3, 4]
             assertMatrixEquals(expected=exp,
                                actual=a.selectRows(0,2,2,0))
+            assertMatrixEquals(expected=exp,
+                               actual=a.selectRows(mat[0,2,2,0]))
+            assertMatrixEquals(expected=exp,
+                               actual=a.selectRows(mat[0,2 end
+                                                       2,0]))
+            
         }
     }
     @Test
@@ -32,6 +38,11 @@ class ExtensionsTests {
                           9,12,11,11]
             assertMatrixEquals(expected=exp,
                                actual=a.selectCols(0,3,2,2))
+            assertMatrixEquals(expected=exp,
+                               actual=a.selectCols(mat[0,3,2,2]))
+            assertMatrixEquals(expected=exp,
+                               actual=a.selectCols(mat[0,3 end
+                                                       2,2]))
         }
     }
     
