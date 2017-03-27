@@ -5,6 +5,7 @@ build/*
 .kobalt/*
 kobaltBuild/*
 */kobaltBuild/*
+kobalt/out/*
 */build/*
 */.gradle/*
 local.properties
