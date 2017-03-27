@@ -56,8 +56,6 @@ val backend_mtj = project(core) {
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4")
-        // Fix issue with pom-only artifacts in MTJ
-        exclude("com.github.fommil.netlib:all:pom:1.1.2")
     }
 }
 
@@ -87,15 +85,26 @@ val backend_tests = project(core, backend_ejml, backend_jblas, backend_mtj) {
     artifactId = name
     version = golemVersion
     directory = name
-
+    
+    
+    
     dependenciesTest {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
         compile("junit:junit:4.12")
         compile("org.jetbrains.kotlin:kotlin-test:$kotVersion")
+        compile("org.jblas:jblas:1.2.3")
+        compile("org.ejml:all:0.27")
+        compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4")
     }
     sourceDirectoriesTest {
         path("test")
     }
-    test {include("**Tests.class")}
+    test {
+        // Some natives are broken on some systems, and our goal isn't to test netlib's backends
+        jvmArgs("-Dcom.github.fommil.netlib.BLAS=com.github.fommil.netlib.F2jBLAS",
+                "-Dcom.github.fommil.netlib.LAPACK=com.github.fommil.netlib.F2jLAPACK",
+                "-Dcom.github.fommil.netlib.ARPACK=com.github.fommil.netlib.F2jARPACK")
+        include("**Tests.class")
+    }
 
 }
