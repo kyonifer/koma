@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.0.4'
+    ext.kotlin_version = '1.1.1'
 
     repositories {
         mavenCentral()
@@ -22,7 +22,7 @@ project(':golem-core') {
     }
 
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-js-library:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
     compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
 }
@@ -39,7 +39,7 @@ project(':golem-backend-mathjs') {
     }
 
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-js-library:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
     compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
 }

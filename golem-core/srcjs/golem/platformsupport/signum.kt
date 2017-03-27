@@ -7,6 +7,6 @@ package golem.platformsupport
  * with kotlin-js-library.
  */
 fun signum(value: Double): Double {
-    val m: dynamic = Math
+    val m: dynamic = kotlin.js.Math
     return m.sign(value)
 }

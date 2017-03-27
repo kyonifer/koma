@@ -56,7 +56,8 @@ fun abs(arr: Matrix<Double>) = arr.mapMat { Math.abs(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it) }
+// explicit toDouble() for javascript
+fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it).toDouble() }
 
 /**
  * Returns a matrix of the cos of each element in the input matrix.
@@ -170,7 +171,8 @@ fun round(arr: Matrix<Double>) = arr.mapMat { Math.round(it).toDouble() }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it) }
+// explicit toDouble() for javascript
+fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it).toDouble() }
 
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix
