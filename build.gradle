@@ -143,8 +143,8 @@ project(':golem-tests') {
     }
     test {
         // Some natives are broken on some systems, and our goal isn't to test netlib's backends
-        jvmArgs '-Dcom.github.fommil.netlib.BLAS=com.github.fommil.netlib.F2jBLAS' +
-                '-Dcom.github.fommil.netlib.LAPACK=com.github.fommil.netlib.F2jLAPACK' +
+        jvmArgs '-Dcom.github.fommil.netlib.BLAS=com.github.fommil.netlib.F2jBLAS',
+                '-Dcom.github.fommil.netlib.LAPACK=com.github.fommil.netlib.F2jLAPACK',
                 '-Dcom.github.fommil.netlib.ARPACK=com.github.fommil.netlib.F2jARPACK'
     }
 }
