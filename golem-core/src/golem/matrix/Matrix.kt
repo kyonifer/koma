@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 interface Matrix<T> : Iterable<T> {
     // Algebraic Operators
-    operator fun mod(other: Matrix<T>): Matrix<T>
+    operator fun rem(other: Matrix<T>): Matrix<T>
     operator fun div(other: Int): Matrix<T>
     operator fun div(other: T): Matrix<T>
     operator fun times(other: Matrix<T>): Matrix<T>
