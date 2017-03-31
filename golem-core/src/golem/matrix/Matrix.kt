@@ -499,4 +499,43 @@ interface Matrix<T> : Iterable<T> {
                     return false
         return true
     }
+
+
+    /**
+     * Returns the given vector as a row vector. Will call transpose() on column vectors
+     */
+    fun asRowVector() = if (this.numRows() != 1 && this.numCols() == 1) this.T else this
+
+    /**
+     * Returns the given vector as a row vector. Will call transpose() on row vectors
+     */
+    fun asColVector() = if (this.numRows() == 1 && this.numCols() != 1) this.T else this
+
+
+    /**
+     * Returns a Matrix as a double 2D array. Intended for MATLAB interop.
+     *
+     * @return a 2D array copy of the matrix.
+     */
+    fun to2DArray(): Array<DoubleArray> {
+        val out = Array(numRows(), { DoubleArray(numCols()) })
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                out[row][col] = this.getDouble(row, col)
+        return out
+    }
+
+    /**
+     * Fills the matrix with the values returned by the input function.
+     *
+     * @param f A function which takes row,col and returns the value to fill. Note that
+     * the return type must be the matrix primitive type (e.g. Double).
+     */
+    fun fill(f: (row: Int, col: Int) -> T): Matrix<T> {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                this[row, col] = f(row, col)
+        return this
+    }
+
 }
