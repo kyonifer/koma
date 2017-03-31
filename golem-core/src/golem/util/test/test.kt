@@ -13,9 +13,9 @@ import golem.platformsupport.assert
 /**
  * Asserts that a matrix [expected] roughly equals a matrix [actual]. eps is the acceptable numerical error.
  */
-fun assertMatrixEquals(expected: Matrix<Double>, actual: Matrix<Double>, eps: Double = 1e-6) {
+fun <T: Number> assertMatrixEquals(expected: Matrix<T>, actual: Matrix<T>, eps: Double = 1e-6) {
     try {
-        assert((expected - actual).all { abs(it) < eps })
+        assert((expected - actual).all { abs(it.toDouble()) < eps })
 
     } catch(e: AssertionError) {
         println("Expected: \n$expected\nGot: \n$actual")

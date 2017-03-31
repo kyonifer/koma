@@ -282,7 +282,7 @@ class OperatorsTests {
 
     @Test
     fun testSubclassesFindInner() {
-        val a = object: Matrix<Double> by zeros(2){}
+        val a = object: Matrix<Double> by zeros(2,2){}
         a[0,0]=5
         var b = eye(2)*a
         var expected = mat[5,0 end 0,0]

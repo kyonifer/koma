@@ -14,103 +14,182 @@ import golem.matrix.*
 /**
  * Creates a zero-filled matrix with the given size
  */
-fun zeros(rows: Int, cols: Int): Matrix<Double> = factory.zeros(rows, cols)
+fun zeros(rows: Int, cols: Int): Matrix<Double> = zeros(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T> zeros(rows:Int, 
+              cols:Int, 
+              dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().zeros(rows,cols)
 
 /**
  * Creates a square zero-filled matrix with the given size
  */
-fun zeros(size: Int): Matrix<Double> = factory.zeros(size, size)
+fun zeros(size: Int): Matrix<Double> = zeros(size, dtype=MatrixTypes.DoubleType)
+fun <T> zeros(size: Int,
+              dtype: Class<T>): Matrix<T>
+        = dtype.getFactory().zeros(size, size)
 
 /**
  * Creates a matrix filled with the given range of values.
  */
-fun create(data: IntRange): Matrix<Double> = factory.create(data)
+fun create(data: IntRange) = create(data, dtype=MatrixTypes.DoubleType)
+fun <T> create(data: IntRange, 
+               dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().create(data)
 
 /**
  * Creates a matrix filled with the given set of values as a row-vector.
  */
-fun create(data: DoubleArray): Matrix<Double> = factory.create(data).asRowVector()
+fun create(data: DoubleArray) = create(data, dtype=MatrixTypes.DoubleType)
+fun <T> create(data: DoubleArray, 
+               dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().create(data).asRowVector()
 
 /**
  * Creates a matrix filled with the given set of values in row-major order.
  */
-fun create(data: DoubleArray, numRows: Int, numCols: Int): Matrix<Double> = 
-        factory.zeros(numRows,numCols).also { 
-            data.forEachIndexed { idx, value -> it[idx]=value } 
+fun create(data: DoubleArray, numRows: Int, numCols: Int): Matrix<Double> =
+    create(data, numRows, numCols, dtype=MatrixTypes.DoubleType)
+fun <T> create(data: DoubleArray, 
+               numRows: Int, 
+               numCols: Int, 
+               dtype: Class<T>): Matrix<T> = 
+        dtype.getFactory().zeros(numRows,numCols).also { 
+            data.forEachIndexed { idx, value -> it.setDouble(idx,value) } 
         }
 
 /**
  * Creates a matrix filled with the given data, assuming input is row major.
  */
-fun create(data: Array<DoubleArray>): Matrix<Double> = factory.create(data)
+fun create(data: Array<DoubleArray>): Matrix<Double> = create(data, dtype=MatrixTypes.DoubleType)
+fun <T> create(data: Array<DoubleArray>, 
+               dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().create(data)
 
 /**
  * Creates a one-filled square matrix with the given size
  */
-fun ones(size: Int): Matrix<Double> = factory.ones(size, size)
+fun ones(size: Int): Matrix<Double> = ones(size, dtype=MatrixTypes.DoubleType)
+inline fun <reified T> ones(size: Int, 
+                            dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().ones(size, size)
 
 /**
  * Creates a one-filled matrix with the given size
  */
-fun ones(rows: Int, columns: Int): Matrix<Double> = factory.ones(rows, columns)
+fun ones(rows: Int, columns: Int): Matrix<Double> = ones(rows, columns, dtype=MatrixTypes.DoubleType)
+fun <T> ones(rows: Int, 
+             columns: Int, 
+             dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().ones(rows, columns)
 
 /**
  * Creates a square identity matrix with the given size
  */
-fun eye(size: Int): Matrix<Double> = factory.eye(size)
+fun eye(size: Int): Matrix<Double> = eye(size, dtype=MatrixTypes.DoubleType)
+fun <T> eye(size: Int, 
+            dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().eye(size)
 
 /**
  * Creates an identity matrix with the given size
  */
-fun eye(rows: Int, cols: Int): Matrix<Double> = factory.eye(rows, cols)
+fun eye(rows: Int, cols: Int): Matrix<Double> = eye(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T> eye(rows: Int, 
+            cols: Int, 
+            dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().eye(rows, cols)
 
 /**
  * Creates a new matrix that fills all the values with the return values of func(row,val)
  */
 fun fill(rows: Int, cols: Int, func: (Int, Int) -> Double) = zeros(rows, cols).fill(func)
+fun <T> fill(rows: Int, 
+             cols: Int,
+             dtype: Class<T>,
+             func: (Int, Int) -> T) 
+        = zeros(rows, cols, dtype).fill(func)
 
 /**
  * Creates a new matrix that fills all the values with [value]
  */
-fun fill(rows: Int, cols: Int, value: Double) = zeros(rows, cols).fill({ r, c -> value })
+fun fill(rows: Int, 
+         cols: Int, 
+         value: Double) = zeros(rows, cols).fill({ r, c -> value })
+fun <T> fill(rows: Int, 
+             cols: Int, 
+             value: T,
+             dtype: Class<T>) 
+        = zeros(rows, cols, dtype).fill({ r, c -> value })
 
 /**
  * Creates an 1x[cols] matrix filled with unit uniform random numbers
  */
-fun rand(cols: Int): Matrix<Double> = factory.rand(1, cols)
+fun rand(cols: Int): Matrix<Double> = rand(cols, dtype=MatrixTypes.DoubleType)
+fun <T> rand(cols: Int,
+         dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().rand(1, cols)
 
 /**
  * Creates an matrix filled with unit uniform random numbers
  */
-fun rand(rows: Int, cols: Int): Matrix<Double> = factory.rand(rows, cols)
+fun rand(rows: Int, cols: Int): Matrix<Double> = rand(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T> rand(rows: Int, 
+         cols: Int,
+         dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().rand(rows, cols)
 
 /**
  * Creates an matrix filled with unit normal random numbers, using the given seed for the RNG.
  * Subsequent calls with the same seed will produce identical numbers.
  */
-fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> = factory.rand(rows, cols, seed)
+fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> = rand(rows, cols, seed, dtype=MatrixTypes.DoubleType)
+fun <T> rand(rows: Int, 
+             cols: Int, 
+             seed: Long, 
+             dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().rand(rows, cols, seed)
 
 /**
  * Creates an 1x[cols] matrix filled with unit normal random numbers
  */
-fun randn(cols: Int): Matrix<Double> = factory.randn(1, cols)
+fun randn(cols: Int): Matrix<Double> = randn(cols, dtype=MatrixTypes.DoubleType)
+fun <T> randn(cols: Int, 
+              dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().randn(1, cols)
 
 /**
  * Creates an matrix filled with unit normal random numbers
  */
-fun randn(rows: Int, cols: Int): Matrix<Double> = factory.randn(rows, cols)
+fun randn(rows: Int, cols: Int): Matrix<Double> = randn(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T> randn(rows: Int, 
+              cols: Int, 
+              dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().randn(rows, cols)
 
 /**
  * Creates an matrix filled with unit normal random numbers, using the given seed for the RNG.
  * Subsequent calls with the same seed will produce identical numbers.
  */
-fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = factory.randn(rows, cols, seed)
+fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = randn(rows, cols, seed, dtype=MatrixTypes.DoubleType)
+fun <T> randn(rows: Int, 
+              cols: Int, 
+              seed: Long, 
+              dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().randn(rows, cols, seed)
 
 /**
  * Creates an vector filled in by the given range information. The filled values will start at [start] and
  * end at [stop], with the interval between each value [step].
  */
-fun arange(start: Double, stop: Double, step: Double): Matrix<Double> = factory.arange(start, stop, step)
+fun arange(start: Double, stop: Double, step: Double): Matrix<Double> = arange(start, 
+                                                                               stop, 
+                                                                               step, 
+                                                                               dtype=MatrixTypes.DoubleType)
+fun <T> arange(start: Double, 
+           stop: Double, 
+           step: Double,
+           dtype: Class<T>): Matrix<T> 
+        = dtype.getFactory().arange(start, stop, step)
 
 // TODO: Get these versions working
 //fun linspace(...) = factory.linspace(lower, upper, num)

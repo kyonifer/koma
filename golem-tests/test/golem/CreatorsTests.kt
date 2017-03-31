@@ -1,11 +1,16 @@
 package golem
 
+import golem.matrix.*
 import golem.util.test.*
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFalse
+
+import golem.matrix.MatrixTypes.DoubleType as dbltype
+import golem.matrix.MatrixTypes.FloatType as flttype
+import golem.matrix.MatrixTypes.IntType as inttype
 
 class CreatorsTests {
     @Test
@@ -131,5 +136,12 @@ class CreatorsTests {
             val c = rand(3)
             assertFalse { (b-c).any { it == 0.0 } }
         }
+    }
+
+    @Test
+    fun testDTypeUsage() {
+        val a: Matrix<Double> = zeros(3, 3, dtype=dbltype)
+        val b: Matrix<Float> = zeros(3, 3, dtype=flttype)
+        val c: Matrix<Int> = zeros(3, 3, dtype=inttype)
     }
 }

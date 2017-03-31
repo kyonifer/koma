@@ -8,7 +8,6 @@ import java.util.ArrayList
  * implemented to actually perform the computation. A golem backend must both
  * implement this class and MatrixFactory.
  */
-
 interface Matrix<T> : Iterable<T> {
     // Algebraic Operators
     operator fun rem(other: Matrix<T>): Matrix<T>
@@ -135,7 +134,7 @@ interface Matrix<T> : Iterable<T> {
 
 
     override fun iterator(): Iterator<T> {
-        class MatrixIterator<T>(var matrix: Matrix<T>) : Iterator<T> {
+        class MatrixIterator(var matrix: Matrix<T>) : Iterator<T> {
             private var cursor = 0
             override fun next(): T {
                 cursor += 1
