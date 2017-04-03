@@ -16,14 +16,33 @@ import kotlin.reflect.KProperty
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
+ * Double precision.
  *
  * Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
  * backend the top-level functions use for computation.
  *
  */
-var factory: MatrixFactory<Matrix<Double>> by MatFacProperty()
-var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty()
-var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty()
+var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(Double::class.java)
+/**
+ *
+ * Default factory that all top-level functions use when building new matrices.
+ * Single precision.
+ *
+ * Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
+ * backend the top-level functions use for computation.
+ *
+ */
+var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(Float::class.java)
+/**
+ *
+ * Default factory that all top-level functions use when building new matrices.
+ * Integer matrices.
+ *
+ * Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
+ * backend the top-level functions use for computation.
+ *
+ */
+var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(Int::class.java)
 
 /**
  *  At runtime, see which double backends are available on our classpath (if any).
@@ -56,33 +75,38 @@ fun getAvailableIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
 var validateMatrices = true
 
 
-private class MatFacProperty<T> {
-    private var _factory: MatrixFactory<Matrix<Double>>? = null
+private class MatFacProperty<T>(val cls: Class<T>) {
+    private var defaultFactory: MatrixFactory<Matrix<T>>? = null
 
-    operator inline fun <reified T> getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
-        when (T::class.java) {
-            java.lang.Double::class.java -> {
-                val facInst = _factory
-                if (facInst != null) {
-                    @Suppress("UNCHECKED_CAST")
-                    return facInst as MatrixFactory<Matrix<T>>
-                }
-                else {
-                    val facs = getAvailableFactories()
-                    if(facs.isNotEmpty()) {
-                        _factory = facs[0]
-                        @Suppress("UNCHECKED_CAST")
-                        return facs[0] as MatrixFactory<Matrix<T>>
-                    }
-                    else
-                        throw RuntimeException("No default backends for golem matrix found. Please set golem.factory manually or" +
-                                               " put one on your classpath.")
-                }
-            }
-            else -> {TODO()}
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
+        val facInst = defaultFactory
+        if (facInst != null) {
+            return facInst
         }
+        else {
+            // No-one has set the factory property manually.
+            // Lets look through the list of known backends
+            // on this platform and set the property if one exists.
+            @Suppress("UNCHECKED_CAST")
+            val facs = when (cls) {
+                java.lang.Double::class.java -> { getAvailableFactories() }
+                Float::class.java -> { getAvailableFloatFactories() }
+                Int::class.java -> { getAvailableIntFactories() }
+                
+                else -> {throw RuntimeException("Factories for ${cls} unsupported.")}
+            }  as List<MatrixFactory<Matrix<T>>>
+            if(facs.isNotEmpty()) {
+                val newFac = facs[0]
+                defaultFactory = newFac
+                return newFac
+            }
+            else
+                throw RuntimeException("No default backends for golem matrix found. Please set golem.factory manually or" +
+                                       " put one on your classpath.")
+        }
+        
     }
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
-        _factory = factory
+        defaultFactory = value
     }
 }
