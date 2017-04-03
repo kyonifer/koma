@@ -28,7 +28,7 @@ var factory: MatrixFactory<Matrix<Double>> by makePropertyProxy(::getAvailableFa
  * Default factory that all top-level functions use when building new matrices.
  * Single precision.
  *
- * Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
+ * Replace this factory at runtime with another to change what
  * backend the top-level functions use for computation.
  *
  */
@@ -38,7 +38,7 @@ var floatFactory: MatrixFactory<Matrix<Float>> by makePropertyProxy(::getAvailab
  * Default factory that all top-level functions use when building new matrices.
  * Integer matrices.
  *
- * Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
+ * Replace this factory at runtime with another to change what
  * backend the top-level functions use for computation.
  *
  */
@@ -84,8 +84,7 @@ private interface MatFacProperty<T> {
 private inline fun <reified T> makePropertyProxy(crossinline available: ()->List<MatrixFactory<Matrix<T>>>) = object : MatFacProperty<T> {
     private var defaultFactory: MatrixFactory<Matrix<T>>? = null
 
-    override
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
+    override operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
         val facInst = defaultFactory
         if (facInst != null) {
             return facInst
@@ -107,8 +106,7 @@ private inline fun <reified T> makePropertyProxy(crossinline available: ()->List
 
     }
 
-    override
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
+    override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
         defaultFactory = value
     }
 }
