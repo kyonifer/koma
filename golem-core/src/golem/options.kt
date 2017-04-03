@@ -99,9 +99,10 @@ private inline fun <reified T> makePropertyProxy(crossinline available: ()->List
                 defaultFactory = newFac
                 return newFac
             }
-            else
-                throw RuntimeException("No default backends for golem matrix found. Please set golem.factory manually or" +
-                                       " put one on your classpath.")
+            else {
+                throw RuntimeException("No default backends for golem matrix found. Please set golem.${property.name}" +
+                                       " manually or put one on your classpath.")
+            }
         }
 
     }
