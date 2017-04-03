@@ -22,7 +22,7 @@ import kotlin.reflect.KProperty
  * backend the top-level functions use for computation.
  *
  */
-var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(Double::class.java)
+var factory: MatrixFactory<Matrix<Double>> by makePropertyProxy(::getAvailableFactories)
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -32,7 +32,7 @@ var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(Double::class.java)
  * backend the top-level functions use for computation.
  *
  */
-var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(Float::class.java)
+var floatFactory: MatrixFactory<Matrix<Float>> by makePropertyProxy(::getAvailableFloatFactories)
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -42,7 +42,7 @@ var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(Float::class.ja
  * backend the top-level functions use for computation.
  *
  */
-var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(Int::class.java)
+var intFactory: MatrixFactory<Matrix<Int>> by makePropertyProxy(::getAvailableIntFactories)
 
 /**
  *  At runtime, see which double backends are available on our classpath (if any).
@@ -75,9 +75,16 @@ fun getAvailableIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
 var validateMatrices = true
 
 
-private class MatFacProperty<T>(val cls: Class<T>) {
+private interface MatFacProperty<T> {
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>>
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?)
+}
+
+
+private inline fun <reified T> makePropertyProxy(crossinline available: ()->List<MatrixFactory<Matrix<T>>>) = object : MatFacProperty<T> {
     private var defaultFactory: MatrixFactory<Matrix<T>>? = null
 
+    override
     operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
         val facInst = defaultFactory
         if (facInst != null) {
@@ -87,14 +94,7 @@ private class MatFacProperty<T>(val cls: Class<T>) {
             // No-one has set the factory property manually.
             // Lets look through the list of known backends
             // on this platform and set the property if one exists.
-            @Suppress("UNCHECKED_CAST")
-            val facs = when (cls) {
-                java.lang.Double::class.java -> { getAvailableFactories() }
-                Float::class.java -> { getAvailableFloatFactories() }
-                Int::class.java -> { getAvailableIntFactories() }
-                
-                else -> {throw RuntimeException("Factories for ${cls} unsupported.")}
-            }  as List<MatrixFactory<Matrix<T>>>
+            val facs = available()
             if(facs.isNotEmpty()) {
                 val newFac = facs[0]
                 defaultFactory = newFac
@@ -104,8 +104,10 @@ private class MatFacProperty<T>(val cls: Class<T>) {
                 throw RuntimeException("No default backends for golem matrix found. Please set golem.factory manually or" +
                                        " put one on your classpath.")
         }
-        
+
     }
+
+    override
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
         defaultFactory = value
     }
