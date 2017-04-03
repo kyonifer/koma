@@ -43,11 +43,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun normF() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.Frobenius)
     override fun normIndP1() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
 
-    override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
-    override fun getDouble(i: Int) = this.storage[i]
-    override fun setDouble(i: Int, v: Double) = this.storage.set(i, v)
-    override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
-
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numColumns()
     override fun times(other: Matrix<Double>) =
@@ -130,52 +125,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
 
 
     override fun toString() = this.repr()
-
-
-
-    /* These methods are defined in order to support fast non-generic calls. However,
-       since our type is Double we'll disable them here in case someone accidentally
-       uses them.
-     */
-    override fun getInt(i: Int, j: Int): Int {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun getFloat(i: Int, j: Int): Float {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun getInt(i: Int): Int {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun getFloat(i: Int): Float {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun setInt(i: Int, v: Int) {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun setFloat(i: Int, v: Float) {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun setInt(i: Int, j: Int, v: Int) {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Int disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
-    override fun setFloat(i: Int, j: Int, v: Float) {
-        throw UnsupportedOperationException("Implicit cast of Double matrix to Float disabled to prevent subtle bugs. " +
-                                            "Please call getDouble and cast manually if this is intentional.")
-    }
-
+    
 
 }

@@ -42,6 +42,21 @@ abstract class DoubleMatrixBase : Matrix<Double> {
         }
     }
 
+    override fun getDouble(i: Int, j: Int) = this[i, j]
+    override fun getDouble(i: Int) = this[i]
+    override fun setDouble(i: Int, v: Double) {this[i] = v}
+    override fun setDouble(i: Int, j: Int, v: Double) {this[i, j] = v}
+
+    override fun getInt(i: Int, j: Int) = this[i, j].toInt()
+    override fun getInt(i: Int) = this[i].toInt()
+    override fun setInt(i: Int, v: Int) { this[i] = v.toDouble() }
+    override fun setInt(i: Int, j: Int, v: Int) { this[i, j] = v.toDouble() }
+
+    override fun getFloat(i: Int, j: Int) = this[i, j].toFloat()
+    override fun getFloat(i: Int) = this[i].toFloat()
+    override fun setFloat(i: Int, v: Float) { this[i] = v.toDouble() }
+    override fun setFloat(i: Int, j: Int, v: Float) { this[i, j] = v.toDouble() }
+
     /**
      * A backend agnostic implementation of the matrix exponential (i.e. e to the matrix).
      */
