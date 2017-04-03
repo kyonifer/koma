@@ -22,7 +22,7 @@ import kotlin.reflect.KProperty
  * backend the top-level functions use for computation.
  *
  */
-var factory: MatrixFactory<Matrix<Double>> by makePropertyProxy(::getAvailableFactories)
+var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getAvailableFactories)
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -32,7 +32,7 @@ var factory: MatrixFactory<Matrix<Double>> by makePropertyProxy(::getAvailableFa
  * backend the top-level functions use for computation.
  *
  */
-var floatFactory: MatrixFactory<Matrix<Float>> by makePropertyProxy(::getAvailableFloatFactories)
+var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(::getAvailableFloatFactories)
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -42,7 +42,7 @@ var floatFactory: MatrixFactory<Matrix<Float>> by makePropertyProxy(::getAvailab
  * backend the top-level functions use for computation.
  *
  */
-var intFactory: MatrixFactory<Matrix<Int>> by makePropertyProxy(::getAvailableIntFactories)
+var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(::getAvailableIntFactories)
 
 /**
  *  At runtime, see which double backends are available on our classpath (if any).
@@ -75,16 +75,12 @@ fun getAvailableIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
 var validateMatrices = true
 
 
-private interface MatFacProperty<T> {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>>
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?)
-}
 
 
-private inline fun <reified T> makePropertyProxy(crossinline available: ()->List<MatrixFactory<Matrix<T>>>) = object : MatFacProperty<T> {
+class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>) {
     private var defaultFactory: MatrixFactory<Matrix<T>>? = null
 
-    override operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
         val facInst = defaultFactory
         if (facInst != null) {
             return facInst
@@ -107,7 +103,7 @@ private inline fun <reified T> makePropertyProxy(crossinline available: ()->List
 
     }
 
-    override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
         defaultFactory = value
     }
 }
