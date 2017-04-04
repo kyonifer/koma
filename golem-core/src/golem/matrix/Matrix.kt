@@ -1,7 +1,6 @@
 package golem.matrix
 
 import golem.*
-import java.util.ArrayList
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -464,7 +463,8 @@ interface Matrix<T> : Iterable<T> {
      */
 
     fun <U> mapColsToList(f: (Matrix<T>) -> U): List<U> {
-        val a = ArrayList<U>(this.numCols())
+        // TODO: Replace if cross-platform set capacity method is added to kotlin
+        val a = arrayListOf<U>()
         this.eachCol {
             a.add(f(it))
         }

@@ -52,10 +52,12 @@ fun create(data: DoubleArray, numRows: Int, numCols: Int): Matrix<Double> =
 fun <T> create(data: DoubleArray, 
                numRows: Int, 
                numCols: Int,
-               factory: MatrixFactory<Matrix<T>>): Matrix<T> = 
-        factory.zeros(numRows,numCols).also { 
-            data.forEachIndexed { idx, value -> it.setDouble(idx,value) } 
-        }
+               factory: MatrixFactory<Matrix<T>>): Matrix<T> {
+    // TODO: Replace when also exists in kotlin-native
+    val out = factory.zeros(numRows,numCols)
+    data.forEachIndexed { idx, value -> out.setDouble(idx,value) }
+    return out
+} 
 
 /**
  * Creates a matrix filled with the given data, assuming input is row major.
