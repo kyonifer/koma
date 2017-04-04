@@ -93,8 +93,7 @@ fun main(args: Array<String>)
 ## Functionality
 
 ### Math Functions
-Matrices have useful map functions that return matrices for chaining operations (see [here]
-(golem-core/src/golem/extensions.kt) for a complete list).
+Matrices have useful map functions that return matrices for chaining operations (see [here](golem-core/src/golem/extensions.kt) for a complete list).
 
 ```Kotlin
 

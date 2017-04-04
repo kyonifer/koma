@@ -70,7 +70,6 @@ interface Matrix<T> : Iterable<T> {
     fun setCol(index: Int, col: Matrix<T>)
     fun setRow(index: Int, row: Matrix<T>)
 
-    // Decompositions (Already has eig, svd) [expm,schur not available]
     fun chol(): Matrix<T>
     fun LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>>
     fun QR(): Pair<Matrix<T>, Matrix<T>>
@@ -92,16 +91,19 @@ interface Matrix<T> : Iterable<T> {
     fun max(): T // add dimension: Int?
     fun mean(): T
     fun min(): T
+    
     /**
      * Row major 1D index.
      */
     fun argMax(): Int
+    
     /**
      * Row major 1D index.
      */
     fun argMin(): Int
     fun norm(): T // L2 (Euclidean) norm
     fun trace(): T
+    
     /**
      * Transpose operator.
      */
@@ -143,6 +145,7 @@ interface Matrix<T> : Iterable<T> {
         }
         return MatrixIterator(this)
     }
+    
     infix fun pow(exponent: Int): Matrix<T> {
         var out = this.copy()
         for (i in 1..exponent - 1)
