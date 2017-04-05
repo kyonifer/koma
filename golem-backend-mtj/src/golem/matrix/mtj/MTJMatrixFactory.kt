@@ -1,5 +1,6 @@
 package golem.matrix.mtj
 
+import golem.*
 import golem.matrix.common.*
 import golem.util.*
 import no.uib.cipr.matrix.DenseMatrix
@@ -9,6 +10,7 @@ import java.util.*
 class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
     override fun zeros(rows: Int, cols: Int) = MTJMatrix(DenseMatrix(rows, cols))
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
     override fun zeros(size: Int) = zeros(size, size)
 
     override fun create(data: IntRange): MTJMatrix {
@@ -24,6 +26,7 @@ class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
         return MTJMatrix(DenseMatrix(data))
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
     override fun ones(size: Int) = ones(size, size)
 
     override fun ones(rows: Int, cols: Int): MTJMatrix {
@@ -41,10 +44,12 @@ class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
         return MTJMatrix(out)
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
     override fun rand(size: Int) = rand(size, size)
     override fun rand(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.rand(rows, cols))
     override fun rand(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.rand(rows, cols, seed))
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
     override fun randn(size: Int) = randn(size, size)
     override fun randn(rows: Int, cols: Int) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols))
     override fun randn(rows: Int, cols: Int, seed: Long) = MTJMatrix(golem.matrix.mtj.backend.randn(rows, cols, seed))

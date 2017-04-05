@@ -9,6 +9,7 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
 
     override fun zeros(rows: Int, cols: Int) = EJMLMatrix(golem.matrix.ejml.backend.zeros(rows, cols))
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
     override fun zeros(size: Int) = zeros(size, size)
 
     override fun create(data: IntRange): EJMLMatrix {
@@ -28,6 +29,7 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
         return EJMLMatrix(golem.matrix.ejml.backend.ones(rows, cols))
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
     override fun ones(size: Int): EJMLMatrix {
         return ones(size, size)
     }
@@ -43,6 +45,7 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
         return EJMLMatrix(out)
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
     override fun rand(size: Int): EJMLMatrix {
         return rand(size, size)
     }
@@ -55,6 +58,7 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
         return EJMLMatrix(golem.matrix.ejml.backend.rand(rows, cols, seed))
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
     override fun randn(size: Int): EJMLMatrix {
         return EJMLMatrix(golem.matrix.ejml.backend.randn(size))
     }

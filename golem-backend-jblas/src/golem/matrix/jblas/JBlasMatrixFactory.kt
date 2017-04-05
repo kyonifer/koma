@@ -1,15 +1,18 @@
 package golem.matrix.jblas
 
+import golem.*
 import golem.matrix.common.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
 class JBlasMatrixFactory : DoubleFactoryBase<JBlasMatrix>() {
     override fun zeros(rows: Int, cols: Int) = JBlasMatrix(golem.matrix.jblas.backend.zeros(rows, cols))
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
     override fun zeros(size: Int) = JBlasMatrix(golem.matrix.jblas.backend.zeros(size, size))
     override fun create(data: IntRange) = JBlasMatrix(DoubleMatrix(data.map { it.toDouble() }))
     override fun create(data: DoubleArray) = JBlasMatrix(DoubleMatrix(data))
     override fun create(data: Array<DoubleArray>) = JBlasMatrix(DoubleMatrix(data))
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
     override fun ones(size: Int) = JBlasMatrix(DoubleMatrix(size, size).mapMat { 1.0 })
     override fun ones(rows: Int, cols: Int) = JBlasMatrix(DoubleMatrix(rows, cols).mapMat { 1.0 })
     override fun eye(size: Int) = JBlasMatrix(DoubleMatrix.eye(size))
@@ -20,6 +23,7 @@ class JBlasMatrixFactory : DoubleFactoryBase<JBlasMatrix>() {
         return JBlasMatrix(out)
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
     override fun rand(size: Int) = JBlasMatrix(golem.matrix.jblas.backend.rand(size))
     override fun rand(rows: Int, cols: Int) = JBlasMatrix(golem.matrix.jblas.backend.rand(rows, cols))
 
@@ -28,6 +32,7 @@ class JBlasMatrixFactory : DoubleFactoryBase<JBlasMatrix>() {
         return JBlasMatrix(golem.matrix.jblas.backend.rand(rows, cols))
     }
 
+    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
     override fun randn(size: Int) = JBlasMatrix(golem.matrix.jblas.backend.randn(size))
 
     override fun randn(rows: Int, cols: Int) = JBlasMatrix(golem.matrix.jblas.backend.randn(rows, cols))

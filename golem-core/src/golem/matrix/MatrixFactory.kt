@@ -5,6 +5,8 @@
 
 package golem.matrix
 
+import golem.*
+
 
 /**
  * A set of constructors that must be implemented by a golem backend. Generates various types of matrices.
@@ -19,6 +21,7 @@ interface MatrixFactory<out T> {
     /**
      * Generate a zero initialized square matrix of the requested shape.
      */
+    @Deprecated(DEPRECATE_IMPLICIT_2D)
     fun zeros(size: Int): T
 
     /**
@@ -39,6 +42,7 @@ interface MatrixFactory<out T> {
     /**
      * Creates a one initialized square matrix of the requested shape
      */
+    @Deprecated(DEPRECATE_IMPLICIT_2D)
     fun ones(size: Int): T
 
     /**
@@ -59,6 +63,7 @@ interface MatrixFactory<out T> {
     /**
      * Creates a vector of [size] many uniform 0-1 random samples
      */
+    @Deprecated(DEPRECATE_IMPLICIT_2D)
     fun rand(size: Int): T
 
     /**
@@ -75,6 +80,7 @@ interface MatrixFactory<out T> {
     /**
      * Creates a vector of [size] many unit-normal random samples
      */
+    @Deprecated(DEPRECATE_IMPLICIT_2D)
     fun randn(size: Int): T
 
     /**

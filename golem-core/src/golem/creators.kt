@@ -23,6 +23,7 @@ fun <T> zeros(rows:Int,
 /**
  * Creates a square zero-filled matrix with the given size
  */
+@Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
 fun zeros(size: Int): Matrix<Double> = zeros(size, factory=MatrixTypes.DoubleType)
 fun <T> zeros(size: Int,
               factory: MatrixFactory<Matrix<T>>): Matrix<T>
@@ -70,6 +71,7 @@ fun <T> create(data: Array<DoubleArray>,
 /**
  * Creates a one-filled square matrix with the given size
  */
+@Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
 fun ones(size: Int): Matrix<Double> = ones(size, factory=MatrixTypes.DoubleType)
 inline fun <reified T> ones(size: Int,
                             factory: MatrixFactory<Matrix<T>>): Matrix<T> 
@@ -126,6 +128,7 @@ fun <T> fill(rows: Int,
 /**
  * Creates an 1x[cols] matrix filled with unit uniform random numbers
  */
+@Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(cols, cols)"))
 fun rand(cols: Int): Matrix<Double> = rand(cols, factory=MatrixTypes.DoubleType)
 fun <T> rand(cols: Int,
              factory: MatrixFactory<Matrix<T>>): Matrix<T> 
@@ -157,6 +160,7 @@ fun <T> rand(rows: Int,
 /**
  * Creates an 1x[cols] matrix filled with unit normal random numbers
  */
+@Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(cols, cols)"))
 fun randn(cols: Int): Matrix<Double> = randn(cols, factory=MatrixTypes.DoubleType)
 fun <T> randn(cols: Int,
               factory: MatrixFactory<Matrix<T>>): Matrix<T> 
