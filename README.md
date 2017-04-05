@@ -4,16 +4,17 @@
 [![Travis](https://img.shields.io/travis/kyonifer/golem.svg)](https://travis-ci.org/kyonifer/golem)
 ### Golem
 
-Golem is a scientific environment for Kotlin that emphasizes simplicity, language interop, performance, and flexibility.
+Golem is a scientific environment for Kotlin that emphasizes language/platform interop, performance, and flexibility.
 
 ## Project Goals
 
 The project aims to:
 
-- Create a scientific programming environment for Kotlin that is friendly and easy to use for people used to NumPy or
+- Create a scientific programming environment for Kotlin that is familiar to people used to NumPy or
 MATLAB
-- Support polyglot usage from Kotlin, Java, and other JVM languages, as well as foreign interop with Python or MATLAB code
-- Use pluggable back-ends to offload the actual computation to pre-existing libraries
+- Support writing numerical code once in Kotlin, and then deploy that code on JVM, JS, and native platforms
+- Support polyglot usage from Kotlin, Java, other JVM languages, as well as foreign interop with legacy Python or MATLAB code
+- Use pluggable back-ends to offload the actual computation to pre-existing libraries, depending on the target platform
 - Use code already written by other projects where possible to avoid duplication
 
 ## Features
@@ -27,9 +28,11 @@ We currently have:
 
 - Integrated plotting (via xchart)
 
-- Pluggable matrix back-end for pure-Java and high-performance modes (via MTJ and EJML)
+- Pluggable matrix back-end for pure-Java and high-performance modes on the JVM (via MTJ, JBlas, and EJML)
 
 - Many linear algebra operations supported.
+
+- Ongoing work for js and native backends (core builds on all three, just need working backends on those platforms)
 
 ## Using the Library From a Gradle Project
 
