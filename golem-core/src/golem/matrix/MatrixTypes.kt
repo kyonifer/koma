@@ -5,12 +5,12 @@ package golem.matrix
  * (e.g. creators.kt which return Matrix<T> for a requested T).
  */
 object MatrixTypes {
-    val DoubleType by lazy { golem.factory }
-    val IntType by lazy { golem.intFactory }
-    val FloatType by lazy { golem.floatFactory }
+    val DoubleType: MatrixType<Double> = {golem.factory}
+    val IntType: MatrixType<Int> = {golem.intFactory }
+    val FloatType: MatrixType<Float> = {golem.floatFactory} 
 }
 
-
+typealias MatrixType<T> = ()->MatrixFactory<Matrix<T>>
 
 
 

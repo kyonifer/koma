@@ -141,11 +141,11 @@ class CreatorsTests {
 
     @Test
     fun testDTypeUsage() {
-        val a: Matrix<Double> = zeros(3, 3, factory=dbltype)
+        val a: Matrix<Double> = zeros(3, 3, dtype=dbltype)
         assertFailsWith(RuntimeException::class,
                         "No default backends for golem matrix found. Please set golem.intFactory manually or put one on your classpath.") {
-            val b: Matrix<Float> = zeros(3, 3, factory=flttype)
-            val c: Matrix<Int> = zeros(3, 3, factory=inttype)
+            val b: Matrix<Float> = zeros(3, 3, dtype=flttype)
+            val c: Matrix<Int> = zeros(3, 3, dtype=inttype)
         }
     }
 }
