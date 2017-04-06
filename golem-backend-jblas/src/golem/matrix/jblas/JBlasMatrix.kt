@@ -5,6 +5,12 @@ import golem.matrix.common.*
 import golem.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
+/**
+ * An implementation of the Matrix<Double> interface using jBlas.
+ * You should rarely use this class directly, instead use one of the
+ * top-level functions in creators.kt (e.g. zeros(5,5)) or [JBlasMatrixFactory].
+ */
+
 class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 

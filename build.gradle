@@ -122,6 +122,24 @@ project(':golem-backend-jblas') {
     project.configurePublishing()
 }
 
+project(':golem-backend-purekt') {
+    apply plugin: 'kotlin'
+
+    sourceSets {
+        main.kotlin.srcDirs += 'src'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(":golem-core")
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+    project.configurePublishing()
+}
+
 project(':golem-tests') {
     apply plugin: 'kotlin'
 

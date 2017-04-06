@@ -9,7 +9,7 @@ import no.uib.cipr.matrix.Matrices
 /**
  * An implementation of the Matrix<Double> interface using MTJ.
  * You should rarely use this class directly, instead use one of the
- * top-level functions in creators.kt (e.g. zeros(5,5)).
+ * top-level functions in creators.kt (e.g. zeros(5,5)) or [MTJMatrixFactory].
  */
 class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage

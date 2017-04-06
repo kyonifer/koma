@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix
 /**
  * An implementation of the Matrix<Double> interface using EJML.
  * You should rarely use this class directly, instead use one of the
- * top-level functions in creators.kt (e.g. zeros(5,5)).
+ * top-level functions in creators.kt (e.g. zeros(5,5)) or [EJMLMatrixFactory].
  */
 class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage

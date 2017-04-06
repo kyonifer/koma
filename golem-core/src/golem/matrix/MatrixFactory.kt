@@ -10,7 +10,7 @@ import golem.*
 
 /**
  * A set of constructors that must be implemented by a golem backend. Generates various types of matrices.
- * Generic parameter is a type of matrix, i.e. T=Matrix<Double> or T=Matrix<Int>, etc.
+ * Generic parameter is the type of element, i.e. T=Matrix<Double> or T=Matrix<Int>, etc.
  */
 interface MatrixFactory<out T> {
     /**
@@ -30,7 +30,7 @@ interface MatrixFactory<out T> {
     fun create(data: IntRange): T
 
     /**
-     * Creates a row-vector with initial values pulled from an double array
+     * Creates a row-vector with initial values pulled from a double array
      */
     fun create(data: DoubleArray): T
 
