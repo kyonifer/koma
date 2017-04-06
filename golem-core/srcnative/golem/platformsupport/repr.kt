@@ -6,10 +6,12 @@ import golem.matrix.*
 fun <T> repr(mat: Matrix<T>): String {
     // Replace when buildString {} is implemented on native
     val out = StringBuilder()
+    out.append("mat[")
     mat.eachIndexed { row, col, ele ->
-        if (row == 0 && col != 0)
-            out.append("\n")
+        if (col == 0 && row != 0)
+            out.append("\n    ")
         out.append("$ele,")
     }
+    out.append("]")
     return out.toString()
 }

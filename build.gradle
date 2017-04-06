@@ -155,6 +155,7 @@ project(':golem-tests') {
         testCompile project(":golem-backend-ejml")
         testCompile project(":golem-backend-jblas")
         testCompile project(":golem-backend-mtj")
+        testCompile project(":golem-backend-purekt")
         testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"

@@ -4,6 +4,16 @@ import kotlinx.cinterop.*
 import Math.log
 import Math.sqrt
 
+var seed: Long? = null
+    get() = field
+    set(value) {
+        field = value
+        value?.let {
+            rng.setSeed(it.toInt())
+        }
+    }
+
+
 object rng {
     
     init {
