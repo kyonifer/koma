@@ -5,7 +5,9 @@ import golem.polyfill.annotations.*
 /**
  * A general facade for a Matrix type. Allows for various backend to be
  * implemented to actually perform the computation. A golem backend must both
- * implement this class and MatrixFactory.
+ * implement this class and MatrixFactory. A matrix is guaranteed to be 2D and 
+ * to have a numerical type. For storage of arbitrary types and dimensions, see
+ * [golem.ndarray.NDArray].
  */
 interface Matrix<T> {
     // Algebraic Operators
