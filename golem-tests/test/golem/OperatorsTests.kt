@@ -277,6 +277,20 @@ class OperatorsTests {
             assertFails {
                 a[-1, -1]
             }
+
+            assertFails {
+                a[2, 0]=1.1
+            }
+            assertFails {
+                a[0, 2]=1.1
+            }
+            assertFails {
+                a[-1, 0]=1.1
+            }
+            assertFails {
+                a[-1, -1]=1.1
+            }            
+            
         }
     }
 

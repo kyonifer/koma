@@ -53,6 +53,8 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     }
 
     override fun set(i: Int, j: Int, v: Double) {
+        if (i>=this.numRows() || j>=this.numCols())
+            throw ArrayIndexOutOfBoundsException("Index into row/col $i/$j out of bounds.")
         this.storage[i, j] = v
     }
 

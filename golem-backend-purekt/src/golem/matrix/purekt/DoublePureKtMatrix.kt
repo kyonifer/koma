@@ -44,7 +44,7 @@ class DoublePureKtMatrix (val rows: Int,
 
     override fun transpose(): Matrix<Double> 
             = getFactory()
-            .zeros(numRows(),numCols())
+            .zeros(numCols(),numRows())
             .fill { row, col -> this[col,row] }
 
     override fun elementTimes(other: Matrix<Double>): Matrix<Double> 
@@ -63,11 +63,12 @@ class DoublePureKtMatrix (val rows: Int,
         storage[i] = v
     }
     override fun set(i: Int, j: Int, v: Double) {
+        checkBounds(i,j)
         storage[this.cols*i+j] = v
     }
 
     override fun get(i: Int, j: Int): Double 
-            = storage[this.cols*i+j]
+            = storage[this.cols*i+j].also { checkBounds(i,j) }
     
     override fun get(i: Int): Double 
             = storage[i]
@@ -90,12 +91,14 @@ class DoublePureKtMatrix (val rows: Int,
     override fun setFloat(i: Int, j: Int, v: Float) { this[i,j] = v.toDouble()}
     override fun getDoubleData(): DoubleArray = storage
     override fun getRow(row: Int): Matrix<Double> {
+        checkBounds(row, 0)
         val out = getFactory().zeros(1,cols)
         for (i in 0 until cols)
             out[i] = this[row, i]
         return out
     }
     override fun getCol(col: Int): Matrix<Double> {
+        checkBounds(0,col)
         val out = getFactory().zeros(rows,1)
         for (i in 0 until rows)
             out[i] = this[i, col]
@@ -103,89 +106,91 @@ class DoublePureKtMatrix (val rows: Int,
     }
 
     override fun setCol(index: Int, col: Matrix<Double>) {
+        checkBounds(0,index)
         for (i in 0 until rows)
             this[i, index] = col[i]
     }
 
     override fun setRow(index: Int, row: Matrix<Double>) {
+        checkBounds(index, 0)
         for (i in 0 until cols)
             this[index, i] = row[i]
     }
 
     override fun chol(): Matrix<Double> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun QR(): Pair<Matrix<Double>, Matrix<Double>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun expm(): Matrix<Double> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): Matrix<Double> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun inv(): Matrix<Double> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun det(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun pinv(): Matrix<Double> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun normF(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun normIndP1(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun elementSum(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun diag(): Matrix<Double> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun max(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun mean(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun min(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun argMax(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun argMin(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun norm(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun trace(): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun T(): Matrix<Double> 
@@ -194,4 +199,9 @@ class DoublePureKtMatrix (val rows: Int,
             = storage
     override fun getFactory(): MatrixFactory<Matrix<Double>> 
             = DoublePureKtMatrixFactory()
+    
+    private fun checkBounds(row: Int, col: Int) {
+        if (row >= rows || col >= cols)
+            throw IllegalArgumentException("row/col index out of bounds")
+    }
 }
