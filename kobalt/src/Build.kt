@@ -77,9 +77,21 @@ val backend_jblas = project(core) {
     }
 }
 
+val backend_purekt = project(core) {
+    makeSubProject("golem-backend-purekt")
+
+    dependencies {
+        compile("org.jetbrains.kotlin:kotlin-stdlib:$kotVersion")
+    }
+}
+
 // Tests can't be in core or one backend because they test all of them
 // and kobalt doesnt support cyclic dependencies.
-val backend_tests = project(core, backend_ejml, backend_jblas, backend_mtj) {
+val backend_tests = project(core, 
+                            backend_ejml, 
+                            backend_jblas, 
+                            backend_mtj, 
+                            backend_purekt) {
     name = "golem-tests"
     group = groupName
     artifactId = name
