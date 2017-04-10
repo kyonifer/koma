@@ -7,7 +7,7 @@ import golem.*
  * implemented to actually perform the computation. A golem backend must both
  * implement this class and MatrixFactory.
  */
-interface Matrix<T> : Iterable<T> {
+interface Matrix<T> {
     // Algebraic Operators
     operator fun rem(other: Matrix<T>): Matrix<T>
     operator fun div(other: Int): Matrix<T>
@@ -133,16 +133,18 @@ interface Matrix<T> : Iterable<T> {
         get() = this.transpose()
 
 
-    override fun iterator(): Iterator<T> {
-        class MatrixIterator(var matrix: Matrix<T>) : Iterator<T> {
-            private var cursor = 0
-            override fun next(): T {
-                cursor += 1
-                return matrix[cursor - 1]
+    fun toIterable() = object: Iterable<T> {
+        override fun iterator(): Iterator<T> {
+            class MatrixIterator(var matrix: Matrix<T>) : Iterator<T> {
+                private var cursor = 0
+                override fun next(): T {
+                    cursor += 1
+                    return matrix[cursor - 1]
+                }
+                override fun hasNext() = cursor < matrix.numCols() * matrix.numRows()
             }
-            override fun hasNext() = cursor < matrix.numCols() * matrix.numRows()
+            return MatrixIterator(this@Matrix)
         }
-        return MatrixIterator(this)
     }
     
     infix fun pow(exponent: Int): Matrix<T> {

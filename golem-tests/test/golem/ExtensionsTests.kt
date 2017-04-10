@@ -268,7 +268,7 @@ class ExtensionsTests {
             val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            val out = a.map { it.toString() }
+            val out = a.toIterable().map { it.toString() }
             assert(out[0] == "1.0")
             assert(out[4] == "5.0")
         }
