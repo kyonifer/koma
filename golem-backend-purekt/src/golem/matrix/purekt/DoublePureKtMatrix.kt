@@ -157,32 +157,38 @@ class DoublePureKtMatrix (val rows: Int,
         TODO("not implemented")
     }
 
-    override fun elementSum(): Double {
-        TODO("not implemented")
-    }
+    override fun elementSum(): Double 
+            = this.toIterable().reduce { a, b -> a + b }
 
-    override fun diag(): Matrix<Double> {
-        TODO("not implemented")
-    }
+    override fun diag(): Matrix<Double> 
+            = getFactory()
+            .zeros(numRows(),1)
+            .fill{ row, col -> this[row,row] }
 
-    override fun max(): Double {
-        TODO("not implemented")
-    }
-
-    override fun mean(): Double {
-        TODO("not implemented")
-    }
-
-    override fun min(): Double {
-        TODO("not implemented")
-    }
+    override fun max(): Double = this[argMax()]
+    override fun mean(): Double = elementSum()/(numRows()*numCols())
+    override fun min(): Double = this[argMin()]
 
     override fun argMax(): Int {
-        TODO("not implemented")
+        var highest= Double.NEGATIVE_INFINITY
+        var highestIdx = -1
+        for (i in 0 until numRows()*numCols())
+            if(this[i] > highest) {
+                highest = this[i]
+                highestIdx = i
+            }
+        return highestIdx
     }
 
     override fun argMin(): Int {
-        TODO("not implemented")
+        var lowest = Double.POSITIVE_INFINITY
+        var lowestIdx = -1
+        for (i in 0 until numRows()*numCols())
+            if(this[i] < lowest) {
+                lowest = this[i]
+                lowestIdx = i
+            }
+        return lowestIdx
     }
 
     override fun norm(): Double {
