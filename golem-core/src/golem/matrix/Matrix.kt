@@ -314,42 +314,50 @@ interface Matrix<T> {
      * @param f A function that takes in an element
     -
      */
-    fun each(f: (T) -> Unit) {
+    fun forEach(f: (T) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 f(this[row, col])
     }
+    @Deprecated("Use forEach", ReplaceWith("forEach(f)"))
+    fun each(f: (T) -> Unit) = forEach(f)
 
     /**
      * Passes each element in row major order into a function along with its index location.
      *
      * @param f A function that takes in a row,col position and an element value
      */
-    fun eachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
+    fun forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 f(row, col, this[row, col])
     }
+    @Deprecated("Use forEachIndexed", ReplaceWith("forEachIndexed(f)"))
+    fun eachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) = forEachIndexed(f)
 
     /**
      * Passes each row from top to bottom into a function.
      *
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
-    fun eachRow(f: (Matrix<T>) -> Unit) {
+    fun forEachRow(f: (Matrix<T>) -> Unit) {
         for (row in 0..this.numRows() - 1)
             f(this.getRow(row))
     }
-
+    @Deprecated("Use forEachRow", ReplaceWith("forEachRow(f)"))
+    fun eachRow(f: (Matrix<T>) -> Unit) = forEachRow(f)
+    
     /**
      * Passes each col from left to right into a function.
      *
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
-    fun eachCol(f: (Matrix<T>) -> Unit) {
+    fun forEachCol(f: (Matrix<T>) -> Unit) {
         for (col in 0..this.numCols() - 1)
             f(this.getCol(col))
     }
+    @Deprecated("Use forEachCol", ReplaceWith("forEachCol(f)"))
+    fun eachCol(f: (Matrix<T>) -> Unit) = forEachCol(f)
 
 
     /**
@@ -360,13 +368,15 @@ interface Matrix<T> {
      *
      * @return the new matrix after each element is mapped through f
      */
-    fun mapMat(f: (T) -> T): Matrix<T> {
+    fun map(f: (T) -> T): Matrix<T> {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 out[row, col] = f(this[row, col])
         return out
     }
+    @Deprecated("Use map instead", ReplaceWith("map(f)"))
+    fun mapMat(f: (T) -> T): Matrix<T> = map(f)
 
     /**
      * Takes each element in a matrix, passes them through f, and puts the output of f into an
@@ -377,13 +387,15 @@ interface Matrix<T> {
      *
      * @return the new matrix after each element is mapped through f
      */
-    fun mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
+    fun mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 out[row, col] = f(row, col, this[row, col])
         return out
     }
+    @Deprecated("Use mapIndexed", ReplaceWith("mapIndexed(f)"))
+    fun mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> = mapIndexed(f)
 
     /**
      * Takes each row in a matrix, passes them through f, and puts the output of f into a
