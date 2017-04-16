@@ -27,11 +27,11 @@ project(':golem-core') {
     compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
 }
 
-project(':golem-backend-mathjs') {
+project(':golem-backend-purekt') {
     apply plugin: 'kotlin2js'
 
     sourceSets {
-        main.kotlin.srcDirs = ['src', 'srcjs']
+        main.kotlin.srcDirs = ['src']
     }
 
     repositories {
@@ -39,7 +39,8 @@ project(':golem-backend-mathjs') {
     }
 
     dependencies {
+        compile project(':golem-core')
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
-    compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "out/golem-backend-purekt.js"
 }

@@ -199,8 +199,8 @@ class DoublePureKtMatrix (val rows: Int,
         TODO("not implemented")
     }
 
-    override fun T(): Matrix<Double> 
-            = this.transpose()
+    override fun T(): Matrix<Double> = this.transpose()
+
     override fun getBaseMatrix(): Any 
             = storage
     override fun getFactory(): MatrixFactory<Matrix<Double>> 
