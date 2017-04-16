@@ -24,7 +24,27 @@ project(':golem-core') {
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
-    compileKotlin2Js.kotlinOptions.outputFile = "out/golem-core.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/golem-core.js"
+    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+
+
+    // copy kotlin.js to output dir
+    build.doLast {
+	    configurations.compile.each { File file ->
+	    copy {
+		    includeEmptyDirs = false
+
+		    from zipTree(file.absolutePath)
+		    into "node_modules"
+		    include { fileTreeElement ->
+		        def path = fileTreeElement.path
+		        path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+		    }
+	    }
+	    }
+    }
+
+
 }
 
 project(':golem-backend-purekt') {
@@ -42,5 +62,6 @@ project(':golem-backend-purekt') {
         compile project(':golem-core')
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
-    compileKotlin2Js.kotlinOptions.outputFile = "out/golem-backend-purekt.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/golem-backend-purekt.js"
+    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 }
