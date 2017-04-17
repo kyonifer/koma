@@ -10,6 +10,7 @@ import golem.platformsupport.annotations.*
  */
 interface Matrix<T> {
     // Algebraic Operators
+    @JsName("rem")
     operator fun rem(other: Matrix<T>): Matrix<T>
     @JsName("divInt")
     operator fun div(other: Int): Matrix<T>
@@ -89,9 +90,13 @@ interface Matrix<T> {
      */
     fun getDoubleData(): DoubleArray
 
+    @JsName("getRow")
     fun getRow(row: Int): Matrix<T>
+    @JsName("getCol")
     fun getCol(col: Int): Matrix<T>
+    @JsName("setCol")
     fun setCol(index: Int, col: Matrix<T>)
+    @JsName("setRow")
     fun setRow(index: Int, row: Matrix<T>)
 
     fun chol(): Matrix<T>
@@ -102,6 +107,7 @@ interface Matrix<T> {
 
     // Advanced Functions
     fun expm(): Matrix<T>
+    @JsName("solve")
     fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
 
     // Basic Functions
@@ -172,7 +178,7 @@ interface Matrix<T> {
             return MatrixIterator(this@Matrix)
         }
     }
-    
+    @JsName("pow")
     infix fun pow(exponent: Int): Matrix<T> {
         var out = this.copy()
         for (i in 1..exponent - 1)
@@ -286,6 +292,7 @@ interface Matrix<T> {
     @JsName("getColRange")
     operator fun get(rows: Int, cols: IntRange) = this[rows..rows, cols]
 
+    @JsName("wrapRange__")
     private fun wrapRange(range: IntRange, max: Int) =
             if(range.endInclusive >= 0)
                 range
@@ -297,11 +304,13 @@ interface Matrix<T> {
      * For example, if you wanted a new matrix consisting of the first, second, and
      * fifth cols of an input matrix, you would write ```input.selectCols(0,1,4)```.
      */
+    @JsName("selectCols")
     fun selectCols(vararg idxs: Int) =
             getFactory()
                     .zeros(this.numRows(), idxs.size)
                     .fill { row, col -> this[row, idxs[col]] }
 
+    @JsName("selectColsMatrix")
     fun <U: Number> selectCols(idxs: Matrix<U>) =
             getFactory()
                     .zeros(this.numRows(), idxs.numRows()*idxs.numCols())
@@ -313,11 +322,13 @@ interface Matrix<T> {
      * For example, if you wanted a new matrix consisting of the first, second, and
      * fifth rows of an input matrix, you would write ```input.selectRows(0,1,4)```.
      */
+    @JsName("selectRows")
     fun selectRows(vararg idxs: Int) =
             getFactory()
                     .zeros(idxs.size, this.numCols())
                     .fill { row, col -> this[idxs[row], col] }
 
+    @JsName("selectRowsMatrix")
     fun <U: Number> selectRows(idxs: Matrix<U>) =
             getFactory()
                     .zeros(idxs.numRows()*idxs.numCols(), this.numCols())
@@ -342,13 +353,16 @@ interface Matrix<T> {
         return out
     }
 
+    // TODO: Remove all these superfluous jsnames for 
+    // solo funcs if kotlin-js ever gets less mangle-happy.
 
     /**
      * Passes each element in row major order into a function.
      *
      * @param f A function that takes in an element
-    -
+     *
      */
+    @JsName("forEach")
     fun forEach(f: (T) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -362,6 +376,7 @@ interface Matrix<T> {
      *
      * @param f A function that takes in a row,col position and an element value
      */
+    @JsName("forEachIndexed")
     fun forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -375,6 +390,7 @@ interface Matrix<T> {
      *
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
+    @JsName("forEachRow")
     fun forEachRow(f: (Matrix<T>) -> Unit) {
         for (row in 0..this.numRows() - 1)
             f(this.getRow(row))
@@ -387,6 +403,7 @@ interface Matrix<T> {
      *
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
+    @JsName("forEachCol")
     fun forEachCol(f: (Matrix<T>) -> Unit) {
         for (col in 0..this.numCols() - 1)
             f(this.getCol(col))
@@ -403,6 +420,7 @@ interface Matrix<T> {
      *
      * @return the new matrix after each element is mapped through f
      */
+    @JsName("map")
     fun map(f: (T) -> T): Matrix<T> {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
@@ -422,6 +440,7 @@ interface Matrix<T> {
      *
      * @return the new matrix after each element is mapped through f
      */
+    @JsName("mapIndexed")
     fun mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
@@ -441,6 +460,7 @@ interface Matrix<T> {
      *
      * @return the new matrix after each row is mapped through f
      */
+    @JsName("mapRows")
     fun mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
         val outRows = Array(this.numRows()) {
@@ -466,6 +486,7 @@ interface Matrix<T> {
      * @param f A function that takes in a 1xN row and returns a 1xM row. Note that all output
      * rows must be the same length.
      */
+    @JsName("mapRowsToList")
     fun <U> mapRowsToList(f: (Matrix<T>) -> U): List<U> {
         val a = ArrayList<U>(this.numRows())
         this.eachRow {
@@ -483,6 +504,7 @@ interface Matrix<T> {
      *
      * @return the new matrix after each col is mapped through f
      */
+    @JsName("mapCols")
     fun mapCols(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
         val outCols = Array(this.numCols()) {
@@ -510,7 +532,7 @@ interface Matrix<T> {
      * @param f A function that takes in a Nx1 col and returns a Mx1 col. Note that all output
      * cols must be the same length.
      */
-
+    @JsName("mapColsToList")
     fun <U> mapColsToList(f: (Matrix<T>) -> U): List<U> {
         // TODO: Replace if cross-platform set capacity method is added to kotlin
         val a = arrayListOf<U>()
@@ -527,6 +549,7 @@ interface Matrix<T> {
      *
      * @return Whether or not any element, when passed into f, causes f to return true.
      */
+    @JsName("any")
     fun any(f: (T) -> Boolean): Boolean {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -542,6 +565,7 @@ interface Matrix<T> {
      *
      * @return Returns true only if f is true for all elements of the input matrix
      */
+    @JsName("all")
     fun all(f: (T) -> Boolean): Boolean {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
