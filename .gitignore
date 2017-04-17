@@ -11,6 +11,7 @@ kobalt/out/*
 local.properties
 js/.idea/*
 js/*/build/*
+js/node_modules/*
 native/*-build/*
 *.kexe
 *.kt.bc
