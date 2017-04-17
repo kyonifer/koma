@@ -5,6 +5,7 @@
 @file:JvmName("UtilTests")
 
 package golem.util.test
+import golem.platformsupport.annotations.*
 
 import golem.*
 import golem.matrix.*

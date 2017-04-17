@@ -4,6 +4,7 @@ package golem.matrix.common
 
 import golem.*
 import golem.matrix.*
+import golem.platformsupport.annotations.*
 
 /**
  * Some functionality to help more easily implement double based golem backends. Feel free to not use if

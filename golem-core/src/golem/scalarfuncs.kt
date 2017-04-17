@@ -4,6 +4,7 @@
 package golem
 
 import golem.platformsupport.*
+import golem.platformsupport.annotations.*
 
 // Scalar funcs
 

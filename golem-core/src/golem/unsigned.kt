@@ -2,6 +2,7 @@
 @file:JvmMultifileClass
 
 package golem
+import golem.platformsupport.annotations.*
 
 /**
  * An implementation of an unsigned byte. Still a WIP.

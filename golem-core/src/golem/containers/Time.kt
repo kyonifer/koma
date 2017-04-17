@@ -1,4 +1,5 @@
 package golem.containers
+import golem.platformsupport.annotations.*
 
 /**
  * Represents a time with respect to some [TimeStandard].

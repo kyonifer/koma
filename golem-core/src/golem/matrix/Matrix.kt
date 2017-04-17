@@ -1,6 +1,7 @@
 package golem.matrix
 
 import golem.*
+import golem.platformsupport.annotations.*
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be

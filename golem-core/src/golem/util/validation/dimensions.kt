@@ -6,6 +6,7 @@ import golem.matrix.*
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
+import golem.platformsupport.annotations.*
 
 private val ValidationContext.meta : DimensionValidator get() {
     return this.metadata("dim") {

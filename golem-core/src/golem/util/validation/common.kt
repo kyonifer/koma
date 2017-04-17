@@ -4,7 +4,7 @@ package golem.util.validation
 
 import golem.*
 import golem.matrix.*
-
+import golem.platformsupport.annotations.*
 
 private val DEFAULT_NAME = "matrix"
 

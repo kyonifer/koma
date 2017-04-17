@@ -15,6 +15,7 @@
 package golem
 
 import golem.matrix.*
+import golem.platformsupport.annotations.*
 
 /**
  * Allow operator overloading with non-Double scalars

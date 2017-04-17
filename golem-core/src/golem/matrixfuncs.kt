@@ -11,6 +11,7 @@ package golem
 
 import golem.matrix.*
 import golem.platformsupport.*
+import golem.platformsupport.annotations.*
 
 /**
  * Returns a matrix of the arccos of each element in the input matrix.

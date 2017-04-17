@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.WindowConstants
-
+import golem.platformsupport.annotations.*
 
 // While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
 // This tracks the current figure we're plotting our lines to when someone calls plot(). Its updated
