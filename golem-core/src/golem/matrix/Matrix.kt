@@ -11,13 +11,17 @@ import golem.platformsupport.annotations.*
 interface Matrix<T> {
     // Algebraic Operators
     operator fun rem(other: Matrix<T>): Matrix<T>
+    @JsName("divInt")
     operator fun div(other: Int): Matrix<T>
     operator fun div(other: T): Matrix<T>
     operator fun times(other: Matrix<T>): Matrix<T>
+    @JsName("timesScalar")
     operator fun times(other: T): Matrix<T>
     operator fun unaryMinus(): Matrix<T>
+    @JsName("minusScalar")
     operator fun minus(other: T): Matrix<T>
     operator fun minus(other: Matrix<T>): Matrix<T>
+    @JsName("plusScalar")
     operator fun plus(other: T): Matrix<T>
     operator fun plus(other: Matrix<T>): Matrix<T>
     fun transpose(): Matrix<T>
@@ -32,6 +36,7 @@ interface Matrix<T> {
     /**
      * Set the ith element in the matrix. If 2D, selects elements in row-major order.
      */
+    @JsName("set1D")
     operator fun set(i: Int, v: T)
     operator fun set(i: Int, j: Int, v: T)
 
@@ -39,6 +44,7 @@ interface Matrix<T> {
      * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
      */
     operator fun get(i: Int, j: Int): T
+    @JsName("get1D")
     operator fun get(i: Int): T
 
     fun copy(): Matrix<T>
@@ -47,11 +53,17 @@ interface Matrix<T> {
     fun getInt(i: Int, j: Int): Int
     fun getDouble(i: Int, j: Int): Double
     fun getFloat(i: Int, j: Int): Float
+    @JsName("getInt1D")
     fun getInt(i: Int): Int
+    @JsName("getDouble1D")
     fun getDouble(i: Int): Double
+    @JsName("getFloat1D")
     fun getFloat(i: Int): Float
+    @JsName("setInt1D")
     fun setInt(i: Int, v: Int)
+    @JsName("setDouble1D")
     fun setDouble(i: Int, v: Double)
+    @JsName("setFloat1D")
     fun setFloat(i: Int, v: Float)
     fun setInt(i: Int, j: Int, v: Int)
     fun setDouble(i: Int, j: Int, v: Double)
@@ -130,6 +142,7 @@ interface Matrix<T> {
     /**
      * Transpose operator.
      */
+    @JsName("TProperty")
     val T: Matrix<T>
         get() = this.transpose()
 
@@ -165,6 +178,7 @@ interface Matrix<T> {
      *
      * @return a new matrix containing the submatrix.
      */
+    @JsName("getRanges")
     operator fun get(rows: IntRange, cols: IntRange): Matrix<T>
     {
         val wrows = wrapRange(rows, numRows())
@@ -187,6 +201,7 @@ interface Matrix<T> {
      * @param value the matrix to set the subslice to
      *
      */
+    @JsName("setRanges")
     operator fun set(rows: IntRange, cols: IntRange, value: Matrix<T>)
     {
         val wrows = wrapRange(rows, numRows())
@@ -196,6 +211,7 @@ interface Matrix<T> {
             for (j in wcols)
                 this[i, j] = value[i - wrows.start, j - wcols.start]
     }
+    @JsName("setRangesScalar")
     operator fun set(rows: IntRange, cols: IntRange, value: T)
     {
         val wrows = wrapRange(rows, numRows())
@@ -215,10 +231,12 @@ interface Matrix<T> {
      * @param value the matrix to set the subslice to
      *
      */
+    @JsName("setColRange")
     operator fun set(rows: Int, cols: IntRange, value: Matrix<T>)
     {
         this[rows..rows, cols] = value
     }
+    @JsName("setColRangeScalar")
     operator fun set(rows: Int, cols: IntRange, value: T)
     {
         this[rows..rows, cols] = value
@@ -233,10 +251,12 @@ interface Matrix<T> {
      * @param value the matrix to set the subslice to
      *
      */
+    @JsName("setRowRange")
     operator fun set(rows: IntRange, cols: Int, value: Matrix<T>)
     {
         this[rows, cols..cols] = value
     }
+    @JsName("setRowRangeScalar")
     operator fun set(rows: IntRange, cols: Int, value: T)
     {
         this[rows, cols..cols] = value
@@ -245,11 +265,13 @@ interface Matrix<T> {
     /**
      * Allows for slicing of the rows and selection of a single column
      */
+    @JsName("getRowRange")
     operator fun get(rows: IntRange, cols: Int) = this[rows, cols..cols]
 
     /**
      * Allows for slicing of the cols and selection of a single row
      */
+    @JsName("getColRange")
     operator fun get(rows: Int, cols: IntRange) = this[rows..rows, cols]
 
     private fun wrapRange(range: IntRange, max: Int) =
