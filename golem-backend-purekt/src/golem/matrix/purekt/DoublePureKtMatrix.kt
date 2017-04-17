@@ -1,7 +1,7 @@
 package golem.matrix.purekt
 
 import golem.matrix.*
-import golem.platformsupport.Math
+import golem.platformsupport.*
 
 class DoublePureKtMatrix (val rows: Int, 
                           val cols: Int): Matrix<Double> {
@@ -68,8 +68,10 @@ class DoublePureKtMatrix (val rows: Int,
         storage[this.cols*i+j] = v
     }
 
-    override fun get(i: Int, j: Int): Double 
-            = storage[this.cols*i+j].also { checkBounds(i,j) }
+    override fun get(i: Int, j: Int): Double {
+        checkBounds(i,j)
+        return storage[this.cols*i+j]
+    }
     
     override fun get(i: Int): Double 
             = storage[i]

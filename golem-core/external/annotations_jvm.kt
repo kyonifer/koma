@@ -16,7 +16,7 @@
 
 package golem.platformsupport.annotations
 
-import kotlin.reflect.KClass
+import kotlin.reflect.*
 
 /**
  * Instructs the Kotlin compiler to generate overloads for this function that substitute default parameter values.
@@ -84,9 +84,10 @@ public annotation class JvmSynthetic
  *
  * @property exceptionClasses the list of checked exception classes that may be thrown by the function.
  */
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.CONSTRUCTOR)
-@Retention(AnnotationRetention.SOURCE)
-public annotation class Throws(vararg val exceptionClasses: KClass<out Throwable>)
+// TODO: Re-enable when KClass exists everywhere
+//@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.CONSTRUCTOR)
+//@Retention(AnnotationRetention.SOURCE)
+//public annotation class Throws(vararg val exceptionClasses: KClass<out Throwable>)
 
 
 /**
