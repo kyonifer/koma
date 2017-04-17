@@ -1,7 +1,6 @@
-g = require('golem-backend-purekt')
+g = require('golem-core')
 
-fac = new g.golem.matrix.purekt.DoublePureKtMatrixFactory
-m=fac.randn(3,3)
+m = g.golem.randn_vux9f0$(3,3)
 
 console.log(m)
 console.log(m.plus(m.timesScalar(5)))
