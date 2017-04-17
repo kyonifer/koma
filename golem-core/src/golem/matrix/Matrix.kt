@@ -13,16 +13,20 @@ interface Matrix<T> {
     operator fun rem(other: Matrix<T>): Matrix<T>
     @JsName("divInt")
     operator fun div(other: Int): Matrix<T>
+    @JsName("divScalar")
     operator fun div(other: T): Matrix<T>
+    @JsName("times")
     operator fun times(other: Matrix<T>): Matrix<T>
     @JsName("timesScalar")
     operator fun times(other: T): Matrix<T>
     operator fun unaryMinus(): Matrix<T>
     @JsName("minusScalar")
     operator fun minus(other: T): Matrix<T>
+    @JsName("minus")
     operator fun minus(other: Matrix<T>): Matrix<T>
     @JsName("plusScalar")
     operator fun plus(other: T): Matrix<T>
+    @JsName("plus")
     operator fun plus(other: Matrix<T>): Matrix<T>
     fun transpose(): Matrix<T>
     fun elementTimes(other: Matrix<T>): Matrix<T>
@@ -38,11 +42,13 @@ interface Matrix<T> {
      */
     @JsName("set1D")
     operator fun set(i: Int, v: T)
+    @JsName("set")
     operator fun set(i: Int, j: Int, v: T)
 
     /**
      * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
      */
+    @JsName("get")
     operator fun get(i: Int, j: Int): T
     @JsName("get1D")
     operator fun get(i: Int): T
@@ -50,8 +56,11 @@ interface Matrix<T> {
     fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
+    @JsName("getInt")
     fun getInt(i: Int, j: Int): Int
+    @JsName("getDouble")
     fun getDouble(i: Int, j: Int): Double
+    @JsName("getFloat")
     fun getFloat(i: Int, j: Int): Float
     @JsName("getInt1D")
     fun getInt(i: Int): Int
@@ -65,8 +74,11 @@ interface Matrix<T> {
     fun setDouble(i: Int, v: Double)
     @JsName("setFloat1D")
     fun setFloat(i: Int, v: Float)
+    @JsName("setInt")
     fun setInt(i: Int, j: Int, v: Int)
+    @JsName("setDouble")
     fun setDouble(i: Int, j: Int, v: Double)
+    @JsName("setFloat")
     fun setFloat(i: Int, j: Int, v: Float)
 
     /**
