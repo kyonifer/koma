@@ -1,6 +1,7 @@
 package golem.matrix.purekt
 
 import golem.matrix.*
+import golem.platformsupport.Math
 
 class DoublePureKtMatrix (val rows: Int, 
                           val cols: Int): Matrix<Double> {
