@@ -3,6 +3,7 @@
 // reasonable amount of code completion (by faking a java project with the kot-native libs
 // on the path). If the latter, configure a normal kotlin-native project
 
+
 def sysprops = System.getProperties()
 if (sysprops['idea.platform.prefix'] != null) {
     // We're being run from intellij, need a faux java project to enable completion
@@ -14,8 +15,11 @@ if (sysprops['idea.platform.prefix'] != null) {
 
 // Cant be refactored into above breakout files
 buildscript {
+    ext.kotlin_version='1.1.0'
+
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
         }
@@ -24,7 +28,7 @@ buildscript {
     dependencies {
         def sysprops = System.getProperties()
         if (sysprops['idea.platform.prefix'] != null) {
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.0"
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         } else {
             classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.1"
         }

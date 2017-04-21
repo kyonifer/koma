@@ -4,8 +4,13 @@
 project(':golem-backend-purekt') {
     apply plugin: 'kotlin'
     
+    repositories {
+        mavenCentral()
+    }
+    
     dependencies {
         compile project(":golem-core")
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
     
     sourceSets {
@@ -16,7 +21,22 @@ project(':golem-backend-purekt') {
 project(':golem-core') {
     apply plugin: 'kotlin'
     
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        // If you want completion on the kotlinx.* symbols, put the Runtime.jar
+        // from kotlin-native into golem/jars. After you run './gradlew build' once
+        // the jar should be findable in ~/.konan
+        compile files("../jars/Runtime.jar")
+    }
+    
     sourceSets {
-        main.kotlin.srcDirs = ['src', 'srcnative']
+        // kotlin-java wont understand if we give it srcnative
+        main.kotlin.srcDirs = ['src', 'srcjvm']
+        main.kotlin.srcDirs += '../native/build/konan/interopStubs/genCInteropStubs'
+        main.kotlin.srcDirs += '../native/build/konan/interopStubs/genMathInteropStubs'
     }
 }
