@@ -2,7 +2,7 @@
 @file:JvmMultifileClass
 
 package golem
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 /**
  * An implementation of an unsigned byte. Still a WIP.

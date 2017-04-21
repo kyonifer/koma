@@ -3,7 +3,7 @@
 package golem.util.validation
 import golem.validateMatrices
 import golem.*
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 /**
  * Maximum value for individual elements in the matrix.

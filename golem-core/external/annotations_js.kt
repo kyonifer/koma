@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package golem.platformsupport.annotations
+package golem.polyfill.annotations
 
 import kotlin.annotation.AnnotationTarget.*
 

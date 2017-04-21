@@ -10,7 +10,7 @@
 package golem
 
 import golem.matrix.*
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 /**
  * Creates a zero-filled matrix with the given size

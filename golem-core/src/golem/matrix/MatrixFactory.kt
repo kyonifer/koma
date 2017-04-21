@@ -6,7 +6,7 @@
 package golem.matrix
 
 import golem.*
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 
 /**

@@ -11,7 +11,7 @@
 package golem
 
 import golem.matrix.*
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 // TODO: Remove these when they are added to kotlin-native
 public inline fun <T, C : MutableCollection<in T>> Array<out T>.filterTo(destination: C, predicate: (T) -> Boolean): C {

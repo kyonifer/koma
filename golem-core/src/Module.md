@@ -26,4 +26,6 @@ Utility functions for writing tests with matrices.
 # Package golem.util.validation
 A set of tools for automatically validating matrix dimensions, bounds, and other properties.
 # Package golem.platformsupport
-Code which needs to change when switching between jvm and js
+Code which needs to change when switching between jvm, js, and native backends
+# Package golem.polyfill
+Implementations of parts of the stdlib which don't exist on all platforms

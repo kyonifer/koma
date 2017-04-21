@@ -3,7 +3,7 @@
 package golem.util.validation
 
 import golem.*
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 fun ValidationContext.symmetric(precision: Double = 1e-5): ValidationContext {
     if (!validateMatrices) return this

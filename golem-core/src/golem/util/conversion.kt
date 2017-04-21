@@ -4,7 +4,7 @@
 @file:JvmName("UtilConversions")
 
 package golem.util
-import golem.platformsupport.annotations.*
+import golem.polyfill.annotations.*
 
 /**
  * Converts a collection into a primitive DoubleArray

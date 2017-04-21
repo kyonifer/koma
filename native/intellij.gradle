@@ -34,8 +34,9 @@ project(':golem-core') {
     }
     
     sourceSets {
-        // kotlin-java wont understand if we give it srcnative
-        main.kotlin.srcDirs = ['src', 'srcjvm']
+        // kotlin-java wont understand if we give it srcnative (including the polyfills for java),
+        // so we have to cherry pick the jvm code for polyfill, native code for everything else
+        main.kotlin.srcDirs = ['src', 'srcnative/golem/platformsupport', 'srcjvm/golem/polyfill']
         main.kotlin.srcDirs += '../native/build/konan/interopStubs/genCInteropStubs'
         main.kotlin.srcDirs += '../native/build/konan/interopStubs/genMathInteropStubs'
     }
