@@ -1,0 +1,22 @@
+// Create a kotlin-jvm project that only brings in libs visible 
+// from kotlin-native, to allow for completion of kotlin-native in intellij
+
+project(':golem-backend-purekt') {
+    apply plugin: 'kotlin'
+    
+    dependencies {
+        compile project(":golem-core")
+    }
+    
+    sourceSets {
+        main.kotlin.srcDirs = ['src', 'srcnative']
+    }
+}
+
+project(':golem-core') {
+    apply plugin: 'kotlin'
+    
+    sourceSets {
+        main.kotlin.srcDirs = ['src', 'srcnative']
+    }
+}

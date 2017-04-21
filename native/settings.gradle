@@ -1,0 +1,2 @@
+// Only needed for the faux java project
+include 'golem-core', 'golem-backend-purekt'

@@ -1,3 +1,18 @@
+// Decide if we are being called from intellij or the command line. If the former,
+// sacrifice the ability to actually build anything and instead try to get some
+// reasonable amount of code completion (by faking a java project with the kot-native libs
+// on the path). If the latter, configure a normal kotlin-native project
+
+def sysprops = System.getProperties()
+if (sysprops['idea.platform.prefix'] != null) {
+    // We're being run from intellij, need a faux java project to enable completion
+    apply from: "intellij.gradle"
+} else {
+    // We're being run from command line, use native toolchain
+    apply from: "native.gradle"
+}
+
+// Cant be refactored into above breakout files
 buildscript {
     repositories {
         mavenCentral()
@@ -7,39 +22,11 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.1"
-    }
-}
-
-apply plugin: 'konan'
-
-konanInterop {
-    C {
-        defFile 'C.def'
-        includeDirs '/usr/include', '.'
-    }
-    Math {
-        defFile 'Math.def'
-        includeDirs '/usr/include', '.'
-    }
-}
-
-konanArtifacts {
-    Golem {
-        inputFiles project.fileTree('golem-backend-purekt/src'), project.fileTree('golem-core/src'), project.fileTree('golem-core/srcnative'), 'main.kt'
-        useInterop 'C'
-        useInterop 'Math'
-        linkerOpts "-S"
-        enableOptimization()
-    }
-}
-
-
-build {
-    doLast {
-        copy {
-            from compileKonanGolem.artifactPath
-            into projectDir.canonicalPath
+        def sysprops = System.getProperties()
+        if (sysprops['idea.platform.prefix'] != null) {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.0"
+        } else {
+            classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.1"
         }
     }
 }
