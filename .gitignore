@@ -1,4 +1,6 @@
 build/*
+native/*.iml
+native/.idea/*
 *.iml
 .idea/*
 .gradle/*
