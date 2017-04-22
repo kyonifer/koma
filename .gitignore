@@ -1,6 +1,4 @@
 build/*
-native/*.iml
-native/.idea/*
 *.iml
 .idea/*
 .gradle/*
@@ -11,9 +9,5 @@ kobalt/out/*
 */build/*
 */.gradle/*
 local.properties
-js/.idea/*
-js/*/build/*
-js/node_modules/*
-native/*-build/*
+node_modules/*
 *.kexe
-*.kt.bc

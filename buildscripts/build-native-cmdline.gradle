@@ -1,0 +1,52 @@
+apply plugin: 'konan'
+
+konanInterop {
+    C {
+        defFile 'deps/C.def'
+        includeDirs '/usr/include', '.'
+    }
+    Math {
+        defFile 'deps/Math.def'
+        includeDirs '/usr/include', '.'
+    }
+}
+
+konanArtifacts {
+    Golem {
+        inputFiles project.fileTree('backend-all-purekt/src'), 
+                project.fileTree('golem-core/src'), 
+                project.fileTree('golem-core/srcnative'), 
+                project.fileTree('golem-core/external'),
+                'examples/native/main.kt'
+        useInterop 'C'
+        useInterop 'Math'
+        linkerOpts "-S"
+        enableOptimization()
+    }
+}
+
+
+build {
+    doLast {
+        copy {
+            from compileKonanGolem.artifactPath
+            into projectDir.canonicalPath
+        }
+    }
+}
+
+buildscript {
+    ext.kotlin_version='1.1.0'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
+        }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.1"
+    }
+}

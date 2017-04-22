@@ -1,12 +1,39 @@
-include 'golem-core'
-include 'golem-logging'
-include 'golem-backend-ejml'
-include 'golem-backend-mtj'
-include 'golem-backend-jblas'
-include 'golem-backend-purekt'
-include 'golem-tests'
+// Workaround for project properties not populated yet
+def props  = getGradle().getStartParameter().getProjectProperties()
+def useJS = props["js"] != null
+def useNative = props["native"] != null
 
-project(":golem-backend-ejml").projectDir = file("backend-jvm-ejml")
-project(":golem-backend-mtj").projectDir = file("backend-jvm-mtj")
-project(":golem-backend-jblas").projectDir = file("backend-jvm-jblas")
+
+include 'golem-core'
+include 'golem-backend-purekt'
+
 project(":golem-backend-purekt").projectDir = file("backend-all-purekt")
+
+
+if (useJS) {
+    rootProject.buildFileName = 'buildscripts/build-js.gradle'
+}
+else if (useNative) {
+    def sysprops = System.getProperties()
+    if (sysprops['idea.platform.prefix'] != null) {
+        // We're being run from intellij, need a faux java project to enable completion
+        rootProject.buildFileName = "buildscripts/build-native-intellij.gradle"
+    } else {
+        // We're being run from command line, use native toolchain
+        rootProject.buildFileName = "buildscripts/build-native-cmdline.gradle"
+    }
+}
+else {
+    rootProject.buildFileName = "buildscripts/build-jvm.gradle"
+    
+    include 'golem-logging'
+    include 'golem-backend-ejml'
+    include 'golem-backend-mtj'
+    include 'golem-backend-jblas'
+    include 'golem-tests'
+    
+    project(":golem-backend-ejml").projectDir = file("backend-jvm-ejml")
+    project(":golem-backend-mtj").projectDir = file("backend-jvm-mtj")
+    project(":golem-backend-jblas").projectDir = file("backend-jvm-jblas")
+}
+
