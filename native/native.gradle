@@ -13,7 +13,11 @@ konanInterop {
 
 konanArtifacts {
     Golem {
-        inputFiles project.fileTree('golem-backend-purekt/src'), project.fileTree('golem-core/src'), project.fileTree('golem-core/srcnative'), 'main.kt'
+        inputFiles project.fileTree('../backend-all-purekt/src'), 
+                project.fileTree('../golem-core/src'), 
+                project.fileTree('../golem-core/srcnative'), 
+                project.fileTree('../golem-core/external'),
+                'main.kt'
         useInterop 'C'
         useInterop 'Math'
         linkerOpts "-S"
