@@ -23,7 +23,7 @@ project(':golem-core') {
     apply plugin: 'kotlin'
 
     sourceSets {
-        main.kotlin.srcDirs = ['src', 'srcjvm']
+        main.kotlin.srcDirs = ['src', 'srcjvm', 'external/js']
     }
 
     repositories {

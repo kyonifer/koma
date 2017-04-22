@@ -1,1 +1,4 @@
 include 'golem-core', 'golem-backend-purekt'
+
+project(":golem-core").projectDir = file("../golem-core")
+project(":golem-backend-purekt").projectDir = file("../backend-all-purekt")
