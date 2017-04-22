@@ -1,1 +1,12 @@
-include 'golem-core', 'golem-logging', 'golem-backend-ejml', 'golem-backend-mtj', 'golem-backend-jblas', 'golem-backend-purekt', 'golem-tests'
+include 'golem-core'
+include 'golem-logging'
+include 'golem-backend-ejml'
+include 'golem-backend-mtj'
+include 'golem-backend-jblas'
+include 'golem-backend-purekt'
+include 'golem-tests'
+
+project(":golem-backend-ejml").projectDir = file("backend-jvm-ejml")
+project(":golem-backend-mtj").projectDir = file("backend-jvm-mtj")
+project(":golem-backend-jblas").projectDir = file("backend-jvm-jblas")
+project(":golem-backend-purekt").projectDir = file("backend-all-purekt")
