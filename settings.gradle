@@ -1,7 +1,8 @@
 // Workaround for project properties not populated yet
 def props  = getGradle().getStartParameter().getProjectProperties()
-def useJS = props["js"] != null
-def useNative = props["native"] != null
+def target = props["target"]
+def useJS = target == "js"
+def useNative = target == "native"
 
 
 include 'golem-core'
