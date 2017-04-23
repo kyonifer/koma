@@ -17,7 +17,7 @@ plugins {
   id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
 
-apply from: "publishing.gradle"
+apply from: "buildscripts/publishing.gradle"
 
 project(':golem-core') {
     apply plugin: 'kotlin'
