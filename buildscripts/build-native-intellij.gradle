@@ -40,8 +40,8 @@ project(':golem-core') {
                                'srcnative/golem/platformsupport', 
                                'srcjvm/golem/polyfill',
                                'external/js',
-                               '../native/build/konan/interopStubs/genCInteropStubs',
-                               '../native/build/konan/interopStubs/genMathInteropStubs'
+                               '../build/konan/interopStubs/genCInteropStubs',
+                               '../build/konan/interopStubs/genMathInteropStubs'
         ]
 
     }
