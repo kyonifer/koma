@@ -3,11 +3,9 @@ apply plugin: 'konan'
 konanInterop {
     C {
         defFile 'deps/C.def'
-        includeDirs '/usr/include', '.'
     }
     Math {
         defFile 'deps/Math.def'
-        includeDirs '/usr/include', '.'
     }
 }
 
