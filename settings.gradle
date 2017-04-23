@@ -1,6 +1,8 @@
 // Workaround for project properties not populated yet
 def props  = getGradle().getStartParameter().getProjectProperties()
-def target = props["target"]
+def sysProps = System.getProperty("target")
+def target = props["target"] ?: sysProps
+
 def useJS = target == "js"
 def useNative = target == "native"
 
