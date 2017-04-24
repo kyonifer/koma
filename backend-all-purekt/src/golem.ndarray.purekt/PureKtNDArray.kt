@@ -1,5 +1,6 @@
 package golem.ndarray.purekt
 
+import golem.*
 import golem.ndarray.*
 
 /**
@@ -49,20 +50,49 @@ open class PureKtNDArray<T>(vararg val shape: Int, init: (IntArray)->T): NDArray
      * 1D storage array.
      */
     private fun findIdx(indices: IntArray): Int {
-        var finalIdx = 0
-        var cumDims = 1
-        indices.reversed().zip(shape.reversed()).forEach { (idx, dimension) ->
-            cumDims*=dimension
-            finalIdx += idx*cumDims
+        var out = 0
+        val widthOfDims = widthOfDims()
+
+        indices.forEachIndexed { i, idxArr ->
+            out += idxArr * widthOfDims[i]
         }
-        return finalIdx
+        return out
     }
     
     /**
      * Given the 1D index of an element in the underlying storage, find the corresponding
      * ND index. Inverse of [findIdx].
      */
-    private fun linearToNIdx(linear:Int): IntArray {
-        TODO()
+    fun linearToNIdx(linear:Int): IntArray {
+        // TODO: optimize this
+        val widthOfDims = widthOfDims()
+        var remaining = linear
+        val out = IntArray(shape.size, {it})
+        out.map { idx ->
+            out[idx] = remaining / widthOfDims[idx]
+            remaining -= out[idx] * widthOfDims[idx]
+        }
+        return out
     }
+    private fun widthOfDims() = shape
+            .toList()
+            .accumulateRight { left, right -> left * right }
+            .apply {
+                add(1)
+                removeAt(0)
+            }
+}
+
+
+/**
+ * Similar to reduceRight, except the results of each stage are stored off into 
+ * the output list instead of just the final result.
+ */
+fun <T> List<T>.accumulateRight(f: (T, T) -> T)
+        = this.foldRight(ArrayList<T>()) { ele, accum ->
+    if (accum.isEmpty())
+        accum.add(ele)
+    else
+        accum.add(0, f(ele, accum.first()))
+    accum
 }
