@@ -9,6 +9,8 @@ subprojects {
             pkg {
                 repo = 'maven'
                 name = project.name
+                licenses = ['Apache-2.0']
+                vcsUrl = 'https://github.com/kyonifer/golem.git'
                 version {
                     name=project_version
                 }
