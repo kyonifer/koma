@@ -3,6 +3,7 @@ package golem.ndarray.purekt
 import golem.*
 import golem.ndarray.*
 import golem.polyfill.annotations.*
+import golem.polyfill.*
 
 /**
  * An implementation of [NDArray] in pure Kotlin, for portability between the 
