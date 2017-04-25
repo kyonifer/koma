@@ -2,6 +2,8 @@ package golem
 
 import golem.ndarray.purekt.*
 import org.junit.Test
+import kotlin.test.assertFails
+import kotlin.test.assertFailsWith
 
 class NDTests {
     @Test
@@ -34,12 +36,10 @@ class NDTests {
 
         assert(arr2[3,2,3,1,1] == listOf(1,2,3))
         
-        // Implicit zeros... might be a bad idea
-        assert(arr2[3,2,3,1] == arr2[3,2,3,1,0])
     }
     @Test
     fun testRangeAccess() {
-        val arr = PureKtNDArray<Any?>(3,3) { idx -> idx[0] }
+        val arr = PureKtNDArray(4,4) { idx -> idx[0] }
         val col = arr[0..2,0..0]
         val row = arr[0..0,0..1]
         val square = arr[0..2,0..2]
@@ -50,7 +50,7 @@ class NDTests {
         assert(square[0,0] == 0 && square[0,1] == 0)
         assert(square[2,0] == 2 && square[2,2] == 2)
         
-        arr[1..2, 1..2] = square
+        arr[1, 1] = square
 
         assert(arr[0,0] == 0 && arr[0,1] == 0)
         assert(arr[1,0] == 1 && arr[2,0] == 2)
@@ -58,6 +58,15 @@ class NDTests {
         assert(arr[1,1] == 0 && arr[1,2] == 0)
         assert(arr[2,1] == 1 && arr[2,2] == 1)
         
+    }
+    @Test
+    fun testRangeAccessFails() {
+        val arr = PureKtNDArray(4,4) { idx -> idx[0] }
+        val square = arr[0..2,0..2]
+        arr[1, 1] = square
+        val square2 = arr[0..3,0..3]
+        arr[0, 0] = square2
+        assertFails { arr[1, 1] = square2 }
     }
     
     @Test
@@ -75,5 +84,17 @@ class NDTests {
         b[1,1]=35
         assert(a[1,1]==5)
         assert(b[1,1]==35)
+    }
+    
+    @Test
+    fun testBadIndexing() {
+        val a = PureKtNDArray<Int>(3,3,3) { idx -> 5 }
+        a[1,1,1]
+        assertFailsWith<IllegalArgumentException> {
+            a[5,6,7]
+        }
+        assertFailsWith<IllegalArgumentException> {
+            a[5,6]
+        }
     }
 }
