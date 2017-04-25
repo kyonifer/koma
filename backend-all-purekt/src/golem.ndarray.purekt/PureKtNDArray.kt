@@ -2,6 +2,7 @@ package golem.ndarray.purekt
 
 import golem.*
 import golem.ndarray.*
+import golem.polyfill.annotations.*
 
 /**
  * An implementation of [NDArray] in pure Kotlin, for portability between the 
@@ -10,7 +11,7 @@ import golem.ndarray.*
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class PureKtNDArray<T>(vararg protected val shape: Int, 
+open class PureKtNDArray<T>(@JsName("shape_private") vararg protected val shape: Int,
                             init: (IntArray)->T): NDArray<T> {
 
     /**

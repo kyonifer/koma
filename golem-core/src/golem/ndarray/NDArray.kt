@@ -1,9 +1,6 @@
 package golem.ndarray
 
 import golem.matrix.*
-import java.io.ObjectOutputStream
-import java.io.Serializable
-import java.io.StreamCorruptedException
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
 /**

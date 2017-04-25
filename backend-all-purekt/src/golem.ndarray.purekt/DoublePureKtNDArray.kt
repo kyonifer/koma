@@ -1,6 +1,7 @@
 package golem.ndarray.purekt
 
 import golem.ndarray.*
+import golem.platformsupport.*
 
 class DoublePureKtNDArray(vararg shape: Int, init: (IntArray)->Double)
     : PureKtNDArray<Double>(*shape, init=init), NumericalNDArray<Double> {
