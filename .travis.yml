@@ -1,9 +1,24 @@
 language: java
 
+dist: trusty
+
+script: ./gradlew build -Ptarget=$TARGET
+
+env:
+  - TARGET=jvm
+  - TARGET=js
+  - TARGET=native
+
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk7
+  - openjdk8
+  
+matrix:
+  exclude:
+  - jdk: oraclejdk8
+    env: TARGET=js
+  - jdk: oraclejdk8
+    env: TARGET=native
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
