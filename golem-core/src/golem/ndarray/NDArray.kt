@@ -29,6 +29,8 @@ interface NDArray<T> {
                 private var cursor = 0
                 override fun next(): T {
                     cursor += 1
+                    // TODO: Either make 1D access work like Matrix or fix this
+                    // to not use the largest dimension.
                     return this@NDArray[cursor - 1]
                 }
                 override fun hasNext() = cursor < this@NDArray.shape().reduce{a,b->a*b}
@@ -78,6 +80,10 @@ interface NDArray<T> {
      * @return the new NDArray after each element is mapped through f
      */
     fun mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T> = TODO()
+
+    fun forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit): Nothing = TODO()
+    fun forEachIndexed(f: (idx: Int, ele: T) -> Unit): Nothing = TODO()
+    fun forEach(f: (ele: T) -> Unit): Nothing = TODO()
 }
 
 
