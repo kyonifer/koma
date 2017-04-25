@@ -10,7 +10,8 @@ import golem.ndarray.*
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class PureKtNDArray<T>(vararg val shape: Int, init: (IntArray)->T): NDArray<T> {
+open class PureKtNDArray<T>(vararg private val shape: Int, 
+                            init: (IntArray)->T): NDArray<T> {
 
     /**
      * Underlying storage. PureKt backend uses a simple array.
@@ -20,14 +21,14 @@ open class PureKtNDArray<T>(vararg val shape: Int, init: (IntArray)->T): NDArray
     init {
         @Suppress("UNCHECKED_CAST")
         storage = Array(shape.reduce{ a, b-> a * b},
-                        {init(linearToNIdx(it)) as Any}) as Array<T>
+                        {init(linearToNIdx(it)) as Any?}) as Array<T>
     }
 
 
     override fun get(vararg indices: Int): T = storage[findIdx(indices)]
     override fun get(vararg indices: IntRange): NDArray<T> {
-        return PureKtNDArray<T>(shape =*indices
-                .map { it.last - it.first }
+        return PureKtNDArray<T>(shape = *indices
+                .map { it.last - it.first + 1}
                 .toIntArray()) { newIdxs ->
             val offsets = indices.map { it.first }
             val oldIdxs = newIdxs.zip(offsets).map { it.first + it.second }
@@ -63,7 +64,7 @@ open class PureKtNDArray<T>(vararg val shape: Int, init: (IntArray)->T): NDArray
      * Given the 1D index of an element in the underlying storage, find the corresponding
      * ND index. Inverse of [findIdx].
      */
-    fun linearToNIdx(linear:Int): IntArray {
+    private fun linearToNIdx(linear:Int): IntArray {
         // TODO: optimize this
         val widthOfDims = widthOfDims()
         var remaining = linear
