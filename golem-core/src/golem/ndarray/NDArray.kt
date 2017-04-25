@@ -12,7 +12,7 @@ import java.io.StreamCorruptedException
  * If you are looking for a 2D container supporting linear algebra, please look at 
  * [Matrix].
  */
-interface NDArray<T> : Iterable<T>, Serializable {
+interface NDArray<T> {
     operator fun get(vararg indices: Int): T
     operator fun get(vararg indices: IntRange): NDArray<T>
     operator fun set(vararg indices: Int, value: T)
@@ -23,24 +23,19 @@ interface NDArray<T> : Iterable<T>, Serializable {
 
     fun getBaseArray(): Any
 
-    override fun iterator(): Iterator<T> = object: Iterator<T> { 
-        private var cursor = 0
-        override fun next(): T {
-        cursor += 1
-        return this@NDArray[cursor - 1]
+    fun toIterable(): Iterable<T> {
+        return object: Iterable<T> {
+            override fun iterator(): Iterator<T> = object: Iterator<T> {
+                private var cursor = 0
+                override fun next(): T {
+                    cursor += 1
+                    return this@NDArray[cursor - 1]
+                }
+                override fun hasNext() = cursor < this@NDArray.shape().reduce{a,b->a*b}
+            }
         }
-        override fun hasNext() = cursor < this@NDArray.shape().reduce{a,b->a*b}
     }
     
-    fun serializeObject(out: ObjectOutputStream): Unit {
-        out.writeObject(this.shape())
-        this.forEach { out.writeObject(it) }
-    }
-
-    fun deserializeObjectNoData() {
-        throw StreamCorruptedException("No Data for Matrix In Stream")
-    }
-
     /**
      * Takes each element in a NDArray, passes them through f, and puts the output of f into an
      * output NDArray.
@@ -49,10 +44,10 @@ interface NDArray<T> : Iterable<T>, Serializable {
      *
      * @return the new NDArray after each element is mapped through f
      */
-    fun mapArr(f: (T) -> T): NDArray<T> {
+    fun map(f: (T) -> T): NDArray<T> {
         // TODO: Something better than copy here
         val out = this.copy()
-        for ((idx, ele) in this.withIndex())
+        for ((idx, ele) in this.toIterable().withIndex())
             out[idx] = f(ele)
         return out
     }
@@ -66,10 +61,10 @@ interface NDArray<T> : Iterable<T>, Serializable {
      *
      * @return the new NDArray after each element is mapped through f
      */
-    fun mapArrIndexed(f: (idx: Int, ele: T) -> T): NDArray<T> {
+    fun mapIndexed(f: (idx: Int, ele: T) -> T): NDArray<T> {
         // TODO: Something better than copy here
         val out = this.copy()
-        for ((idx, ele) in this.withIndex())
+        for ((idx, ele) in this.toIterable().withIndex())
             out[idx] = f(idx, ele)
         return out
     }
@@ -82,7 +77,7 @@ interface NDArray<T> : Iterable<T>, Serializable {
      *
      * @return the new NDArray after each element is mapped through f
      */
-    fun mapArrIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T> = TODO()
+    fun mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T> = TODO()
 }
 
 
