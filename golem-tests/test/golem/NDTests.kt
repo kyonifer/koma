@@ -1,5 +1,6 @@
 package golem
 
+import golem.ndarray.*
 import golem.ndarray.purekt.*
 import org.junit.Test
 import kotlin.test.assertFails
@@ -8,7 +9,7 @@ import kotlin.test.assertFailsWith
 class NDTests {
     @Test
     fun testIndexing() {
-        val arr = PureKtNDArray<Double>(3,5,4) { idxs -> 1.0 }
+        val arr = PureKtNDArray(3,5,4) { idxs -> 1.0 }
         assert(arr[1,2,3] == 1.0)
         arr[1,2,3] = 5.5
         assert(arr[1,2,3] == 5.5)
@@ -17,7 +18,7 @@ class NDTests {
     }
     @Test
     fun testObject() {
-        val arr = PureKtNDArray<String>(2,5,2) { idx -> "str #${idx[0]},${idx[1]},${idx[2]}" }
+        val arr = PureKtNDArray(2,5,2) { idx -> "str #${idx[0]},${idx[1]},${idx[2]}" }
         assert(arr[1,4,0] == "str #1,4,0")
         arr[0,0,1] = "changed"
         assert(arr[0,0,1] == "changed")
@@ -96,5 +97,51 @@ class NDTests {
         assertFailsWith<IllegalArgumentException> {
             a[5,6]
         }
+    }
+
+    @Test
+    fun testMappers() {
+        val a: NDArray<Int> = PureKtNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
+
+        assert(a[1,2,1] == 1*2 + 2*3)
+        assert(a[3,1,3] == 3*2 + 1*3)
+
+        var b = a.map { it+1 }
+
+        assert(b[1,2,1] == 1*2 + 2*3 + 1)
+        assert(b[3,1,3] == 3*2 + 1*3 + 1)
+        
+        b = a.mapIndexed { idx, ele -> idx}
+
+        assert(b[0,0,1] == 1)
+        assert(b[0,1,0] == 4)
+        assert(b[0,1,2] == 6)
+        
+        b = a.mapIndexedN { idx, ele -> idx[0]+idx[1]+idx[2]+ele }
+
+        assert(b[0,0,1] == 1)
+        assert(b[0,1,0] == 3+1)
+        assert(b[0,1,2] == 3+3)
+    }
+
+    @Test
+    fun testFors() {
+        val a: NDArray<Int> = PureKtNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
+
+        assert(a[1, 2, 1] == 1 * 2 + 2 * 3)
+        assert(a[3, 1, 3] == 3 * 2 + 1 * 3)
+
+        a.forEachIndexedN { idx, ele -> assert(ele == idx[0] * 2 + idx[1] * 3) }
+        a.forEachIndexed { idx, ele -> assert(ele == a.getLinear(idx)) }
+
+        var sum = 0
+        var count = 0
+        a.forEach { sum += it; count+=1 }
+        
+        var sum2 = 0
+        a.forEachIndexedN { idx, ele -> sum2 += ele }
+        
+        assert(sum == sum2)
+        assert(count == a.shape().reduce{ l,r -> l*r })
     }
 }
