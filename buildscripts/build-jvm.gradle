@@ -19,144 +19,93 @@ plugins {
 
 apply from: "buildscripts/publishing.gradle"
 
-project(':golem-core') {
-    apply plugin: 'kotlin'
+def subproj(project) {
+    project.with {
+        apply plugin: 'kotlin'
+        sourceSets {
+            main.kotlin.srcDirs = ['src']
+            test.kotlin.srcDirs = ['test']
+        }
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        }
+        configurePublishing()
+    }
+}
 
+project(':golem-core') {
+    subproj(project)
+    
     sourceSets {
         main.kotlin.srcDirs = ['src', 'srcjvm', 'external/js']
     }
 
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "org.knowm.xchart:xchart:3.1.0"
     }
-    project.configurePublishing()
 }
 
 project(':golem-logging') {
-    apply plugin: 'kotlin'
-
-    sourceSets {
-        main.kotlin.srcDirs += 'src'
-        main.java.srcDirs += 'src'
-    }
-
-    repositories {
-        mavenCentral()
-    }
+    subproj(project)
 
     dependencies {
         compile project(":golem-core")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "ch.qos.logback:logback-classic:1.1.7"
     }
-    project.configurePublishing()
 }
 
 project(':golem-backend-mtj') {
-    apply plugin: 'kotlin'
-
-    sourceSets {
-        main.kotlin.srcDirs += 'src'
-        main.java.srcDirs += 'src'
-    }
-
-    repositories {
-        mavenCentral()
-    }
+    subproj(project)
 
     dependencies {
         compile project(":golem-core")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
             // Fix issue with pom-only artifacts in MTJ
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
         }
     }
-    project.configurePublishing()
 }
 
 project(':golem-backend-ejml') {
-    apply plugin: 'kotlin'
-
-    sourceSets {
-        main.kotlin.srcDirs += 'src'
-        main.java.srcDirs += 'src'
-    }
-
-    repositories {
-        mavenCentral()
-    }
+    subproj(project)
 
     dependencies {
         compile project(":golem-core")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.ejml:all:0.27"
     }
-    project.configurePublishing()
 }
 
 project(':golem-backend-jblas') {
-    apply plugin: 'kotlin'
-
-    sourceSets {
-        main.kotlin.srcDirs += 'src'
-        main.java.srcDirs += 'src'
-    }
-
-    repositories {
-        mavenCentral()
-    }
+    subproj(project)
 
     dependencies {
         compile project(":golem-core")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.jblas:jblas:1.2.3"
     }
-    project.configurePublishing()
 }
 
 project(':golem-backend-purekt') {
-    apply plugin: 'kotlin'
-
-    sourceSets {
-        main.kotlin.srcDirs += 'src'
-    }
-
-    repositories {
-        mavenCentral()
-    }
+    subproj(project)
 
     dependencies {
         compile project(":golem-core")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
-    project.configurePublishing()
 }
 
 project(':golem-tests') {
-    apply plugin: 'kotlin'
-
-    repositories {
-        mavenCentral()
-    }
-    sourceSets {
-        test.kotlin.srcDirs = ['test']
-        test.java.srcDirs = ['test']
-    }
+    subproj(project)
+    
     dependencies {
         testCompile project(":golem-core")
         testCompile project(":golem-backend-ejml")
         testCompile project(":golem-backend-jblas")
         testCompile project(":golem-backend-mtj")
         testCompile project(":golem-backend-purekt")
-        testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
