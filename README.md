@@ -5,7 +5,7 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/kyonifer/golem/master.svg)](https://ci.appveyor.com/project/kyonifer/golem)
 ### Golem
 
-Golem is a scientific environment for Kotlin that emphasizes language/platform interop, performance, and flexibility.
+Golem is a scientific computing environment for Kotlin that emphasizes language/platform interop, performance, and flexibility.
 
 ## Project Goals
 
