@@ -32,7 +32,7 @@ interface Matrix<T> {
     operator fun plus(other: Matrix<T>): Matrix<T>
     fun transpose(): Matrix<T>
     fun elementTimes(other: Matrix<T>): Matrix<T>
-    fun epow(other: Double): Matrix<T>
+    fun epow(other: T): Matrix<T>
     infix fun epow(other: Int): Matrix<T>
 
     // Dimensions

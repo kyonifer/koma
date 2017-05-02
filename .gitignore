@@ -11,3 +11,4 @@ kobalt/out/*
 local.properties
 node_modules/*
 *.kexe
+*/srcgen/*

@@ -6,7 +6,6 @@ package golem.ndarray
  * math operations are available.
  */
 interface NumericalNDArray<T>: NDArray<T> {
-    operator fun div(other: Int): NumericalNDArray<T>
     operator fun div(other: T): NumericalNDArray<T>
     operator fun times(other: NDArray<T>): NumericalNDArray<T>
     operator fun times(other: T): NumericalNDArray<T>

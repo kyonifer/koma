@@ -1,0 +1,43 @@
+task codegen {
+    doLast {
+        ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
+            copy {
+                from 'backend-all-purekt/templates'
+                into 'backend-all-purekt/srcgen/golem.matrix.purekt'
+                include 'PureKtMatrix*.kt'
+                rename { dtype + it }
+
+                expand(div: getDiv(dtype), 
+                        epow: getEPow(dtype),
+                        dtype: dtype)
+            }
+            copy {
+                from 'backend-all-purekt/templates'
+                into 'backend-all-purekt/srcgen/golem.ndarray.purekt'
+                include 'PureKtNDArray*.kt'
+                rename { dtype + it }
+                expand(dtype: dtype)
+            }
+        }
+    }
+
+}
+def getDiv(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun div(other: ${dtype}): Matrix<${dtype}>
+            = this.mapMatIndexed { row, col, ele -> ele/other}
+"""
+    else
+        return ""
+}
+def getEPow(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun epow(other: ${dtype}): Matrix<${dtype}> 
+            = this.mapMatIndexed { row, col, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+"""
+    else
+        return ""
+
+}

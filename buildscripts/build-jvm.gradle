@@ -18,6 +18,7 @@ plugins {
 }
 
 apply from: "buildscripts/publishing.gradle"
+apply from: "buildscripts/codegen.gradle"
 
 def subproj(project) {
     project.with {
@@ -92,6 +93,8 @@ project(':golem-backend-jblas') {
 project(':golem-backend-purekt') {
     subproj(project)
 
+    sourceSets.main.kotlin.srcDirs += 'srcgen'
+    
     dependencies {
         compile project(":golem-core")
     }
