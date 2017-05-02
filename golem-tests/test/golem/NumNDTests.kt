@@ -1,12 +1,12 @@
 package golem
 
-import golem.ndarray.purekt.*
+import golem.ndarray.default.*
 import org.junit.Test
 
 class NumNDTests {
     @Test
     fun testOperators() {
-        val arr = DoublePureKtNDArray(3,5,4) { idx -> idx[0].toDouble() }
+        val arr = DefaultDoubleNDArray(3,5,4) { idx -> idx[0].toDouble() }
         assert(arr[0,0,0] == 0.0 && arr[0,0,1] == 0.0 && arr[0,1,0] == 0.0)
         assert(arr[1,0,0] == 1.0 && arr[1,0,1] == 1.0 && arr[1,1,0] == 1.0)
         
@@ -20,7 +20,7 @@ class NumNDTests {
     }
     @Test
     fun testFloatOperators() {
-        val arr = FloatPureKtNDArray(3,5,4) { idx -> idx[0].toFloat() }
+        val arr = DefaultFloatNDArray(3,5,4) { idx -> idx[0].toFloat() }
         assert(arr[0,0,0] == 0.0f && arr[0,0,1] == 0.0f && arr[0,1,0] == 0.0f)
         assert(arr[1,0,0] == 1.0f && arr[1,0,1] == 1.0f && arr[1,1,0] == 1.0f)
 
@@ -34,7 +34,7 @@ class NumNDTests {
     }
     @Test
     fun testIntOperators() {
-        val arr = IntPureKtNDArray(3,5,4) { idx -> idx[0] }
+        val arr = DefaultIntNDArray(3,5,4) { idx -> idx[0] }
         assert(arr[0,0,0] == 0 && arr[0,0,1] == 0 && arr[0,1,0] == 0)
         assert(arr[1,0,0] == 1 && arr[1,0,1] == 1 && arr[1,1,0] == 1)
 

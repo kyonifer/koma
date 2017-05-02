@@ -1,11 +1,11 @@
-package golem.ndarray.purekt
+package golem.ndarray.default
 
 import golem.ndarray.*
 import golem.platformsupport.*
 
-class ${dtype}PureKtNDArray(vararg shape: Int, init: (IntArray)->${dtype})
-    : PureKtNDArray<${dtype}>(*shape, init=init), NumericalNDArray<${dtype}> {
-    override fun copy(): NDArray<${dtype}> = ${dtype}PureKtNDArray(*shape, init={this.get(*it)})
+class Default${dtype}NDArray(vararg shape: Int, init: (IntArray)->${dtype})
+    : DefaultNDArray<${dtype}>(*shape, init=init), NumericalNDArray<${dtype}> {
+    override fun copy(): NDArray<${dtype}> = Default${dtype}NDArray(*shape, init={this.get(*it)})
     
     override fun div(other: ${dtype}): NumericalNDArray<${dtype}>
             = this.map { it/other }.toNumerical()
@@ -34,5 +34,5 @@ class ${dtype}PureKtNDArray(vararg shape: Int, init: (IntArray)->${dtype})
 fun NDArray<${dtype}>.toNumerical(): NumericalNDArray<${dtype}> 
         = when(this) {
     is NumericalNDArray<${dtype}> -> { this }
-    else -> { ${dtype}PureKtNDArray(*shape().toIntArray(), init={this.get(*it)}) }
+    else -> { Default${dtype}NDArray(*shape().toIntArray(), init={this.get(*it)}) }
 }

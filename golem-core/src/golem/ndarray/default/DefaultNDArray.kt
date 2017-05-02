@@ -1,19 +1,17 @@
-package golem.ndarray.purekt
+package golem.ndarray.default
 
-import golem.*
 import golem.ndarray.*
 import golem.polyfill.annotations.*
-import golem.polyfill.*
 
 /**
- * An implementation of [NDArray] in pure Kotlin, for portability between the 
+ * An (unoptimized) implementation of [NDArray] in pure Kotlin, for portability between the 
  * different platforms golem supports. 
  * 
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class PureKtNDArray<T>(@JsName("shape_private") vararg protected val shape: Int,
-                            init: (IntArray)->T): NDArray<T> {
+open class DefaultNDArray<T>(@JsName("shape_private") vararg protected val shape: Int,
+                             init: (IntArray)->T): NDArray<T> {
 
     /**
      * Underlying storage. PureKt backend uses a simple array.
@@ -43,7 +41,7 @@ open class PureKtNDArray<T>(@JsName("shape_private") vararg protected val shape:
     }
     override fun get(vararg indices: IntRange): NDArray<T> {
         checkIndices(indices.map { it.last }.toIntArray())
-        return PureKtNDArray<T>(shape = *indices
+        return DefaultNDArray<T>(shape = *indices
                 .map { it.last - it.first + 1}
                 .toIntArray()) { newIdxs ->
             val offsets = indices.map { it.first }
@@ -75,7 +73,7 @@ open class PureKtNDArray<T>(@JsName("shape_private") vararg protected val shape:
     }
     // TODO: cache this
     override fun shape(): List<Int> = shape.toList()
-    override fun copy(): NDArray<T> = PureKtNDArray(*shape, init={this.get(*it)})
+    override fun copy(): NDArray<T> = DefaultNDArray(*shape, init={this.get(*it)})
     override fun getBaseArray(): Any = storage
 
     // TODO: for both of these, batch compute [linearToNIdx] instead of computing for every ele

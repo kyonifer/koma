@@ -1,7 +1,7 @@
 package golem
 
 import golem.ndarray.*
-import golem.ndarray.purekt.*
+import golem.ndarray.default.*
 import org.junit.Test
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
@@ -9,7 +9,7 @@ import kotlin.test.assertFailsWith
 class NDTests {
     @Test
     fun testIndexing() {
-        val arr = PureKtNDArray(3,5,4) { idxs -> 1.0 }
+        val arr = DefaultNDArray(3, 5, 4) { idxs -> 1.0 }
         assert(arr[1,2,3] == 1.0)
         arr[1,2,3] = 5.5
         assert(arr[1,2,3] == 5.5)
@@ -18,12 +18,12 @@ class NDTests {
     }
     @Test
     fun testObject() {
-        val arr = PureKtNDArray(2,5,2) { idx -> "str #${idx[0]},${idx[1]},${idx[2]}" }
+        val arr = DefaultNDArray(2, 5, 2) { idx -> "str #${idx[0]},${idx[1]},${idx[2]}" }
         assert(arr[1,4,0] == "str #1,4,0")
         arr[0,0,1] = "changed"
         assert(arr[0,0,1] == "changed")
         
-        val arr2 = PureKtNDArray<Any?>(5,5,5,2,2) { idx -> null }
+        val arr2 = DefaultNDArray<Any?>(5, 5, 5, 2, 2) { idx -> null }
         arr2[0,0,0,1,1] = "str"
         arr2[0,0,0,1,0] = listOf(1,2,3)
         
@@ -40,7 +40,7 @@ class NDTests {
     }
     @Test
     fun testRangeAccess() {
-        val arr = PureKtNDArray(4,4) { idx -> idx[0] }
+        val arr = DefaultNDArray(4, 4) { idx -> idx[0] }
         val col = arr[0..2,0..0]
         val row = arr[0..0,0..1]
         val square = arr[0..2,0..2]
@@ -62,7 +62,7 @@ class NDTests {
     }
     @Test
     fun testRangeAccessFails() {
-        val arr = PureKtNDArray(4,4) { idx -> idx[0] }
+        val arr = DefaultNDArray(4, 4) { idx -> idx[0] }
         val square = arr[0..2,0..2]
         arr[1, 1] = square
         val square2 = arr[0..3,0..3]
@@ -72,13 +72,13 @@ class NDTests {
     
     @Test
     fun testShape() {
-        assert(PureKtNDArray<Any?>(3,3) { idx -> idx[0] }.shape() == listOf(3,3))
-        assert(PureKtNDArray<Any?>(5,3,1) { idx -> idx[0] }.shape() == listOf(5,3,1))
+        assert(DefaultNDArray<Any?>(3, 3) { idx -> idx[0] }.shape() == listOf(3, 3))
+        assert(DefaultNDArray<Any?>(5, 3, 1) { idx -> idx[0] }.shape() == listOf(5, 3, 1))
     }
     
     @Test
     fun testCopy() {
-        val a = PureKtNDArray<Int>(3,3) { idx -> 5 }
+        val a = DefaultNDArray<Int>(3, 3) { idx -> 5 }
         val b = a.copy()
         assert(a[1,1]==5)
         assert(b[1,1]==5)
@@ -89,7 +89,7 @@ class NDTests {
     
     @Test
     fun testBadIndexing() {
-        val a = PureKtNDArray<Int>(3,3,3) { idx -> 5 }
+        val a = DefaultNDArray<Int>(3, 3, 3) { idx -> 5 }
         a[1,1,1]
         assertFailsWith<IllegalArgumentException> {
             a[5,6,7]
@@ -101,7 +101,7 @@ class NDTests {
 
     @Test
     fun testMappers() {
-        val a: NDArray<Int> = PureKtNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
+        val a: NDArray<Int> = DefaultNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
 
         assert(a[1,2,1] == 1*2 + 2*3)
         assert(a[3,1,3] == 3*2 + 1*3)
@@ -126,7 +126,7 @@ class NDTests {
 
     @Test
     fun testFors() {
-        val a: NDArray<Int> = PureKtNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
+        val a: NDArray<Int> = DefaultNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
 
         assert(a[1, 2, 1] == 1 * 2 + 2 * 3)
         assert(a[3, 1, 3] == 3 * 2 + 1 * 3)

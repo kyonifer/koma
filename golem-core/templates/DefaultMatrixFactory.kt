@@ -1,29 +1,29 @@
-package golem.matrix.purekt
+package golem.matrix.default
 
 import golem.*
 import golem.matrix.*
 
-class ${dtype}PureKtMatrixFactory: MatrixFactory<Matrix<${dtype}>> {
+class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     override fun zeros(rows: Int, cols: Int) 
-            = ${dtype}PureKtMatrix(rows, cols)
+            = Default${dtype}Matrix(rows, cols)
     @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
     override fun zeros(size: Int): Matrix<${dtype}> 
             = zeros(size, size)
 
     override fun create(data: IntRange): Matrix<${dtype}> {
         val input = data.map { it.to${dtype}() }
-        val out = ${dtype}PureKtMatrix(1, input.size)
+        val out = Default${dtype}Matrix(1, input.size)
         input.forEachIndexed { idx, ele -> out[idx] = ele }
         return out
     }    
     override fun create(data: DoubleArray): Matrix<${dtype}> {
-        val out = ${dtype}PureKtMatrix(1, data.size)
+        val out = Default${dtype}Matrix(1, data.size)
         data.forEachIndexed { idx, ele -> out[idx] = ele.to${dtype}() }
         return out
     }
 
     override fun create(data: Array<DoubleArray>): Matrix<${dtype}> {
-        val out = ${dtype}PureKtMatrix(data.size, data[0].size)
+        val out = Default${dtype}Matrix(data.size, data[0].size)
         data.forEachIndexed { rowIdx, row ->
             row.forEachIndexed { colIdx, ele -> 
                 out[rowIdx, colIdx] = ele.to${dtype}()

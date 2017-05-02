@@ -1,10 +1,10 @@
-package golem.matrix.purekt
+package golem.matrix.default
 
 import golem.matrix.*
 import golem.platformsupport.*
 import golem.polyfill.*
 
-class ${dtype}PureKtMatrix (val rows: Int, 
+class Default${dtype}Matrix (val rows: Int, 
                           val cols: Int): Matrix<${dtype}> {
     val storage = ${dtype}Array(rows*cols)
 
@@ -207,7 +207,7 @@ class ${dtype}PureKtMatrix (val rows: Int,
     override fun getBaseMatrix(): Any 
             = storage
     override fun getFactory(): MatrixFactory<Matrix<${dtype}>> 
-            = ${dtype}PureKtMatrixFactory()
+            = Default${dtype}MatrixFactory()
     
     private fun checkBounds(row: Int, col: Int) {
         if (row >= rows || col >= cols)

@@ -8,10 +8,6 @@ def useNative = target == "native"
 
 
 include 'golem-core'
-include 'golem-backend-purekt'
-
-project(":golem-backend-purekt").projectDir = file("backend-all-purekt")
-
 
 if (useJS) {
     rootProject.buildFileName = 'buildscripts/build-js.gradle'

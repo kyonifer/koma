@@ -40,9 +40,9 @@ def subproj(project) {
 project(':golem-core') {
     subproj(project)
     
-    sourceSets {
-        main.kotlin.srcDirs = ['src', 'srcjvm', 'external/js']
-    }
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcjvm', 'external/js', 'srcgen']
+
+    compileKotlin.dependsOn(":codegen")
 
     dependencies {
         compile "org.slf4j:slf4j-api:1.7.21"
@@ -90,17 +90,6 @@ project(':golem-backend-jblas') {
     }
 }
 
-project(':golem-backend-purekt') {
-    subproj(project)
-
-    compileKotlin.dependsOn(":codegen")
-    sourceSets.main.kotlin.srcDirs += 'srcgen'
-    
-    dependencies {
-        compile project(":golem-core")
-    }
-}
-
 project(':golem-tests') {
     subproj(project)
     
@@ -109,7 +98,6 @@ project(':golem-tests') {
         testCompile project(":golem-backend-ejml")
         testCompile project(":golem-backend-jblas")
         testCompile project(":golem-backend-mtj")
-        testCompile project(":golem-backend-purekt")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }

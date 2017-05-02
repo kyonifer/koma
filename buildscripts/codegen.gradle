@@ -2,9 +2,9 @@ task codegen {
     doLast {
         ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
             copy {
-                from 'backend-all-purekt/templates'
-                into 'backend-all-purekt/srcgen/golem.matrix.purekt'
-                include 'PureKtMatrix*.kt'
+                from 'golem-core/templates'
+                into 'golem-core/srcgen/golem.matrix.default'
+                include 'DefaultMatrix*.kt'
                 rename { dtype + it }
 
                 expand(div: getDiv(dtype), 
@@ -12,9 +12,9 @@ task codegen {
                         dtype: dtype)
             }
             copy {
-                from 'backend-all-purekt/templates'
-                into 'backend-all-purekt/srcgen/golem.ndarray.purekt'
-                include 'PureKtNDArray*.kt'
+                from 'golem-core/templates'
+                into 'golem-core/srcgen/golem.ndarray.default'
+                include 'DefaultNDArray*.kt'
                 rename { dtype + it }
                 expand(dtype: dtype)
             }
