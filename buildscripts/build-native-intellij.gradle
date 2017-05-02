@@ -3,6 +3,8 @@
 
 project(':golem-backend-purekt') {
     apply plugin: 'kotlin'
+
+    compileKotlin.dependsOn(':codegen')
     
     repositories {
         mavenCentral()

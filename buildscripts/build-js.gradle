@@ -55,7 +55,7 @@ project(':golem-core') {
 project(':golem-backend-purekt') {
     apply plugin: 'kotlin2js'
 
-    build.dependsOn(":codegen")
+    compileKotlin2Js.dependsOn(":codegen")
 
     sourceSets {
         main.kotlin.srcDirs = ['src', 'srcgen']

@@ -93,7 +93,7 @@ project(':golem-backend-jblas') {
 project(':golem-backend-purekt') {
     subproj(project)
 
-    build.dependsOn(":codegen")
+    compileKotlin.dependsOn(":codegen")
     sourceSets.main.kotlin.srcDirs += 'srcgen'
     
     dependencies {

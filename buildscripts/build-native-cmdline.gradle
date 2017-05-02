@@ -25,7 +25,8 @@ konanArtifacts {
     }
 }
 
-build.dependsOn(":codegen")
+compileKonanGolem.dependsOn(":codegen")
+
 build {
     doLast {
         copy {
