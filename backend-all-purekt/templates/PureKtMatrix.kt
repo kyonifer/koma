@@ -2,6 +2,7 @@ package golem.matrix.purekt
 
 import golem.matrix.*
 import golem.platformsupport.*
+import golem.polyfill.*
 
 class ${dtype}PureKtMatrix (val rows: Int, 
                           val cols: Int): Matrix<${dtype}> {

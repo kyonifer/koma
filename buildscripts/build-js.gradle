@@ -54,7 +54,7 @@ project(':golem-backend-purekt') {
     apply plugin: 'kotlin2js'
 
     sourceSets {
-        main.kotlin.srcDirs = ['src']
+        main.kotlin.srcDirs = ['src', 'srcgen']
     }
 
     repositories {

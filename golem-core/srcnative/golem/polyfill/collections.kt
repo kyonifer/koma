@@ -71,3 +71,33 @@ public inline fun <R, V> IntArray.zip(other: Iterable<R>, transform: (a: Int, b:
     return list
 }
 fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int = if (this is Collection<*>) this.size else default
+
+public inline fun <R> DoubleArray.map(transform: (Double) -> R): List<R> {
+    return mapTo(ArrayList<R>(size), transform)
+}
+
+public inline fun <R> LongArray.map(transform: (Long) -> R): List<R> {
+    return mapTo(ArrayList<R>(size), transform)
+}
+
+public inline fun <R> FloatArray.map(transform: (Float) -> R): List<R> {
+    return mapTo(ArrayList<R>(size), transform)
+}
+
+public inline fun <R, C : MutableCollection<in R>> LongArray.mapTo(destination: C, transform: (Long) -> R): C {
+    for (item in this)
+        destination.add(transform(item))
+    return destination
+}
+
+public inline fun <R, C : MutableCollection<in R>> FloatArray.mapTo(destination: C, transform: (Float) -> R): C {
+    for (item in this)
+        destination.add(transform(item))
+    return destination
+}
+
+public inline fun <R, C : MutableCollection<in R>> DoubleArray.mapTo(destination: C, transform: (Double) -> R): C {
+    for (item in this)
+        destination.add(transform(item))
+    return destination
+}
