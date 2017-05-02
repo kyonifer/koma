@@ -1,4 +1,5 @@
 apply plugin: 'konan'
+apply from: "buildscripts/codegen.gradle"
 
 konanInterop {
     C {
@@ -24,7 +25,7 @@ konanArtifacts {
     }
 }
 
-
+build.dependsOn(":codegen")
 build {
     doLast {
         copy {

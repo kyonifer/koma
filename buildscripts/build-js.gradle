@@ -10,6 +10,8 @@ buildscript {
     }
 }
 
+apply from: "buildscripts/codegen.gradle"
+
 project(':golem-core') {
     apply plugin: 'kotlin2js'
 
@@ -52,6 +54,8 @@ project(':golem-core') {
 
 project(':golem-backend-purekt') {
     apply plugin: 'kotlin2js'
+
+    build.dependsOn(":codegen")
 
     sourceSets {
         main.kotlin.srcDirs = ['src', 'srcgen']
