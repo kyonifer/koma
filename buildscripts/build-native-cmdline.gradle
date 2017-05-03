@@ -12,8 +12,7 @@ konanInterop {
 
 konanArtifacts {
     Golem {
-        inputFiles project.fileTree('backend-all-purekt/src'),
-                project.fileTree('backend-all-purekt/srcgen'),
+        inputFiles project.fileTree('golem-core/srcgen'),
                 project.fileTree('golem-core/src'), 
                 project.fileTree('golem-core/srcnative'), 
                 project.fileTree('golem-core/external'),

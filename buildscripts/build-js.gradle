@@ -15,9 +15,12 @@ apply from: "buildscripts/codegen.gradle"
 project(':golem-core') {
     apply plugin: 'kotlin2js'
 
+    compileKotlin2Js.dependsOn(":codegen")
+
     sourceSets {
         main.kotlin.srcDirs = ['src', 
                                'srcjs', 
+                               'srcgen',
                                "${projectDir.parent}/golem-core/external/jvm"
                                 ]
     }
@@ -52,23 +55,3 @@ project(':golem-core') {
 
 }
 
-project(':golem-backend-purekt') {
-    apply plugin: 'kotlin2js'
-
-    compileKotlin2Js.dependsOn(":codegen")
-
-    sourceSets {
-        main.kotlin.srcDirs = ['src', 'srcgen']
-    }
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(':golem-core')
-        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    }
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/golem-backend-purekt.js"
-    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-}

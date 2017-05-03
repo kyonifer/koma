@@ -2,6 +2,7 @@ package golem.ndarray.default
 
 import golem.ndarray.*
 import golem.polyfill.annotations.*
+import golem.polyfill.*
 
 /**
  * An (unoptimized) implementation of [NDArray] in pure Kotlin, for portability between the 

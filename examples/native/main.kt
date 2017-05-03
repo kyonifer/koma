@@ -1,9 +1,9 @@
 import golem.*
-import golem.matrix.purekt.*
+import golem.matrix.default.*
 
 fun main(args: Array<String>) {
     
-    factory = DoublePureKtMatrixFactory()
+    factory = DefaultDoubleMatrixFactory()
     
     println("randn(5,6): \n${randn(5,6).repr()}")
 
