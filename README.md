@@ -22,7 +22,7 @@ MATLAB
 
 Koma has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
 and an underlying object oriented hierarchy which dispatch those function calls. The flat functions are in the
-top-level files [here](koma-core/src/koma/) and the underlying matrix implementations use the interfaces defined [here](koma-core/src/koma/matrix/).
+top-level files [here](core/src/koma/) and the underlying matrix implementations use the interfaces defined [here](koma-core/src/koma/matrix/).
 It is easiest to get up to speed on Koma by reading through the available top-level functions.
 
 We currently have:
@@ -37,22 +37,24 @@ We currently have:
 
 ## Using the Library From a Gradle Project
 
-Koma is hosted in jcenter. First add jcenter to your repos:
+Koma is hosted on bintray. First add it to your repos:
 
 ```Groovy
-repositories {
-    jcenter()
+repositories { 
+    maven { 
+        url "http://dl.bintray.com/kyonifer/maven" 
+    } 
 }
 ```
 
-Then add a dependency on koma-core as well as whatever backend you want to
+Then add a dependency on `core` as well as whatever backend you want to
 use for doing the computation. For example, if you want to use koma with the
 MTJ backend, you'd write:
 
 ```Groovy
 dependencies{
-    compile group: "koma", name:"koma-backend-mtj", version: "0.9"
-    compile group: "koma", name:"koma-core", version:"0.9"
+    compile group: "koma", name:"backend-matrix-mtj", version: "0.10"
+    compile group: "koma", name:"core", version:"0.10"
 }
 ```
 Right now koma-backend-ejml, koma-backend-mtj, and koma-backend-jblas are supported.
@@ -164,7 +166,7 @@ mat[ 3.00  end
      17.00 ]
 ```
 
-Many special functions are supported (see [the matrix interface](koma-core/src/koma/matrix/Matrix.kt) for a complete list):
+Many special functions are supported (see [the matrix interface](core/src/koma/matrix/Matrix.kt) for a complete list):
 
 ```Kotlin
 
@@ -178,7 +180,7 @@ Many special functions are supported (see [the matrix interface](koma-core/src/k
 
 ```
 
-Scalar functions can be applied elementwise to matrices (see [here](koma-core/src/koma/scalarfuncs.kt) for a complete list):
+Scalar functions can be applied elementwise to matrices (see [here](core/src/koma/scalarfuncs.kt) for a complete list):
 
 ```Kotlin
     val x = create(0..100)/5.0  // Matrix of 0, 1/5, 2/5, ...
@@ -186,7 +188,7 @@ Scalar functions can be applied elementwise to matrices (see [here](koma-core/sr
     plot(y)                     // Plot of sin function
 ```
 
-Matrix indexing and slicing is supported (see [here](koma-core/src/koma/operators.kt) for a list of operators as well as the Matrix<T> type):
+Matrix indexing and slicing is supported (see [here](core/src/koma/operators.kt) for a list of operators as well as the Matrix<T> type):
 
 ```Kotlin
 
@@ -276,7 +278,7 @@ fun foo(A: Matrix<Double>, B: Matrix<Double>) {
 The validate block will see that you used the same variable 'N' twice, 
 and make sure the matrices passed in have those dimensions matching. The 
 DSL supports an arbitrary number of inputs of arbitrary dimension and 
-also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/koma/blob/master/koma-core/srcjvm/koma/util/validation/README.md)
+also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/koma/blob/master/core/srcjvm/koma/util/validation/README.md)
 for more information.
 
 ## Roadmap
