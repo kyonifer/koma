@@ -26,13 +26,9 @@ else {
     rootProject.buildFileName = "buildscripts/build-jvm.gradle"
     
     include 'koma-logging'
-    include 'koma-backend-ejml'
-    include 'koma-backend-mtj'
-    include 'koma-backend-jblas'
+    include 'backend-matrix-ejml'
+    include 'backend-matrix-mtj'
+    include 'backend-matrix-jblas'
     include 'koma-tests'
-    
-    project(":koma-backend-ejml").projectDir = file("backend-jvm-ejml")
-    project(":koma-backend-mtj").projectDir = file("backend-jvm-mtj")
-    project(":koma-backend-jblas").projectDir = file("backend-jvm-jblas")
 }
 

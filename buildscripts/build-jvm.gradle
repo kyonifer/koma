@@ -60,7 +60,7 @@ project(':koma-logging') {
     }
 }
 
-project(':koma-backend-mtj') {
+project(':backend-matrix-mtj') {
     subproj(project)
 
     dependencies {
@@ -72,7 +72,7 @@ project(':koma-backend-mtj') {
     }
 }
 
-project(':koma-backend-ejml') {
+project(':backend-matrix-ejml') {
     subproj(project)
 
     dependencies {
@@ -81,7 +81,7 @@ project(':koma-backend-ejml') {
     }
 }
 
-project(':koma-backend-jblas') {
+project(':backend-matrix-jblas') {
     subproj(project)
 
     dependencies {
@@ -95,9 +95,9 @@ project(':koma-tests') {
     
     dependencies {
         testCompile project(":koma-core")
-        testCompile project(":koma-backend-ejml")
-        testCompile project(":koma-backend-jblas")
-        testCompile project(":koma-backend-mtj")
+        testCompile project(":backend-matrix-ejml")
+        testCompile project(":backend-matrix-jblas")
+        testCompile project(":backend-matrix-mtj")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
@@ -117,7 +117,7 @@ repositories {
 dependencies {
 	compile project(":koma-core")
 	compile project(":koma-logging")
-	compile project(":koma-backend-ejml")
-	compile project(":koma-backend-jblas")
-	compile project(":koma-backend-mtj")
+	compile project(":backend-matrix-ejml")
+	compile project(":backend-matrix-jblas")
+	compile project(":backend-matrix-mtj")
 }
