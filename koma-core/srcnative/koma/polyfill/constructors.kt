@@ -1,4 +1,4 @@
-package golem.polyfill
+package koma.polyfill
 
 fun IntArray(size: Int, init: (Int) -> Int): kotlin.IntArray {
     val out = IntArray(size)

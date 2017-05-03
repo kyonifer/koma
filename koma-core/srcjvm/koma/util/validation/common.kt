@@ -1,10 +1,10 @@
 @file:JvmName("Validation")
 
-package golem.util.validation
+package koma.util.validation
 
-import golem.*
-import golem.matrix.*
-import golem.polyfill.annotations.*
+import koma.*
+import koma.matrix.*
+import koma.polyfill.annotations.*
 
 private val DEFAULT_NAME = "matrix"
 
@@ -181,5 +181,5 @@ fun Matrix<Double>.validate(fn: ValidationContext.() -> Unit) = validate(DEFAULT
  */
 fun Matrix<Double>.validate(name: String, fn: ValidationContext.() -> Unit) {
     val matrix = this
-    golem.util.validation.validate { matrix(name, fn) }
+    koma.util.validation.validate { matrix(name, fn) }
 }

@@ -1,7 +1,7 @@
-package golem
+package koma
 
-import golem.ndarray.*
-import golem.ndarray.default.*
+import koma.ndarray.*
+import koma.ndarray.default.*
 import org.junit.Test
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith

@@ -1,8 +1,8 @@
 @file:JvmName("RawMTJ")
 
-package golem.matrix.mtj.backend
+package koma.matrix.mtj.backend
 
-import golem.*
+import koma.*
 import no.uib.cipr.matrix.*
 import java.util.*
 
@@ -110,7 +110,7 @@ fun ones(rows: Int, cols: Int): DenseMatrix {
 }
 
 fun DenseMatrix.diag(): DenseMatrix {
-    val out = DenseMatrix(1, golem.min(this.numColumns(), this.numRows()))
+    val out = DenseMatrix(1, koma.min(this.numColumns(), this.numRows()))
     for (i in 0..out.numColumns() - 1)
         out[0, i] = this[i, i]
     return out

@@ -1,4 +1,4 @@
-package golem.platformsupport
+package koma.platformsupport
 
 /**
  * Add missing signum function, as math.h doesn't include one. 

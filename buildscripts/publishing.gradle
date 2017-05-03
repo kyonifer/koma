@@ -10,7 +10,7 @@ subprojects {
                 repo = 'maven'
                 name = project.name
                 licenses = ['Apache-2.0']
-                vcsUrl = 'https://github.com/kyonifer/golem.git'
+                vcsUrl = 'https://github.com/kyonifer/koma.git'
                 version {
                     name=project_version
                 }
@@ -27,7 +27,7 @@ subprojects {
                 MyPublication(MavenPublication) {
                     from components.java
                     artifact sourceJar
-                    groupId 'golem'
+                    groupId 'koma'
                     artifactId project.name
                     version project_version
                 }

@@ -3,8 +3,8 @@
  */
 @file:JvmName("UtilConversions")
 
-package golem.util
-import golem.polyfill.annotations.*
+package koma.util
+import koma.polyfill.annotations.*
 
 /**
  * Converts a collection into a primitive DoubleArray

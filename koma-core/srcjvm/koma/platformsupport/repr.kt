@@ -1,7 +1,7 @@
-package golem.platformsupport
+package koma.platformsupport
 
-import golem.*
-import golem.matrix.*
+import koma.*
+import koma.matrix.*
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import java.text.DecimalFormat

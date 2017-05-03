@@ -1,10 +1,10 @@
 @file:JvmName("Golem")
 @file:JvmMultifileClass
 
-package golem
+package koma
 
-import golem.platformsupport.*
-import golem.polyfill.annotations.*
+import koma.platformsupport.*
+import koma.polyfill.annotations.*
 
 // Scalar funcs
 

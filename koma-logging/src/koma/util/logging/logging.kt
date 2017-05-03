@@ -1,7 +1,7 @@
 /**
- * Logging helper functions that work correctly when golem-based code is called from Python or MATLAB.
+ * Logging helper functions that work correctly when koma-based code is called from Python or MATLAB.
  *
- * One goal of golem is to be able to write scientific code that is consumable from common scientific
+ * One goal of koma is to be able to write scientific code that is consumable from common scientific
  * environments. Unfortunately, MATLAB uses slf4j internally which causes issues with a straight usage
  * of the slf4j-api. In particular, the slf4j classloader will pick up the StaticLoggerBinder that MATLAB
  * exports, making the slf4j static methods inoperable. We get around this by detecting if we are in a
@@ -23,7 +23,7 @@
  */
 @file:JvmName("Logging")
 
-package golem.util.logging
+package koma.util.logging
 
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.util.ContextInitializer

@@ -1,8 +1,8 @@
 @file:JvmName("RawMTJSingleton")
 
-package golem.matrix.mtj.backend
+package koma.matrix.mtj.backend
 
-import golem.matrix.mtj.*
+import koma.matrix.mtj.*
 
 
 internal var factoryInstance: MTJMatrixFactory = MTJMatrixFactory()

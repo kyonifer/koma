@@ -1,3 +1,3 @@
-package golem.platformsupport
+package koma.platformsupport
 
 fun signum(value: Double) = Math.signum(value)

@@ -1,11 +1,11 @@
-package golem.platformsupport
+package koma.platformsupport
 
-import golem.matrix.*
+import koma.matrix.*
 
 fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
-    val facCandidates = arrayOf("golem.matrix.mtj.MTJMatrixFactory",
-                                "golem.matrix.ejml.EJMLMatrixFactory",
-                                "golem.matrix.jblas.JBlasMatrixFactory")
+    val facCandidates = arrayOf("koma.matrix.mtj.MTJMatrixFactory",
+                                "koma.matrix.ejml.EJMLMatrixFactory",
+                                "koma.matrix.jblas.JBlasMatrixFactory")
     val out: MutableList<MatrixFactory<Matrix<Double>>> = ArrayList()
 
     facCandidates.forEach {

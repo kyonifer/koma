@@ -1,4 +1,4 @@
-package golem.polyfill
+package koma.polyfill
 
 // TODO: Remove these when they are added to kotlin-native
 public inline fun <T, C : MutableCollection<in T>> Array<out T>.filterTo(destination: C, predicate: (T) -> Boolean): C {

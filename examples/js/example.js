@@ -1,13 +1,13 @@
-golem = require('golem-core').golem
+koma = require('koma-core').koma
 
-m = golem.randn(3,3)
+m = koma.randn(3,3)
 
 console.log(m)
 console.log(m.plus(m.timesScalar(5)))
 
 // Force a particular backend
 
-Fac = require('golem-backend-purekt').golem.matrix.purekt.DoublePureKtMatrixFactory
+Fac = require('koma-backend-purekt').koma.matrix.purekt.DoublePureKtMatrixFactory
 f = new Fac()
 
 m2 = f.ones(3,4)

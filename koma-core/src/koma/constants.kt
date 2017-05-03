@@ -5,8 +5,8 @@
 @file:JvmName("Golem")
 @file:JvmMultifileClass
 
-package golem
-import golem.polyfill.annotations.*
+package koma
+import koma.polyfill.annotations.*
 
 /**
  * The value of Pi

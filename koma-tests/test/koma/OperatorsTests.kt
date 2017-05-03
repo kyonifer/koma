@@ -1,10 +1,10 @@
-package golem
+package koma
 
-import golem.matrix.*
-import golem.matrix.ejml.*
-import golem.matrix.jblas.*
-import golem.matrix.mtj.*
-import golem.util.test.*
+import koma.matrix.*
+import koma.matrix.ejml.*
+import koma.matrix.jblas.*
+import koma.matrix.mtj.*
+import koma.util.test.*
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import kotlin.test.assertEquals

@@ -3,8 +3,8 @@
 This package provides definitions for a domain-specific language that you can use to validate matrices used as inputs to your functions in a consistent way. The rules throw detailed, human-readable exceptions using an appropriate Java exception class based on rules that look like this:
 
 ```kotlin
-import golem.*
-import golem.util.validation.*
+import koma.*
+import koma.util.validation.*
 
 fun mFunction(foo: Matrix<Double>, bar: Matrix<Double>, baz: Matrix<Double>) {
     validate {

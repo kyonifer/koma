@@ -1,12 +1,12 @@
-package golem.ndarray.default
+package koma.ndarray.default
 
-import golem.ndarray.*
-import golem.polyfill.annotations.*
-import golem.polyfill.*
+import koma.ndarray.*
+import koma.polyfill.annotations.*
+import koma.polyfill.*
 
 /**
  * An (unoptimized) implementation of [NDArray] in pure Kotlin, for portability between the 
- * different platforms golem supports. 
+ * different platforms koma supports. 
  * 
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.

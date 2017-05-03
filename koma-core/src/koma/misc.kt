@@ -1,9 +1,9 @@
 @file:JvmName("Golem")
 @file:JvmMultifileClass
 
-package golem
+package koma
 
-import golem.polyfill.annotations.*
+import koma.polyfill.annotations.*
 
 internal var matFormat: String = "L"
 

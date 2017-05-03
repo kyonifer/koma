@@ -1,3 +1,3 @@
-package golem.platformsupport
+package koma.platformsupport
 
 typealias Math = kotlin.js.Math

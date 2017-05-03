@@ -1,4 +1,4 @@
-package golem.ndarray
+package koma.ndarray
 
 
 /**

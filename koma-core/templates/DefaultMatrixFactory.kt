@@ -1,7 +1,7 @@
-package golem.matrix.default
+package koma.matrix.default
 
-import golem.*
-import golem.matrix.*
+import koma.*
+import koma.matrix.*
 
 class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     override fun zeros(rows: Int, cols: Int) 
@@ -50,11 +50,11 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     
     override fun rand(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
-            .fill { r,c->golem.platformsupport.rng.nextDouble().to${dtype}()}
+            .fill { r,c->koma.platformsupport.rng.nextDouble().to${dtype}()}
     
     override fun rand(rows: Int, cols: Int, seed: Long): Matrix<${dtype}> {
-        if(golem.platformsupport.seed != seed) {
-            golem.platformsupport.seed = seed
+        if(koma.platformsupport.seed != seed) {
+            koma.platformsupport.seed = seed
         }
         return rand(rows, cols)
     }
@@ -65,12 +65,12 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     
     override fun randn(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
-            .fill { r,c->golem.platformsupport.rng.nextGaussian().to${dtype}()}
+            .fill { r,c->koma.platformsupport.rng.nextGaussian().to${dtype}()}
     
     
     override fun randn(rows: Int, cols: Int, seed: Long): Matrix<${dtype}> {
-        if(golem.platformsupport.seed != seed) {
-            golem.platformsupport.seed = seed
+        if(koma.platformsupport.seed != seed) {
+            koma.platformsupport.seed = seed
         }
         return randn(rows, cols)
     }

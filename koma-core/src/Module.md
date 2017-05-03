@@ -1,31 +1,31 @@
-# Module golem
-# Package golem
+# Module koma
+# Package koma
 A set of toplevel functions which provide a scientific environment similar to NumPy or MATLAB.
-# Package golem.containers
+# Package koma.containers
 A set of useful containers.
-# Package golem.matrix
+# Package koma.matrix
 Interfaces for the abstract Matrix and MatrixFactory types which are implemented by various computation backends.
-# Package golem.matrix.common
+# Package koma.matrix.common
 Generic algorithms which apply to any implementation of a Matrix.
-# Package golem.matrix.ejml
+# Package koma.matrix.ejml
 An implementation of Matrix using the Efficient Java Matrix Library.
-# Package golem.matrix.ejml.backend
+# Package koma.matrix.ejml.backend
 A set of convenient wrappers for using EJML standalone if ever needed.
-# Package golem.matrix.jblas
+# Package koma.matrix.jblas
 An implementation of Matrix using the Java BLAS package.
-# Package golem.matrix.jblas.backend
+# Package koma.matrix.jblas.backend
 A set of convenient wrappers for using jBLAS standalone if ever needed.
-# Package golem.matrix.mtj
+# Package koma.matrix.mtj
 An implementation of Matrix using the Matrix Toolkit for Java.
-# Package golem.matrix.mtj.backend
+# Package koma.matrix.mtj.backend
 A set of convenient wrappers for using MTJ standalone if ever needed.
-# Package golem.util
+# Package koma.util
 Utility functions.
-# Package golem.util.test
+# Package koma.util.test
 Utility functions for writing tests with matrices.
-# Package golem.util.validation
+# Package koma.util.validation
 A set of tools for automatically validating matrix dimensions, bounds, and other properties.
-# Package golem.platformsupport
+# Package koma.platformsupport
 Code which needs to change when switching between jvm, js, and native backends
-# Package golem.polyfill
+# Package koma.polyfill
 Implementations of parts of the stdlib which don't exist on all platforms

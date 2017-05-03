@@ -1,8 +1,8 @@
-package golem.matrix.ejml
+package koma.matrix.ejml
 
-import golem.matrix.*
-import golem.matrix.common.*
-import golem.matrix.ejml.backend.*
+import koma.matrix.*
+import koma.matrix.common.*
+import koma.matrix.ejml.backend.*
 import org.ejml.ops.CommonOps
 import org.ejml.simple.SimpleMatrix
 

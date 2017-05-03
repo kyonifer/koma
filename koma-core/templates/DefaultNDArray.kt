@@ -1,7 +1,7 @@
-package golem.ndarray.default
+package koma.ndarray.default
 
-import golem.ndarray.*
-import golem.platformsupport.*
+import koma.ndarray.*
+import koma.platformsupport.*
 
 class Default${dtype}NDArray(vararg shape: Int, init: (IntArray)->${dtype})
     : DefaultNDArray<${dtype}>(*shape, init=init), NumericalNDArray<${dtype}> {

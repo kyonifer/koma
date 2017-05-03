@@ -1,8 +1,8 @@
-package golem.matrix.jblas
+package koma.matrix.jblas
 
-import golem.matrix.*
-import golem.matrix.common.*
-import golem.matrix.jblas.backend.*
+import koma.matrix.*
+import koma.matrix.common.*
+import koma.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 
 /**

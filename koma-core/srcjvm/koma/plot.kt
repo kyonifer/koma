@@ -1,10 +1,10 @@
 @file:JvmName("Golem")
 @file:JvmMultifileClass
 
-package golem
+package koma
 
-import golem.matrix.*
-import golem.util.*
+import koma.matrix.*
+import koma.util.*
 import org.knowm.xchart.BitmapEncoder
 import org.knowm.xchart.XYChart
 import org.knowm.xchart.QuickChart
@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.WindowConstants
-import golem.polyfill.annotations.*
+import koma.polyfill.annotations.*
 
 // While a state-machine isnt very OO, its necessary to replicate convenient MATLAB style plotting.
 // This tracks the current figure we're plotting our lines to when someone calls plot(). Its updated

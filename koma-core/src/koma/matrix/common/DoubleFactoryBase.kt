@@ -1,11 +1,11 @@
-package golem.matrix.common
+package koma.matrix.common
 
-import golem.*
-import golem.matrix.*
-import golem.platformsupport.*
+import koma.*
+import koma.matrix.*
+import koma.platformsupport.*
 
 /**
- * Some functionality to help more easily implement double based golem backends. Feel free to not use if
+ * Some functionality to help more easily implement double based koma backends. Feel free to not use if
  * your backend has fast implementations of these functions.
  */
 abstract class DoubleFactoryBase<T: Matrix<Double>> : MatrixFactory<T> {

@@ -12,10 +12,10 @@ konanInterop {
 
 konanArtifacts {
     Golem {
-        inputFiles project.fileTree('golem-core/srcgen'),
-                project.fileTree('golem-core/src'), 
-                project.fileTree('golem-core/srcnative'), 
-                project.fileTree('golem-core/external'),
+        inputFiles project.fileTree('koma-core/srcgen'),
+                project.fileTree('koma-core/src'), 
+                project.fileTree('koma-core/srcnative'), 
+                project.fileTree('koma-core/external'),
                 'examples/native/main.kt'
         useInterop 'C'
         useInterop 'Math'

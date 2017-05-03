@@ -1,9 +1,9 @@
-package golem.ndarray
+package koma.ndarray
 
-import golem.matrix.*
+import koma.matrix.*
 
 /**
- * A set of constructors that must be implemented by a golem NDArray backend.
+ * A set of constructors that must be implemented by a koma NDArray backend.
  * Generic parameter is the type of element, i.e. T=NDArray<Double> or T=NDArray<Int>, etc.
  */
 interface NumericalNDArrayFactory<out T> {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package golem.polyfill.annotations
+package koma.polyfill.annotations
 
 import kotlin.reflect.*
 

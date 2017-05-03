@@ -37,7 +37,7 @@ def subproj(project) {
     }
 }
 
-project(':golem-core') {
+project(':koma-core') {
     subproj(project)
     
     sourceSets.main.kotlin.srcDirs = ['src', 'srcjvm', 'external/js', 'srcgen']
@@ -50,21 +50,21 @@ project(':golem-core') {
     }
 }
 
-project(':golem-logging') {
+project(':koma-logging') {
     subproj(project)
 
     dependencies {
-        compile project(":golem-core")
+        compile project(":koma-core")
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "ch.qos.logback:logback-classic:1.1.7"
     }
 }
 
-project(':golem-backend-mtj') {
+project(':koma-backend-mtj') {
     subproj(project)
 
     dependencies {
-        compile project(":golem-core")
+        compile project(":koma-core")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
             // Fix issue with pom-only artifacts in MTJ
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
@@ -72,32 +72,32 @@ project(':golem-backend-mtj') {
     }
 }
 
-project(':golem-backend-ejml') {
+project(':koma-backend-ejml') {
     subproj(project)
 
     dependencies {
-        compile project(":golem-core")
+        compile project(":koma-core")
         compile "org.ejml:all:0.27"
     }
 }
 
-project(':golem-backend-jblas') {
+project(':koma-backend-jblas') {
     subproj(project)
 
     dependencies {
-        compile project(":golem-core")
+        compile project(":koma-core")
         compile "org.jblas:jblas:1.2.3"
     }
 }
 
-project(':golem-tests') {
+project(':koma-tests') {
     subproj(project)
     
     dependencies {
-        testCompile project(":golem-core")
-        testCompile project(":golem-backend-ejml")
-        testCompile project(":golem-backend-jblas")
-        testCompile project(":golem-backend-mtj")
+        testCompile project(":koma-core")
+        testCompile project(":koma-backend-ejml")
+        testCompile project(":koma-backend-jblas")
+        testCompile project(":koma-backend-mtj")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
@@ -115,9 +115,9 @@ repositories {
 	jcenter()
 }
 dependencies {
-	compile project(":golem-core")
-	compile project(":golem-logging")
-	compile project(":golem-backend-ejml")
-	compile project(":golem-backend-jblas")
-	compile project(":golem-backend-mtj")
+	compile project(":koma-core")
+	compile project(":koma-logging")
+	compile project(":koma-backend-ejml")
+	compile project(":koma-backend-jblas")
+	compile project(":koma-backend-mtj")
 }

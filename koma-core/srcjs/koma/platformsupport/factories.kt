@@ -1,11 +1,11 @@
-package golem.platformsupport
+package koma.platformsupport
 
-import golem.matrix.*
+import koma.matrix.*
 
 fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
     val purektLoader = {
-        js("var g = require('golem-backend-purekt')")
-        js("new g.golem.matrix.purekt.DoublePureKtMatrixFactory")
+        js("var g = require('koma-backend-purekt')")
+        js("new g.koma.matrix.purekt.DoublePureKtMatrixFactory")
     }
     
     val facCandidates = arrayOf(purektLoader)

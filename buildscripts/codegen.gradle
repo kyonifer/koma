@@ -2,8 +2,8 @@ task codegen {
     doLast {
         ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
             copy {
-                from 'golem-core/templates'
-                into 'golem-core/srcgen/golem.matrix.default'
+                from 'koma-core/templates'
+                into 'koma-core/srcgen/koma.matrix.default'
                 include 'DefaultMatrix*.kt'
                 rename { dtype + it }
 
@@ -12,8 +12,8 @@ task codegen {
                         dtype: dtype)
             }
             copy {
-                from 'golem-core/templates'
-                into 'golem-core/srcgen/golem.ndarray.default'
+                from 'koma-core/templates'
+                into 'koma-core/srcgen/koma.ndarray.default'
                 include 'DefaultNDArray*.kt'
                 rename { dtype + it }
                 expand(dtype: dtype)

@@ -1,7 +1,7 @@
-package golem.ndarray.common
+package koma.ndarray.common
 
-import golem.ndarray.*
-import golem.platformsupport.*
+import koma.ndarray.*
+import koma.platformsupport.*
 
 abstract class NumericalNDArrayFacBase<out T>: NumericalNDArrayFactory<T> {
 

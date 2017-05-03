@@ -1,6 +1,6 @@
-package golem
+package koma
 
-import golem.ndarray.default.*
+import koma.ndarray.default.*
 import org.junit.Test
 
 class NumNDTests {

@@ -1,4 +1,4 @@
-package golem.platformsupport
+package koma.platformsupport
 
 import kotlinx.cinterop.*
 import Math.log

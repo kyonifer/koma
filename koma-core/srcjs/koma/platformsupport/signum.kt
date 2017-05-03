@@ -1,4 +1,4 @@
-package golem.platformsupport
+package koma.platformsupport
 
 /**
  * Add missing functionality for [MathClass] from the kotlin.js

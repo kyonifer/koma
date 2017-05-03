@@ -1,6 +1,6 @@
 /**
  * Some functions to make jblas matrices more usable in Kotlin
- * If raw performance isnt needed, try using golem.matrix.Matrix facade instead,
+ * If raw performance isnt needed, try using koma.matrix.Matrix facade instead,
  * which wraps this class and allows you to swap out matrix implementations.
  *
  * In particular, this enables you to write e.g.
@@ -16,9 +16,9 @@
  */
 @file:JvmName("RawJBlas")
 
-package golem.matrix.jblas.backend
+package koma.matrix.jblas.backend
 
-import golem.*
+import koma.*
 import org.jblas.*
 
 fun DoubleMatrix.mapMat(f: (Double) -> Double): DoubleMatrix {

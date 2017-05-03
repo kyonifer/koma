@@ -1,9 +1,9 @@
 @file:JvmName("BoundsValidation")
 
-package golem.util.validation
-import golem.validateMatrices
-import golem.*
-import golem.polyfill.annotations.*
+package koma.util.validation
+import koma.validateMatrices
+import koma.*
+import koma.polyfill.annotations.*
 
 /**
  * Maximum value for individual elements in the matrix.

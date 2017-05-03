@@ -4,12 +4,12 @@
 
 @file:JvmName("UtilTests")
 
-package golem.util.test
-import golem.polyfill.annotations.*
+package koma.util.test
+import koma.polyfill.annotations.*
 
-import golem.*
-import golem.matrix.*
-import golem.platformsupport.assert
+import koma.*
+import koma.matrix.*
+import koma.platformsupport.assert
 
 /**
  * Asserts that a matrix [expected] roughly equals a matrix [actual]. eps is the acceptable numerical error.
@@ -27,12 +27,12 @@ fun <T: Number> assertMatrixEquals(expected: Matrix<T>, actual: Matrix<T>, eps: 
 private var facs = getAvailableFactories()
 
 /**
- * A helper function to run tests against all available backends in sequence. Sets [golem.factory] to each backend
+ * A helper function to run tests against all available backends in sequence. Sets [koma.factory] to each backend
  * consecutively and then runs the passed in block of code. Note that code that manually sets its own backend
  * (e.g. by creating a MTJMatrix instance explicitly) will not be affected by this function. Code that uses
  * top-level functions and generic Matrix<T> functions should work correctly.
  *
- * Note: this function sets golem.factory to an arbitrary backend, so reset it afterwards if needed.
+ * Note: this function sets koma.factory to an arbitrary backend, so reset it afterwards if needed.
  */
 fun allBackends(f: () -> Unit) {
     if (facs.isEmpty())
@@ -40,7 +40,7 @@ fun allBackends(f: () -> Unit) {
     if (facs.size != 3)
         println("Warning: only testing against ${facs.size} backends (3 expected)")
     for (fac in facs) {
-        golem.factory = fac
+        koma.factory = fac
         f()
     }
 

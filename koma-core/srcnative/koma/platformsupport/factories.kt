@@ -1,6 +1,6 @@
-package golem.platformsupport
+package koma.platformsupport
 
-import golem.matrix.*
+import koma.matrix.*
 
 fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
     return listOf()

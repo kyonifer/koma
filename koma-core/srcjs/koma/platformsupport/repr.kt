@@ -1,7 +1,7 @@
-package golem.platformsupport
+package koma.platformsupport
 
-import golem.*
-import golem.matrix.*
+import koma.*
+import koma.matrix.*
 
 fun <T> repr(mat: Matrix<T>): String {
     return buildString {

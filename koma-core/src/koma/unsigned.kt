@@ -1,8 +1,8 @@
 @file:JvmName("Golem")
 @file:JvmMultifileClass
 
-package golem
-import golem.polyfill.annotations.*
+package koma
+import koma.polyfill.annotations.*
 
 /**
  * An implementation of an unsigned byte. Still a WIP.

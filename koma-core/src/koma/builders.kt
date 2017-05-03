@@ -8,11 +8,11 @@
 @file:JvmName("Golem")
 @file:JvmMultifileClass
 
-package golem
+package koma
 
-import golem.matrix.*
-import golem.polyfill.annotations.*
-import golem.polyfill.*
+import koma.matrix.*
+import koma.polyfill.annotations.*
+import koma.polyfill.*
 
 
 

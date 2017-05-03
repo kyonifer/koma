@@ -1,6 +1,6 @@
-package golem.ndarray
+package koma.ndarray
 
-import golem.matrix.*
+import koma.matrix.*
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
 /**

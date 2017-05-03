@@ -1,5 +1,5 @@
-import golem.*
-import golem.matrix.default.*
+import koma.*
+import koma.matrix.default.*
 
 fun main(args: Array<String>) {
     

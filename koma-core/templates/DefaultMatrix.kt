@@ -1,8 +1,8 @@
-package golem.matrix.default
+package koma.matrix.default
 
-import golem.matrix.*
-import golem.platformsupport.*
-import golem.polyfill.*
+import koma.matrix.*
+import koma.platformsupport.*
+import koma.polyfill.*
 
 class Default${dtype}Matrix (val rows: Int, 
                           val cols: Int): Matrix<${dtype}> {

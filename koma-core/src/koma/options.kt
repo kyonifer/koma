@@ -7,18 +7,18 @@
 @file:JvmName("Options")
 @file:JvmMultifileClass
 
-package golem
+package koma
 
-import golem.matrix.*
+import koma.matrix.*
 import kotlin.reflect.KProperty
-import golem.polyfill.annotations.*
+import koma.polyfill.annotations.*
 
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
  * Double precision.
  *
- * Replace this factory at runtime with e.g. golem.matrix.ejml.EJMLMatrixFactory() to change what
+ * Replace this factory at runtime with e.g. koma.matrix.ejml.EJMLMatrixFactory() to change what
  * backend the top-level functions use for computation.
  *
  */
@@ -50,7 +50,7 @@ var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(::getAvailableIntFa
  *  @return A list of factory instances for backends that were found.
  */
 fun getAvailableFactories(): List<MatrixFactory<Matrix<Double>>> {
-    return golem.platformsupport.getFactories()
+    return koma.platformsupport.getFactories()
 }
 
 /**
@@ -96,7 +96,7 @@ class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>) {
                 return newFac
             }
             else {
-                throw RuntimeException("No default backends for golem matrix found. Please set golem.${property.name}" +
+                throw RuntimeException("No default backends for koma matrix found. Please set koma.${property.name}" +
                                        " manually or put one on your classpath.")
             }
         }

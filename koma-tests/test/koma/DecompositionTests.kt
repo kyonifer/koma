@@ -1,6 +1,6 @@
-package golem
+package koma
 
-import golem.util.test.*
+import koma.util.test.*
 import org.junit.Test
 
 // @formatter:off

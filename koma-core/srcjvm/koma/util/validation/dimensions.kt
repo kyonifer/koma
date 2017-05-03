@@ -1,12 +1,12 @@
 @file:JvmName("DimensionValidation")
 
-package golem.util.validation
-import golem.*
-import golem.matrix.*
+package koma.util.validation
+import koma.*
+import koma.matrix.*
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
-import golem.polyfill.annotations.*
+import koma.polyfill.annotations.*
 
 private val ValidationContext.meta : DimensionValidator get() {
     return this.metadata("dim") {

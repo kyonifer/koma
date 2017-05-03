@@ -1,6 +1,6 @@
-package golem.matrix.common
+package koma.matrix.common
 
-import golem.matrix.*
+import koma.matrix.*
 
 abstract class MatrixBase<T>: Matrix<T> {
     /**

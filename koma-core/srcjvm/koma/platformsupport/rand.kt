@@ -1,4 +1,4 @@
-package golem.platformsupport
+package koma.platformsupport
 
 import java.util.*
 

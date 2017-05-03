@@ -1,7 +1,7 @@
-package golem
+package koma
 
-import golem.matrix.*
-import golem.util.validation.*
+import koma.matrix.*
+import koma.util.validation.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException

@@ -1,6 +1,6 @@
 /**
  * Some functions to make ejml matrices more usable directly in Kotlin.
- * If raw performance isnt needed, try using golem.matrix.Matrix facade instead,
+ * If raw performance isnt needed, try using koma.matrix.Matrix facade instead,
  * which wraps this class and allows you to swap out matrix implementations.
  *
  * In particular, this enables you to write e.g.
@@ -17,7 +17,7 @@
  */
 @file:JvmName("RawEJML")
 
-package golem.matrix.ejml.backend
+package koma.matrix.ejml.backend
 
 import org.ejml.factory.DecompositionFactory
 import org.ejml.ops.CommonOps

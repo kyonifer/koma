@@ -1,13 +1,13 @@
-package golem.matrix
+package koma.matrix
 
-import golem.polyfill.annotations.*
+import koma.polyfill.annotations.*
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
- * implemented to actually perform the computation. A golem backend must both
+ * implemented to actually perform the computation. A koma backend must both
  * implement this class and MatrixFactory. A matrix is guaranteed to be 2D and 
  * to have a numerical type. For storage of arbitrary types and dimensions, see
- * [golem.ndarray.NDArray].
+ * [koma.ndarray.NDArray].
  */
 interface Matrix<T> {
     // Algebraic Operators
@@ -156,7 +156,7 @@ interface Matrix<T> {
     fun getFactory(): MatrixFactory<out Matrix<T>>
 
 
-    fun repr(): String = golem.platformsupport.repr(this)
+    fun repr(): String = koma.platformsupport.repr(this)
 
     /**
      * Transpose operator.

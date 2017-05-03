@@ -1,8 +1,8 @@
-package golem.matrix.mtj
+package koma.matrix.mtj
 
-import golem.matrix.*
-import golem.matrix.common.*
-import golem.matrix.mtj.backend.*
+import koma.matrix.*
+import koma.matrix.common.*
+import koma.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
 
@@ -100,7 +100,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
             this[index, i] = row[i]
     }
 
-    override fun getFactory() = golem.matrix.mtj.backend.factoryInstance
+    override fun getFactory() = koma.matrix.mtj.backend.factoryInstance
 
     override fun T() = this.T
 

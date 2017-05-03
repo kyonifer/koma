@@ -7,7 +7,7 @@ def useJS = target == "js"
 def useNative = target == "native"
 
 
-include 'golem-core'
+include 'koma-core'
 
 if (useJS) {
     rootProject.buildFileName = 'buildscripts/build-js.gradle'
@@ -25,14 +25,14 @@ else if (useNative) {
 else {
     rootProject.buildFileName = "buildscripts/build-jvm.gradle"
     
-    include 'golem-logging'
-    include 'golem-backend-ejml'
-    include 'golem-backend-mtj'
-    include 'golem-backend-jblas'
-    include 'golem-tests'
+    include 'koma-logging'
+    include 'koma-backend-ejml'
+    include 'koma-backend-mtj'
+    include 'koma-backend-jblas'
+    include 'koma-tests'
     
-    project(":golem-backend-ejml").projectDir = file("backend-jvm-ejml")
-    project(":golem-backend-mtj").projectDir = file("backend-jvm-mtj")
-    project(":golem-backend-jblas").projectDir = file("backend-jvm-jblas")
+    project(":koma-backend-ejml").projectDir = file("backend-jvm-ejml")
+    project(":koma-backend-mtj").projectDir = file("backend-jvm-mtj")
+    project(":koma-backend-jblas").projectDir = file("backend-jvm-jblas")
 }
 

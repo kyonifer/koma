@@ -1,7 +1,7 @@
 // Create a kotlin-jvm project that only brings in libs visible 
 // from kotlin-native, to allow for completion of kotlin-native in intellij
 
-project(':golem-backend-purekt') {
+project(':koma-backend-purekt') {
     apply plugin: 'kotlin'
 
     compileKotlin.dependsOn(':codegen')
@@ -11,7 +11,7 @@ project(':golem-backend-purekt') {
     }
     
     dependencies {
-        compile project(":golem-core")
+        compile project(":koma-core")
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
     
@@ -20,7 +20,7 @@ project(':golem-backend-purekt') {
     }
 }
 
-project(':golem-core') {
+project(':koma-core') {
     apply plugin: 'kotlin'
     
     repositories {
@@ -30,7 +30,7 @@ project(':golem-core') {
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         // If you want completion on the kotlinx.* symbols, put the Runtime.jar
-        // from kotlin-native into golem/jars. After you run './gradlew build' once
+        // from kotlin-native into koma/jars. After you run './gradlew build' once
         // the jar should be findable in ~/.konan
         compile files("../jars/Runtime.jar")
     }
@@ -39,8 +39,8 @@ project(':golem-core') {
         // kotlin-java wont understand if we give it srcnative (including the polyfills for java),
         // so we have to cherry pick the jvm code for polyfill, native code for everything else
         main.kotlin.srcDirs = ['src', 
-                               'srcnative/golem/platformsupport', 
-                               'srcjvm/golem/polyfill',
+                               'srcnative/koma/platformsupport', 
+                               'srcjvm/koma/polyfill',
                                'external/js',
                                '../build/konan/interopStubs/genCInteropStubs',
                                '../build/konan/interopStubs/genMathInteropStubs'

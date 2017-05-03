@@ -1,16 +1,16 @@
 /**
- * A general interface for creating common types of Matrix. A golem backend must both
+ * A general interface for creating common types of Matrix. A koma backend must both
  * implement this class and Matrix.
  */
 
-package golem.matrix
+package koma.matrix
 
-import golem.*
-import golem.polyfill.annotations.*
+import koma.*
+import koma.polyfill.annotations.*
 
 
 /**
- * A set of constructors that must be implemented by a golem backend. Generates various types of matrices.
+ * A set of constructors that must be implemented by a koma backend. Generates various types of matrices.
  * Generic parameter is the type of element, i.e. T=Matrix<Double> or T=Matrix<Int>, etc.
  */
 interface MatrixFactory<out T> {

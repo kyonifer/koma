@@ -1,7 +1,7 @@
-package golem
+package koma
 
-import golem.matrix.*
-import golem.util.test.*
+import koma.matrix.*
+import koma.util.test.*
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -9,9 +9,9 @@ import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 
-import golem.matrix.MatrixTypes.DoubleType as dbltype
-import golem.matrix.MatrixTypes.FloatType as flttype
-import golem.matrix.MatrixTypes.IntType as inttype
+import koma.matrix.MatrixTypes.DoubleType as dbltype
+import koma.matrix.MatrixTypes.FloatType as flttype
+import koma.matrix.MatrixTypes.IntType as inttype
 
 class CreatorsTests {
     @Test
@@ -143,7 +143,7 @@ class CreatorsTests {
     fun testDTypeUsage() {
         val a: Matrix<Double> = zeros(3, 3, dtype=dbltype)
         assertFailsWith(RuntimeException::class,
-                        "No default backends for golem matrix found. Please set golem.intFactory manually or put one on your classpath.") {
+                        "No default backends for koma matrix found. Please set koma.intFactory manually or put one on your classpath.") {
             val b: Matrix<Float> = zeros(3, 3, dtype=flttype)
             val c: Matrix<Int> = zeros(3, 3, dtype=inttype)
         }

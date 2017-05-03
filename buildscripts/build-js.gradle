@@ -12,7 +12,7 @@ buildscript {
 
 apply from: "buildscripts/codegen.gradle"
 
-project(':golem-core') {
+project(':koma-core') {
     apply plugin: 'kotlin2js'
 
     compileKotlin2Js.dependsOn(":codegen")
@@ -21,7 +21,7 @@ project(':golem-core') {
         main.kotlin.srcDirs = ['src', 
                                'srcjs', 
                                'srcgen',
-                               "${projectDir.parent}/golem-core/external/jvm"
+                               "${projectDir.parent}/koma-core/external/jvm"
                                 ]
     }
 
@@ -32,7 +32,7 @@ project(':golem-core') {
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/golem-core.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma-core.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 
 

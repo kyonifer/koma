@@ -1,13 +1,13 @@
 @file:JvmName("Algorithms")
 
-package golem.matrix.common
+package koma.matrix.common
 
-import golem.*
-import golem.matrix.*
-import golem.polyfill.annotations.*
+import koma.*
+import koma.matrix.*
+import koma.polyfill.annotations.*
 
 /**
- * Some functionality to help more easily implement double based golem backends. Feel free to not use if
+ * Some functionality to help more easily implement double based koma backends. Feel free to not use if
  * your backend has fast implementations of these functions.
  */
 abstract class DoubleMatrixBase : MatrixBase<Double>() {
@@ -55,7 +55,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         } else {
 
             val maxnorm = 5.371920351148152
-            n_squarings = golem.max(0, ceil(logb(2, A_L1 / maxnorm)))
+            n_squarings = koma.max(0, ceil(logb(2, A_L1 / maxnorm)))
             A /= pow(2.0, n_squarings)
             val (U, V) = _pade13(A)
             return dispatchPade(U, V, n_squarings, solveProvider)
@@ -80,7 +80,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     }
 
     private fun _pade3(A: Matrix<Double>): Pair<Matrix<Double>, Matrix<Double>> {
-        val b = golem.mat[120, 60, 12, 1]
+        val b = koma.mat[120, 60, 12, 1]
         val ident = A.getFactory().eye(A.numRows(), A.numCols())
 
         val A2 = A * A
@@ -91,7 +91,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     }
 
     private fun _pade5(A: Matrix<Double>): Pair<Matrix<Double>, Matrix<Double>> {
-        val b = golem.mat[30240, 15120, 3360, 420, 30, 1]
+        val b = koma.mat[30240, 15120, 3360, 420, 30, 1]
         val ident = A.getFactory().eye(A.numRows(), A.numCols())
         val A2 = A * A
         val A4 = A2 * A2
@@ -102,7 +102,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     }
 
     private fun _pade7(A: Matrix<Double>): Pair<Matrix<Double>, Matrix<Double>> {
-        val b = golem.mat[17297280, 8648640, 1995840, 277200, 25200, 1512, 56, 1]
+        val b = koma.mat[17297280, 8648640, 1995840, 277200, 25200, 1512, 56, 1]
         val ident = A.getFactory().eye(A.numRows(), A.numCols())
         val A2 = A * A
         val A4 = A2 * A2
@@ -113,7 +113,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     }
 
     private fun _pade9(A: Matrix<Double>): Pair<Matrix<Double>, Matrix<Double>> {
-        val b = golem.mat[17643225600, 8821612800, 2075673600, 302702400, 30270240,
+        val b = koma.mat[17643225600, 8821612800, 2075673600, 302702400, 30270240,
                 2162160, 110880, 3960, 90, 1]
         val ident = A.getFactory().eye(A.numRows(), A.numCols())
         val A2 = A * A
@@ -126,7 +126,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     }
 
     private fun _pade13(A: Matrix<Double>): Pair<Matrix<Double>, Matrix<Double>> {
-        val b = golem.mat[64764752532480000, 32382376266240000, 7771770303897600,
+        val b = koma.mat[64764752532480000, 32382376266240000, 7771770303897600,
                 1187353796428800, 129060195264000, 10559470521600, 670442572800,
                 33522128640, 1323241920, 40840800, 960960, 16380, 182, 1]
         val ident = A.getFactory().eye(A.numRows(), A.numCols())

@@ -1,8 +1,8 @@
 @file:JvmName("RawEJMLSingletons")
 
-package golem.matrix.ejml.backend
+package koma.matrix.ejml.backend
 
-import golem.matrix.ejml.*
+import koma.matrix.ejml.*
 
 internal var factoryInstance: EJMLMatrixFactory = EJMLMatrixFactory()
 internal var curSeed = System.currentTimeMillis()
