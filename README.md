@@ -200,10 +200,10 @@ Matrix indexing and slicing is supported (see [here](core/src/koma/operators.kt)
 
 ```
 
-Matrix also implements Iterable, so it inherits all the functions of that type:
+A Matrix is convertible to an Iterable:
 
 ```Kotlin
-    val x = randn(5,5)
+    val x = randn(5,5).toIterable()
     
     // Adds all elements and returns sum
     x.reduce { x, y -> x+y }
