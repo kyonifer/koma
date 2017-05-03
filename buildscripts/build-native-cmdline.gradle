@@ -11,7 +11,7 @@ konanInterop {
 }
 
 konanArtifacts {
-    Golem {
+    Koma {
         inputFiles project.fileTree('koma-core/srcgen'),
                 project.fileTree('koma-core/src'), 
                 project.fileTree('koma-core/srcnative'), 
@@ -24,12 +24,12 @@ konanArtifacts {
     }
 }
 
-compileKonanGolem.dependsOn(":codegen")
+compileKonanKoma.dependsOn(":codegen")
 
 build {
     doLast {
         copy {
-            from compileKonanGolem.artifactPath
+            from compileKonanKoma.artifactPath
             into projectDir.canonicalPath
         }
     }

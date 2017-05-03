@@ -1,11 +1,11 @@
-[![GitHub issues](https://img.shields.io/github/issues/kyonifer/golem.svg?maxAge=2592000)](https://github.com/kyonifer/golem/issues)
+[![GitHub issues](https://img.shields.io/github/issues/kyonifer/koma.svg?maxAge=2592000)](https://github.com/kyonifer/koma/issues)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Bintray](https://img.shields.io/bintray/v/kyonifer/maven/golem-core.svg?maxAge=2592000)](https://bintray.com/kyonifer/maven)
-[![Travis](https://img.shields.io/travis/kyonifer/golem/master.svg)](https://travis-ci.org/kyonifer/golem)
-[![AppVeyor](https://img.shields.io/appveyor/ci/kyonifer/golem/master.svg)](https://ci.appveyor.com/project/kyonifer/golem)
-### Golem
+[![Bintray](https://img.shields.io/bintray/v/kyonifer/maven/koma-core.svg?maxAge=2592000)](https://bintray.com/kyonifer/maven)
+[![Travis](https://img.shields.io/travis/kyonifer/koma/master.svg)](https://travis-ci.org/kyonifer/koma)
+[![AppVeyor](https://img.shields.io/appveyor/ci/kyonifer/koma/master.svg)](https://ci.appveyor.com/project/kyonifer/koma)
+### Koma
 
-Golem is a scientific computing environment for Kotlin that emphasizes language/platform interop, performance, and flexibility.
+Koma is a scientific computing environment for Kotlin that emphasizes language/platform interop, performance, and flexibility.
 
 ## Project Goals
 
@@ -20,10 +20,10 @@ MATLAB
 
 ## Features
 
-Golem has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
+Koma has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
 and an underlying object oriented hierarchy which dispatch those function calls. The flat functions are in the
-top-level files [here](golem-core/src/golem/) and the underlying matrix implementations use the interfaces defined [here](golem-core/src/golem/matrix/).
-It is easiest to get up to speed on Golem by reading through the available top-level functions.
+top-level files [here](koma-core/src/koma/) and the underlying matrix implementations use the interfaces defined [here](koma-core/src/koma/matrix/).
+It is easiest to get up to speed on Koma by reading through the available top-level functions.
 
 We currently have:
 
@@ -37,7 +37,7 @@ We currently have:
 
 ## Using the Library From a Gradle Project
 
-Golem is hosted in jcenter. First add jcenter to your repos:
+Koma is hosted in jcenter. First add jcenter to your repos:
 
 ```Groovy
 repositories {
@@ -45,29 +45,29 @@ repositories {
 }
 ```
 
-Then add a dependency on golem-core as well as whatever backend you want to
-use for doing the computation. For example, if you want to use golem with the
+Then add a dependency on koma-core as well as whatever backend you want to
+use for doing the computation. For example, if you want to use koma with the
 MTJ backend, you'd write:
 
 ```Groovy
 dependencies{
-    compile group: "golem", name:"golem-backend-mtj", version: "0.9"
-    compile group: "golem", name:"golem-core", version:"0.9"
+    compile group: "koma", name:"koma-backend-mtj", version: "0.9"
+    compile group: "koma", name:"koma-core", version:"0.9"
 }
 ```
-Right now golem-backend-ejml, golem-backend-mtj, and golem-backend-jblas are supported.
-Golem will automatically use the backend you add to the project. If you'd like to use more
+Right now koma-backend-ejml, koma-backend-mtj, and koma-backend-jblas are supported.
+Koma will automatically use the backend you add to the project. If you'd like to use more
 than one backend in a project at the same time, see [multiple backends](#multiple-backends)
  below.
 
 ## Example Usage
 
-The following is an example of plotting some random noise. The golem.* namespace brings in all the
-top-level functions (the only other import you may need is golem.matrix.Matrix if you need to type
+The following is an example of plotting some random noise. The koma.* namespace brings in all the
+top-level functions (the only other import you may need is koma.matrix.Matrix if you need to type
   a function you write).
 
 ```Kotlin
-import golem.*
+import koma.*
 
 fun main(args: Array<String>)
 {
@@ -92,12 +92,12 @@ fun main(args: Array<String>)
 
 }
 ```
-![](https://raw.githubusercontent.com/kyonifer/golem/imgs/plotting.png)
+![](https://raw.githubusercontent.com/kyonifer/koma/imgs/plotting.png)
 
 ## Functionality
 
 ### Math Functions
-Matrices have useful map functions that return matrices for chaining operations (see [here](golem-core/src/golem/extensions.kt) for a complete list).
+Matrices have useful map functions that return matrices for chaining operations (see [here](koma-core/src/koma/extensions.kt) for a complete list).
 
 ```Kotlin
 
@@ -164,7 +164,7 @@ mat[ 3.00  end
      17.00 ]
 ```
 
-Many special functions are supported (see [the matrix interface](golem-core/src/golem/matrix/Matrix.kt) for a complete list):
+Many special functions are supported (see [the matrix interface](koma-core/src/koma/matrix/Matrix.kt) for a complete list):
 
 ```Kotlin
 
@@ -178,7 +178,7 @@ Many special functions are supported (see [the matrix interface](golem-core/src/
 
 ```
 
-Scalar functions can be applied elementwise to matrices (see [here](golem-core/src/golem/scalarfuncs.kt) for a complete list):
+Scalar functions can be applied elementwise to matrices (see [here](koma-core/src/koma/scalarfuncs.kt) for a complete list):
 
 ```Kotlin
     val x = create(0..100)/5.0  // Matrix of 0, 1/5, 2/5, ...
@@ -186,7 +186,7 @@ Scalar functions can be applied elementwise to matrices (see [here](golem-core/s
     plot(y)                     // Plot of sin function
 ```
 
-Matrix indexing and slicing is supported (see [here](golem-core/src/golem/operators.kt) for a list of operators as well as the Matrix<T> type):
+Matrix indexing and slicing is supported (see [here](koma-core/src/koma/operators.kt) for a list of operators as well as the Matrix<T> type):
 
 ```Kotlin
 
@@ -211,36 +211,36 @@ Matrix also implements Iterable, so it inherits all the functions of that type:
 ```
 ### Multiple Backends
 
-Golem supports using multiple backends simultaneously. This is useful if e.g.
+Koma supports using multiple backends simultaneously. This is useful if e.g.
 you need to work with multiple libraries which require different matrix containers
 (the unfortunate reality on the JVM at the moment).
 
-You can change the backend being used by golem's top-level functions at
-any time by setting a property in the golem namespace. In Kotlin this looks
+You can change the backend being used by koma's top-level functions at
+any time by setting a property in the koma namespace. In Kotlin this looks
 like:
 
 ```Kotlin
-import golem.matrix.ejml.EJMLMatrixFactory
+import koma.matrix.ejml.EJMLMatrixFactory
 ...
 
 // Make subsequent function calls use the EJML backend
-golem.factory = EJMLMatrixFactory()
+koma.factory = EJMLMatrixFactory()
 
 val a = zeros(3,3) // An EJMLMatrix
 
 // Make subsequent function calls use the MTJ backend
 // (doesnt affect previous returns)
-golem.factory = MTJMatrixFactory()
+koma.factory = MTJMatrixFactory()
 
 val b = zeros(3,3) // Now returns an MTJMatrix
 ```
 
 This property can be set from Java and other languages via
-`golem.Options.setFactory(...)`. If not set, golem will default
+`koma.Options.setFactory(...)`. If not set, koma will default
 to using MTJ, EJML, and then JBlas in that order.
 
 It is also possible to create any matrix type manually by using the
-corresponding factory. For example, even if `golem.factory` is set to
+corresponding factory. For example, even if `koma.factory` is set to
 MTJMatrixFactory, you could write
 
 ```kotlin
@@ -255,14 +255,14 @@ containers simultaneously.
 
 ### Validation
 
-Golem includes support for matrix dimension / attribute validation. For
+Koma includes support for matrix dimension / attribute validation. For
 example, suppose you have a function that takes in two matrices A and B.
 If we know that A is a row vector (i.e. Nx1), B is a matrix with 2 rows
 and the same number of columns as A has rows (i.e. 2xN), we could write
 
 ```Kotlin
-import golem.matrix.Matrix
-import golem.util.validation.validate
+import koma.matrix.Matrix
+import koma.util.validation.validate
 
 fun foo(A: Matrix<Double>, B: Matrix<Double>) {
     validate {
@@ -276,7 +276,7 @@ fun foo(A: Matrix<Double>, B: Matrix<Double>) {
 The validate block will see that you used the same variable 'N' twice, 
 and make sure the matrices passed in have those dimensions matching. The 
 DSL supports an arbitrary number of inputs of arbitrary dimension and 
-also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/golem/blob/master/golem-core/srcjvm/golem/util/validation/README.md)
+also validates attributes like symmetricity. See [the validate README](https://github.com/kyonifer/koma/blob/master/koma-core/srcjvm/koma/util/validation/README.md)
 for more information.
 
 ## Roadmap
@@ -289,7 +289,7 @@ Planned functionality:
 
 ## Related Projects
 
-Golem has backends that wrap several other numerical projects on the JVM:
+Koma has backends that wrap several other numerical projects on the JVM:
 
 * Pure Java linear algebra: http://ejml.org/
 * Pluggable native libs: https://github.com/fommil/matrix-toolkits-java

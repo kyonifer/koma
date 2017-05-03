@@ -9,7 +9,7 @@
  * a[0..1,2..3] = mat[1,2 end 3,4]
  */
 
-@file:JvmName("Golem")
+@file:JvmName("Koma")
 @file:JvmMultifileClass
 
 package koma

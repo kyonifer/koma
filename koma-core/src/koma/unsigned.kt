@@ -1,4 +1,4 @@
-@file:JvmName("Golem")
+@file:JvmName("Koma")
 @file:JvmMultifileClass
 
 package koma

@@ -1,4 +1,4 @@
-@file:JvmName("Golem")
+@file:JvmName("Koma")
 @file:JvmMultifileClass
 
 package koma
@@ -18,7 +18,7 @@ val end = -1
 val all = 0..end
 
 /**
- * Sets the format for Golem to display numbers in. For example, calling
+ * Sets the format for Koma to display numbers in. For example, calling
  *
  * format("long")
  * println(randn(3))
@@ -28,7 +28,7 @@ val all = 0..end
  * format("short")
  * println(randn(3))
  *
- * format() must be called before a .toString() request to a Golem matrix
+ * format() must be called before a .toString() request to a Koma matrix
  * in order to have any effect, but setting it will persist for all printing
  * of matrices until called again with a different format string. The default
  * setting is "long". Supported options are "long", "short", "verylong".

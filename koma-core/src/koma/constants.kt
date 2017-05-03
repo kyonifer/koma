@@ -2,7 +2,7 @@
  * This file defines commonly used math constants
  */
 
-@file:JvmName("Golem")
+@file:JvmName("Koma")
 @file:JvmMultifileClass
 
 package koma
