@@ -5,11 +5,11 @@
 @file:JvmName("UtilTests")
 
 package koma.util.test
-import koma.polyfill.annotations.*
 
 import koma.*
 import koma.matrix.*
 import koma.platformsupport.assert
+import koma.polyfill.annotations.*
 
 /**
  * Asserts that a matrix [expected] roughly equals a matrix [actual]. eps is the acceptable numerical error.
@@ -24,7 +24,7 @@ fun <T: Number> assertMatrixEquals(expected: Matrix<T>, actual: Matrix<T>, eps: 
     }
 }
 
-private var facs = getAvailableFactories()
+private var facs = getPlatformDoubleFactories()
 
 /**
  * A helper function to run tests against all available backends in sequence. Sets [koma.factory] to each backend

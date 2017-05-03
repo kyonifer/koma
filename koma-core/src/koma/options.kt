@@ -10,6 +10,9 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.default.DefaultDoubleMatrixFactory
+import koma.matrix.default.DefaultFloatMatrixFactory
+import koma.matrix.default.DefaultIntMatrixFactory
 import kotlin.reflect.KProperty
 import koma.polyfill.annotations.*
 
@@ -22,7 +25,8 @@ import koma.polyfill.annotations.*
  * backend the top-level functions use for computation.
  *
  */
-var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getAvailableFactories)
+var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getPlatformDoubleFactories,
+                                                             default = DefaultDoubleMatrixFactory())
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -32,7 +36,8 @@ var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getAvailableFacto
  * backend the top-level functions use for computation.
  *
  */
-var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(::getAvailableFloatFactories)
+var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(::getPlatformFloatFactories,
+                                                                 default = DefaultFloatMatrixFactory())
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -42,14 +47,15 @@ var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(::getAvailableF
  * backend the top-level functions use for computation.
  *
  */
-var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(::getAvailableIntFactories)
+var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(::getPlatformIntFactories,
+                                                             default = DefaultIntMatrixFactory())
 
 /**
  *  At runtime, see which double backends are available on our classpath (if any).
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getAvailableFactories(): List<MatrixFactory<Matrix<Double>>> {
+fun getPlatformDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
     return koma.platformsupport.getFactories()
 }
 
@@ -58,14 +64,14 @@ fun getAvailableFactories(): List<MatrixFactory<Matrix<Double>>> {
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getAvailableFloatFactories(): List<MatrixFactory<Matrix<Float>>> = listOf()
+fun getPlatformFloatFactories(): List<MatrixFactory<Matrix<Float>>> = listOf()
 
 /**
  *  At runtime, see which int backends are available on our classpath (if any).
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getAvailableIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
+fun getPlatformIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
 
 /**
  * Whether to validate the dimensions, symmetry, and values of input matrices. false is faster, and should be
@@ -75,9 +81,13 @@ fun getAvailableIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
 var validateMatrices = true
 
 
-
-
-class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>) {
+/**
+ * A property which queries the platform-specific discovery function [available]
+ * for a backend, and if none are found there it selects [default] instead. If this
+ * property is ever set by the user then the user's choice overrides all others.
+ */
+class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>,
+                        val default: MatrixFactory<Matrix<T>>) {
     private var defaultFactory: MatrixFactory<Matrix<T>>? = null
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
@@ -96,8 +106,8 @@ class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>) {
                 return newFac
             }
             else {
-                throw RuntimeException("No default backends for koma matrix found. Please set koma.${property.name}" +
-                                       " manually or put one on your classpath.")
+                defaultFactory = default
+                return default
             }
         }
 
