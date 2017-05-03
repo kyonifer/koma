@@ -43,6 +43,7 @@ Koma is hosted on bintray. First add it to your repos:
 repositories { 
     maven { 
         url "http://dl.bintray.com/kyonifer/maven" 
+        jcenter()
     } 
 }
 ```
