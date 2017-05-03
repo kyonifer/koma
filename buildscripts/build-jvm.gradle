@@ -37,7 +37,7 @@ def subproj(project) {
     }
 }
 
-project(':koma-core') {
+project(':core') {
     subproj(project)
     
     sourceSets.main.kotlin.srcDirs = ['src', 'srcjvm', 'external/js', 'srcgen']
@@ -50,11 +50,11 @@ project(':koma-core') {
     }
 }
 
-project(':koma-logging') {
+project(':logging') {
     subproj(project)
 
     dependencies {
-        compile project(":koma-core")
+        compile project(":core")
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "ch.qos.logback:logback-classic:1.1.7"
     }
@@ -64,7 +64,7 @@ project(':backend-matrix-mtj') {
     subproj(project)
 
     dependencies {
-        compile project(":koma-core")
+        compile project(":core")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
             // Fix issue with pom-only artifacts in MTJ
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
@@ -76,7 +76,7 @@ project(':backend-matrix-ejml') {
     subproj(project)
 
     dependencies {
-        compile project(":koma-core")
+        compile project(":core")
         compile "org.ejml:all:0.27"
     }
 }
@@ -85,16 +85,16 @@ project(':backend-matrix-jblas') {
     subproj(project)
 
     dependencies {
-        compile project(":koma-core")
+        compile project(":core")
         compile "org.jblas:jblas:1.2.3"
     }
 }
 
-project(':koma-tests') {
+project(':tests') {
     subproj(project)
     
     dependencies {
-        testCompile project(":koma-core")
+        testCompile project(":core")
         testCompile project(":backend-matrix-ejml")
         testCompile project(":backend-matrix-jblas")
         testCompile project(":backend-matrix-mtj")
@@ -115,8 +115,8 @@ repositories {
 	jcenter()
 }
 dependencies {
-	compile project(":koma-core")
-	compile project(":koma-logging")
+	compile project(":core")
+	compile project(":logging")
 	compile project(":backend-matrix-ejml")
 	compile project(":backend-matrix-jblas")
 	compile project(":backend-matrix-mtj")

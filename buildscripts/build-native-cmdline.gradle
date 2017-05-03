@@ -12,10 +12,10 @@ konanInterop {
 
 konanArtifacts {
     Koma {
-        inputFiles project.fileTree('koma-core/srcgen'),
-                project.fileTree('koma-core/src'), 
-                project.fileTree('koma-core/srcnative'), 
-                project.fileTree('koma-core/external'),
+        inputFiles project.fileTree('core/srcgen'),
+                project.fileTree('core/src'), 
+                project.fileTree('core/srcnative'), 
+                project.fileTree('core/external'),
                 'examples/native/main.kt'
         useInterop 'C'
         useInterop 'Math'

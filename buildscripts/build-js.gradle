@@ -12,7 +12,7 @@ buildscript {
 
 apply from: "buildscripts/codegen.gradle"
 
-project(':koma-core') {
+project(':core') {
     apply plugin: 'kotlin2js'
 
     compileKotlin2Js.dependsOn(":codegen")
@@ -21,7 +21,7 @@ project(':koma-core') {
         main.kotlin.srcDirs = ['src', 
                                'srcjs', 
                                'srcgen',
-                               "${projectDir.parent}/koma-core/external/jvm"
+                               'external/jvm'
                                 ]
     }
 

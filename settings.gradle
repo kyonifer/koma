@@ -7,7 +7,7 @@ def useJS = target == "js"
 def useNative = target == "native"
 
 
-include 'koma-core'
+include 'core'
 
 if (useJS) {
     rootProject.buildFileName = 'buildscripts/build-js.gradle'
@@ -25,10 +25,10 @@ else if (useNative) {
 else {
     rootProject.buildFileName = "buildscripts/build-jvm.gradle"
     
-    include 'koma-logging'
+    include 'logging'
     include 'backend-matrix-ejml'
     include 'backend-matrix-mtj'
     include 'backend-matrix-jblas'
-    include 'koma-tests'
+    include 'tests'
 }
 
