@@ -2,8 +2,8 @@ task codegen {
     doLast {
         ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
             copy {
-                from 'koma-core/templates'
-                into 'koma-core/srcgen/koma.matrix.default'
+                from 'core/templates'
+                into 'core/srcgen/koma.matrix.default'
                 include 'DefaultMatrix*.kt'
                 rename { dtype + it }
 
@@ -12,8 +12,8 @@ task codegen {
                         dtype: dtype)
             }
             copy {
-                from 'koma-core/templates'
-                into 'koma-core/srcgen/koma.ndarray.default'
+                from 'core/templates'
+                into 'core/srcgen/koma.ndarray.default'
                 include 'DefaultNDArray*.kt'
                 rename { dtype + it }
                 expand(dtype: dtype)

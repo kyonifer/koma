@@ -22,7 +22,7 @@ MATLAB
 
 Koma has two components: A set of flat functions which mimic the behavior of NumPy/MATLAB,
 and an underlying object oriented hierarchy which dispatch those function calls. The flat functions are in the
-top-level files [here](core/src/koma/) and the underlying matrix implementations use the interfaces defined [here](koma-core/src/koma/matrix/).
+top-level files [here](core/src/koma/) and the underlying matrix implementations use the interfaces defined [here](core/src/koma/matrix/).
 It is easiest to get up to speed on Koma by reading through the available top-level functions.
 
 We currently have:
@@ -99,7 +99,7 @@ fun main(args: Array<String>)
 ## Functionality
 
 ### Math Functions
-Matrices have useful map functions that return matrices for chaining operations (see [here](koma-core/src/koma/extensions.kt) for a complete list).
+Matrices have useful map functions that return matrices for chaining operations (see [here](core/src/koma/extensions.kt) for a complete list).
 
 ```Kotlin
 
