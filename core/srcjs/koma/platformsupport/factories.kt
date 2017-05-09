@@ -2,6 +2,6 @@ package koma.platformsupport
 
 import koma.matrix.*
 
-fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
+fun getFactories(): List<MatrixFactory<DoubleMatrix>> {
     return listOf()
 }
