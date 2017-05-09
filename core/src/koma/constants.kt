@@ -17,3 +17,5 @@ val PI = 3.141592653589793238462643383279502884197169399375105820974944592307816
  */
 val E = 2.7182818284590452353602874713527
 
+internal const val NULL_INDICES = "Null indices into a matrix are illegal. The Matrix type " +
+                                  "signature allows nullable indices due to a technical limitation."

@@ -12,8 +12,6 @@ import koma.polyfill.annotations.*
  */
 abstract class ${dtype}Matrix : MatrixBase<${dtype}, ${dtype}Matrix>() {
 
-    private val NULL_INDICES = "Null indices into a matrix are illegal. The Matrix type " +
-                               "signature allows nullable indices due to a technical limitation."
     /**
      * Converts from the generic Matrix<*,*> type to the recursive DoubleMatrix one. Should 
      * be rarely needed, as outside of koma users should always receive a DoubleMatrix.
