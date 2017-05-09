@@ -1,9 +1,9 @@
 package koma.matrix.jblas
 
 import koma.matrix.*
-import koma.matrix.common.*
 import koma.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
+import koma.matrix.DoubleMatrix as KomaDoubleMatrix
 
 /**
  * An implementation of the Matrix<Double> interface using jBlas.
@@ -11,7 +11,7 @@ import org.jblas.DoubleMatrix
  * top-level functions in creators.kt (e.g. zeros(5,5)) or [JBlasMatrixFactory].
  */
 
-class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase() {
+class JBlasMatrix(var storage: DoubleMatrix) : KomaDoubleMatrix() {
     override fun getBaseMatrix() = this.storage
 
     override fun T() = this.T
@@ -27,23 +27,22 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun getDoubleData() = this.storage.data
     override fun copy() = JBlasMatrix(this.storage.dup())
     override fun epow(other: Double) = JBlasMatrix(this.storage.powElement(other))
-    override fun epow(other: Int): Matrix<Double> = JBlasMatrix(this.storage.powElement(other))
-    override fun rem(other: Matrix<Double>) =
+    override fun epow(other: Int): KomaDoubleMatrix = JBlasMatrix(this.storage.powElement(other))
+    override fun rem(other: KomaDoubleMatrix) =
             JBlasMatrix(this.storage.mod(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun transpose() = JBlasMatrix(this.storage.transpose())
-    override fun div(other: Int) = JBlasMatrix(this.storage.div(other.toDouble()))
     override fun div(other: Double) = JBlasMatrix(this.storage.div(other))
-    override fun times(other: Matrix<Double>) =
+    override fun times(other: KomaDoubleMatrix) =
             JBlasMatrix(this.storage.times(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun times(other: Double) = JBlasMatrix(this.storage.mul(other))
-    override fun elementTimes(other: Matrix<Double>) =
+    override fun elementTimes(other: KomaDoubleMatrix) =
             JBlasMatrix(this.storage.mod(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun unaryMinus() = this.times(-1.0)
     override fun minus(other: Double) = JBlasMatrix(this.storage.sub(other))
-    override fun minus(other: Matrix<Double>) =
+    override fun minus(other: KomaDoubleMatrix) =
             JBlasMatrix(this.storage.minus(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun plus(other: Double) = JBlasMatrix(this.storage.plusElement(other))
-    override fun plus(other: Matrix<Double>) =
+    override fun plus(other: KomaDoubleMatrix) =
             JBlasMatrix(this.storage.plus(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun numRows() = this.storage.rows
     override fun numCols() = this.storage.columns
@@ -68,36 +67,36 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun getRow(row: Int) = JBlasMatrix(this.storage.getRow(row))
     override fun getCol(col: Int) = JBlasMatrix(this.storage.getColumn(col))
 
-    override fun setCol(index: Int, col: Matrix<Double>) {
+    override fun setCol(index: Int, col: KomaDoubleMatrix) {
         this.storage.putColumn(index, castOrCopy(col, ::JBlasMatrix, getFactory()).storage)
     }
 
-    override fun setRow(index: Int, row: Matrix<Double>) {
+    override fun setRow(index: Int, row: KomaDoubleMatrix) {
         this.storage.putRow(index, castOrCopy(row, ::JBlasMatrix, getFactory()).storage)
     }
 
     override fun chol() = JBlasMatrix(this.storage.chol().T)
 
-    override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
+    override fun LU(): Triple<KomaDoubleMatrix, KomaDoubleMatrix, KomaDoubleMatrix> {
         val raw = this.storage.LU()
         return Triple(JBlasMatrix(raw.p), JBlasMatrix(raw.l), JBlasMatrix(raw.u))
     }
 
-    override fun QR(): Pair<Matrix<Double>, Matrix<Double>> {
+    override fun QR(): Pair<KomaDoubleMatrix, KomaDoubleMatrix> {
         val raw = this.storage.QR()
         return Pair(JBlasMatrix(raw.q), JBlasMatrix(raw.r))
     }
 
     override fun expm() = JBlasMatrix(this.storage.expm())
 
-    override fun solve(A: Matrix<Double>, B: Matrix<Double>): Matrix<Double> {
+    override fun solve(A: KomaDoubleMatrix, B: KomaDoubleMatrix): KomaDoubleMatrix {
         throw UnsupportedOperationException()
     }
 
     override fun inv() = JBlasMatrix(this.storage.inv())
     override fun det() = this.storage.det()
 
-    override fun pinv(): Matrix<Double> {
+    override fun pinv(): KomaDoubleMatrix {
         throw UnsupportedOperationException()
     }
 

@@ -1,7 +1,7 @@
 package koma.matrix.jblas
 
 import koma.*
-import koma.matrix.common.*
+import koma.matrix.DoubleFactoryBase
 import koma.matrix.jblas.backend.*
 import org.jblas.DoubleMatrix
 

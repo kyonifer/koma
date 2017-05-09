@@ -9,31 +9,29 @@ import koma.polyfill.annotations.*
  * to have a numerical type. For storage of arbitrary types and dimensions, see
  * [koma.ndarray.NDArray].
  */
-interface Matrix<T> {
+interface Matrix<T, MatType: Matrix<T, MatType>> {
     // Algebraic Operators
     @JsName("rem")
-    operator fun rem(other: Matrix<T>): Matrix<T>
-    @JsName("divInt")
-    operator fun div(other: Int): Matrix<T>
+    operator fun rem(other: MatType): MatType
     @JsName("divScalar")
-    operator fun div(other: T): Matrix<T>
+    operator fun div(other: T): MatType
     @JsName("times")
-    operator fun times(other: Matrix<T>): Matrix<T>
+    operator fun times(other: MatType): MatType
     @JsName("timesScalar")
-    operator fun times(other: T): Matrix<T>
-    operator fun unaryMinus(): Matrix<T>
+    operator fun times(other: T): MatType
+    operator fun unaryMinus(): MatType
     @JsName("minusScalar")
-    operator fun minus(other: T): Matrix<T>
+    operator fun minus(other: T): MatType
     @JsName("minus")
-    operator fun minus(other: Matrix<T>): Matrix<T>
+    operator fun minus(other: MatType): MatType
     @JsName("plusScalar")
-    operator fun plus(other: T): Matrix<T>
+    operator fun plus(other: T): MatType
     @JsName("plus")
-    operator fun plus(other: Matrix<T>): Matrix<T>
-    fun transpose(): Matrix<T>
-    fun elementTimes(other: Matrix<T>): Matrix<T>
-    fun epow(other: T): Matrix<T>
-    infix fun epow(other: Int): Matrix<T>
+    operator fun plus(other: MatType): MatType
+    fun transpose(): MatType
+    fun elementTimes(other: MatType): MatType
+    fun epow(other: T): MatType
+    infix fun epow(other: Int): MatType
 
     // Dimensions
     fun numRows(): Int
@@ -48,40 +46,21 @@ interface Matrix<T> {
     operator fun set(i: Int, j: Int, v: T)
 
     /**
-     * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
+     * Gets the ith element in the matrix. Note that indices are *not* nullable, but must be
+     * in the type signature to induce generation of non-boxed indexers.
      */
     @JsName("get")
-    operator fun get(i: Int, j: Int): T
+    operator fun get(i: Int?, j: Int?): T
+    /**
+     * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
+     * Note that indices are *not* nullable, but must be
+     * in the type signature to induce generation of non-boxed indexers.
+     */
     @JsName("get1D")
-    operator fun get(i: Int): T
+    operator fun get(i: Int?): T
 
-    fun copy(): Matrix<T>
+    fun copy(): MatType
 
-    // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
-    @JsName("getInt")
-    fun getInt(i: Int, j: Int): Int
-    @JsName("getDouble")
-    fun getDouble(i: Int, j: Int): Double
-    @JsName("getFloat")
-    fun getFloat(i: Int, j: Int): Float
-    @JsName("getInt1D")
-    fun getInt(i: Int): Int
-    @JsName("getDouble1D")
-    fun getDouble(i: Int): Double
-    @JsName("getFloat1D")
-    fun getFloat(i: Int): Float
-    @JsName("setInt1D")
-    fun setInt(i: Int, v: Int)
-    @JsName("setDouble1D")
-    fun setDouble(i: Int, v: Double)
-    @JsName("setFloat1D")
-    fun setFloat(i: Int, v: Float)
-    @JsName("setInt")
-    fun setInt(i: Int, j: Int, v: Int)
-    @JsName("setDouble")
-    fun setDouble(i: Int, j: Int, v: Double)
-    @JsName("setFloat")
-    fun setFloat(i: Int, j: Int, v: Float)
 
     /**
      * Retrieves the data formatted as doubles in row-major order
@@ -92,33 +71,33 @@ interface Matrix<T> {
     fun getDoubleData(): DoubleArray
 
     @JsName("getRow")
-    fun getRow(row: Int): Matrix<T>
+    fun getRow(row: Int): MatType
     @JsName("getCol")
-    fun getCol(col: Int): Matrix<T>
+    fun getCol(col: Int): MatType
     @JsName("setCol")
-    fun setCol(index: Int, col: Matrix<T>)
+    fun setCol(index: Int, col: MatType)
     @JsName("setRow")
-    fun setRow(index: Int, row: Matrix<T>)
+    fun setRow(index: Int, row: MatType)
 
-    fun chol(): Matrix<T>
-    fun LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>>
-    fun QR(): Pair<Matrix<T>, Matrix<T>>
+    fun chol(): MatType
+    fun LU(): Triple<MatType, MatType, MatType>
+    fun QR(): Pair<MatType, MatType>
     // TODO: need schur, svd, eig
 
 
     // Advanced Functions
-    fun expm(): Matrix<T>
+    fun expm(): MatType
     @JsName("solve")
-    fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
+    fun solve(A: MatType, B: MatType): MatType
 
     // Basic Functions
-    fun inv(): Matrix<T>
+    fun inv(): MatType
     fun det(): T
-    fun pinv(): Matrix<T>
+    fun pinv(): MatType
     fun normF(): T
     fun normIndP1(): T
     fun elementSum(): T
-    fun diag(): Matrix<T>
+    fun diag(): MatType
     fun max(): T // add dimension: Int?
     fun mean(): T
     fun min(): T
@@ -138,7 +117,7 @@ interface Matrix<T> {
     /**
      * Transpose operator.
      */
-    fun T(): Matrix<T> // In MATLAB, this appears at foo.T
+    fun T(): MatType // In MATLAB, this appears at foo.T
 
     /**
      * Returns the underlying matrix object from the back-end this Matrix is wrapping. This should be used
@@ -153,7 +132,7 @@ interface Matrix<T> {
     /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
      */
-    fun getFactory(): MatrixFactory<out Matrix<T>>
+    fun getFactory(): MatrixFactory<out MatType>
 
 
     fun repr(): String = koma.platformsupport.repr(this)
@@ -162,13 +141,13 @@ interface Matrix<T> {
      * Transpose operator.
      */
     @JsName("TProperty")
-    val T: Matrix<T>
+    val T: MatType
         get() = this.transpose()
 
 
     fun toIterable() = object: Iterable<T> {
         override fun iterator(): Iterator<T> {
-            class MatrixIterator(var matrix: Matrix<T>) : Iterator<T> {
+            class MatrixIterator(var matrix: Matrix<T, MatType>) : Iterator<T> {
                 private var cursor = 0
                 override fun next(): T {
                     cursor += 1
@@ -180,10 +159,10 @@ interface Matrix<T> {
         }
     }
     @JsName("pow")
-    infix fun pow(exponent: Int): Matrix<T> {
+    infix fun pow(exponent: Int): MatType {
         var out = this.copy()
         for (i in 1..exponent - 1)
-            out *= this
+            out *= this.toTyped()
         return out
     }
 
@@ -198,7 +177,7 @@ interface Matrix<T> {
      * @return a new matrix containing the submatrix.
      */
     @JsName("getRanges")
-    operator fun get(rows: IntRange, cols: IntRange): Matrix<T>
+    operator fun get(rows: IntRange, cols: IntRange): MatType
     {
         val wrows = wrapRange(rows, numRows())
         val wcols = wrapRange(cols, numCols())
@@ -221,7 +200,7 @@ interface Matrix<T> {
      *
      */
     @JsName("setRanges")
-    operator fun set(rows: IntRange, cols: IntRange, value: Matrix<T>)
+    operator fun set(rows: IntRange, cols: IntRange, value: MatType)
     {
         val wrows = wrapRange(rows, numRows())
         val wcols = wrapRange(cols, numCols())
@@ -251,7 +230,7 @@ interface Matrix<T> {
      *
      */
     @JsName("setColRange")
-    operator fun set(rows: Int, cols: IntRange, value: Matrix<T>)
+    operator fun set(rows: Int, cols: IntRange, value: MatType)
     {
         this[rows..rows, cols] = value
     }
@@ -271,7 +250,7 @@ interface Matrix<T> {
      *
      */
     @JsName("setRowRange")
-    operator fun set(rows: IntRange, cols: Int, value: Matrix<T>)
+    operator fun set(rows: IntRange, cols: Int, value: MatType)
     {
         this[rows, cols..cols] = value
     }
@@ -312,7 +291,7 @@ interface Matrix<T> {
                     .fill { row, col -> this[row, idxs[col]] }
 
     @JsName("selectColsMatrix")
-    fun <U: Number> selectCols(idxs: Matrix<U>) =
+    fun <U: Number> selectCols(idxs: Matrix<U, *>) =
             getFactory()
                     .zeros(this.numRows(), idxs.numRows()*idxs.numCols())
                     .fill { row, col -> this[row, idxs[col].toInt()] }
@@ -330,29 +309,11 @@ interface Matrix<T> {
                     .fill { row, col -> this[idxs[row], col] }
 
     @JsName("selectRowsMatrix")
-    fun <U: Number> selectRows(idxs: Matrix<U>) =
+    fun <U: Number> selectRows(idxs: Matrix<U, *>) =
             getFactory()
                     .zeros(idxs.numRows()*idxs.numCols(), this.numCols())
                     .fill { row, col -> this[idxs[row].toInt(), col] }
 
-
-
-    /**
-     * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
-     * ```cumsum(mat[1,2,3])``` would return ```mat[1,3,6]```. Assumes matrix type is convertible to
-     * double.
-     *
-     * @return A 1xarr.numRows*arr.numCols vector storing the ongoing cumsum.
-     *
-     */
-    fun cumSum(): Matrix<T> {
-        val out = this.getFactory().zeros(1, this.numRows() * this.numCols())
-        for (i in 0..(this.numRows() * this.numCols() - 1)) {
-            val ele = this.getDouble(i)
-            out.setDouble(i, if (i == 0) ele else ele + out.getDouble(i - 1))
-        }
-        return out
-    }
 
     // TODO: Remove all these superfluous jsnames for 
     // solo funcs if kotlin-js ever gets less mangle-happy.
@@ -392,12 +353,12 @@ interface Matrix<T> {
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
     @JsName("forEachRow")
-    fun forEachRow(f: (Matrix<T>) -> Unit) {
+    fun forEachRow(f: (Matrix<T, *>) -> Unit) {
         for (row in 0..this.numRows() - 1)
             f(this.getRow(row))
     }
     @Deprecated("Use forEachRow", ReplaceWith("forEachRow(f)"))
-    fun eachRow(f: (Matrix<T>) -> Unit) = forEachRow(f)
+    fun eachRow(f: (Matrix<T, *>) -> Unit) = forEachRow(f)
     
     /**
      * Passes each col from left to right into a function.
@@ -405,12 +366,12 @@ interface Matrix<T> {
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
     @JsName("forEachCol")
-    fun forEachCol(f: (Matrix<T>) -> Unit) {
+    fun forEachCol(f: (Matrix<T, *>) -> Unit) {
         for (col in 0..this.numCols() - 1)
             f(this.getCol(col))
     }
     @Deprecated("Use forEachCol", ReplaceWith("forEachCol(f)"))
-    fun eachCol(f: (Matrix<T>) -> Unit) = forEachCol(f)
+    fun eachCol(f: (Matrix<T, *>) -> Unit) = forEachCol(f)
 
 
     /**
@@ -422,7 +383,7 @@ interface Matrix<T> {
      * @return the new matrix after each element is mapped through f
      */
     @JsName("map")
-    fun map(f: (T) -> T): Matrix<T> {
+    fun map(f: (T) -> T): MatType {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -430,7 +391,7 @@ interface Matrix<T> {
         return out
     }
     @Deprecated("Use map instead", ReplaceWith("map(f)"))
-    fun mapMat(f: (T) -> T): Matrix<T> = map(f)
+    fun mapMat(f: (T) -> T): MatType = map(f)
 
     /**
      * Takes each element in a matrix, passes them through f, and puts the output of f into an
@@ -442,7 +403,7 @@ interface Matrix<T> {
      * @return the new matrix after each element is mapped through f
      */
     @JsName("mapIndexed")
-    fun mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
+    fun mapIndexed(f: (row: Int, col: Int, ele: T) -> T): MatType {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -450,7 +411,7 @@ interface Matrix<T> {
         return out
     }
     @Deprecated("Use mapIndexed", ReplaceWith("mapIndexed(f)"))
-    fun mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> = mapIndexed(f)
+    fun mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): MatType = mapIndexed(f)
 
     /**
      * Takes each row in a matrix, passes them through f, and puts the output of f into a
@@ -462,7 +423,7 @@ interface Matrix<T> {
      * @return the new matrix after each row is mapped through f
      */
     @JsName("mapRows")
-    fun mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
+    fun mapRows(f: (Matrix<T, MatType>) -> Matrix<T, MatType>): MatType {
 
         val outRows = Array(this.numRows()) {
             f(this.getRow(it))
@@ -474,7 +435,7 @@ interface Matrix<T> {
             if (matrix.numCols() != out.numCols())
                 throw RuntimeException("All output rows of mapRows must have same number of columns")
             else
-                out.setRow(i, outRows[i])
+                out.setRow(i, outRows[i].toTyped())
         }
         return out
     }
@@ -488,7 +449,7 @@ interface Matrix<T> {
      * rows must be the same length.
      */
     @JsName("mapRowsToList")
-    fun <U> mapRowsToList(f: (Matrix<T>) -> U): List<U> {
+    fun <U> mapRowsToList(f: (Matrix<T, *>) -> U): List<U> {
         val a = ArrayList<U>(this.numRows())
         this.eachRow {
             a.add(f(it))
@@ -506,7 +467,7 @@ interface Matrix<T> {
      * @return the new matrix after each col is mapped through f
      */
     @JsName("mapCols")
-    fun mapCols(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
+    fun mapCols(f: (Matrix<T, MatType>) -> Matrix<T, MatType>): MatType {
 
         val outCols = Array(this.numCols()) {
             val out = f(this.getCol(it))
@@ -520,7 +481,7 @@ interface Matrix<T> {
             if (matrix.numRows() != out.numRows())
                 throw RuntimeException("All output rows of mapCols must have same number of columns")
             else
-                out.setCol(i, outCols[i])
+                out.setCol(i, outCols[i].toTyped())
         }
         return out
     }
@@ -534,7 +495,7 @@ interface Matrix<T> {
      * cols must be the same length.
      */
     @JsName("mapColsToList")
-    fun <U> mapColsToList(f: (Matrix<T>) -> U): List<U> {
+    fun <U> mapColsToList(f: (Matrix<T, *>) -> U): List<U> {
         // TODO: Replace if cross-platform set capacity method is added to kotlin
         val a = arrayListOf<U>()
         this.eachCol {
@@ -579,26 +540,13 @@ interface Matrix<T> {
     /**
      * Returns the given vector as a row vector. Will call transpose() on column vectors
      */
-    fun asRowVector() = if (this.numRows() != 1 && this.numCols() == 1) this.T else this
+    fun asRowVector() = if (this.numRows() != 1 && this.numCols() == 1) this.toTyped().T else this.toTyped()
 
     /**
      * Returns the given vector as a row vector. Will call transpose() on row vectors
      */
-    fun asColVector() = if (this.numRows() == 1 && this.numCols() != 1) this.T else this
+    fun asColVector() = if (this.numRows() == 1 && this.numCols() != 1) this.toTyped().T else this.toTyped()
 
-
-    /**
-     * Returns a Matrix as a double 2D array. Intended for MATLAB interop.
-     *
-     * @return a 2D array copy of the matrix.
-     */
-    fun to2DArray(): Array<DoubleArray> {
-        val out = Array(numRows(), { DoubleArray(numCols()) })
-        for (row in 0..this.numRows() - 1)
-            for (col in 0..this.numCols() - 1)
-                out[row][col] = this.getDouble(row, col)
-        return out
-    }
 
     /**
      * Fills the matrix with the values returned by the input function.
@@ -606,11 +554,14 @@ interface Matrix<T> {
      * @param f A function which takes row,col and returns the value to fill. Note that
      * the return type must be the matrix primitive type (e.g. Double).
      */
-    fun fill(f: (row: Int, col: Int) -> T): Matrix<T> {
+    fun fill(f: (row: Int, col: Int) -> T): MatType {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 this[row, col] = f(row, col)
-        return this
+        return this.toTyped()
     }
+    
+    fun toTyped(): MatType
+    fun asDType(data: Number): T
 
 }

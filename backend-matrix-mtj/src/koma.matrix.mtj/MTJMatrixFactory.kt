@@ -1,7 +1,7 @@
 package koma.matrix.mtj
 
 import koma.*
-import koma.matrix.common.*
+import koma.matrix.DoubleFactoryBase
 import koma.util.*
 import no.uib.cipr.matrix.DenseMatrix
 import java.util.*

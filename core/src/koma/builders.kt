@@ -11,6 +11,7 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.polyfill.annotations.*
 import koma.polyfill.*
 
@@ -46,7 +47,7 @@ object mat {
     /**
      * See [mat] description.
      */
-    operator fun get(vararg ts: Any): Matrix<Double> {
+    operator fun get(vararg ts: Any): DoubleMatrix {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions
 
         val numStops = ts.filter { it is Pair<*, *> }.count()

@@ -1,14 +1,14 @@
-package koma.matrix.common
+package koma.matrix
 
 import koma.*
-import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.platformsupport.*
 
 /**
  * Some functionality to help more easily implement double based koma backends. Feel free to not use if
  * your backend has fast implementations of these functions.
  */
-abstract class DoubleFactoryBase<T: Matrix<Double>> : MatrixFactory<T> {
+abstract class DoubleFactoryBase<out T: DoubleMatrix> : MatrixFactory<T> {
     override fun arange(start: Double, stop: Double, increment: Double): T {
         val len = round((stop - start) / increment).toInt()
         val out = this.zeros(1, len)

@@ -15,68 +15,69 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.polyfill.annotations.*
 
 /**
  * Allow operator overloading with non-Double scalars
  */
-operator fun Matrix<Double>.plus(value: Int) = this.plus(value.toDouble())
+operator fun DoubleMatrix.plus(value: Int) = this.plus(value.toDouble())
 
 /**
  * Allow operator overloading with non-Double scalars
  */
-operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
+operator fun DoubleMatrix.minus(value: Int) = this.minus(value.toDouble())
 
 /**
  * Allow infix operator "a emul b" to be element-wise multiplication of two matrices.
  */
-infix fun Matrix<Double>.emul(other: Matrix<Double>) = this.elementTimes(other)
+infix fun DoubleMatrix.emul(other: DoubleMatrix) = this.elementTimes(other)
 
 /**
  * Allow set-index overloading for integers. See [koma.matrix.Matrix<T>.set] for doubles.
  */
-operator fun Matrix<Double>.set(index: Int, value: Int) = this.set(index, value.toDouble())
+operator fun DoubleMatrix.set(index: Int, value: Int) = this.set(index, value.toDouble())
 
 /**
  * Allow set-index overloading for integers. See [koma.matrix.Matrix<T>.set] for doubles.
  */
-operator fun Matrix<Double>.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
+operator fun DoubleMatrix.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
 
 
 /**
  * Add a scalar to a matrix
  */
-operator fun Double.plus(other: Matrix<Double>) = other.plus(this)
+operator fun Double.plus(other: DoubleMatrix) = other.plus(this)
 
 /**
  * Add a scalar to a matrix
  */
-operator fun Int.plus(other: Matrix<Double>) = other.plus(this)
+operator fun Int.plus(other: DoubleMatrix) = other.plus(this)
 
 /**
  * Subtract a matrix from a scala
  */
-operator fun Double.minus(other: Matrix<Double>) = other * -1 + this
+operator fun Double.minus(other: DoubleMatrix) = other * -1 + this
 
 /**
  * Subtract a matrix from a scala
  */
-operator fun Int.minus(other: Matrix<Double>) = other * -1 + this
+operator fun Int.minus(other: DoubleMatrix) = other * -1 + this
 
 /**
  * Multiply a scalar by a matrix
  */
-operator fun Double.times(other: Matrix<Double>) = other.times(this)
+operator fun Double.times(other: DoubleMatrix) = other.times(this)
 
 /**
  * Multiply a scalar by a matrix
  */
-operator fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
+operator fun Int.times(other: DoubleMatrix) = other.times(this.toDouble())
 
 /**
  * Multiply a scalar by a matrix
  */
-operator fun Matrix<Double>.times(other: Int) = this * other.toDouble()
+operator fun DoubleMatrix.times(other: Int) = this * other.toDouble()
 
 
 // Todo: ND array:

@@ -1,7 +1,6 @@
 package koma.matrix.mtj
 
 import koma.matrix.*
-import koma.matrix.common.*
 import koma.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices
@@ -11,7 +10,7 @@ import no.uib.cipr.matrix.Matrices
  * You should rarely use this class directly, instead use one of the
  * top-level functions in creators.kt (e.g. zeros(5,5)) or [MTJMatrixFactory].
  */
-class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
+class MTJMatrix(var storage: DenseMatrix) : DoubleMatrix() {
     override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.T.storage.data
@@ -45,17 +44,16 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numColumns()
-    override fun times(other: Matrix<Double>) =
+    override fun times(other: DoubleMatrix) =
             MTJMatrix(this.storage.times(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
     override fun times(other: Double) = MTJMatrix(this.storage.times(other))
-    override fun elementTimes(other: Matrix<Double>) =
+    override fun elementTimes(other: DoubleMatrix) =
             MTJMatrix(this.storage.mod(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
-    override fun rem(other: Matrix<Double>) = elementTimes(other)
+    override fun rem(other: DoubleMatrix) = elementTimes(other)
     override fun unaryMinus() = MTJMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = MTJMatrix(this.storage.minusElement(other))
-    override fun minus(other: Matrix<Double>) =
+    override fun minus(other: DoubleMatrix) =
             MTJMatrix(this.storage.minus(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
-    override fun div(other: Int) = MTJMatrix(this.storage.div(other))
     override fun div(other: Double) = MTJMatrix(this.storage.div(other))
     override fun transpose(): MTJMatrix {
         val out = DenseMatrix(this.numCols(), numRows())
@@ -75,7 +73,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     }
 
     override fun getCol(col: Int) = MTJMatrix(DenseMatrix(Matrices.getColumn(this.storage, col)))
-    override fun plus(other: Matrix<Double>) =
+    override fun plus(other: DoubleMatrix) =
             MTJMatrix(this.storage.plusMatrix(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
     override fun plus(other: Double) = MTJMatrix(this.storage.plusElement(other))
     override fun chol() = MTJMatrix(DenseMatrix(this.storage.chol()))
@@ -90,12 +88,12 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     }
 
 
-    override fun setCol(index: Int, col: Matrix<Double>) {
+    override fun setCol(index: Int, col: DoubleMatrix) {
         for (i in 0..col.numRows() - 1)
             this[i, index] = col[i]
     }
 
-    override fun setRow(index: Int, row: Matrix<Double>) {
+    override fun setRow(index: Int, row: DoubleMatrix) {
         for (i in 0..row.numCols() - 1)
             this[index, i] = row[i]
     }
@@ -107,7 +105,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override val T: MTJMatrix
         get() = this.transpose()
 
-    override fun solve(A: Matrix<Double>, B: Matrix<Double>): MTJMatrix {
+    override fun solve(A: DoubleMatrix, B: DoubleMatrix): MTJMatrix {
         val out = this.getFactory().zeros(A.numCols(), 1)
         castOrCopy(A, ::MTJMatrix, getFactory()).storage.solve(castOrCopy(B, ::MTJMatrix, getFactory()).storage, out.storage)
         return out

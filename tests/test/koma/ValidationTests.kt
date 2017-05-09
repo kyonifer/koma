@@ -1,6 +1,7 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.util.validation.*
 import org.junit.Rule
 import org.junit.Test
@@ -223,7 +224,7 @@ class ValidationTests {
         mat[1, 2].validate("MacrobrachiumCarcinus") { symmetric }
     }
 
-    fun doSomething(foo: Matrix<Double>, bar: Matrix<Double>, baz: Matrix<Double>) {
+    fun doSomething(foo: DoubleMatrix, bar: DoubleMatrix, baz: DoubleMatrix) {
         validate {
             foo("foo") { 1 x 'N'; max = 2*PI; min = -2*PI }
             bar("bar") { 'N' x 'N'; symmetric }

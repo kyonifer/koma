@@ -1,14 +1,13 @@
 task codegen {
     doLast {
-        ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
+        ['Double', 'Float', 'Int'].forEach { dtype ->
             copy {
                 from 'core/templates'
                 into 'core/srcgen/koma.matrix.default'
                 include 'DefaultMatrix*.kt'
                 rename { dtype + it }
 
-                expand(div: getDiv(dtype), 
-                        epow: getEPow(dtype),
+                expand(epow: getEPow(dtype),
                         dtype: dtype)
             }
             copy {
@@ -18,23 +17,21 @@ task codegen {
                 rename { dtype + it }
                 expand(dtype: dtype)
             }
+            copy {
+                from 'core/templates'
+                into 'core/srcgen/koma.matrix'
+                include 'Matrix.kt'
+                rename { dtype + it }
+                expand(dtype: dtype)
+            }
         }
     }
 
 }
-def getDiv(dtype) {
-    if (dtype != 'Int')
-        return """
-    override fun div(other: ${dtype}): Matrix<${dtype}>
-            = this.mapMatIndexed { row, col, ele -> ele/other}
-"""
-    else
-        return ""
-}
 def getEPow(dtype) {
     if (dtype != 'Int')
         return """
-    override fun epow(other: ${dtype}): Matrix<${dtype}> 
+    override fun epow(other: ${dtype}): ${dtype}Matrix 
             = this.mapMatIndexed { row, col, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 """
     else

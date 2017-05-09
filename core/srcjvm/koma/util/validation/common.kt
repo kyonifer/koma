@@ -4,6 +4,7 @@ package koma.util.validation
 
 import koma.*
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.polyfill.annotations.*
 
 private val DEFAULT_NAME = "matrix"
@@ -26,12 +27,12 @@ interface Validator {
  * In general there is no reason to instantiate this directly, instead @see validate(fn) for example usage.
  */
 class ValidationContext {
-    val matrices = mutableListOf<Matrix<Double>>()
+    val matrices = mutableListOf<DoubleMatrix>()
     val matrixNames = mutableListOf<String>()
     val metadataStorage = mutableMapOf<String, Any>()
     private val validators = mutableSetOf<Validator>()
 
-    val currentMatrix: Matrix<Double> get() = matrices[matrices.size - 1]
+    val currentMatrix: DoubleMatrix get() = matrices[matrices.size - 1]
     val currentMatrixName: String get() = matrixNames[matrixNames.size - 1]
 
     /**
@@ -42,7 +43,7 @@ class ValidationContext {
      * "matrix"
      *
      */
-    operator fun Matrix<Double>.invoke(fn: ValidationContext.() -> Unit): ValidationContext = this(DEFAULT_NAME, fn)
+    operator fun DoubleMatrix.invoke(fn: ValidationContext.() -> Unit): ValidationContext = this(DEFAULT_NAME, fn)
 
     /**
      * Execute the given fn (which should contain validation rules) against the given matrix with the given
@@ -50,7 +51,7 @@ class ValidationContext {
      * @param name Name of the matrix to report in validation error messages.
      * @returns this
      */
-    operator fun Matrix<Double>.invoke(name: String, fn: ValidationContext.() -> Unit): ValidationContext {
+    operator fun DoubleMatrix.invoke(name: String, fn: ValidationContext.() -> Unit): ValidationContext {
         matrixNames.add(name)
         matrices.add(this)
         if (validateMatrices)
@@ -111,7 +112,7 @@ class ValidationContext {
  * @param matrix A matrix to validate.
  * @returns A validation context that can be used to validate the given matrix.
  */
-fun testMatrix(matrix: Matrix<Double>) : ValidationContext = testMatrix(matrix, DEFAULT_NAME)
+fun testMatrix(matrix: DoubleMatrix) : ValidationContext = testMatrix(matrix, DEFAULT_NAME)
 
 /**
  * Return a validation context that can be used to validate the given matrix with the given name.
@@ -126,7 +127,7 @@ fun testMatrix(matrix: Matrix<Double>) : ValidationContext = testMatrix(matrix, 
  * @param name The name of the matrix (used in displayed errors)
  * @returns A validation context that can be used to validate the given matrix.
  */
-fun testMatrix(matrix: Matrix<Double>, name: String) : ValidationContext  {
+fun testMatrix(matrix: DoubleMatrix, name: String) : ValidationContext  {
     val ctx = ValidationContext()
     ctx.matrixNames.add(name)
     ctx.matrices.add(matrix)
@@ -163,7 +164,7 @@ fun validate(fn: ValidationContext.() -> Unit) {
  * @returns Either a reference to the input matrix itself, or a transformed version. The return value is
  * guaranteed to pass the validation rules.
  */
-fun Matrix<Double>.validate(fn: ValidationContext.() -> Unit) = validate(DEFAULT_NAME, fn)
+fun DoubleMatrix.validate(fn: ValidationContext.() -> Unit) = validate(DEFAULT_NAME, fn)
 
 
 /**
@@ -179,7 +180,7 @@ fun Matrix<Double>.validate(fn: ValidationContext.() -> Unit) = validate(DEFAULT
  * @param name The name of the matrix (used in displayed errors)
  * @param fn Validation rules for the matrix.
  */
-fun Matrix<Double>.validate(name: String, fn: ValidationContext.() -> Unit) {
+fun DoubleMatrix.validate(name: String, fn: ValidationContext.() -> Unit) {
     val matrix = this
     koma.util.validation.validate { matrix(name, fn) }
 }

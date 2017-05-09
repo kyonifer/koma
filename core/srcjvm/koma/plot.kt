@@ -4,6 +4,7 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.util.*
 import org.knowm.xchart.BitmapEncoder
 import org.knowm.xchart.XYChart
@@ -99,14 +100,14 @@ fun plot(x: Any?, y: Any, color: String = "k", lineLabel: String? = null) {
         is IntArray -> fromCollection(y.map { it.toDouble() })
         is IntRange -> fromCollection(y.toList().map { it.toDouble() })
         is DoubleArray -> fromCollection(y.toList())
-        is Matrix<*> -> y.getDoubleData()
+        is Matrix<*, *> -> y.getDoubleData()
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (y was ${y.javaClass}")
     }
     xdata = when (x) {
         is IntArray -> fromCollection(x.map { it.toDouble() })
         is IntRange -> fromCollection(x.toList().map { it.toDouble() })
         is DoubleArray -> fromCollection(x.toList())
-        is Matrix<*> -> x.getDoubleData()
+        is Matrix<*, *> -> x.getDoubleData()
         null -> fromCollection((0..(ydata.size - 1)).toList().map { it.toDouble() })
         else -> throw IllegalArgumentException("Can only plot double arrays, matrices, or ranges (x was ${x.javaClass}")
     }
@@ -203,7 +204,7 @@ private fun displayChart(c: XYChart): JFrame {
  * @param mat the matrix to display as an image
  * @param representation an integer representing a color space from [BufferedImage]
  */
-fun imshow(mat: Matrix<Double>, representation: Int = BufferedImage.TYPE_BYTE_GRAY) {
+fun imshow(mat: DoubleMatrix, representation: Int = BufferedImage.TYPE_BYTE_GRAY) {
     // Workaround for Kotlin REPL starting in headless mode
     System.setProperty("java.awt.headless", "false")
 

@@ -3,7 +3,12 @@
 
 package koma
 
+import koma.matrix.Matrix
 import koma.polyfill.annotations.*
+
+fun <T: Number> Matrix<T, *>.toDoubleMatrix() = factory.create(this.getDoubleData())
+fun <T: Number> Matrix<T, *>.toFloatMatrix() = floatFactory.create(this.getDoubleData())
+fun <T: Number> Matrix<T, *>.toIntMatrix() = intFactory.create(this.getDoubleData())
 
 internal var matFormat: String = "L"
 

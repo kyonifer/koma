@@ -6,7 +6,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import java.text.DecimalFormat
 
-fun <T> repr(mat: Matrix<T>): String {
+fun repr(mat: Matrix<*, *>): String {
     val fmtString = when (matFormat) {
         SHORT_NUMBER                -> "0.00##"
         LONG_NUMBER                 -> "0.00############"

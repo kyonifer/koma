@@ -10,6 +10,7 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.matrix.default.DefaultDoubleMatrixFactory
 import koma.matrix.default.DefaultFloatMatrixFactory
 import koma.matrix.default.DefaultIntMatrixFactory
@@ -25,8 +26,8 @@ import koma.polyfill.annotations.*
  * backend the top-level functions use for computation.
  *
  */
-var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getPlatformDoubleFactories,
-                                                             default = DefaultDoubleMatrixFactory())
+var factory: MatrixFactory<DoubleMatrix> by MatFacProperty(::getPlatformDoubleFactories,
+                                                           default = DefaultDoubleMatrixFactory())
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -36,7 +37,7 @@ var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getPlatformDouble
  * backend the top-level functions use for computation.
  *
  */
-var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(::getPlatformFloatFactories,
+var floatFactory: MatrixFactory<Matrix<Float, *>> by MatFacProperty(::getPlatformFloatFactories,
                                                                  default = DefaultFloatMatrixFactory())
 /**
  *
@@ -47,7 +48,7 @@ var floatFactory: MatrixFactory<Matrix<Float>> by MatFacProperty(::getPlatformFl
  * backend the top-level functions use for computation.
  *
  */
-var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(::getPlatformIntFactories,
+var intFactory: MatrixFactory<Matrix<Int, *>> by MatFacProperty(::getPlatformIntFactories,
                                                              default = DefaultIntMatrixFactory())
 
 /**
@@ -55,7 +56,7 @@ var intFactory: MatrixFactory<Matrix<Int>> by MatFacProperty(::getPlatformIntFac
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getPlatformDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
+fun getPlatformDoubleFactories(): List<MatrixFactory<DoubleMatrix>> {
     return koma.platformsupport.getFactories()
 }
 
@@ -64,14 +65,14 @@ fun getPlatformDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getPlatformFloatFactories(): List<MatrixFactory<Matrix<Float>>> = listOf()
+fun getPlatformFloatFactories(): List<MatrixFactory<Matrix<Float, *>>> = listOf()
 
 /**
  *  At runtime, see which int backends are available on our classpath (if any).
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getPlatformIntFactories(): List<MatrixFactory<Matrix<Int>>> = listOf()
+fun getPlatformIntFactories(): List<MatrixFactory<Matrix<Int, *>>> = listOf()
 
 /**
  * Whether to validate the dimensions, symmetry, and values of input matrices. false is faster, and should be
@@ -86,11 +87,11 @@ var validateMatrices = true
  * for a backend, and if none are found there it selects [default] instead. If this
  * property is ever set by the user then the user's choice overrides all others.
  */
-class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>,
-                        val default: MatrixFactory<Matrix<T>>) {
-    private var defaultFactory: MatrixFactory<Matrix<T>>? = null
+class MatFacProperty<T>(val available: ()->List<MatrixFactory<T>>,
+                        val default: MatrixFactory<T>) {
+    private var defaultFactory: MatrixFactory<T>? = null
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<Matrix<T>> {
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): MatrixFactory<T> {
         val facInst = defaultFactory
         if (facInst != null) {
             return facInst
@@ -113,7 +114,7 @@ class MatFacProperty<T>(val available: ()->List<MatrixFactory<Matrix<T>>>,
 
     }
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<Matrix<T>>?) {
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: MatrixFactory<T>?) {
         defaultFactory = value
     }
 }

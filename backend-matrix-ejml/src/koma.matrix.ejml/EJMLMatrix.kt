@@ -1,7 +1,7 @@
 package koma.matrix.ejml
 
 import koma.matrix.*
-import koma.matrix.common.*
+import koma.matrix.DoubleMatrix
 import koma.matrix.ejml.backend.*
 import org.ejml.ops.CommonOps
 import org.ejml.simple.SimpleMatrix
@@ -11,7 +11,7 @@ import org.ejml.simple.SimpleMatrix
  * You should rarely use this class directly, instead use one of the
  * top-level functions in creators.kt (e.g. zeros(5,5)) or [EJMLMatrixFactory].
  */
-class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase() {
+class EJMLMatrix(var storage: SimpleMatrix) : DoubleMatrix() {
     override fun getBaseMatrix() = this.storage
 
     override fun getDoubleData() = this.storage.matrix.getData()
@@ -37,18 +37,17 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numCols()
-    override fun times(other: Matrix<Double>) =
+    override fun times(other: DoubleMatrix) =
             EJMLMatrix(this.storage.times(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
     override fun times(other: Double) = EJMLMatrix(this.storage.times(other))
-    override fun elementTimes(other: Matrix<Double>) =
+    override fun elementTimes(other: DoubleMatrix) =
             EJMLMatrix(this.storage.elementMult(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
-    override fun rem(other: Matrix<Double>) =
+    override fun rem(other: DoubleMatrix) =
             EJMLMatrix(this.storage.mod(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
     override fun unaryMinus() = EJMLMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = EJMLMatrix(this.storage.minus(other))
-    override fun minus(other: Matrix<Double>) =
+    override fun minus(other: DoubleMatrix) =
             EJMLMatrix(this.storage.minus(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
-    override fun div(other: Int) = EJMLMatrix(this.storage.div(other))
     override fun div(other: Double) = EJMLMatrix(this.storage.div(other))
     override fun transpose() = EJMLMatrix(this.storage.transpose())
     override fun copy() = EJMLMatrix(this.storage.copy())
@@ -58,7 +57,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun get(i: Int) = this.storage.get(i)
     override fun getRow(row: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractRow(this.storage.matrix, row, null)))
     override fun getCol(col: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
-    override fun plus(other: Matrix<Double>) =
+    override fun plus(other: DoubleMatrix) =
             EJMLMatrix(this.storage.plus(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
     override fun plus(other: Double) = EJMLMatrix(this.storage.plus(other))
     override fun chol(): EJMLMatrix {
@@ -82,12 +81,12 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
 
 
-    override fun setCol(index: Int, col: Matrix<Double>) {
+    override fun setCol(index: Int, col: DoubleMatrix) {
         for (i in 0..col.numRows() - 1)
             this[i, index] = col[i]
     }
 
-    override fun setRow(index: Int, row: Matrix<Double>) {
+    override fun setRow(index: Int, row: DoubleMatrix) {
         for (i in 0..row.numCols() - 1)
             this[index, i] = row[i]
     }
@@ -99,7 +98,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override val T: EJMLMatrix
         get() = this.transpose()
 
-    override fun solve(A: Matrix<Double>, B: Matrix<Double>): EJMLMatrix {
+    override fun solve(A: DoubleMatrix, B: DoubleMatrix): EJMLMatrix {
         val out = this.getFactory().zeros(A.numCols(), 1)
         CommonOps.solve(castOrCopy(A, ::EJMLMatrix, getFactory()).storage.matrix,
                         castOrCopy(B, ::EJMLMatrix, getFactory()).storage.matrix,

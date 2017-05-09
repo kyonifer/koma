@@ -1,7 +1,7 @@
 package koma.matrix.ejml
 
 import koma.*
-import koma.matrix.common.*
+import koma.matrix.DoubleFactoryBase
 import koma.util.*
 import org.ejml.simple.SimpleMatrix
 

@@ -3,6 +3,7 @@
 package koma.util.validation
 import koma.*
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
@@ -20,14 +21,14 @@ private class DimensionValidator: Validator {
     // For named variables, the possible values they might take based on scanned matrix dimensions.
     private val possibleValues = mutableMapOf<Char, MutableSet<Int>>()
     // Possible valid dimensions for a given matrix
-    private val dimensions = mutableMapOf<Matrix<Double>, Pair<MutableSet<Int>, MutableSet<Int>>>()
+    private val dimensions = mutableMapOf<DoubleMatrix, Pair<MutableSet<Int>, MutableSet<Int>>>()
     // The declared dimensions for the matrix with the given name. Strings in the pair will either be
     // numeric or a single character.
     private val declared = mutableMapOf<String, Pair<String, String>>()
     // Matrix names we've already complained about while building our error string.
     private val seenInError = mutableSetOf<String>()
     // Matrices that have been declared transposable.
-    private val transposable = mutableSetOf<Matrix<Double>>()
+    private val transposable = mutableSetOf<DoubleMatrix>()
 
     private fun inferValues(letter: Char, vararg dimensions: Int) : MutableSet<Int> {
         val possible = possibleValues.getOrPut(letter) { dimensions.toMutableSet() }
@@ -35,12 +36,12 @@ private class DimensionValidator: Validator {
         return possible
     }
 
-    fun dim(name: String, matrix: Matrix<Double>, rows: Int, cols: Int) {
+    fun dim(name: String, matrix: DoubleMatrix, rows: Int, cols: Int) {
         declared[name] = Pair("$rows", "$cols")
         dimensions[matrix] = Pair(mutableSetOf(rows), mutableSetOf(cols))
     }
 
-    fun dim(name: String, matrix: Matrix<Double>, rows: Int, cols: Char) {
+    fun dim(name: String, matrix: DoubleMatrix, rows: Int, cols: Char) {
         declared[name] = Pair("$rows", "$cols")
         val inferenceSource = if (matrix.numCols() == rows) {
             matrix.numRows()
@@ -50,7 +51,7 @@ private class DimensionValidator: Validator {
         dimensions[matrix] = Pair(mutableSetOf(rows), inferValues(cols, inferenceSource))
     }
 
-    fun dim(name: String, matrix: Matrix<Double>, rows: Char, cols: Int) {
+    fun dim(name: String, matrix: DoubleMatrix, rows: Char, cols: Int) {
         declared[name] = Pair("$rows", "$cols")
         val inferenceSource = if (matrix.numRows() == cols) {
             matrix.numCols()
@@ -60,18 +61,18 @@ private class DimensionValidator: Validator {
         dimensions[matrix] = Pair(inferValues(rows, inferenceSource), mutableSetOf(cols))
     }
 
-    fun dim(name: String, matrix: Matrix<Double>, rows: Char, cols: Char) {
+    fun dim(name: String, matrix: DoubleMatrix, rows: Char, cols: Char) {
         declared[name] = Pair("$rows", "$cols")
         dimensions[matrix] = Pair(inferValues(rows, matrix.numRows(), matrix.numCols()),
                                   inferValues(cols, matrix.numRows(), matrix.numCols()))
     }
 
-    fun markTransposable(matrix: Matrix<Double>) {
+    fun markTransposable(matrix: DoubleMatrix) {
         transposable.add(matrix)
     }
 
     override fun performValidation(context: ValidationContext) {
-        val failed = mutableListOf<Pair<String, Matrix<Double>>>()
+        val failed = mutableListOf<Pair<String, DoubleMatrix>>()
         for ((index, matrix) in context.matrices.withIndex()) {
             dimensions[matrix]?.let { matrixDimension ->
                 val (expectedRows, expectedCols) = matrixDimension
@@ -140,7 +141,7 @@ private class DimensionValidator: Validator {
 
     // Build our pretty table of dimensions real vs actual.
     private fun concoctExceptionMessage(context: ValidationContext, failed: List<Pair<String,
-    Matrix<Double>>>): String {
+            DoubleMatrix>>): String {
         val strings = mutableListOf<String>()
         for ((index, matrix) in context.matrices.withIndex()) {
             val name = context.matrixNames[index]

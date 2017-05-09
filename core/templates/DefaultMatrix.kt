@@ -5,19 +5,16 @@ import koma.platformsupport.*
 import koma.polyfill.*
 
 class Default${dtype}Matrix (val rows: Int, 
-                          val cols: Int): Matrix<${dtype}> {
+                          val cols: Int): ${dtype}Matrix() {
     val storage = ${dtype}Array(rows*cols)
 
-    override fun rem(other: Matrix<${dtype}>): Matrix<${dtype}> 
+    override fun rem(other: ${dtype}Matrix): ${dtype}Matrix 
             = elementTimes(other)
     
-    ${div}
-    
-    override fun div(other: Int): Matrix<${dtype}>
+    override fun div(other: ${dtype}): ${dtype}Matrix
             = this.mapMatIndexed { row, col, ele -> ele/other}
-
-
-    override fun times(other: Matrix<${dtype}>): Matrix<${dtype}> {
+    
+    override fun times(other: ${dtype}Matrix): ${dtype}Matrix {
         val out = getFactory().zeros(this.numRows(), other.numCols())
         out.eachIndexed { row, col, _ ->
             for (cursor in 0 until this.numCols())
@@ -26,35 +23,35 @@ class Default${dtype}Matrix (val rows: Int,
         return out
     }
     
-    override fun times(other: ${dtype}): Matrix<${dtype}> 
+    override fun times(other: ${dtype}): ${dtype}Matrix 
             = this.mapMat { it*other }
 
-    override fun unaryMinus(): Matrix<${dtype}> 
+    override fun unaryMinus(): ${dtype}Matrix 
             = this.mapMat { it*-1 }
 
-    override fun minus(other: ${dtype}): Matrix<${dtype}>
+    override fun minus(other: ${dtype}): ${dtype}Matrix
             = this.mapMat { it - other }
     
-    override fun minus(other: Matrix<${dtype}>): Matrix<${dtype}> 
+    override fun minus(other: ${dtype}Matrix): ${dtype}Matrix 
             = this.mapMatIndexed { row, col, ele -> ele - other[row,col] }
 
-    override fun plus(other: ${dtype}): Matrix<${dtype}> 
+    override fun plus(other: ${dtype}): ${dtype}Matrix 
             = this.mapMat { it + other }
 
-    override fun plus(other: Matrix<${dtype}>): Matrix<${dtype}> 
+    override fun plus(other: ${dtype}Matrix): ${dtype}Matrix 
             = this.mapMatIndexed { row, col, ele -> ele + other[row,col] }
 
-    override fun transpose(): Matrix<${dtype}> 
+    override fun transpose(): ${dtype}Matrix 
             = getFactory()
             .zeros(numCols(),numRows())
             .fill { row, col -> this[col,row] }
 
-    override fun elementTimes(other: Matrix<${dtype}>): Matrix<${dtype}> 
+    override fun elementTimes(other: ${dtype}Matrix): ${dtype}Matrix 
             = this.mapMatIndexed { row, col, ele -> ele*other[row,col] }
 
     ${epow}
     
-    override fun epow(other: Int): Matrix<${dtype}>
+    override fun epow(other: Int): ${dtype}Matrix
             = this.mapMatIndexed { row, col, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 
     override fun numRows(): Int = this.rows
@@ -76,31 +73,19 @@ class Default${dtype}Matrix (val rows: Int,
     override fun get(i: Int): ${dtype} 
             = storage[i]
     
-    override fun copy(): Matrix<${dtype}> 
+    override fun copy(): ${dtype}Matrix 
             = this.mapMat { it }
     
     
-    override fun getInt(i: Int, j: Int): Int = this[i,j].toInt()
-    override fun getDouble(i: Int, j: Int): Double = this[i,j].toDouble()
-    override fun getFloat(i: Int, j: Int): Float = this[i,j].toFloat()
-    override fun getInt(i: Int): Int = this[i].toInt()
-    override fun getDouble(i: Int): Double = this[i].toDouble()
-    override fun getFloat(i: Int): Float = this[i].toFloat()
-    override fun setInt(i: Int, v: Int) { this[i] = v.to${dtype}()}
-    override fun setDouble(i: Int, v: Double) { this[i] = v.to${dtype}()}
-    override fun setFloat(i: Int, v: Float) { this[i] = v.to${dtype}()}
-    override fun setInt(i: Int, j: Int, v: Int) { this[i,j] = v.to${dtype}()}
-    override fun setDouble(i: Int, j: Int, v: Double) { this[i,j] = v.to${dtype}()}
-    override fun setFloat(i: Int, j: Int, v: Float) { this[i,j] = v.to${dtype}()}
     override fun getDoubleData(): DoubleArray = storage.map { it.toDouble() }.toDoubleArray()
-    override fun getRow(row: Int): Matrix<${dtype}> {
+    override fun getRow(row: Int): ${dtype}Matrix {
         checkBounds(row, 0)
         val out = getFactory().zeros(1,cols)
         for (i in 0 until cols)
             out[i] = this[row, i]
         return out
     }
-    override fun getCol(col: Int): Matrix<${dtype}> {
+    override fun getCol(col: Int): ${dtype}Matrix {
         checkBounds(0,col)
         val out = getFactory().zeros(rows,1)
         for (i in 0 until rows)
@@ -108,39 +93,39 @@ class Default${dtype}Matrix (val rows: Int,
         return out
     }
 
-    override fun setCol(index: Int, col: Matrix<${dtype}>) {
+    override fun setCol(index: Int, col: ${dtype}Matrix) {
         checkBounds(0,index)
         for (i in 0 until rows)
             this[i, index] = col[i]
     }
 
-    override fun setRow(index: Int, row: Matrix<${dtype}>) {
+    override fun setRow(index: Int, row: ${dtype}Matrix) {
         checkBounds(index, 0)
         for (i in 0 until cols)
             this[index, i] = row[i]
     }
 
-    override fun chol(): Matrix<${dtype}> {
+    override fun chol(): ${dtype}Matrix {
         TODO("not implemented")
     }
 
-    override fun LU(): Triple<Matrix<${dtype}>, Matrix<${dtype}>, Matrix<${dtype}>> {
+    override fun LU(): Triple<${dtype}Matrix, ${dtype}Matrix, ${dtype}Matrix> {
         TODO("not implemented")
     }
 
-    override fun QR(): Pair<Matrix<${dtype}>, Matrix<${dtype}>> {
+    override fun QR(): Pair<${dtype}Matrix, ${dtype}Matrix> {
         TODO("not implemented")
     }
 
-    override fun expm(): Matrix<${dtype}> {
+    override fun expm(): ${dtype}Matrix {
         TODO("not implemented")
     }
 
-    override fun solve(A: Matrix<${dtype}>, B: Matrix<${dtype}>): Matrix<${dtype}> {
+    override fun solve(A: ${dtype}Matrix, B: ${dtype}Matrix): ${dtype}Matrix {
         TODO("not implemented")
     }
 
-    override fun inv(): Matrix<${dtype}> {
+    override fun inv(): ${dtype}Matrix {
         TODO("not implemented")
     }
 
@@ -148,7 +133,7 @@ class Default${dtype}Matrix (val rows: Int,
         TODO("not implemented")
     }
 
-    override fun pinv(): Matrix<${dtype}> {
+    override fun pinv(): ${dtype}Matrix {
         TODO("not implemented")
     }
 
@@ -163,7 +148,7 @@ class Default${dtype}Matrix (val rows: Int,
     override fun elementSum(): ${dtype} 
             = this.toIterable().reduce { a, b -> a + b }
 
-    override fun diag(): Matrix<${dtype}> 
+    override fun diag(): ${dtype}Matrix 
             = getFactory()
             .zeros(numRows(),1)
             .fill{ row, col -> this[row,row] }
@@ -202,11 +187,11 @@ class Default${dtype}Matrix (val rows: Int,
         TODO("not implemented")
     }
 
-    override fun T(): Matrix<${dtype}> = this.transpose()
+    override fun T(): ${dtype}Matrix = this.transpose()
 
     override fun getBaseMatrix(): Any 
             = storage
-    override fun getFactory(): MatrixFactory<Matrix<${dtype}>> 
+    override fun getFactory(): MatrixFactory<${dtype}Matrix> 
             = Default${dtype}MatrixFactory()
     
     private fun checkBounds(row: Int, col: Int) {

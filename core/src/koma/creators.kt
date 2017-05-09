@@ -10,25 +10,26 @@
 package koma
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 import koma.polyfill.annotations.*
 
 /**
  * Creates a zero-filled matrix with the given size
  */
 @JsName("zeros")
-fun zeros(rows: Int, cols: Int): Matrix<Double> = zeros(rows, cols, dtype=MatrixTypes.DoubleType)
-fun <T> zeros(rows:Int, 
+fun zeros(rows: Int, cols: Int): DoubleMatrix = zeros(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> zeros(rows:Int, 
               cols:Int,
-              dtype: MatrixType<T>): Matrix<T> 
+              dtype: MatrixType<U>): U
         = dtype().zeros(rows,cols)
 
 /**
  * Creates a square zero-filled matrix with the given size
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
-fun zeros(size: Int): Matrix<Double> = zeros(size, dtype=MatrixTypes.DoubleType)
-fun <T> zeros(size: Int,
-              dtype: MatrixType<T>): Matrix<T>
+fun zeros(size: Int): DoubleMatrix = zeros(size, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> zeros(size: Int,
+              dtype: MatrixType<U>): U
         = dtype().zeros(size, size)
 
 /**
@@ -36,8 +37,8 @@ fun <T> zeros(size: Int,
  */
 @JsName("createRange")
 fun create(data: IntRange) = create(data, dtype=MatrixTypes.DoubleType)
-fun <T> create(data: IntRange,
-               dtype: MatrixType<T>): Matrix<T> 
+fun <T, U: Matrix<T, U>> create(data: IntRange,
+               dtype: MatrixType<U>): U
         = dtype().create(data)
 
 /**
@@ -45,23 +46,23 @@ fun <T> create(data: IntRange,
  */
 @JsName("createArray")
 fun create(data: DoubleArray) = create(data, dtype=MatrixTypes.DoubleType)
-fun <T> create(data: DoubleArray,
-               dtype: MatrixType<T>): Matrix<T> 
-        = dtype().create(data).asRowVector()
+fun <T, U: Matrix<T, U>> create(data: DoubleArray,
+               dtype: MatrixType<U>): U
+        = dtype().create(data).asRowVector().toTyped()
 
 /**
  * Creates a matrix filled with the given set of values in row-major order.
  */
 @JsName("createArraySized")
-fun create(data: DoubleArray, numRows: Int, numCols: Int): Matrix<Double> =
+fun create(data: DoubleArray, numRows: Int, numCols: Int) =
     create(data, numRows, numCols, dtype=MatrixTypes.DoubleType)
-fun <T> create(data: DoubleArray, 
+fun <T, U: Matrix<T, U>> create(data: DoubleArray, 
                numRows: Int, 
                numCols: Int,
-               dtype: MatrixType<T>): Matrix<T> {
+               dtype: MatrixType<U>): U {
     // TODO: Replace when also exists in kotlin-native
     val out = dtype().zeros(numRows,numCols)
-    data.forEachIndexed { idx, value -> out.setDouble(idx,value) }
+    data.forEachIndexed { idx, value -> out[idx] = out.asDType(value) }
     return out
 } 
 
@@ -69,47 +70,47 @@ fun <T> create(data: DoubleArray,
  * Creates a matrix filled with the given data, assuming input is row major.
  */
 @JsName("create2DArray")
-fun create(data: Array<DoubleArray>): Matrix<Double> = create(data, dtype=MatrixTypes.DoubleType)
-fun <T> create(data: Array<DoubleArray>,
-               dtype: MatrixType<T>): Matrix<T> 
+fun create(data: Array<DoubleArray>) = create(data, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> create(data: Array<DoubleArray>,
+               dtype: MatrixType<U>): U 
         = dtype().create(data)
 
 /**
  * Creates a one-filled square matrix with the given size
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
-fun ones(size: Int): Matrix<Double> = ones(size, dtype=MatrixTypes.DoubleType)
-inline fun <reified T> ones(size: Int,
-                            dtype: MatrixType<T>): Matrix<T> 
+fun ones(size: Int) = ones(size, dtype=MatrixTypes.DoubleType)
+inline fun <T, U: Matrix<T, U>> ones(size: Int,
+                            dtype: MatrixType<U>): U
         = dtype().ones(size, size)
 
 /**
  * Creates a one-filled matrix with the given size
  */
 @JsName("ones")
-fun ones(rows: Int, columns: Int): Matrix<Double> = ones(rows, columns, dtype=MatrixTypes.DoubleType)
-fun <T> ones(rows: Int, 
+fun ones(rows: Int, columns: Int) = ones(rows, columns, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> ones(rows: Int, 
              columns: Int,
-             dtype: MatrixType<T>): Matrix<T> 
+             dtype: MatrixType<U>): U
         = dtype().ones(rows, columns)
 
 /**
  * Creates a square identity matrix with the given size
  */
 @JsName("eye")
-fun eye(size: Int): Matrix<Double> = eye(size, dtype=MatrixTypes.DoubleType)
-fun <T> eye(size: Int,
-            dtype: MatrixType<T>): Matrix<T> 
+fun eye(size: Int) = eye(size, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> eye(size: Int,
+            dtype: MatrixType<U>): U 
         = dtype().eye(size)
 
 /**
  * Creates an identity matrix with the given size
  */
 @JsName("eyeSized")
-fun eye(rows: Int, cols: Int): Matrix<Double> = eye(rows, cols, dtype=MatrixTypes.DoubleType)
-fun <T> eye(rows: Int, 
+fun eye(rows: Int, cols: Int) = eye(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> eye(rows: Int, 
             cols: Int,
-            dtype: MatrixType<T>): Matrix<T> 
+            dtype: MatrixType<U>): U
         = dtype().eye(rows, cols)
 
 /**
@@ -117,9 +118,9 @@ fun <T> eye(rows: Int,
  */
 @JsName("fill")
 fun fill(rows: Int, cols: Int, func: (Int, Int) -> Double) = zeros(rows, cols).fill(func)
-fun <T> fill(rows: Int, 
+fun <T, U: Matrix<T, U>> fill(rows: Int, 
              cols: Int,
-             dtype: MatrixType<T>,
+             dtype: MatrixType<U>,
              func: (Int, Int) -> T) 
         = zeros(rows, cols, dtype).fill(func)
 
@@ -130,29 +131,29 @@ fun <T> fill(rows: Int,
 fun fill(rows: Int, 
          cols: Int, 
          value: Double) = zeros(rows, cols).fill({ r, c -> value })
-fun <T> fill(rows: Int, 
+fun <T, U: Matrix<T, U>> fill(rows: Int, 
              cols: Int, 
              value: T,
-             dtype: MatrixType<T>) 
+             dtype: MatrixType<U>) 
         = zeros(rows, cols, dtype).fill({ r, c -> value })
 
 /**
  * Creates an 1x[cols] matrix filled with unit uniform random numbers
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(cols, cols)"))
-fun rand(cols: Int): Matrix<Double> = rand(cols, dtype=MatrixTypes.DoubleType)
-fun <T> rand(cols: Int,
-             dtype: MatrixType<T>): Matrix<T> 
+fun rand(cols: Int) = rand(cols, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> rand(cols: Int, 
+                              dtype: MatrixType<U>): U 
         = dtype().rand(1, cols)
 
 /**
  * Creates an matrix filled with unit uniform random numbers
  */
 @JsName("rand")
-fun rand(rows: Int, cols: Int): Matrix<Double> = rand(rows, cols, dtype=MatrixTypes.DoubleType)
-fun <T> rand(rows: Int, 
+fun rand(rows: Int, cols: Int) = rand(rows, cols, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> rand(rows: Int, 
              cols: Int,
-             dtype: MatrixType<T>): Matrix<T> 
+             dtype: MatrixType<U>): U
         = dtype().rand(rows, cols)
 
 /**
@@ -160,35 +161,35 @@ fun <T> rand(rows: Int,
  * Subsequent calls with the same seed will produce identical numbers.
  */
 @JsName("randSeed")
-fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> = rand(rows, 
-                                                                  cols, 
-                                                                  seed, 
-                                                                  dtype=MatrixTypes.DoubleType)
-fun <T> rand(rows: Int, 
+fun rand(rows: Int, cols: Int, seed: Long) = rand(rows, 
+                                                  cols, 
+                                                  seed, 
+                                                  dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> rand(rows: Int, 
              cols: Int, 
              seed: Long,
-             dtype: MatrixType<T>): Matrix<T> 
+             dtype: MatrixType<U>): U
         = dtype().rand(rows, cols, seed)
 
 /**
  * Creates an 1x[cols] matrix filled with unit normal random numbers
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(cols, cols)"))
-fun randn(cols: Int): Matrix<Double> = randn(cols, dtype=MatrixTypes.DoubleType)
-fun <T> randn(cols: Int,
-              dtype: MatrixType<T>): Matrix<T> 
+fun randn(cols: Int) = randn(cols, dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> randn(cols: Int,
+              dtype: MatrixType<U>): U
         = dtype().randn(1, cols)
 
 /**
  * Creates an matrix filled with unit normal random numbers
  */
 @JsName("randn")
-fun randn(rows: Int, cols: Int): Matrix<Double> = randn(rows, 
-                                                        cols, 
-                                                        dtype=MatrixTypes.DoubleType)
-fun <T> randn(rows: Int, 
-              cols: Int,
-              dtype: MatrixType<T>): Matrix<T> 
+fun randn(rows: Int, cols: Int) = randn(rows, 
+                                        cols, 
+                                        dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> randn(rows: Int, 
+                               cols: Int, 
+                               dtype: MatrixType<U>): U
         = dtype().randn(rows, cols)
 
 /**
@@ -196,14 +197,14 @@ fun <T> randn(rows: Int,
  * Subsequent calls with the same seed will produce identical numbers.
  */
 @JsName("randnSeed")
-fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = randn(rows, 
-                                                                    cols, 
-                                                                    seed, 
-                                                                    dtype=MatrixTypes.DoubleType)
-fun <T> randn(rows: Int, 
-              cols: Int, 
-              seed: Long,
-              dtype: MatrixType<T>): Matrix<T> 
+fun randn(rows: Int, cols: Int, seed: Long) = randn(rows, 
+                                                    cols, 
+                                                    seed, 
+                                                    dtype=MatrixTypes.DoubleType)
+fun <T, U: Matrix<T, U>> randn(rows: Int, 
+                               cols: Int, 
+                               seed: Long, 
+                               dtype: MatrixType<U>): U 
         = dtype().randn(rows, cols, seed)
 
 /**
@@ -211,14 +212,14 @@ fun <T> randn(rows: Int,
  * end at [stop], with the interval between each value [step].
  */
 @JsName("arange")
-fun arange(start: Double, stop: Double, step: Double): Matrix<Double> = arange(start, 
+fun arange(start: Double, stop: Double, step: Double) = arange(start, 
                                                                                stop, 
                                                                                step,
                                                                                dtype=MatrixTypes.DoubleType)
-fun <T> arange(start: Double, 
-               stop: Double, 
-               step: Double,
-               dtype: MatrixType<T>): Matrix<T> 
+fun <T, U: Matrix<T, U>> arange(start: Double, 
+                                stop: Double, 
+                                step: Double, 
+                                dtype: MatrixType<U>): U
         = dtype().arange(start, stop, step)
 
 // TODO: Get these versions working

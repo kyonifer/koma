@@ -1,12 +1,13 @@
 package koma.platformsupport
 
 import koma.matrix.*
+import koma.matrix.DoubleMatrix
 
-fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
+fun getFactories(): List<MatrixFactory<DoubleMatrix>> {
     val facCandidates = arrayOf("koma.matrix.mtj.MTJMatrixFactory",
                                 "koma.matrix.ejml.EJMLMatrixFactory",
                                 "koma.matrix.jblas.JBlasMatrixFactory")
-    val out: MutableList<MatrixFactory<Matrix<Double>>> = ArrayList()
+    val out: MutableList<MatrixFactory<DoubleMatrix>> = ArrayList()
 
     facCandidates.forEach {
         try {
@@ -14,7 +15,7 @@ fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
             fac.constructors.forEach { ctor ->
                 if (ctor.parameterTypes.isEmpty()) {
                     @Suppress("UNCHECKED_CAST")
-                    val inst = ctor.newInstance() as MatrixFactory<Matrix<Double>>
+                    val inst = ctor.newInstance() as MatrixFactory<DoubleMatrix>
                     // Actual classpath search
                     inst.zeros(1)
                     // Backend exists
