@@ -3,7 +3,7 @@ package koma.platformsupport
 import koma.*
 import koma.matrix.*
 
-fun <T> repr(mat: Matrix<T>): String {
+fun <T, U: Matrix<T, U>> repr(mat: Matrix<T, U>): String {
     // Replace when buildString {} is implemented on native
     val out = StringBuilder()
     out.append("mat[")
