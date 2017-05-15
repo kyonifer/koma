@@ -32,16 +32,6 @@ operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
  */
 infix fun Matrix<Double>.emul(other: Matrix<Double>) = this.elementTimes(other)
 
-/**
- * Allow set-index overloading for integers. See [koma.matrix.Matrix<T>.set] for doubles.
- */
-operator fun Matrix<Double>.set(index: Int, value: Int) = this.set(index, value.toDouble())
-
-/**
- * Allow set-index overloading for integers. See [koma.matrix.Matrix<T>.set] for doubles.
- */
-operator fun Matrix<Double>.set(row: Int, col: Int, value: Int) = this.set(row, col, value.toDouble())
-
 
 /**
  * Add a scalar to a matrix

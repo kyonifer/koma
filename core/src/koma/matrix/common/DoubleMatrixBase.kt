@@ -12,11 +12,10 @@ import koma.polyfill.annotations.*
  */
 abstract class DoubleMatrixBase : MatrixBase<Double>() {
 
-
-    override fun getDouble(i: Int, j: Int) = this[i, j]
-    override fun getDouble(i: Int) = this[i]
-    override fun setDouble(i: Int, v: Double) {this[i] = v}
-    override fun setDouble(i: Int, j: Int, v: Double) {this[i, j] = v}
+    override fun getGeneric(i: Int) = getDouble(i)
+    override fun getGeneric(i: Int, j: Int) = getDouble(i, j)
+    override fun setGeneric(i: Int, v: Double) = setDouble(i, v)
+    override fun setGeneric(i: Int, j: Int, v: Double) = setDouble(i, j, v)
 
     override fun getInt(i: Int, j: Int) = this[i, j].toInt()
     override fun getInt(i: Int) = this[i].toInt()

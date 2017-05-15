@@ -48,22 +48,22 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun numRows() = this.storage.rows
     override fun numCols() = this.storage.columns
 
-    override fun set(i: Int, v: Double) {
+    override fun setDouble(i: Int, v: Double) {
         this.storage[rowToColMajor(i)] = v
     }
 
-    override fun set(i: Int, j: Int, v: Double) {
+    override fun setDouble(i: Int, j: Int, v: Double) {
         if (i>=this.numRows() || j>=this.numCols())
             throw ArrayIndexOutOfBoundsException("Index into row/col $i/$j out of bounds.")
         this.storage[i, j] = v
     }
 
-    override fun get(i: Int, j: Int): Double {
+    override fun getDouble(i: Int, j: Int): Double {
         if (i<this.numRows() && j<this.numCols())
             return this.storage.get(i, j)
         throw ArrayIndexOutOfBoundsException("Index into row/col $i/$j out of bounds.")
     }
-    override fun get(i: Int) = this.storage.get(rowToColMajor(i))
+    override fun getDouble(i: Int) = this.storage.get(rowToColMajor(i))
 
     override fun getRow(row: Int) = JBlasMatrix(this.storage.getRow(row))
     override fun getCol(col: Int) = JBlasMatrix(this.storage.getColumn(col))

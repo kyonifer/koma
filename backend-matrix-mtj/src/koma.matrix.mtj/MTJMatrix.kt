@@ -1,5 +1,6 @@
 package koma.matrix.mtj
 
+import koma.*
 import koma.matrix.*
 import koma.matrix.common.*
 import koma.matrix.mtj.backend.*
@@ -63,10 +64,10 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     }
 
     override fun copy() = MTJMatrix(this.storage.copy())
-    override fun set(i: Int, v: Double): Unit = this.storage.set(i, v)
-    override fun set(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
-    override fun get(i: Int, j: Int) = this.storage.get(i, j)
-    override fun get(i: Int) = this.storage[i]
+    override fun setDouble(i: Int, v: Double): Unit = this.storage.set(i, v)
+    override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
+    override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
+    override fun getDouble(i: Int) = this.storage[i]
     override fun getRow(row: Int): MTJMatrix {
         val out = DenseMatrix(1, this.numCols())
         for (col in 0 until this.numCols())

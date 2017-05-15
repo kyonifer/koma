@@ -1,6 +1,7 @@
 package koma.matrix
 
 import koma.polyfill.annotations.*
+import koma.*
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -39,22 +40,6 @@ interface Matrix<T> {
     fun numRows(): Int
     fun numCols(): Int
 
-    /**
-     * Set the ith element in the matrix. If 2D, selects elements in row-major order.
-     */
-    @JsName("set1D")
-    operator fun set(i: Int, v: T)
-    @JsName("set")
-    operator fun set(i: Int, j: Int, v: T)
-
-    /**
-     * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
-     */
-    @JsName("get")
-    operator fun get(i: Int, j: Int): T
-    @JsName("get1D")
-    operator fun get(i: Int): T
-
     fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
@@ -82,6 +67,14 @@ interface Matrix<T> {
     fun setDouble(i: Int, j: Int, v: Double)
     @JsName("setFloat")
     fun setFloat(i: Int, j: Int, v: Float)
+    @JsName("getGeneric")
+    fun getGeneric(i: Int, j: Int): T
+    @JsName("getGeneric1D")
+    fun getGeneric(i: Int): T
+    @JsName("setGeneric")
+    fun setGeneric(i: Int, j: Int, v: T)
+    @JsName("setGeneric1D")
+    fun setGeneric(i: Int, v: T)
 
     /**
      * Retrieves the data formatted as doubles in row-major order
@@ -188,113 +181,8 @@ interface Matrix<T> {
     }
 
 
-    /**
-     * Allow slicing, e.g. ```matrix[1..2, 3..4]```. Note that the range 1..2 is inclusive, so
-     * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
-     *
-     * @param rows the set of rows to select
-     * @param cols the set of columns to select
-     *
-     * @return a new matrix containing the submatrix.
-     */
-    @JsName("getRanges")
-    operator fun get(rows: IntRange, cols: IntRange): Matrix<T>
-    {
-        val wrows = wrapRange(rows, numRows())
-        val wcols = wrapRange(cols, numCols())
-
-        val out = this.getFactory().zeros(wrows.endInclusive - wrows.start + 1,
-                                          wcols.endInclusive - wcols.start + 1)
-        for (row in wrows)
-            for (col in wcols)
-                out[row - wrows.start, col - wcols.start] = this[row, col]
-        return out
-    }
-
-    /**
-     * Allow assignment to a slice, e.g. ```matrix[1..2, 3..4]```=something. Note that the range 1..2 is inclusive, so
-     * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
-     *
-     * @param rows the set of rows to select
-     * @param cols the set of columns to select
-     * @param value the matrix to set the subslice to
-     *
-     */
-    @JsName("setRanges")
-    operator fun set(rows: IntRange, cols: IntRange, value: Matrix<T>)
-    {
-        val wrows = wrapRange(rows, numRows())
-        val wcols = wrapRange(cols, numCols())
-
-        for (i in wrows)
-            for (j in wcols)
-                this[i, j] = value[i - wrows.start, j - wcols.start]
-    }
-    @JsName("setRangesScalar")
-    operator fun set(rows: IntRange, cols: IntRange, value: T)
-    {
-        val wrows = wrapRange(rows, numRows())
-        val wcols = wrapRange(cols, numCols())
-
-        for (i in wrows)
-            for (j in wcols)
-                this[i, j] = value
-    }
-
-    /**
-     * Allow assignment to a slice, e.g. ```matrix[2, 3..4]```=something. Note that the range 3..4 is inclusive, so
-     * it will retrieve col 3 and 4. Use 1.until(2) for a non-inclusive range.
-     *
-     * @param rows the row to select
-     * @param cols the set of columns to select
-     * @param value the matrix to set the subslice to
-     *
-     */
-    @JsName("setColRange")
-    operator fun set(rows: Int, cols: IntRange, value: Matrix<T>)
-    {
-        this[rows..rows, cols] = value
-    }
-    @JsName("setColRangeScalar")
-    operator fun set(rows: Int, cols: IntRange, value: T)
-    {
-        this[rows..rows, cols] = value
-    }
-
-    /**
-     * Allow assignment to a slice, e.g. ```matrix[1..2, 3]```=something. Note that the range 1..2 is inclusive, so
-     * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
-     *
-     * @param rows the set of rows to select
-     * @param cols the column to select
-     * @param value the matrix to set the subslice to
-     *
-     */
-    @JsName("setRowRange")
-    operator fun set(rows: IntRange, cols: Int, value: Matrix<T>)
-    {
-        this[rows, cols..cols] = value
-    }
-    @JsName("setRowRangeScalar")
-    operator fun set(rows: IntRange, cols: Int, value: T)
-    {
-        this[rows, cols..cols] = value
-    }
-
-    /**
-     * Allows for slicing of the rows and selection of a single column
-     */
-    @JsName("getRowRange")
-    operator fun get(rows: IntRange, cols: Int) = this[rows, cols..cols]
-
-    /**
-     * Allows for slicing of the cols and selection of a single row
-     */
-    @JsName("getColRange")
-    operator fun get(rows: Int, cols: IntRange) = this[rows..rows, cols]
-
     @JsName("wrapRange__")
-    private fun wrapRange(range: IntRange, max: Int) =
+    fun wrapRange(range: IntRange, max: Int) =
             if(range.endInclusive >= 0)
                 range
             else
@@ -614,3 +502,4 @@ interface Matrix<T> {
     }
 
 }
+

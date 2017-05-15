@@ -1,5 +1,6 @@
 package koma.matrix.default
 
+import koma.*
 import koma.matrix.*
 import koma.platformsupport.*
 import koma.polyfill.*
@@ -60,38 +61,42 @@ class Default${dtype}Matrix (val rows: Int,
     override fun numRows(): Int = this.rows
     override fun numCols(): Int = this.cols
 
-    override fun set(i: Int, v: ${dtype}) {
+    private fun setStorage(i: Int, v: ${dtype}) {
         storage[i] = v
     }
-    override fun set(i: Int, j: Int, v: ${dtype}) {
+    private fun setStorage(i: Int, j: Int, v: ${dtype}) {
         checkBounds(i,j)
         storage[this.cols*i+j] = v
     }
 
-    override fun get(i: Int, j: Int): ${dtype} {
+    private fun getStorage(i: Int, j: Int): ${dtype} {
         checkBounds(i,j)
         return storage[this.cols*i+j]
     }
-    
-    override fun get(i: Int): ${dtype} 
+
+    private fun getStorage(i: Int): ${dtype} 
             = storage[i]
     
     override fun copy(): Matrix<${dtype}> 
             = this.mapMat { it }
     
     
-    override fun getInt(i: Int, j: Int): Int = this[i,j].toInt()
-    override fun getDouble(i: Int, j: Int): Double = this[i,j].toDouble()
-    override fun getFloat(i: Int, j: Int): Float = this[i,j].toFloat()
-    override fun getInt(i: Int): Int = this[i].toInt()
-    override fun getDouble(i: Int): Double = this[i].toDouble()
-    override fun getFloat(i: Int): Float = this[i].toFloat()
-    override fun setInt(i: Int, v: Int) { this[i] = v.to${dtype}()}
-    override fun setDouble(i: Int, v: Double) { this[i] = v.to${dtype}()}
-    override fun setFloat(i: Int, v: Float) { this[i] = v.to${dtype}()}
-    override fun setInt(i: Int, j: Int, v: Int) { this[i,j] = v.to${dtype}()}
-    override fun setDouble(i: Int, j: Int, v: Double) { this[i,j] = v.to${dtype}()}
-    override fun setFloat(i: Int, j: Int, v: Float) { this[i,j] = v.to${dtype}()}
+    override fun getInt(i: Int, j: Int): Int = this.getStorage(i,j).toInt()
+    override fun getDouble(i: Int, j: Int): Double = this.getStorage(i,j).toDouble()
+    override fun getFloat(i: Int, j: Int): Float = this.getStorage(i,j).toFloat()
+    override fun getGeneric(i: Int, j: Int): ${dtype} = this.getStorage(i,j)
+    override fun getInt(i: Int): Int = this.getStorage(i).toInt()
+    override fun getDouble(i: Int): Double = this.getStorage(i).toDouble()
+    override fun getFloat(i: Int): Float = this.getStorage(i).toFloat()
+    override fun getGeneric(i: Int): ${dtype} = this.getStorage(i)
+    override fun setInt(i: Int, v: Int) { this.setStorage(i, v.to${dtype}())}
+    override fun setDouble(i: Int, v: Double) { this.setStorage(i, v.to${dtype}())}
+    override fun setFloat(i: Int, v: Float) { this.setStorage(i, v.to${dtype}())}
+    override fun setGeneric(i: Int, v: ${dtype}) { this.setStorage(i, v)}
+    override fun setInt(i: Int, j: Int, v: Int) { this.setStorage(i, j, v.to${dtype}())}
+    override fun setDouble(i: Int, j: Int, v: Double) { this.setStorage(i, j, v.to${dtype}())}
+    override fun setFloat(i: Int, j: Int, v: Float) { this.setStorage(i, j, v.to${dtype}())}
+    override fun setGeneric(i: Int, j: Int, v: ${dtype}) { this.setStorage(i, j, v)}
     override fun getDoubleData(): DoubleArray = storage.map { it.toDouble() }.toDoubleArray()
     override fun getRow(row: Int): Matrix<${dtype}> {
         checkBounds(row, 0)
