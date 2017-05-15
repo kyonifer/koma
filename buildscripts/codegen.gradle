@@ -4,8 +4,17 @@ task codegen {
             copy {
                 from 'core/templates'
                 into 'core/srcgen/koma.matrix.default'
-                include 'DefaultMatrix*.kt'
-                rename { dtype + it }
+                include 'DefaultXMatrix.kt'
+                rename { "Default${dtype}Matrix.kt" }
+
+                expand(epow: getEPow(dtype),
+                        dtype: dtype)
+            }
+            copy {
+                from 'core/templates'
+                into 'core/srcgen/koma.matrix.default'
+                include 'DefaultXMatrixFactory.kt'
+                rename { "Default${dtype}MatrixFactory.kt" }
 
                 expand(epow: getEPow(dtype),
                         dtype: dtype)
@@ -13,15 +22,15 @@ task codegen {
             copy {
                 from 'core/templates'
                 into 'core/srcgen/koma.ndarray.default'
-                include 'DefaultNDArray*.kt'
-                rename { dtype + it }
+                include 'DefaultXNDArray*.kt'
+                rename { "Default${dtype}NDArray.kt"}
                 expand(dtype: dtype)
             }
             copy {
                 from 'core/templates'
                 into 'core/srcgen/koma.matrix'
-                include 'Matrix.kt'
-                rename { dtype + it }
+                include 'XMatrix.kt'
+                rename { dtype+"Matrix.kt" }
                 expand(dtype: dtype)
             }
         }
