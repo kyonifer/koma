@@ -18,7 +18,7 @@ import koma.polyfill.annotations.*
  */
 @JsName("zeros")
 fun zeros(rows: Int, cols: Int): DoubleMatrix = zeros(rows, cols, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> zeros(rows:Int, 
+fun <T, U: RMatrix<T, U>> zeros(rows:Int, 
               cols:Int,
               dtype: MatrixType<U>): U
         = dtype().zeros(rows,cols)
@@ -28,7 +28,7 @@ fun <T, U: Matrix<T, U>> zeros(rows:Int,
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
 fun zeros(size: Int): DoubleMatrix = zeros(size, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> zeros(size: Int,
+fun <T, U: RMatrix<T, U>> zeros(size: Int,
               dtype: MatrixType<U>): U
         = dtype().zeros(size, size)
 
@@ -37,7 +37,7 @@ fun <T, U: Matrix<T, U>> zeros(size: Int,
  */
 @JsName("createRange")
 fun create(data: IntRange) = create(data, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> create(data: IntRange,
+fun <T, U: RMatrix<T, U>> create(data: IntRange,
                dtype: MatrixType<U>): U
         = dtype().create(data)
 
@@ -46,7 +46,7 @@ fun <T, U: Matrix<T, U>> create(data: IntRange,
  */
 @JsName("createArray")
 fun create(data: DoubleArray) = create(data, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> create(data: DoubleArray,
+fun <T, U: RMatrix<T, U>> create(data: DoubleArray,
                dtype: MatrixType<U>): U
         = dtype().create(data).asRowVector().toTyped()
 
@@ -56,7 +56,7 @@ fun <T, U: Matrix<T, U>> create(data: DoubleArray,
 @JsName("createArraySized")
 fun create(data: DoubleArray, numRows: Int, numCols: Int) =
     create(data, numRows, numCols, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> create(data: DoubleArray, 
+fun <T, U: RMatrix<T, U>> create(data: DoubleArray, 
                numRows: Int, 
                numCols: Int,
                dtype: MatrixType<U>): U {
@@ -71,7 +71,7 @@ fun <T, U: Matrix<T, U>> create(data: DoubleArray,
  */
 @JsName("create2DArray")
 fun create(data: Array<DoubleArray>) = create(data, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> create(data: Array<DoubleArray>,
+fun <T, U: RMatrix<T, U>> create(data: Array<DoubleArray>,
                dtype: MatrixType<U>): U 
         = dtype().create(data)
 
@@ -80,7 +80,7 @@ fun <T, U: Matrix<T, U>> create(data: Array<DoubleArray>,
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
 fun ones(size: Int) = ones(size, dtype=MatrixTypes.DoubleType)
-inline fun <T, U: Matrix<T, U>> ones(size: Int,
+inline fun <T, U: RMatrix<T, U>> ones(size: Int,
                             dtype: MatrixType<U>): U
         = dtype().ones(size, size)
 
@@ -89,7 +89,7 @@ inline fun <T, U: Matrix<T, U>> ones(size: Int,
  */
 @JsName("ones")
 fun ones(rows: Int, columns: Int) = ones(rows, columns, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> ones(rows: Int, 
+fun <T, U: RMatrix<T, U>> ones(rows: Int, 
              columns: Int,
              dtype: MatrixType<U>): U
         = dtype().ones(rows, columns)
@@ -99,7 +99,7 @@ fun <T, U: Matrix<T, U>> ones(rows: Int,
  */
 @JsName("eye")
 fun eye(size: Int) = eye(size, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> eye(size: Int,
+fun <T, U: RMatrix<T, U>> eye(size: Int,
             dtype: MatrixType<U>): U 
         = dtype().eye(size)
 
@@ -108,7 +108,7 @@ fun <T, U: Matrix<T, U>> eye(size: Int,
  */
 @JsName("eyeSized")
 fun eye(rows: Int, cols: Int) = eye(rows, cols, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> eye(rows: Int, 
+fun <T, U: RMatrix<T, U>> eye(rows: Int, 
             cols: Int,
             dtype: MatrixType<U>): U
         = dtype().eye(rows, cols)
@@ -118,7 +118,7 @@ fun <T, U: Matrix<T, U>> eye(rows: Int,
  */
 @JsName("fill")
 fun fill(rows: Int, cols: Int, func: (Int, Int) -> Double) = zeros(rows, cols).fill(func)
-fun <T, U: Matrix<T, U>> fill(rows: Int, 
+fun <T, U: RMatrix<T, U>> fill(rows: Int, 
              cols: Int,
              dtype: MatrixType<U>,
              func: (Int, Int) -> T) 
@@ -131,7 +131,7 @@ fun <T, U: Matrix<T, U>> fill(rows: Int,
 fun fill(rows: Int, 
          cols: Int, 
          value: Double) = zeros(rows, cols).fill({ r, c -> value })
-fun <T, U: Matrix<T, U>> fill(rows: Int, 
+fun <T, U: RMatrix<T, U>> fill(rows: Int, 
              cols: Int, 
              value: T,
              dtype: MatrixType<U>) 
@@ -142,7 +142,7 @@ fun <T, U: Matrix<T, U>> fill(rows: Int,
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(cols, cols)"))
 fun rand(cols: Int) = rand(cols, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> rand(cols: Int, 
+fun <T, U: RMatrix<T, U>> rand(cols: Int, 
                               dtype: MatrixType<U>): U 
         = dtype().rand(1, cols)
 
@@ -151,7 +151,7 @@ fun <T, U: Matrix<T, U>> rand(cols: Int,
  */
 @JsName("rand")
 fun rand(rows: Int, cols: Int) = rand(rows, cols, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> rand(rows: Int, 
+fun <T, U: RMatrix<T, U>> rand(rows: Int, 
              cols: Int,
              dtype: MatrixType<U>): U
         = dtype().rand(rows, cols)
@@ -165,7 +165,7 @@ fun rand(rows: Int, cols: Int, seed: Long) = rand(rows,
                                                   cols, 
                                                   seed, 
                                                   dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> rand(rows: Int, 
+fun <T, U: RMatrix<T, U>> rand(rows: Int, 
              cols: Int, 
              seed: Long,
              dtype: MatrixType<U>): U
@@ -176,7 +176,7 @@ fun <T, U: Matrix<T, U>> rand(rows: Int,
  */
 @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(cols, cols)"))
 fun randn(cols: Int) = randn(cols, dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> randn(cols: Int,
+fun <T, U: RMatrix<T, U>> randn(cols: Int,
               dtype: MatrixType<U>): U
         = dtype().randn(1, cols)
 
@@ -187,7 +187,7 @@ fun <T, U: Matrix<T, U>> randn(cols: Int,
 fun randn(rows: Int, cols: Int) = randn(rows, 
                                         cols, 
                                         dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> randn(rows: Int, 
+fun <T, U: RMatrix<T, U>> randn(rows: Int, 
                                cols: Int, 
                                dtype: MatrixType<U>): U
         = dtype().randn(rows, cols)
@@ -201,7 +201,7 @@ fun randn(rows: Int, cols: Int, seed: Long) = randn(rows,
                                                     cols, 
                                                     seed, 
                                                     dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> randn(rows: Int, 
+fun <T, U: RMatrix<T, U>> randn(rows: Int, 
                                cols: Int, 
                                seed: Long, 
                                dtype: MatrixType<U>): U 
@@ -216,7 +216,7 @@ fun arange(start: Double, stop: Double, step: Double) = arange(start,
                                                                                stop, 
                                                                                step,
                                                                                dtype=MatrixTypes.DoubleType)
-fun <T, U: Matrix<T, U>> arange(start: Double, 
+fun <T, U: RMatrix<T, U>> arange(start: Double, 
                                 stop: Double, 
                                 step: Double, 
                                 dtype: MatrixType<U>): U

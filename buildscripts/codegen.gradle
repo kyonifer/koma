@@ -34,6 +34,23 @@ task codegen {
                 expand(dtype: dtype)
             }
         }
+        copy {
+            from 'core/templates'
+            into 'core/srcgen/koma.matrix'
+            include 'Matrix.kt'
+            expand(recursive: false,
+                   mattype: "Matrix<T>",
+                   override: "")
+        }
+        copy {
+            from 'core/templates'
+            into 'core/srcgen/koma.matrix'
+            include 'Matrix.kt'
+            rename { "RMatrix.kt" }
+            expand(recursive: true,
+                   mattype: "MatType",
+                   override: "override")
+        }
     }
 
 }

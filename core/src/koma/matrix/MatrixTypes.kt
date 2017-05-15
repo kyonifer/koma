@@ -8,8 +8,8 @@ import koma.matrix.DoubleMatrix
  */
 object MatrixTypes {
     val DoubleType: MatrixType<DoubleMatrix> = {koma.factory}
-    val IntType: MatrixType<Matrix<Int,*>> = {koma.intFactory }
-    val FloatType: MatrixType<Matrix<Float, *>> = {koma.floatFactory} 
+    val IntType: MatrixType<IntMatrix> = {koma.intFactory }
+    val FloatType: MatrixType<FloatMatrix> = {koma.floatFactory} 
 }
 
 typealias MatrixType<T> = ()->MatrixFactory<T>

@@ -1,5 +1,3 @@
-@file:JvmName("Algorithms")
-
 package koma.matrix
 
 import koma.*
@@ -7,7 +5,7 @@ import koma.matrix.*
 import koma.polyfill.annotations.*
 
 /**
- * Some functionality to help more easily implement double based koma backends. Adds non-boxed 
+ * Some functionality to help more easily implement ${dtype} based koma backends. Adds non-boxed 
  * access for critical methods.
  */
 abstract class ${dtype}Matrix : MatrixBase<${dtype}, ${dtype}Matrix>() {
@@ -55,7 +53,7 @@ abstract class ${dtype}Matrix : MatrixBase<${dtype}, ${dtype}Matrix>() {
      * @return A 1xarr.numRows*arr.numCols vector storing the ongoing cumsum.
      *
      */
-    fun cumSum(): ${dtype}Matrix {
+    override fun cumSum(): ${dtype}Matrix {
         val out = this.getFactory().zeros(1, this.numRows() * this.numCols())
         for (i in 0..(this.numRows() * this.numCols() - 1)) {
             val ele = this[i]
@@ -69,7 +67,7 @@ abstract class ${dtype}Matrix : MatrixBase<${dtype}, ${dtype}Matrix>() {
      *
      * @return a 2D array copy of the matrix.
      */
-    fun to2DArray(): Array<DoubleArray> {
+    override fun to2DArray(): Array<DoubleArray> {
         val out = Array(numRows(), { DoubleArray(numCols()) })
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -187,6 +185,18 @@ abstract class ${dtype}Matrix : MatrixBase<${dtype}, ${dtype}Matrix>() {
         val V = A6 * (A6 * b[12] + A4 * b[10] + A2 * b[8]) + A6 * b[6] + A4 * b[4] + A2 * b[2] + ident * b[0]
         return Pair(U, V)
     }
+    override fun rem(other: Matrix<${dtype}>): Matrix<${dtype}> = this.rem(other.toRMatrix().toTyped())
+    override fun times(other: Matrix<${dtype}>): Matrix<${dtype}> = this.times(other.toRMatrix().toTyped())
+    override fun minus(other: Matrix<${dtype}>): Matrix<${dtype}> = this.minus(other.toRMatrix().toTyped())
+    override fun plus(other: Matrix<${dtype}>): Matrix<${dtype}> = this.plus(other.toRMatrix().toTyped())
+    override fun elementTimes(other: Matrix<${dtype}>): Matrix<${dtype}> = this.elementTimes(other.toRMatrix().toTyped())
+    override fun setCol(index: Int, col: Matrix<${dtype}>) { this.setCol(index, col.toRMatrix().toTyped()) }
+    override fun setRow(index: Int, row: Matrix<${dtype}>) { this.setRow(index, row.toRMatrix().toTyped()) }
+    override fun solve(A: Matrix<${dtype}>, B: Matrix<${dtype}>): Matrix<${dtype}> = this.solve(A.toRMatrix().toTyped(), 
+                                                                                                B.toRMatrix().toTyped())
 
 
 }
+
+// TODO: Assumes all implementors will follow this convention
+fun Matrix<${dtype}>.toRMatrix(): RMatrix<${dtype}, ${dtype}Matrix> = this as ${dtype}Matrix

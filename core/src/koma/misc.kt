@@ -4,11 +4,13 @@
 package koma
 
 import koma.matrix.Matrix
+import koma.matrix.RMatrix
 import koma.polyfill.annotations.*
 
-fun <T: Number> Matrix<T, *>.toDoubleMatrix() = factory.create(this.getDoubleData())
-fun <T: Number> Matrix<T, *>.toFloatMatrix() = floatFactory.create(this.getDoubleData())
-fun <T: Number> Matrix<T, *>.toIntMatrix() = intFactory.create(this.getDoubleData())
+// TODO: Clean this up.
+fun <T: Number, U: RMatrix<T, U>> RMatrix<T, U>.toDoubleMatrix() = factory.create(this.getDoubleData())
+fun <T: Number, U: RMatrix<T, U>> RMatrix<T, U>.toFloatMatrix() = floatFactory.create(this.getDoubleData())
+fun <T: Number, U: RMatrix<T, U>> RMatrix<T, U>.toIntMatrix() = intFactory.create(this.getDoubleData())
 
 internal var matFormat: String = "L"
 

@@ -37,7 +37,7 @@ var factory: MatrixFactory<DoubleMatrix> by MatFacProperty(::getPlatformDoubleFa
  * backend the top-level functions use for computation.
  *
  */
-var floatFactory: MatrixFactory<Matrix<Float, *>> by MatFacProperty(::getPlatformFloatFactories,
+var floatFactory: MatrixFactory<FloatMatrix> by MatFacProperty(::getPlatformFloatFactories,
                                                                  default = DefaultFloatMatrixFactory())
 /**
  *
@@ -48,7 +48,7 @@ var floatFactory: MatrixFactory<Matrix<Float, *>> by MatFacProperty(::getPlatfor
  * backend the top-level functions use for computation.
  *
  */
-var intFactory: MatrixFactory<Matrix<Int, *>> by MatFacProperty(::getPlatformIntFactories,
+var intFactory: MatrixFactory<IntMatrix> by MatFacProperty(::getPlatformIntFactories,
                                                              default = DefaultIntMatrixFactory())
 
 /**
@@ -65,14 +65,14 @@ fun getPlatformDoubleFactories(): List<MatrixFactory<DoubleMatrix>> {
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getPlatformFloatFactories(): List<MatrixFactory<Matrix<Float, *>>> = listOf()
+fun getPlatformFloatFactories(): List<MatrixFactory<FloatMatrix>> = listOf()
 
 /**
  *  At runtime, see which int backends are available on our classpath (if any).
  *
  *  @return A list of factory instances for backends that were found.
  */
-fun getPlatformIntFactories(): List<MatrixFactory<Matrix<Int, *>>> = listOf()
+fun getPlatformIntFactories(): List<MatrixFactory<IntMatrix>> = listOf()
 
 /**
  * Whether to validate the dimensions, symmetry, and values of input matrices. false is faster, and should be

@@ -297,7 +297,7 @@ class OperatorsTests {
 
     @Test
     fun testSubclassesFindInner() {
-        val a = (object: Matrix<Double, DoubleMatrix> by zeros(2,2){}).toTyped()
+        val a = (object: RMatrix<Double, DoubleMatrix> by zeros(2,2){}).toTyped()
         a[0,0]=5.0
         var b = eye(2)*a
         var expected = mat[5,0 end 0,0]

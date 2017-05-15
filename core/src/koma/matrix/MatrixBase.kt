@@ -1,6 +1,6 @@
 package koma.matrix
 
-abstract class MatrixBase<T, U: Matrix<T, U>>: Matrix<T, U> {
+abstract class MatrixBase<T, U: RMatrix<T, U>>: RMatrix<T, U> {
     /**
      * Attempts to downcast a matrix to its specific subclass,
      * accepting both inner wrapped types and outer types.
@@ -10,8 +10,8 @@ abstract class MatrixBase<T, U: Matrix<T, U>>: Matrix<T, U> {
      * a newly allocated matrix of the correct type.
      */
     protected inline fun
-            <DType, reified TOuter: Matrix<DType, *>, reified TInner>
-            castOrCopy(mat: Matrix<DType, *>,
+            <DType, reified TOuter: Matrix<DType>, reified TInner>
+            castOrCopy(mat: Matrix<DType>,
                        makeOuter: (TInner) -> TOuter,
                        outerFac: MatrixFactory<TOuter>): TOuter {
 

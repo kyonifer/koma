@@ -10,7 +10,6 @@
 package koma
 
 import koma.matrix.*
-import koma.matrix.DoubleMatrix
 import koma.platformsupport.*
 import koma.polyfill.annotations.*
 
@@ -21,7 +20,7 @@ import koma.polyfill.annotations.*
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun acos(arr: DoubleMatrix) = arr.mapMat { Math.acos(it) }
+fun acos(arr: Matrix<Double>) = arr.mapMat { Math.acos(it) }
 
 /**
  * Returns a matrix of the arcsin of each element in the input matrix.
@@ -30,7 +29,7 @@ fun acos(arr: DoubleMatrix) = arr.mapMat { Math.acos(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun asin(arr: DoubleMatrix) = arr.mapMat { Math.asin(it) }
+fun asin(arr: Matrix<Double>) = arr.mapMat { Math.asin(it) }
 
 /**
  * Returns a matrix of the arctan of each element in the input matrix.
@@ -39,7 +38,7 @@ fun asin(arr: DoubleMatrix) = arr.mapMat { Math.asin(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun atan(arr: DoubleMatrix) = arr.mapMat { Math.atan(it) }
+fun atan(arr: Matrix<Double>) = arr.mapMat { Math.atan(it) }
 
 /**
  * Returns a matrix of the absolute value of each element in the input matrix.
@@ -48,7 +47,7 @@ fun atan(arr: DoubleMatrix) = arr.mapMat { Math.atan(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun abs(arr: DoubleMatrix) = arr.mapMat { Math.abs(it) }
+fun abs(arr: Matrix<Double>) = arr.mapMat { Math.abs(it) }
 
 /**
  * Rounds each element to the integer which is nearest to the element and still less than the
@@ -59,7 +58,7 @@ fun abs(arr: DoubleMatrix) = arr.mapMat { Math.abs(it) }
  * @return A matrix consisting of the operation performed element-wise.
  */
 // explicit toDouble() for javascript
-fun ceil(arr: DoubleMatrix) = arr.mapMat { Math.ceil(it).toDouble() }
+fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it).toDouble() }
 
 /**
  * Returns a matrix of the cos of each element in the input matrix.
@@ -69,7 +68,7 @@ fun ceil(arr: DoubleMatrix) = arr.mapMat { Math.ceil(it).toDouble() }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun cos(arr: DoubleMatrix) = arr.mapMat { Math.cos(it) }
+fun cos(arr: Matrix<Double>) = arr.mapMat { Math.cos(it) }
 
 /**
  * Returns a matrix of E.pow(element) for each element in the input matrix.
@@ -79,7 +78,7 @@ fun cos(arr: DoubleMatrix) = arr.mapMat { Math.cos(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun exp(arr: DoubleMatrix) = arr.mapMat { Math.exp(it) }
+fun exp(arr: Matrix<Double>) = arr.mapMat { Math.exp(it) }
 
 /**
  * Returns a matrix of the natural logarithm of each element in the input matrix.
@@ -89,7 +88,7 @@ fun exp(arr: DoubleMatrix) = arr.mapMat { Math.exp(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun log(arr: DoubleMatrix) = arr.mapMat { Math.log(it) }
+fun log(arr: Matrix<Double>) = arr.mapMat { Math.log(it) }
 
 /**
  * Returns a matrix consisting of each element in the input matrix raised to the given power.
@@ -100,7 +99,7 @@ fun log(arr: DoubleMatrix) = arr.mapMat { Math.log(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun epow(arr: DoubleMatrix, num: Double) = arr.epow(num)
+fun epow(arr: Matrix<Double>, num: Double) = arr.epow(num)
 
 /**
  * Returns a matrix which is the input matrix multiplied by itself num times (NOT elementwise multiplication!!).
@@ -112,7 +111,7 @@ fun epow(arr: DoubleMatrix, num: Double) = arr.epow(num)
  * @return A matrix consisting of num matrix multiplies of the input.
  *
  */
-fun pow(arr: DoubleMatrix, num: Int) = arr.pow(num)
+fun pow(arr: Matrix<Double>, num: Int) = arr.pow(num)
 
 /**
  * Calculates a matrix consisting of the sign of each element in the input matrix.
@@ -122,7 +121,7 @@ fun pow(arr: DoubleMatrix, num: Int) = arr.pow(num)
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun sign(arr: DoubleMatrix) = arr.mapMat { signum(it) }
+fun sign(arr: Matrix<Double>) = arr.mapMat { signum(it) }
 
 /**
  * Returns a matrix of the sin of each element in the input matrix
@@ -132,7 +131,7 @@ fun sign(arr: DoubleMatrix) = arr.mapMat { signum(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun sin(arr: DoubleMatrix) = arr.mapMat { Math.sin(it) }
+fun sin(arr: Matrix<Double>) = arr.mapMat { Math.sin(it) }
 
 /**
  * Returns a matrix of the sqrt of each element in the input matrix. Does
@@ -143,7 +142,7 @@ fun sin(arr: DoubleMatrix) = arr.mapMat { Math.sin(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun sqrt(arr: DoubleMatrix) = arr.mapMat { Math.sqrt(it) }
+fun sqrt(arr: Matrix<Double>) = arr.mapMat { Math.sqrt(it) }
 
 /**
  * Returns a matrix of the tan of each element in the input matrix
@@ -153,7 +152,7 @@ fun sqrt(arr: DoubleMatrix) = arr.mapMat { Math.sqrt(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun tan(arr: DoubleMatrix) = arr.mapMat { Math.tan(it) }
+fun tan(arr: Matrix<Double>) = arr.mapMat { Math.tan(it) }
 
 /**
  * Rounds each element to the nearest integer value. For elements exactly between integers,
@@ -163,7 +162,7 @@ fun tan(arr: DoubleMatrix) = arr.mapMat { Math.tan(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun round(arr: DoubleMatrix) = arr.mapMat { Math.round(it).toDouble() }
+fun round(arr: Matrix<Double>) = arr.mapMat { Math.round(it).toDouble() }
 
 /**
  * Rounds each element to the integer which is nearest to the element and still less than the
@@ -174,7 +173,7 @@ fun round(arr: DoubleMatrix) = arr.mapMat { Math.round(it).toDouble() }
  * @return A matrix consisting of the operation performed element-wise.
  */
 // explicit toDouble() for javascript
-fun floor(arr: DoubleMatrix) = arr.mapMat { Math.floor(it).toDouble() }
+fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it).toDouble() }
 
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix
@@ -185,7 +184,7 @@ fun floor(arr: DoubleMatrix) = arr.mapMat { Math.floor(it).toDouble() }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun logb(base: Int, arr: DoubleMatrix) = arr.mapMat { Math.log(it) / Math.log(base.toDouble()) }
+fun logb(base: Int, arr: Matrix<Double>) = arr.mapMat { Math.log(it) / Math.log(base.toDouble()) }
 
 /**
  * Extracts the diagonal of the matrix.
@@ -194,7 +193,7 @@ fun logb(base: Int, arr: DoubleMatrix) = arr.mapMat { Math.log(it) / Math.log(ba
  *
  * @return a Nx1 column vector.
  */
-fun diag(arr: DoubleMatrix) = arr.diag().asColVector()
+fun diag(arr: Matrix<Double>) = arr.diag().asColVector()
 
 /**
  * Calculates the cumulative (ongoing) sum of a matrix's elements. For example,
@@ -205,7 +204,7 @@ fun diag(arr: DoubleMatrix) = arr.diag().asColVector()
  * @return A 1x(arr.numRows*arr.numCols) vector storing the ongoing cumsum.
  *
  */
-fun cumsum(arr: DoubleMatrix) = arr.cumSum()
+fun cumsum(arr: Matrix<Double>) = arr.cumSum()
 
 /**
  * Returns the max element in the input matrix
@@ -215,7 +214,7 @@ fun cumsum(arr: DoubleMatrix) = arr.cumSum()
  * @return The maximum value
  *
  */
-fun max(arr: DoubleMatrix) = arr.max()
+fun max(arr: Matrix<Double>) = arr.max()
 
 /**
  * Returns the mean element in the input matrix
@@ -225,7 +224,7 @@ fun max(arr: DoubleMatrix) = arr.max()
  * @return The maximum value
  *
  */
-fun mean(arr: DoubleMatrix) = arr.mean()
+fun mean(arr: Matrix<Double>) = arr.mean()
 
 /**
  * Returns the min element in the input matrix
@@ -235,7 +234,7 @@ fun mean(arr: DoubleMatrix) = arr.mean()
  * @return The maximum value
  *
  */
-fun min(arr: DoubleMatrix) = arr.min()
+fun min(arr: Matrix<Double>) = arr.min()
 
 /**
  * Returns the index of the max element in the input matrix
@@ -245,7 +244,7 @@ fun min(arr: DoubleMatrix) = arr.min()
  * @return The maximum value
  *
  */
-fun argMax(arr: DoubleMatrix) = arr.argMax()
+fun argMax(arr: Matrix<Double>) = arr.argMax()
 
 /**
  * Returns the index of the min element in the input matrix
@@ -255,7 +254,7 @@ fun argMax(arr: DoubleMatrix) = arr.argMax()
  * @return The maximum value
  *
  */
-fun argMin(arr: DoubleMatrix) = arr.argMin()
+fun argMin(arr: Matrix<Double>) = arr.argMin()
 
 /**
  * Returns the L2 norm of the input vector for vectors.
@@ -267,7 +266,7 @@ fun argMin(arr: DoubleMatrix) = arr.argMin()
  * @return The maximum value
  *
  */
-fun norm(arr: DoubleMatrix) = arr.norm()
+fun norm(arr: Matrix<Double>) = arr.norm()
 
 // Adv funcs
 /**
@@ -277,7 +276,7 @@ fun norm(arr: DoubleMatrix) = arr.norm()
  * @param A The input matrix
  * @return e to the A
  */
-fun expm(A: DoubleMatrix) = A.expm()
+fun expm(A: Matrix<Double>) = A.expm()
 
 /**
  * Converts a 3x1 or 1x3 vector of angles into the skew symmetric matrix
@@ -286,7 +285,7 @@ fun expm(A: DoubleMatrix) = A.expm()
  * @param angles The input matrix
  * @Return 3x3 skew symmetric matrix
  */
-fun skew(angles: DoubleMatrix): DoubleMatrix {
+fun skew(angles: Matrix<Double>): Matrix<Double> {
     val s = mat [0, -angles[2], angles[1] end
             angles[2], 0, -angles[0] end
             -angles[1], angles[0], 0]
@@ -296,14 +295,14 @@ fun skew(angles: DoubleMatrix): DoubleMatrix {
 /**
  * Calculates the cross product of two vectors
  */
-fun cross(vec1: DoubleMatrix, vec2: DoubleMatrix) = skew(vec1) * vec2
+fun cross(vec1: Matrix<Double>, vec2: Matrix<Double>) = skew(vec1) * vec2
 
 /**
  * Calculates the cross product of two vectors
  */
-fun dot(vec1: DoubleMatrix, vec2: DoubleMatrix) = (vec1.asRowVector() * vec2.asColVector())[0]
+fun dot(vec1: Matrix<Double>, vec2: Matrix<Double>) = (vec1.asRowVector() * vec2.asColVector())[0]
 
-fun hstack(vararg arrs: DoubleMatrix): DoubleMatrix {
+fun hstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     val outRows = arrs[0].numRows()
     var outCols = 0
     arrs.forEach { if (it.numRows() != outRows) throw IllegalArgumentException("All matrices passed to hstack must have the same number of rows.") }
@@ -318,7 +317,7 @@ fun hstack(vararg arrs: DoubleMatrix): DoubleMatrix {
     return out
 }
 
-fun vstack(vararg arrs: DoubleMatrix): DoubleMatrix {
+fun vstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     val outCols = arrs[0].numCols()
     var outRows = 0
     arrs.forEach { if (it.numCols() != outCols) throw IllegalArgumentException("All matrices passed to vstack must have the same number of cols.") }
