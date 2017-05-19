@@ -1,0 +1,13 @@
+site_name: Koma
+pages:
+    - Home: index.md
+    - Usage guide:
+        - Backends: guide/backends.md
+        - Linear Algebra: guide/linalg.md
+        - N-Dimensional Containers: guide/ndims.md
+        - Plotting: guide/plotting.md
+    - Advanced:
+        - Generics & Boxing: advanced/generics.md
+        - Build From Source: advanced/source.md
+        - Contributing: advanced/contributing.md
+theme: cosmo
