@@ -6,6 +6,22 @@ import org.junit.Test
 // @formatter:off
 class DecompositionTests {
     @Test
+    fun testQR() {
+        allBackends {
+            val A = eye(3)+.3
+            val (Q, R) = A.QR()
+            assertMatrixEquals(A, Q*R)
+        }
+    }
+    @Test
+    fun testLU() {
+        allBackends {
+            val A = eye(3)+.3
+            val (P, L, U) = A.LU()
+            assertMatrixEquals(P*A, L*U)
+        }
+    }
+    @Test
     fun testChol() {
         allBackends {
             val a = eye(3) + .01
