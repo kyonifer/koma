@@ -2,7 +2,7 @@ language: java
 
 dist: trusty
 
-script: ./gradlew build -Ptarget=$TARGET
+script: ./gradlew build -Ptarget=$TARGET --info
 
 env:
   - TARGET=jvm
