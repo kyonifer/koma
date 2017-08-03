@@ -33,7 +33,7 @@ def getDiv(dtype) {
     if (dtype != 'Int')
         return """
     override fun div(other: ${dtype}): Matrix<${dtype}>
-            = this.mapMatIndexed { row, col, ele -> ele/other}
+            = this.mapIndexed { _, _, ele -> ele/other}
 """
     else
         return ""
@@ -42,7 +42,7 @@ def getEPow(dtype) {
     if (dtype != 'Int')
         return """
     override fun epow(other: ${dtype}): Matrix<${dtype}> 
-            = this.mapMatIndexed { row, col, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+            = this.mapIndexed { _, _, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 """
     else
         return ""

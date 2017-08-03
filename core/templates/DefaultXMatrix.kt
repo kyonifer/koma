@@ -15,12 +15,12 @@ class Default${dtype}Matrix (val rows: Int,
     ${div}
     
     override fun div(other: Int): Matrix<${dtype}>
-            = this.mapMatIndexed { row, col, ele -> ele/other}
+            = this.mapIndexed { _, _, ele -> ele/other}
 
 
     override fun times(other: Matrix<${dtype}>): Matrix<${dtype}> {
         val out = getFactory().zeros(this.numRows(), other.numCols())
-        out.eachIndexed { row, col, _ ->
+        out.forEachIndexed { row, col, _ ->
             for (cursor in 0 until this.numCols())
                 out[row,col] += this[row, cursor]*other[cursor, col]
         }
@@ -28,22 +28,22 @@ class Default${dtype}Matrix (val rows: Int,
     }
     
     override fun times(other: ${dtype}): Matrix<${dtype}> 
-            = this.mapMat { it*other }
+            = this.map { it*other }
 
     override fun unaryMinus(): Matrix<${dtype}> 
-            = this.mapMat { it*-1 }
+            = this.map { it*-1 }
 
     override fun minus(other: ${dtype}): Matrix<${dtype}>
-            = this.mapMat { it - other }
+            = this.map { it - other }
     
     override fun minus(other: Matrix<${dtype}>): Matrix<${dtype}> 
-            = this.mapMatIndexed { row, col, ele -> ele - other[row,col] }
+            = this.mapIndexed { row, col, ele -> ele - other[row,col] }
 
     override fun plus(other: ${dtype}): Matrix<${dtype}> 
-            = this.mapMat { it + other }
+            = this.map { it + other }
 
     override fun plus(other: Matrix<${dtype}>): Matrix<${dtype}> 
-            = this.mapMatIndexed { row, col, ele -> ele + other[row,col] }
+            = this.mapIndexed { row, col, ele -> ele + other[row,col] }
 
     override fun transpose(): Matrix<${dtype}> 
             = getFactory()
@@ -51,12 +51,12 @@ class Default${dtype}Matrix (val rows: Int,
             .fill { row, col -> this[col,row] }
 
     override fun elementTimes(other: Matrix<${dtype}>): Matrix<${dtype}> 
-            = this.mapMatIndexed { row, col, ele -> ele*other[row,col] }
+            = this.mapIndexed { row, col, ele -> ele*other[row,col] }
 
     ${epow}
     
     override fun epow(other: Int): Matrix<${dtype}>
-            = this.mapMatIndexed { row, col, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+            = this.mapIndexed { _, _, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 
     override fun numRows(): Int = this.rows
     override fun numCols(): Int = this.cols
@@ -78,7 +78,7 @@ class Default${dtype}Matrix (val rows: Int,
             = storage[i]
     
     override fun copy(): Matrix<${dtype}> 
-            = this.mapMat { it }
+            = this.map { it }
     
     
     override fun getInt(i: Int, j: Int): Int = this.getStorage(i,j).toInt()
@@ -171,7 +171,7 @@ class Default${dtype}Matrix (val rows: Int,
     override fun diag(): Matrix<${dtype}> 
             = getFactory()
             .zeros(numRows(),1)
-            .fill{ row, col -> this[row,row] }
+            .fill{ row, _ -> this[row,row] }
 
     override fun max(): ${dtype} = this[argMax()]
     override fun mean(): ${dtype} = elementSum()/(numRows()*numCols())

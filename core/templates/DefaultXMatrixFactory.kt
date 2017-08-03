@@ -50,7 +50,7 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     
     override fun rand(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
-            .fill { r,c->koma.platformsupport.rng.nextDouble().to${dtype}()}
+            .fill { _, _ -> koma.platformsupport.rng.nextDouble().to${dtype}()}
     
     override fun rand(rows: Int, cols: Int, seed: Long): Matrix<${dtype}> {
         if(koma.platformsupport.seed != seed) {
@@ -65,7 +65,7 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     
     override fun randn(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
-            .fill { r,c->koma.platformsupport.rng.nextGaussian().to${dtype}()}
+            .fill { _, _ -> koma.platformsupport.rng.nextGaussian().to${dtype}()}
     
     
     override fun randn(rows: Int, cols: Int, seed: Long): Matrix<${dtype}> {
