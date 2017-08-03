@@ -16,7 +16,7 @@ fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
                     @Suppress("UNCHECKED_CAST")
                     val inst = ctor.newInstance() as MatrixFactory<Matrix<Double>>
                     // Actual classpath search
-                    inst.zeros(1)
+                    inst.zeros(1, 1)
                     // Backend exists
                     out.add(inst)
                 }

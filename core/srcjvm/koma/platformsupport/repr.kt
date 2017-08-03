@@ -24,13 +24,13 @@ fun <T> repr(mat: Matrix<T>): String {
 
     mat.run {
         val lens = IntArray(numCols())
-        eachIndexed { row, col, element ->
+        forEachIndexed { _, col, element ->
             val formatted = formatter.format(element)
             if (lens[col] < formatted.length) lens[col] = formatted.length
         }
 
         var indent = "mat["
-        eachIndexed { row, col, element ->
+        forEachIndexed { row, col, element ->
             var formatted = formatter.format(element)
             if (col == 0) {
                 if (row > 0)

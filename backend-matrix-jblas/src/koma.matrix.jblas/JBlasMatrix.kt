@@ -29,7 +29,7 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun epow(other: Double) = JBlasMatrix(this.storage.powElement(other))
     override fun epow(other: Int): Matrix<Double> = JBlasMatrix(this.storage.powElement(other))
     override fun rem(other: Matrix<Double>) =
-            JBlasMatrix(this.storage.mod(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
+            JBlasMatrix(this.storage.rem(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun transpose() = JBlasMatrix(this.storage.transpose())
     override fun div(other: Int) = JBlasMatrix(this.storage.div(other.toDouble()))
     override fun div(other: Double) = JBlasMatrix(this.storage.div(other))
@@ -37,7 +37,7 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
             JBlasMatrix(this.storage.times(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun times(other: Double) = JBlasMatrix(this.storage.mul(other))
     override fun elementTimes(other: Matrix<Double>) =
-            JBlasMatrix(this.storage.mod(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
+            JBlasMatrix(this.storage.rem(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun unaryMinus() = this.times(-1.0)
     override fun minus(other: Double) = JBlasMatrix(this.storage.sub(other))
     override fun minus(other: Matrix<Double>) =

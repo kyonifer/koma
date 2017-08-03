@@ -11,7 +11,7 @@ class BuildersTests {
         allBackends {
             val a = mat[1, 2, 3, 4, 5 end
                     1, 2, 3, 4.0, 5]
-            val expected = zeros(2, 5).fill { i, j -> j + 1.0 }
+            val expected = zeros(2, 5).fill { _, j -> j + 1.0 }
             assertMatrixEquals(expected, a)
         }
     }

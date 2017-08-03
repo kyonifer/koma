@@ -9,7 +9,7 @@ import kotlin.test.assertFailsWith
 class NDTests {
     @Test
     fun testIndexing() {
-        val arr = DefaultNDArray(3, 5, 4) { idxs -> 1.0 }
+        val arr = DefaultNDArray(3, 5, 4) { 1.0 }
         assert(arr[1,2,3] == 1.0)
         arr[1,2,3] = 5.5
         assert(arr[1,2,3] == 5.5)
@@ -23,7 +23,7 @@ class NDTests {
         arr[0,0,1] = "changed"
         assert(arr[0,0,1] == "changed")
         
-        val arr2 = DefaultNDArray<Any?>(5, 5, 5, 2, 2) { idx -> null }
+        val arr2 = DefaultNDArray<Any?>(5, 5, 5, 2, 2) { null }
         arr2[0,0,0,1,1] = "str"
         arr2[0,0,0,1,0] = listOf(1,2,3)
         
@@ -78,7 +78,7 @@ class NDTests {
     
     @Test
     fun testCopy() {
-        val a = DefaultNDArray<Int>(3, 3) { idx -> 5 }
+        val a = DefaultNDArray<Int>(3, 3) { 5 }
         val b = a.copy()
         assert(a[1,1]==5)
         assert(b[1,1]==5)
@@ -89,7 +89,7 @@ class NDTests {
     
     @Test
     fun testBadIndexing() {
-        val a = DefaultNDArray<Int>(3, 3, 3) { idx -> 5 }
+        val a = DefaultNDArray<Int>(3, 3, 3) { 5 }
         a[1,1,1]
         assertFailsWith<IllegalArgumentException> {
             a[5,6,7]
@@ -111,7 +111,7 @@ class NDTests {
         assert(b[1,2,1] == 1*2 + 2*3 + 1)
         assert(b[3,1,3] == 3*2 + 1*3 + 1)
         
-        b = a.mapIndexed { idx, ele -> idx}
+        b = a.mapIndexed { idx, _ -> idx}
 
         assert(b[0,0,1] == 1)
         assert(b[0,1,0] == 4)
@@ -139,7 +139,7 @@ class NDTests {
         a.forEach { sum += it; count+=1 }
         
         var sum2 = 0
-        a.forEachIndexedN { idx, ele -> sum2 += ele }
+        a.forEachIndexedN { _, ele -> sum2 += ele }
         
         assert(sum == sum2)
         assert(count == a.shape().reduce{ l,r -> l*r })

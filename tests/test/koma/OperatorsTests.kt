@@ -151,7 +151,7 @@ class OperatorsTests {
             val a = mat[1, 2, 3 end
                         4, 5, 6 end
                         7, 8, 9]
-            val out = a.mapMat { it * 30 }
+            val out = a.map { it * 30 }
             assertMatrixEquals(out, a * 30)
         }
 
@@ -185,8 +185,8 @@ class OperatorsTests {
         assertMatrixEquals(expected=eye(3)*6, actual=a+c)
         assertMatrixEquals(expected=eye(3)*7, actual=b+c)
 
-        val d = MTJMatrixFactory().zeros(1,3).fill { row, col -> (col+1)*2.0 }
-        val e = EJMLMatrixFactory().zeros(3,1).fill { row, col -> (row+1)*-3.0 }
+        val d = MTJMatrixFactory().zeros(1,3).fill { _, col -> (col+1)*2.0 }
+        val e = EJMLMatrixFactory().zeros(3,1).fill { row, _ -> (row+1)*-3.0 }
 
         assertMatrixEquals(expected=mat[2*-3 + 4*-6 + 6*-9], actual=d*e)
         assertMatrixEquals(expected=mat[2*-3, 4*-6, 6*-9], actual=d.elementTimes(e.T))

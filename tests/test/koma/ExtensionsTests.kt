@@ -80,7 +80,7 @@ class ExtensionsTests {
 
             val out = arrayOf(0, 0)
 
-            a.eachRow { out[it[1].toInt()] = it[0].toInt() }
+            a.forEachRow { out[it[1].toInt()] = it[0].toInt() }
 
             assert(out[0] == 1)
             assert(out[1] == 5)
@@ -95,7 +95,7 @@ class ExtensionsTests {
 
             val out = arrayOf(0, 0, 0)
 
-            a.eachCol { out[it[0].toInt()] = it[1].toInt() }
+            a.forEachCol { out[it[0].toInt()] = it[1].toInt() }
 
             assert(out[0] == 2)
             assert(out[1] == -2)
@@ -112,7 +112,7 @@ class ExtensionsTests {
 
             var out = 0.0
 
-            a.each { out = it + 3.0 }
+            a.forEach { out = it + 3.0 }
 
             assert(out == 9.0)
         }
@@ -124,7 +124,7 @@ class ExtensionsTests {
             val a = mat[1, 2, 3 end
                         4, 5, 6]
             val out = zeros(2, 3)
-            a.eachIndexed { row, col, ele ->
+            a.forEachIndexed { row, col, ele ->
                 out[row, col] = ele + 3
             }
             assertMatrixEquals(a + 3, out)
@@ -141,7 +141,7 @@ class ExtensionsTests {
             val expected = mat[.5, 1, 1.5 end
                                2, 2.5, 3   end
                                3.5, 4, 4.5]
-            assertMatrixEquals(expected, a.mapMat { it / 2 })
+            assertMatrixEquals(expected, a.map { it / 2 })
         }
     }
 
@@ -155,7 +155,7 @@ class ExtensionsTests {
             val expected = mat[0, 0, 0   end
                                0, 2.5, 6   end
                                0, 8, 18]
-            val out = a.mapMatIndexed { row, col, ele ->
+            val out = a.mapIndexed { row, col, ele ->
                 ele / 2 * row * col
             }
             assertMatrixEquals(expected, out)

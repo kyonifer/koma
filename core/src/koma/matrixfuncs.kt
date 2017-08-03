@@ -20,7 +20,7 @@ import koma.polyfill.annotations.*
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun acos(arr: Matrix<Double>) = arr.mapMat { Math.acos(it) }
+fun acos(arr: Matrix<Double>) = arr.map { Math.acos(it) }
 
 /**
  * Returns a matrix of the arcsin of each element in the input matrix.
@@ -29,7 +29,7 @@ fun acos(arr: Matrix<Double>) = arr.mapMat { Math.acos(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun asin(arr: Matrix<Double>) = arr.mapMat { Math.asin(it) }
+fun asin(arr: Matrix<Double>) = arr.map { Math.asin(it) }
 
 /**
  * Returns a matrix of the arctan of each element in the input matrix.
@@ -38,7 +38,7 @@ fun asin(arr: Matrix<Double>) = arr.mapMat { Math.asin(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun atan(arr: Matrix<Double>) = arr.mapMat { Math.atan(it) }
+fun atan(arr: Matrix<Double>) = arr.map { Math.atan(it) }
 
 /**
  * Returns a matrix of the absolute value of each element in the input matrix.
@@ -47,7 +47,7 @@ fun atan(arr: Matrix<Double>) = arr.mapMat { Math.atan(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun abs(arr: Matrix<Double>) = arr.mapMat { Math.abs(it) }
+fun abs(arr: Matrix<Double>) = arr.map { Math.abs(it) }
 
 /**
  * Rounds each element to the integer which is nearest to the element and still less than the
@@ -58,7 +58,7 @@ fun abs(arr: Matrix<Double>) = arr.mapMat { Math.abs(it) }
  * @return A matrix consisting of the operation performed element-wise.
  */
 // explicit toDouble() for javascript
-fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it).toDouble() }
+fun ceil(arr: Matrix<Double>) = arr.map { Math.ceil(it).toDouble() }
 
 /**
  * Returns a matrix of the cos of each element in the input matrix.
@@ -68,7 +68,7 @@ fun ceil(arr: Matrix<Double>) = arr.mapMat { Math.ceil(it).toDouble() }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun cos(arr: Matrix<Double>) = arr.mapMat { Math.cos(it) }
+fun cos(arr: Matrix<Double>) = arr.map { Math.cos(it) }
 
 /**
  * Returns a matrix of E.pow(element) for each element in the input matrix.
@@ -78,7 +78,7 @@ fun cos(arr: Matrix<Double>) = arr.mapMat { Math.cos(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun exp(arr: Matrix<Double>) = arr.mapMat { Math.exp(it) }
+fun exp(arr: Matrix<Double>) = arr.map { Math.exp(it) }
 
 /**
  * Returns a matrix of the natural logarithm of each element in the input matrix.
@@ -88,7 +88,7 @@ fun exp(arr: Matrix<Double>) = arr.mapMat { Math.exp(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun log(arr: Matrix<Double>) = arr.mapMat { Math.log(it) }
+fun log(arr: Matrix<Double>) = arr.map { Math.log(it) }
 
 /**
  * Returns a matrix consisting of each element in the input matrix raised to the given power.
@@ -121,7 +121,7 @@ fun pow(arr: Matrix<Double>, num: Int) = arr.pow(num)
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun sign(arr: Matrix<Double>) = arr.mapMat { signum(it) }
+fun sign(arr: Matrix<Double>) = arr.map { signum(it) }
 
 /**
  * Returns a matrix of the sin of each element in the input matrix
@@ -131,7 +131,7 @@ fun sign(arr: Matrix<Double>) = arr.mapMat { signum(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun sin(arr: Matrix<Double>) = arr.mapMat { Math.sin(it) }
+fun sin(arr: Matrix<Double>) = arr.map { Math.sin(it) }
 
 /**
  * Returns a matrix of the sqrt of each element in the input matrix. Does
@@ -142,7 +142,7 @@ fun sin(arr: Matrix<Double>) = arr.mapMat { Math.sin(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun sqrt(arr: Matrix<Double>) = arr.mapMat { Math.sqrt(it) }
+fun sqrt(arr: Matrix<Double>) = arr.map { Math.sqrt(it) }
 
 /**
  * Returns a matrix of the tan of each element in the input matrix
@@ -152,7 +152,7 @@ fun sqrt(arr: Matrix<Double>) = arr.mapMat { Math.sqrt(it) }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun tan(arr: Matrix<Double>) = arr.mapMat { Math.tan(it) }
+fun tan(arr: Matrix<Double>) = arr.map { Math.tan(it) }
 
 /**
  * Rounds each element to the nearest integer value. For elements exactly between integers,
@@ -162,7 +162,7 @@ fun tan(arr: Matrix<Double>) = arr.mapMat { Math.tan(it) }
  *
  * @return A matrix consisting of the operation performed element-wise.
  */
-fun round(arr: Matrix<Double>) = arr.mapMat { Math.round(it).toDouble() }
+fun round(arr: Matrix<Double>) = arr.map { Math.round(it).toDouble() }
 
 /**
  * Rounds each element to the integer which is nearest to the element and still less than the
@@ -173,7 +173,7 @@ fun round(arr: Matrix<Double>) = arr.mapMat { Math.round(it).toDouble() }
  * @return A matrix consisting of the operation performed element-wise.
  */
 // explicit toDouble() for javascript
-fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it).toDouble() }
+fun floor(arr: Matrix<Double>) = arr.map { Math.floor(it).toDouble() }
 
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix
@@ -184,7 +184,7 @@ fun floor(arr: Matrix<Double>) = arr.mapMat { Math.floor(it).toDouble() }
  * @return A matrix consisting of the operation performed element-wise.
  *
  */
-fun logb(base: Int, arr: Matrix<Double>) = arr.mapMat { Math.log(it) / Math.log(base.toDouble()) }
+fun logb(base: Int, arr: Matrix<Double>) = arr.map { Math.log(it) / Math.log(base.toDouble()) }
 
 /**
  * Extracts the diagonal of the matrix.

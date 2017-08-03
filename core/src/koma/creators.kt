@@ -129,12 +129,12 @@ fun <T> fill(rows: Int,
 @JsName("fillScalar")
 fun fill(rows: Int, 
          cols: Int, 
-         value: Double) = zeros(rows, cols).fill({ r, c -> value })
+         value: Double) = zeros(rows, cols).fill({ _, _ -> value })
 fun <T> fill(rows: Int, 
              cols: Int, 
              value: T,
              dtype: MatrixType<T>) 
-        = zeros(rows, cols, dtype).fill({ r, c -> value })
+        = zeros(rows, cols, dtype).fill({ _, _ -> value })
 
 /**
  * Creates an 1x[cols] matrix filled with unit uniform random numbers

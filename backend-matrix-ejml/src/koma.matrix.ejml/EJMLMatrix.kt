@@ -44,7 +44,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun elementTimes(other: Matrix<Double>) =
             EJMLMatrix(this.storage.elementMult(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
     override fun rem(other: Matrix<Double>) =
-            EJMLMatrix(this.storage.mod(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
+            EJMLMatrix(this.storage.rem(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
     override fun unaryMinus() = EJMLMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = EJMLMatrix(this.storage.minus(other))
     override fun minus(other: Matrix<Double>) =

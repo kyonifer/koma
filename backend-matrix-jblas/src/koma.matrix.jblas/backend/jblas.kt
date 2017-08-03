@@ -33,7 +33,7 @@ fun DoubleMatrix.mapMat(f: (Double) -> Double): DoubleMatrix {
 operator fun DoubleMatrix.plus(other: DoubleMatrix) = this.add(other)
 operator fun DoubleMatrix.minus(other: DoubleMatrix) = this.sub(other)
 operator fun DoubleMatrix.times(other: DoubleMatrix) = this.mmul(other)
-operator fun DoubleMatrix.mod(other: DoubleMatrix) = this.mul(other)
+operator fun DoubleMatrix.rem(other: DoubleMatrix) = this.mul(other)
 
 fun DoubleMatrix.plusElement(other: Int) = this.plusElement(other.toDouble())
 fun DoubleMatrix.plusElement(other: Double) = this.mapMat { it + other }

@@ -146,7 +146,7 @@ interface Matrix<T> {
     /**
      *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
      */
-    fun getFactory(): MatrixFactory<out Matrix<T>>
+    fun getFactory(): MatrixFactory<Matrix<T>>
 
 
     fun repr(): String = koma.platformsupport.repr(this)
@@ -378,7 +378,7 @@ interface Matrix<T> {
     @JsName("mapRowsToList")
     fun <U> mapRowsToList(f: (Matrix<T>) -> U): List<U> {
         val a = ArrayList<U>(this.numRows())
-        this.eachRow {
+        this.forEachRow {
             a.add(f(it))
         }
         return a
@@ -425,7 +425,7 @@ interface Matrix<T> {
     fun <U> mapColsToList(f: (Matrix<T>) -> U): List<U> {
         // TODO: Replace if cross-platform set capacity method is added to kotlin
         val a = arrayListOf<U>()
-        this.eachCol {
+        this.forEachCol {
             a.add(f(it))
         }
         return a

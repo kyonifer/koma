@@ -90,7 +90,7 @@ class CreatorsTests {
             val a = ones(3, 5)
             assertEquals(a[4], 1.0)
             assertEquals(a[2, 2], 1.0)
-            assertMatrixEquals(zeros(3, 5).fill { i, j -> 1.0 }, a)
+            assertMatrixEquals(zeros(3, 5).fill { _, _ -> 1.0 }, a)
         }
     }
 
@@ -98,7 +98,7 @@ class CreatorsTests {
     fun testEye() {
         allBackends {
             val a = eye(3)
-            val expected = zeros(3, 3).mapMatIndexed { i, j, d -> if (i == j) 1.0 else 0.0 }
+            val expected = zeros(3, 3).mapIndexed { i, j, _ -> if (i == j) 1.0 else 0.0 }
             assertMatrixEquals(expected, a)
         }
     }
@@ -117,11 +117,11 @@ class CreatorsTests {
         allBackends {
             val a = 2 * randn(1, 1000000)
             Assert.assertEquals(0.0, mean(a), .01)
-            val aAgg = zeros(1, 1000000).mapMat { 2*randn(1)[0] }
+            val aAgg = zeros(1, 1000000).map { 2 * randn(1,1)[0] }
             Assert.assertEquals(0.0, mean(aAgg), .01)
 
-            val b = randn(3)
-            val c = randn(3)
+            val b = randn(3, 3)
+            val c = randn(3, 3)
             assertFalse { (b-c).any { it == 0.0 } }
         }
     }
@@ -130,11 +130,11 @@ class CreatorsTests {
         allBackends {
             val a = 2 * rand(1, 1000000)
             Assert.assertEquals(1.0, mean(a), .01)
-            val aAgg = zeros(1, 1000000).mapMat { 2*rand(1)[0] }
+            val aAgg = zeros(1, 1000000).map { 2 * rand(1, 1)[0] }
             Assert.assertEquals(1.0, mean(aAgg), .01)
 
-            val b = rand(3)
-            val c = rand(3)
+            val b = rand(3, 3)
+            val c = rand(3, 3)
             assertFalse { (b-c).any { it == 0.0 } }
         }
     }

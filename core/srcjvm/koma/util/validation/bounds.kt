@@ -18,7 +18,7 @@ var ValidationContext.max : Double
  */
 fun ValidationContext.max(value: Double) : ValidationContext {
     if (!validateMatrices) return this
-    currentMatrix.eachIndexed { row, col, element ->
+    currentMatrix.forEachIndexed { row, col, element ->
         if (element > value) {
             val msg = "${currentMatrixName}[${row}, ${col}] > ${value} (value was ${element})"
             throw IllegalArgumentException(msg)
@@ -40,7 +40,7 @@ var ValidationContext.min : Double
  */
 fun ValidationContext.min(value: Double) : ValidationContext {
     if (!validateMatrices) return this
-    currentMatrix.eachIndexed { row, col, element ->
+    currentMatrix.forEachIndexed { row, col, element ->
         if (element < value) {
             val msg = "${currentMatrixName}[${row}, ${col}] < ${value} (value was ${element})"
             throw IllegalArgumentException(msg)

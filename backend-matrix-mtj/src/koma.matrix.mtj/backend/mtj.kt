@@ -29,7 +29,7 @@ operator fun DenseMatrix.times(other: Int) = this.times(other.toDouble())
 operator fun DenseMatrix.times(other: Double) = this.mapMat { it * other }
 
 // Element multiplication
-operator fun DenseMatrix.mod(other: DenseMatrix): DenseMatrix {
+operator fun DenseMatrix.rem(other: DenseMatrix): DenseMatrix {
     val out = DenseMatrix(this.numRows(), this.numColumns())
     for (i in 0..this.numRows() - 1)
         for (j in 0..this.numColumns() - 1)
@@ -55,14 +55,9 @@ operator fun DenseMatrix.set(i: Int, v: Int) = this.set(i, v.toDouble())
 operator fun DenseMatrix.set(i: Int, j: Int, v: Int) = this.set(i, j, v.toDouble())
 operator fun DenseMatrix.set(i: Int, v: Double) = this.set(i / numColumns(), i % numColumns(), v)
 operator fun DenseMatrix.get(i: Int) = this.get(i / numColumns(), i % numColumns())
-// Annotate operators TODO: Remove when Kotlin implicitly annotates operator for java classes
-operator fun DenseMatrix.get(i: Int, j: Int) = this.get(i, j)
-
-operator fun DenseMatrix.set(i: Int, j: Int, v: Double) = this.set(i, j, v)
 
 // Scalar Arithmetic not available since extension functions cant override iterable plus()
 fun DenseMatrix.plusElement(other: Int) = this.plusElement(other.toDouble())
-
 fun DenseMatrix.plusElement(other: Double) = this.mapMat { it + other }
 
 fun DenseMatrix.plusMatrix(other: DenseMatrix): DenseMatrix {

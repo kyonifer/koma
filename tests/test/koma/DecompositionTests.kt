@@ -31,7 +31,7 @@ class DecompositionTests {
                                0.009950371902, 0.009852336291, 1.004890004711]
 
             // Check lower triangular
-            val notLower = out.mapMatIndexed { row, col, value ->
+            val notLower = out.mapIndexed { row, col, value ->
                 if (row < col && value != 0.0) -1.0 else 1.0
             }.any {
                 it == -1.0
