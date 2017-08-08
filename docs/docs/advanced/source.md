@@ -1,13 +1,13 @@
 # Building Koma from Source
 
-### Prerequisites
+## Prerequisites
 
 Building Koma from source requires:
 
 * A JDK targeting Java 8 on the system path
 * git
 
-### Building
+## Building
 
 Grab a copy of the latest Koma code and enter the checked out directory:
 
@@ -20,20 +20,41 @@ Now run the gradle build command, passing in a parameter specifying which platfo
 are building for:
 
 ```JVM
-./gradlew build -Ptarget=kotlin
+./gradlew build
+
+# Optionally, build a fat jar with all dependencies included to ./build/libs/
+./gradlew shadowJar
 ```
 ```JS
+# Outputs commonjs modules in ./node_modules/
 ./gradlew build -Ptarget=js
 ```
 ```Native
+# Outputs a linked executable with main supplied by examples/native/main.kt
+# (lib not yet supported)
 ./gradlew build -Ptarget=native
 ```
 
-You can now run the example on the platform you chose:
-
+To verify success, run some test code:
+```JVM
+# Runs the unit tests
+./gradlew clean test
+```
 ```JS
+# Runs a toy example assuming node is installed
 node examples/js/example.js
 ```
 ```Native
+# Runs the previously built executable
 ./Koma.kexe
 ```
+
+## Note about IDEs
+
+If you use an IDE, make sure that you run the gradle `:codegen` 
+task when building Koma from source. This is done for you when using gradle 
+directly, but your IDEs build system will likely not know that it needs to. The
+`:codegen` task generates the primitive-optimized implementations from the 
+[implementation templates](https://github.com/kyonifer/koma/tree/master/core/templates).
+If you are getting errors such as `DefaultDoubleMatrix` not existing, its probably
+because the `:codegen` task has yet to run.

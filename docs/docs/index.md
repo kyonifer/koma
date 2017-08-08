@@ -1,25 +1,23 @@
-# Koma
-
-A scientific computing library for Kotlin.
-
---------
-
 ### Overview
 
+Koma is a scientific computing library written in Kotlin, designed to allow development 
+of cross-platform numerical applications targeting Javascript, Java (JVM), and embedded (native) platforms.
 
-This project aims to:
+Project goals:
 
-- Create a scientific programming environment for Kotlin that is familiar to people used to NumPy or
-MATLAB
-- Support writing numerical code once in Kotlin, and then deploy that code on JVM, JS, and native platforms
-- Support polyglot usage from Kotlin, Java, other JVM languages, as well as foreign interop with legacy Python or MATLAB code
-- Use pluggable back-ends to offload the actual computation to pre-existing libraries, depending on the target platform
-- Use code already written by other projects where possible to avoid duplication
+- Create a scientific programming environment that is similar in style to NumPy or MATLAB
+- Assist writing numerical applications which can be deployed on JVM, JS, and native platforms
+- Support using said applications from Python, MATLAB, Java, and other pre-existing codebases
+- Use pluggable back-ends to enable optimized computation via pre-existing platform libraries
+
+To get started, try the quickstart instructions below for your desired platform. After that,
+take a look at the [functionality overview](guide/functionality.md) for a quick intro on what Koma provides.
 
 
-### Quickstart
+### Quickstart (Java)
 
-Koma is hosted on bintray. First add it to your repos:
+Koma is hosted on bintray. First add the koma repository to your repo list. If
+using gradle:
 
 ```groovy
 repositories { 
@@ -35,12 +33,14 @@ Now add a dependency on the `core` artifact:
 ```Groovy
 dependencies{
     compile group: "koma", name:"core", version:"0.10"
+    // Optional, uses EJML's optimized routines for matrix operations
+    compile group: "koma", name:"backend-matrix-ejml", version: "0.10"
 }
 ```
 
 And we're ready to go. Lets plot a random walk:
 
-```Kotlin
+```kotlin
 import koma.*
 
 fun main(args: Array<String>)
@@ -68,6 +68,62 @@ fun main(args: Array<String>)
 ```
 ![](https://raw.githubusercontent.com/kyonifer/koma/imgs/plotting.png)
 
-### The Next Step
-The `core` artifact uses an unoptimized backend by default. Check out [the backends page](guide/backends.md) 
-to find a better backend on your target platform.
+### Quickstart (Javascript)
+
+To use Koma from javascript you currently have to [build from source](advanced/source.md).
+After doing so, you should have commonjs modules in the `./node_modules/` folder. 
+You can then use koma directly from javascript:
+
+```javascript
+koma = require('koma-core').koma
+
+m = koma.randn(3,3)
+
+console.log(m)
+console.log(m.plus(m.timesScalar(5)))
+
+m2 = koma.ones(3,4)
+
+console.log(m2)
+console.log(m2.plus(m2).minusScalar(3))
+```
+
+### Quickstart (Native)
+
+To produce a native executable including koma you currently have to [build from source](advanced/source.md). 
+This will produce an executable called `Koma.kexe` which includes the koma library as
+well as the toy example main function defined at `examples/native/main.kt`:
+
+```
+import koma.*
+import koma.matrix.default.*
+
+fun main(args: Array<String>) {
+    
+    factory = DefaultDoubleMatrixFactory()
+    
+    println("randn(5,6): \n${randn(5,6).repr()}")
+
+    var a = mat[1,2,3 end
+                4,5,6]
+    
+    var b = mat[2, 0 end
+                0, 1 end
+               -1, 5]
+    
+    println("a: \n${a.repr()}")
+    println("b: \n${b.repr()}")
+    println("a*b: \n${(a*b).repr()}")
+    
+}
+```
+
+You can run the executable directly, without any js or java runtime dependency:
+```
+./Koma.kexe
+```
+You can edit the binary by making modifications to `examples/native/main.kt` in the source tree.
+Support for building shared or static libraries will be added as the kotlin-native backend matures
+(currently in pre-release).
+
+

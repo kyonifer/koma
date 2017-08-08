@@ -1,11 +1,12 @@
-# Matrices
+# Linear Algebra
 
-Koma's `Matrix<T>` type is a 2D container designed to be used for linear algebra.
+While it is always possible to use the `*Factory` and `*Matrix` classes provided by your chosen backend or the core directly,
+Koma provides a set of top-level convenience functions to make the experience more similar to other scientific environments.
+All these functions reside in the `import koma.*` namespace.
 
 ### Creating Matrices
 
-While it is always possible to use the `*Factory` classes provided by your chosen backend directly,
-Koma provides a set of top-level convenience functions to easily create new matrices. For example:
+Koma provides several functions for creating new matrices:
 
 ```kotlin
 // x is a 3x3 identity matrix
@@ -36,23 +37,29 @@ val a = mat[1,2,3.3 end
 ```
 
 ### Math Functions
-Matrices have useful map functions that return matrices for chaining operations (see [here](core/src/koma/extensions.kt) for a complete list).
+Matrices have useful map functions that return matrices for chaining operations (see [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/matrix/Matrix.kt#L254) for a complete list).
 
 ```kotlin
     // Create a 3x3 identity and then add 0.1 to all elements
     val x = eye(3) + 0.1
 
     // Map each element through a function that adds .01
-    val y = x.mapMat { it + .01 }
+    val y = x.map { it + .01 }
     
     // Map each element through a function that adds or subtracts depending on the element index
-    val z = x.mapMatIndexed { row, col, ele -> if (row > col) ele + 1 else ele - 1 }
+    val z = x.mapIndexed { row, col, ele -> if (row > col) ele + 1 else ele - 1 }
 
     // Are there any elements greater than 1?
     val hasGreater = x.any { it > 1 }
 
     // Are all elements greater than 1?
     val allGreater = x.all { it > 1 }
+    
+    // Print all the elements in row-order
+    x.forEach { println(it) }
+
+    // Print all the elements including their column number
+    x.forEachIndexed { row, col, ele -> println("$col $it") }
 
     // Apply a function to a row at a time and store the outputs in a contiguous matrix
     val sins = x.mapRows { row -> sin(row) }
@@ -102,7 +109,7 @@ mat[ 3.00  end
      17.00 ]
 ```
 
-Many special functions are supported (see [the matrix interface](core/src/koma/matrix/Matrix.kt) for a complete list):
+Many special functions are supported (see [the matrix interface](https://github.com/kyonifer/koma/blob/master/core/src/koma/matrix/Matrix.kt) for a complete list):
 
 ```kotlin
 
@@ -116,7 +123,7 @@ Many special functions are supported (see [the matrix interface](core/src/koma/m
 
 ```
 
-Scalar functions can be applied elementwise to matrices (see [here](core/src/koma/scalarfuncs.kt) for a complete list):
+Scalar functions can be applied elementwise to matrices (see [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/scalarfuncs.kt) for a complete list):
 
 ```kotlin
     val x = create(0..100)/5.0  // Matrix of 0, 1/5, 2/5, ...
@@ -124,7 +131,7 @@ Scalar functions can be applied elementwise to matrices (see [here](core/src/kom
     plot(y)                     // Plot of sin function
 ```
 
-Matrix indexing and slicing is supported (see [here](core/src/koma/operators.kt) for a list of operators as well as the Matrix<T> type):
+Matrix indexing and slicing is supported (see [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/operators.kt) for a list of operators as well as the Matrix<T> type):
 
 ```kotlin
 
