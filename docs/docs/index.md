@@ -6,7 +6,7 @@ of cross-platform numerical applications targeting Javascript, Java (JVM), and e
 Project goals:
 
 - Create a scientific programming environment that is similar in style to NumPy or MATLAB
-- Assist writing numerical applications which can be deployed on JVM, JS, and native platforms
+- Enable writing numerical applications which can be deployed on JVM, JS, and native platforms
 - Support using said applications from Python, MATLAB, Java, and other pre-existing codebases
 - Use pluggable back-ends to enable optimized computation via pre-existing platform libraries
 
