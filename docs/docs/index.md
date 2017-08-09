@@ -1,4 +1,4 @@
-### Overview
+# Overview
 
 Koma is a scientific computing library written in Kotlin, designed to allow development 
 of cross-platform numerical applications targeting Javascript, Java (JVM), and embedded (native) platforms.

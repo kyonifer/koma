@@ -49,7 +49,7 @@ node examples/js/example.js
 ./Koma.kexe
 ```
 
-## Note about IDEs
+## Note About IDEs
 
 If you use an IDE, make sure that you run the gradle `:codegen` 
 task when building Koma from source. This is done for you when using gradle 

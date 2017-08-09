@@ -3,9 +3,10 @@ pages:
     - Home: index.md
     - Usage guide:
         - Functionality Overview: guide/functionality.md
-        - Linear Algebra: guide/linalg.md
-        - N-Dimensional Containers: guide/ndims.md
+        - Matrices & Linear Algebra: guide/linalg.md
+        - N-Dimensional Arrays: guide/ndims.md
         - Plotting: guide/plotting.md
+        - Validation DSL: guide/validation.md
     - Advanced:
         - Build From Source: advanced/source.md
         - Contributing: advanced/contributing.md
