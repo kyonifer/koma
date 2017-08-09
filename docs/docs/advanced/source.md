@@ -19,32 +19,35 @@ cd koma
 Now run the gradle build command, passing in a parameter specifying which platform you
 are building for:
 
-```JVM
+<!--names=JVM,JS,Native-->
+```bash
 ./gradlew build
 
 # Optionally, build a fat jar with all dependencies included to ./build/libs/
 ./gradlew shadowJar
 ```
-```JS
+```bash
 # Outputs commonjs modules in ./node_modules/
 ./gradlew build -Ptarget=js
 ```
-```Native
+```bash
 # Outputs a linked executable with main supplied by examples/native/main.kt
 # (lib not yet supported)
 ./gradlew build -Ptarget=native
 ```
 
 To verify success, run some test code:
-```JVM
+
+<!--names=JVM,JS,Native-->
+```bash
 # Runs the unit tests
 ./gradlew clean test
 ```
-```JS
+```bash
 # Runs a toy example assuming node is installed
 node examples/js/example.js
 ```
-```Native
+```bash
 # Runs the previously built executable
 ./Koma.kexe
 ```
