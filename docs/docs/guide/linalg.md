@@ -20,10 +20,9 @@ x = randn(3,3)
 x = rand(3,3)
 
 // x is a 4x5 matrix where the ith row and jth column has the value i+j*2
-x = fill(4,5) { row, col -> row+col*2 }
+x = fill(4,5) { row, col -> row+col*2.0 }
 
-val someData = doubleArrayOf(doubleArrayOf(1,2,3),
-                             doubleArrayOf(4,5,6))
+val someData = arrayOf(doubleArrayOf(1.0,2.0,3.0), doubleArrayOf(4.0,5.0,6.0))
 // x is a 2x3 matrix constructed from the data in a java array of arrays
 x = create(someData)
 ```
