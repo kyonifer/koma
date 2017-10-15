@@ -1,7 +1,7 @@
 
 ## Building the source
 
-Please see [the instructions for building from source](source.md)
+Please see [the instructions for building from source](Build_From_Source.md)
 
 ## Unit Tests
 

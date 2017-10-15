@@ -52,7 +52,7 @@ dependencies {
 }
 ```
 
-Koma should now pick up the new backend and use it for the [top-level functions](linalg.md). Koma will always try to 
+Koma should now pick up the new backend and use it for the [top-level functions](Matrices_&_Linear_Algebra.md). Koma will always try to 
 use a platform specific backend if one is available, and fallback to the default `core` implementations 
 if that fails. Continue to the next section if you are interested in forcing which backend is used.
 
@@ -73,7 +73,7 @@ dependencies {
 }
 ```
 
-You can now change the backend being used by koma's [top-level functions](linalg.md) at
+You can now change the backend being used by koma's [top-level functions](Matrices_&_Linear_Algebra.md) at
 any time by setting a property in the koma namespace. In Kotlin this looks
 like:
 

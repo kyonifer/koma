@@ -1,6 +1,6 @@
 # Matrices & Linear Algebra
 
-While it is always possible to use the [`*Factory` and `*Matrix`](functionality.md) classes provided by your chosen backend or the core directly,
+While it is always possible to use the [`*Factory` and `*Matrix`](Functionality_Overview.md) classes provided by your chosen backend or the core directly,
 Koma provides a set of top-level convenience functions to make the experience more similar to other scientific environments.
 All these functions reside in the `import koma.*` namespace and use the underlying 
 object-oriented hierarchy internally.

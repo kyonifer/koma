@@ -11,7 +11,7 @@ Project goals:
 - Use pluggable back-ends to enable optimized computation via pre-existing platform libraries
 
 To get started, try the quickstart instructions below for your desired platform. After that,
-take a look at the [functionality overview](guide/functionality.md) for a quick intro on what Koma provides.
+take a look at the [functionality overview](General_Usage_Guide/Functionality_Overview.md) for a quick intro on what Koma provides.
 
 
 ### Quickstart (Java)
@@ -70,7 +70,7 @@ fun main(args: Array<String>)
 
 ### Quickstart (Javascript)
 
-To use Koma from javascript you currently have to [build from source](advanced/source.md).
+To use Koma from javascript you currently have to [build from source](General_Usage_Guide/Advanced/Build_From_Source.md).
 After doing so, you should have commonjs modules in the `./node_modules/` folder. 
 You can then use koma directly from javascript:
 
@@ -90,7 +90,7 @@ console.log(m2.plus(m2).minusScalar(3))
 
 ### Quickstart (Native)
 
-To produce a native executable including koma you currently have to [build from source](advanced/source.md). 
+To produce a native executable including koma you currently have to [build from source](General_Usage_Guide/Advanced/Build_From_Source.md). 
 This will produce an executable called `Koma.kexe` which includes the koma library as
 well as the toy example main function defined at `examples/native/main.kt`:
 

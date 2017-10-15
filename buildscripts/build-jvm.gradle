@@ -8,6 +8,7 @@ buildscript {
     }
 
     dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9+")
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     }
@@ -108,6 +109,22 @@ project(':tests') {
                 '-Dcom.github.fommil.netlib.ARPACK=com.github.fommil.netlib.F2jARPACK'
     }
 }
+
+apply plugin: "org.jetbrains.dokka"
+
+dokka {
+    outputFormat = "gfm"
+    outputDirectory = "docs/markdown"
+    moduleName = 'api'
+    sourceDirs = files('core/src')
+    includes = ['core/src/Module.md']
+    jdkVersion = 8
+    doLast {
+        // Dokka uses moduleName for the final folder name, and mangles upper case letters
+        file("docs/markdown/api").renameTo(file("docs/markdown/Reference_API_Docs"))
+    }
+}
+
 
 // Enable making a fatjar with the root proj
 apply plugin: "java"

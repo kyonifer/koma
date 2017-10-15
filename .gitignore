@@ -12,3 +12,5 @@ local.properties
 node_modules/*
 *.kexe
 */srcgen/*
+docs/site
+docs/markdown/Reference*
