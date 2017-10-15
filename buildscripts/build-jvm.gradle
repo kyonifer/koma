@@ -113,11 +113,12 @@ project(':tests') {
 apply plugin: "org.jetbrains.dokka"
 
 dokka {
+    dependsOn(":codegen")
     outputFormat = "gfm"
     outputDirectory = "docs/markdown"
     moduleName = 'api'
-    sourceDirs = files('core/src')
-    includes = ['core/src/Module.md']
+    sourceDirs = files(["core/src", "core/srcgen"])
+    includes = ['core/Module.md']
     jdkVersion = 8
     doLast {
         // Dokka uses moduleName for the final folder name, and mangles upper case letters

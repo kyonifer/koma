@@ -6,7 +6,9 @@ A set of useful containers.
 # Package koma.matrix
 Interfaces for the abstract Matrix and MatrixFactory types which are implemented by various computation backends.
 # Package koma.matrix.common
-Generic algorithms which apply to any implementation of a Matrix.
+Base classes for matrices.
+# Package koma.matrix.default
+A set of (unoptimized) implementations of Matrices that run on all platforms.
 # Package koma.matrix.ejml
 An implementation of Matrix using the Efficient Java Matrix Library.
 # Package koma.matrix.ejml.backend
@@ -19,6 +21,12 @@ A set of convenient wrappers for using jBLAS standalone if ever needed.
 An implementation of Matrix using the Matrix Toolkit for Java.
 # Package koma.matrix.mtj.backend
 A set of convenient wrappers for using MTJ standalone if ever needed.
+# Package koma.ndarray
+A set of interfaces for N-dimensional containers
+# Package koma.ndarray.common
+Base classes for ndarrays
+# Package koma.ndarray.default
+A set of (unoptimized) implementations of NDArrays that run on all platforms
 # Package koma.util
 Utility functions.
 # Package koma.util.test
