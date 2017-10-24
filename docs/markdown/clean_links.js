@@ -17,13 +17,13 @@
 
     function applyFixes() {
         // Try to clean up dokka's name mangling
-        adjustText('.dropdown-menu li > a', function(text) {
+        adjustText('.dropdown-submenu li > a', function(text) {
             return text.replace(/(^| )\w/g, function(m) {
                 return m[m.length - 1].toUpperCase();
             });
         });
 
-        adjustText('.dropdown-menu li > a', function(text, a) {
+        adjustText('.dropdown-submenu li > a', function(text, a) {
             var hyphenated = a.href.replace(/\/(index.html)?$/, '').replace(/.*[\/#]/, '');
             if (hyphenated == "-init-")
                 return "<init>"
