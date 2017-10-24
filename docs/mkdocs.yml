@@ -3,4 +3,5 @@ theme: cosmo
 docs_dir: markdown
 extra_javascript: 
     - tabbed_code.js
+    - clean_links.js
 use_directory_urls: false
