@@ -6,6 +6,7 @@ import koma.matrix.common.*
 import koma.matrix.ejml.backend.*
 import org.ejml.ops.CommonOps
 import org.ejml.simple.SimpleMatrix
+import org.ejml.simple.SimpleSVD
 
 /**
  * An implementation of the Matrix<Double> interface using EJML.
@@ -119,6 +120,11 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
         val decomp = this.storage.QR()
         return Pair(EJMLMatrix(SimpleMatrix(decomp.getQ(null, false))),
                     EJMLMatrix(SimpleMatrix(decomp.getR(null, false))))
+    }
+
+    override fun SVD(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
+        val svd = this.storage.svd()
+        return Triple(EJMLMatrix(svd.u), EJMLMatrix(svd.w), EJMLMatrix(svd.v))
     }
 
 
