@@ -124,16 +124,16 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
         return Pair(MTJMatrix(Q), MTJMatrix(R))
     }
 
-	override fun SVD(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
-		val svd = this.storage.svd()
-		val sArray = svd.s
-		val sMat = this.getFactory().zeros(this.numRows(), this.numCols())
-		// Copy values from SVD.s
-		for(i in 0 until min(this.numRows(), this.numCols())) {
-			sMat[i, i] = sArray[i]
-		}
-		return Triple(MTJMatrix(svd.u), sMat, MTJMatrix(svd.vt).transpose())
-	}
+    override fun SVD(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
+        val svd = this.storage.svd()
+        val sArray = svd.s
+        val sMat = this.getFactory().zeros(this.numRows(), this.numCols())
+        // Copy values from SVD.s
+        for(i in 0 until min(this.numRows(), this.numCols())) {
+            sMat[i, i] = sArray[i]
+        }
+        return Triple(MTJMatrix(svd.u), sMat, MTJMatrix(svd.vt).transpose())
+    }
 
 
     override fun toString() = this.repr()

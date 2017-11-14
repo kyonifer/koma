@@ -122,10 +122,10 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
                     EJMLMatrix(SimpleMatrix(decomp.getR(null, false))))
     }
 
-	override fun SVD(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
-		val svd = this.storage.svd()
-		return Triple(EJMLMatrix(svd.u), EJMLMatrix(svd.w), EJMLMatrix(svd.v))
-	}
+    override fun SVD(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
+        val svd = this.storage.svd()
+        return Triple(EJMLMatrix(svd.u), EJMLMatrix(svd.w), EJMLMatrix(svd.v))
+    }
 
 
     override fun toString() = this.repr()

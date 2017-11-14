@@ -90,15 +90,15 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
         return Pair(JBlasMatrix(raw.q), JBlasMatrix(raw.r))
     }
 
-	override fun SVD(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
-		val raw = Singular.fullSVD(this.storage)
-		val sArray = raw[1]
-		val sMatrix = this.getFactory().zeros(raw[0].columns, raw[2].columns) // raw[2] is transposed.
-		for(i in 0 until sArray.length) {
-			sMatrix.set(i, i, sArray[i])
-		}
-		return Triple(JBlasMatrix(raw[0]), sMatrix, JBlasMatrix(raw[2]))
-	}
+    override fun SVD(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
+        val raw = Singular.fullSVD(this.storage)
+        val sArray = raw[1]
+        val sMatrix = this.getFactory().zeros(raw[0].columns, raw[2].columns) // raw[2] is transposed.
+        for(i in 0 until sArray.length) {
+		    sMatrix.set(i, i, sArray[i])
+        }
+        return Triple(JBlasMatrix(raw[0]), sMatrix, JBlasMatrix(raw[2]))
+    }
 
     override fun expm() = JBlasMatrix(this.storage.expm())
 

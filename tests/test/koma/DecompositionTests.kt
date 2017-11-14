@@ -43,29 +43,29 @@ class DecompositionTests {
 
         }
     }
-	@Test
-	fun testSVD() {
-		allBackends {
-			// Verify identity matrix.
-			// Strange capitalization to avoid name collision with 'as'.
-			val a = eye(3) + 1e-2
-			val (Au, As, Av) = a.SVD()
-			val reconstructedA = Au * As * Av.T
-			assertMatrixEquals(a, reconstructedA)
+    @Test
+    fun testSVD() {
+        allBackends {
+            // Verify identity matrix.
+            // Strange capitalization to avoid name collision with 'as'.
+            val a = eye(3) + 1e-2
+            val (Au, As, Av) = a.SVD()
+            val reconstructedA = Au * As * Av.T
+            assertMatrixEquals(a, reconstructedA)
 
-			// Verify non-square underdefined case.
-			val b = eye(3, 5)
-			val (Bu, Bs, Bv) = b.SVD()
-			val reconstructedB = Bu * Bs * Bv.T
-			assertMatrixEquals(b, reconstructedB)
+            // Verify non-square underdefined case.
+            val b = eye(3, 5)
+            val (Bu, Bs, Bv) = b.SVD()
+            val reconstructedB = Bu * Bs * Bv.T
+            assertMatrixEquals(b, reconstructedB)
 
-			// And the non-square overdefined case.
-			// Sidenote: MTJMatrixFactor.eye will throw this error if you have more rows than columns:
-			// java.lang.IndexOutOfBoundsException: column index >= numColumns (3 >= 3)
-			// So we make a 3x5 and transpose it.
-			val c = eye(3, 5).transpose()
-			val (Cu, Cs, Cv) = c.SVD()
-			val reconstructedC = Cu * Cs * Cv.T
-		}
-	}
+            // And the non-square overdefined case.
+            // Sidenote: MTJMatrixFactor.eye will throw this error if you have more rows than columns:
+            // java.lang.IndexOutOfBoundsException: column index >= numColumns (3 >= 3)
+            // So we make a 3x5 and transpose it.
+            val c = eye(3, 5).transpose()
+            val (Cu, Cs, Cv) = c.SVD()
+            val reconstructedC = Cu * Cs * Cv.T
+        }
+    }
 }

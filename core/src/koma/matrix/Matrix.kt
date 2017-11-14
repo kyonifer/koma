@@ -96,7 +96,7 @@ interface Matrix<T> {
     fun chol(): Matrix<T>
     fun LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>>
     fun QR(): Pair<Matrix<T>, Matrix<T>>
-	fun SVD(): Triple<Matrix<T>, Matrix<T>, Matrix<T>> // Returns U, S, V such that A = U * S * V.T
+    fun SVD(): Triple<Matrix<T>, Matrix<T>, Matrix<T>> // Returns U, S, V such that A = U * S * V.T
     // TODO: need schur, eig
 
 
