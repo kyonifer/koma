@@ -24,7 +24,7 @@ class Default${dtype}NDArray(vararg shape: Int, init: (IntArray)->${dtype})
     override fun plus(other: NDArray<${dtype}>): NumericalNDArray<${dtype}>
             = this.mapIndexedN { idx, ele -> ele+other.get(*idx) }.toNumerical()
     override fun pow(exponent: Int): NumericalNDArray<${dtype}>
-            = this.map {Math.pow(it.toDouble(), exponent.toDouble()).to${dtype}()}.toNumerical()
+            = this.map {koma.pow(it.toDouble(), exponent.toDouble()).to${dtype}()}.toNumerical()
 }
 
 /**

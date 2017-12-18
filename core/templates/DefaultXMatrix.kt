@@ -56,7 +56,7 @@ class Default${dtype}Matrix (val rows: Int,
     ${epow}
     
     override fun epow(other: Int): Matrix<${dtype}>
-            = this.mapIndexed { _, _, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+            = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 
     override fun numRows(): Int = this.rows
     override fun numCols(): Int = this.cols

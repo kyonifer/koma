@@ -6,7 +6,4 @@ package koma.platformsupport
  * we can't add these directly to MathClass because the name clashes
  * with kotlin-js-library.
  */
-fun signum(value: Double): Double {
-    val m: dynamic = kotlin.js.Math
-    return m.sign(value)
-}
+fun signum(value: Double) = kotlin.math.sign(value)

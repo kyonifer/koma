@@ -1,7 +1,5 @@
 package koma.platformsupport
 
-import kotlin.js.Math
-
 // TODO: merge this with kotlin-native implementation
 // and abstract out common algorithm
 
@@ -21,11 +19,11 @@ object rng {
             return checkSpare
         }
         while(true) {
-            val num1 = Math.random().toDouble() * 2 - 1
-            val num2 = Math.random().toDouble() * 2 - 1
+            val num1 = kotlin.js.Math.random().toDouble() * 2 - 1
+            val num2 = kotlin.js.Math.random().toDouble() * 2 - 1
             val cand = num1*num1 + num2*num2
             if (cand < 1.0 && cand != 0.0) {
-                val scale = Math.sqrt((-2 * Math.log(cand))/cand)
+                val scale = kotlin.math.sqrt((-2 * koma.log(cand))/cand)
                 spare = scale*num1
                 return scale*num2
             }

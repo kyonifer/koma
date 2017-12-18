@@ -42,7 +42,7 @@ def getEPow(dtype) {
     if (dtype != 'Int')
         return """
     override fun epow(other: ${dtype}): Matrix<${dtype}> 
-            = this.mapIndexed { _, _, ele -> Math.pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+            = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 """
     else
         return ""
