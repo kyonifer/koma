@@ -80,19 +80,6 @@ fun cos(arr: Matrix<Double>) = arr.map { kotlin.math.cos(it) }
  */
 fun exp(arr: Matrix<Double>) = arr.map { kotlin.math.exp(it) }
 
-/**
- * Returns a matrix of the natural logarithm of each element in the input matrix.
- *
- * @param arr An arbitrarily sized matrix
- *
- * @return A matrix consisting of the operation performed element-wise.
- *
- */
-fun ln(arr: Matrix<Double>) = arr.map { ln(it) }
-
-@Deprecated("Use ln()", ReplaceWith("ln(arr)"))
-fun log(arr: Matrix<Double>) = ln(arr)
-
 
 /**
  * Returns a matrix consisting of each element in the input matrix raised to the given power.
@@ -178,6 +165,19 @@ fun round(arr: Matrix<Double>) = arr.map { kotlin.math.round(it).toDouble() }
  */
 // explicit toDouble() for javascript
 fun floor(arr: Matrix<Double>) = arr.map { kotlin.math.floor(it).toDouble() }
+
+/**
+ * Returns a matrix of the natural logarithm of each element in the input matrix.
+ *
+ * @param arr An arbitrarily sized matrix
+ *
+ * @return A matrix consisting of the operation performed element-wise.
+ *
+ */
+fun ln(arr: Matrix<Double>) = arr.map { ln(it) }
+
+@Deprecated("Use ln()", ReplaceWith("ln(arr)"))
+fun log(arr: Matrix<Double>) = ln(arr)
 
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix

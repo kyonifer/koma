@@ -5,7 +5,7 @@ package koma
 
 import koma.platformsupport.*
 import koma.polyfill.annotations.*
-import kotlin.math.*
+import kotlin.math.pow as kotlinPow
 // Scalar funcs
 
 /**
@@ -27,19 +27,6 @@ fun cos(arr: Double) = kotlin.math.cos(arr)
  * A convenience function performing the exp operation via the [kotlin.math] equivalent call.
  */
 fun exp(arr: Double) = kotlin.math.exp(arr)
-
-/**
- * A convenience function performing the log operation via the [kotlin.math] equivalent call.
- */
-fun ln(arr: Double) = kotlin.math.ln(arr)
-
-@Deprecated("Please use ln() instead", ReplaceWith("ln(arr)"))
-fun log(arr: Double) = ln(arr)
-
-/**
- * A convenience function performing the pow operation via the [kotlin.math] equivalent call.
- */
-fun pow(num: Double, exp: Double) = num.pow(exp)
 
 /**
  * A convenience function performing the sign operation via the [kotlin.math] equivalent call.
@@ -121,11 +108,6 @@ fun max(num1: Double, num2: Double) = if (num1 > num2) num1 else num2
  */
 fun min(num1: Double, num2: Double) = if (num2 > num1) num1 else num2
 
-/**
- * A convenience function performing the logb operation via the [kotlin.math] equivalent call.
- */
-fun logb(base: Double, num: Double) = kotlin.math.log(num, base)
-
 // Int versions
 /**
  * A convenience function performing the abs via the [kotlin.math] equivalent call.
@@ -147,13 +129,6 @@ fun cos(arr: Int) = kotlin.math.cos(arr.toDouble())
  */
 fun exp(arr: Int) = kotlin.math.exp(arr.toDouble())
 
-/**
- * A convenience function performing the log operation via the [kotlin.math] equivalent call.
- */
-fun ln(arr: Int) = ln(arr.toDouble())
-
-@Deprecated("Use ln()", ReplaceWith("ln(arr)"))
-fun log(arr: Int) = ln(arr)
 
 
 /**
@@ -216,33 +191,84 @@ fun min(num1: Int, num2: Double) = if (num2 > num1) num1.toDouble() else num2
  */
 fun min(num1: Double, num2: Int) = if (num2 > num1) num1 else num2.toDouble()
 
+
 /**
- * A convenience function performing the logb operation via the [kotlin.math] equivalent call.
+ * A convenience function performing the log operation via the [kotlin.math] equivalent call.
  */
-fun logb(base: Int, num: Int) = kotlin.math.log(num.toDouble(), base.toDouble())
+fun ln(arr: Double) = kotlin.math.ln(arr)
+
+@Deprecated("Please use ln() instead", ReplaceWith("ln(arr)"))
+fun log(arr: Double) = ln(arr)
+
+/**
+ * A convenience function performing the log operation via the [kotlin.math] equivalent call.
+ */
+fun ln(arr: Int) = ln(arr.toDouble())
+
+@Deprecated("Use ln()", ReplaceWith("ln(arr)"))
+fun log(arr: Int) = ln(arr)
 
 /**
  * A convenience function performing the logb operation via the [kotlin.math] equivalent call.
  */
-fun logb(base: Int, num: Double) = kotlin.math.log(num, base.toDouble())
+fun logb(base: Double, num: Double) = kotlin.math.log(num, base)
 
 /**
  * A convenience function performing the logb operation via the [kotlin.math] equivalent call.
  */
-fun logb(base: Double, num: Int) = kotlin.math.log(num.toDouble(), base)
+fun logb(base: Int, num: Int) = logb(base.toDouble(), num.toDouble())
+
+/**
+ * A convenience function performing the logb operation via the [kotlin.math] equivalent call.
+ */
+fun logb(base: Int, num: Double) = logb(base.toDouble(), num)
+
+/**
+ * A convenience function performing the logb operation via the [kotlin.math] equivalent call.
+ */
+fun logb(base: Double, num: Int) = logb(base, num.toDouble())
 
 /**
  * A convenience function performing the pow operation via the [kotlin.math] equivalent call.
  */
-fun pow(num: Double, exp: Int) = num.pow(exp.toDouble())
+fun pow(num: Double, exp: Double) = num.kotlinPow(exp) // Picks up kotlin.math extension
 
 /**
  * A convenience function performing the pow operation via the [kotlin.math] equivalent call.
  */
-fun pow(num: Int, exp: Int) = num.toDouble().pow(exp.toDouble())
+fun pow(num: Int, exp: Int) = koma.pow(num.toDouble(), exp.toDouble())
 
 /**
  * A convenience function performing the pow operation via the [kotlin.math] equivalent call.
  */
-fun pow(num: Int, exp: Double) = pow(num.toDouble(), exp)
+fun pow(num: Double, exp: Int) = koma.pow(num, exp.toDouble())
+
+/**
+ * A convenience function performing the pow operation via the [kotlin.math] equivalent call.
+ */
+fun pow(num: Int, exp: Double) = koma.pow(num.toDouble(), exp)
+
+/**
+ * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
+ */
+@JvmName("powDoubleDouble")
+infix fun Double.pow(exp: Double) = koma.pow(this, exp)
+
+/**
+ * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
+ */
+@JvmName("powIntInt")
+infix fun Int.pow(exp: Int) = koma.pow(this.toDouble(), exp.toDouble())
+
+/**
+ * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
+ */
+@JvmName("powDoubleInt")
+infix fun Double.pow(exp: Int) = koma.pow(this, exp.toDouble())
+
+/**
+ * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
+ */
+@JvmName("powIntDouble")
+infix fun Int.pow(exp: Double) = koma.pow(this.toDouble(), exp)
 
