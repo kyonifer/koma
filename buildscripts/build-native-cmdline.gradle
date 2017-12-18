@@ -1,27 +1,24 @@
 apply plugin: 'konan'
 apply from: "buildscripts/codegen.gradle"
 
-konanInterop {
-    C {
-        defFile 'deps/C.def'
-    }
-    Math {
-        defFile 'deps/Math.def'
-    }
-}
 
 konanArtifacts {
-    Koma {
-        inputFiles project.fileTree('core/srcgen'),
-                project.fileTree('core/src'), 
-                project.fileTree('core/srcnative'), 
-                project.fileTree('core/external'),
-                'examples/native/main.kt'
-        useInterop 'C'
-        useInterop 'Math'
+    library('koma') {
+        srcFiles fileTree('core/srcgen'),
+                fileTree('core/src'),
+                fileTree('core/srcnative'),
+                fileTree('core/external')
         linkerOpts "-S"
-        enableOptimization()
+        enableOptimizations(true)
     }
+    program('komaExample') {
+
+        libraries {
+            artifact 'koma'
+            srcFiles 'examples/native/main.kt'
+        }
+    }
+
 }
 
 compileKonanKoma.dependsOn(":codegen")
@@ -29,7 +26,7 @@ compileKonanKoma.dependsOn(":codegen")
 build {
     doLast {
         copy {
-            from compileKonanKoma.artifactPath
+            from compileKonanKomaExampleLinux.artifactPath
             into projectDir.canonicalPath
         }
     }
@@ -47,6 +44,6 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.3"
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:0.4"
     }
 }
