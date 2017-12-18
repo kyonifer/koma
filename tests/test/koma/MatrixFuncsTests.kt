@@ -199,7 +199,7 @@ class MatrixFuncsTests {
     fun testRound() {
         allBackends {
             val a = mat[1.1, 1.5, 1.6, 1.9, -1.1, -1.5, -1.7]
-            val expected = mat[1, 2, 2, 2, -1, -1, -2]
+            val expected = mat[1, 2, 2, 2, -1, -2, -2]
             assertMatrixEquals(expected, round(a))
         }
     }
