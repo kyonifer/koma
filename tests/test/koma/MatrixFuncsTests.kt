@@ -149,10 +149,10 @@ class MatrixFuncsTests {
     fun testLog() {
         allBackends {
             val a = mat[3.3, 5.4, 1.1]
-            val expected = a.map { log(it) }
+            val expected = a.map { ln(it) }
             val expected2 = mat[1.19392247, 1.68639895, 0.09531018]
-            assertMatrixEquals(expected, log(a))
-            assertMatrixEquals(expected2, log(a))
+            assertMatrixEquals(expected, ln(a))
+            assertMatrixEquals(expected2, ln(a))
         }
     }
 
@@ -160,8 +160,8 @@ class MatrixFuncsTests {
     fun testLogFail() {
         allBackends {
             val a = mat[3.3, 5.4, -1.1]
-            assertMatrixEquals(mat[log(3.3), log(5.4)], log(a[0, 0..1]))
-            assert(log(a[2]).equals(Double.NaN))
+            assertMatrixEquals(mat[ln(3.3), ln(5.4)], ln(a[0, 0..1]))
+            assert(ln(a[2]).equals(Double.NaN))
         }
     }
 
