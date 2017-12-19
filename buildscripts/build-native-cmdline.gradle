@@ -4,6 +4,14 @@ apply from: "buildscripts/codegen.gradle"
 
 
 konanArtifacts {
+    dynamic('libkoma') {
+        srcFiles fileTree('core/srcgen'),
+                fileTree('core/src'),
+                fileTree('core/srcnative'),
+                fileTree('core/external')
+        linkerOpts "-S"
+        enableOptimizations(true)
+    }
     library('koma') {
         srcFiles fileTree('core/srcgen'),
                 fileTree('core/src'),
