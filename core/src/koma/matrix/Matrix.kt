@@ -152,6 +152,7 @@ interface Matrix<T> {
 
     fun repr(): String = koma.platformsupport.repr(this)
 
+
     /**
      * Transpose operator.
      */
