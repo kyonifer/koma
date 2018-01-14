@@ -6,12 +6,13 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libgfortran3
 
-script: ./gradlew build -Ptarget=$TARGET --info
+script: ./gradlew $BUILDCMD -Ptarget=$TARGET --info
 
+# TODO: enable dynlib generation when k/native #1199 fix is released
 env:
-  - TARGET=jvm
-  - TARGET=js
-  - TARGET=native
+  - TARGET=jvm BUILDCMD=build
+  - TARGET=js BUILDCMD=build
+  - TARGET=native BUILDCMD=":compileKonanKomaExample"
 
 jdk:
   - oraclejdk8
@@ -20,9 +21,9 @@ jdk:
 matrix:
   exclude:
   - jdk: oraclejdk8
-    env: TARGET=js
+    env: TARGET=js BUILDCMD=build
   - jdk: oraclejdk8
-    env: TARGET=native
+    env: TARGET=native BUILDCMD=":compileKonanKomaExample"
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
