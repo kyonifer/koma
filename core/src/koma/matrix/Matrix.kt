@@ -502,5 +502,48 @@ interface Matrix<T> {
         return this
     }
 
+    /**
+     * Builds a new matrix with a subset of the rows of this matrix, using only the rows
+     * for which the function f returns true.
+     *
+     * @param f A function which takes a row index and a row, and returns true if that
+     * row should be included in the output matrix.
+     */
+    fun filterRowsIndexed(f: (rowIndex: Int, row: Matrix<T>) -> Boolean): Matrix<T> {
+        var rowIndex = 0
+        val rowList = mapRowsToList { row -> if (f(rowIndex++, row)) rowIndex - 1 else null }.filterNotNull()
+        return selectRows(*(rowList.toIntArray()))
+    }
+
+    /**
+     * Builds a new matrix with a subset of the rows of this matrix, using only the rows
+     * for which the function f returns true.
+     *
+     * @param f A function which takes a row and returns true if that row should be
+     * be included in the output matrix.
+     */
+    fun filterRows(f: (row: Matrix<T>) -> Boolean) = filterRowsIndexed { n, row -> f(row) }
+
+    /**
+     * Builds a new matrix with a subset of the columns of this matrix, using only the
+     * columns for which the function f returns true.
+     *
+     * @param f A function which takes a column index and a column, and returns true if
+     * that column should be included in the output matrix.
+     */
+    fun filterColsIndexed(f: (colIndex: Int, col: Matrix<T>) -> Boolean): Matrix<T> {
+        var colIndex = 0
+        val colList = mapColsToList { col -> if (f(colIndex++, col)) colIndex - 1 else null }.filterNotNull()
+        return selectCols(*(colList.toIntArray()))
+    }
+
+    /**
+     * Builds a new matrix with a subset of the columns of this matrix, using only the
+     * columns for which the function f returns true.
+     *
+     * @param f A function which takes a column and returns true if that column should
+     * be included in the output matrix.
+     */
+    fun filterCols(f: (col: Matrix<T>) -> Boolean) = filterColsIndexed { n, col -> f(col) }
 }
 
