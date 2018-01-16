@@ -26,7 +26,7 @@ abstract class MatrixBase<T>: Matrix<T> {
 
 
     override fun hashCode(): Int {
-        return javaClass.hashCode()
+        return this::class.hashCode()
     }
 
     /**
