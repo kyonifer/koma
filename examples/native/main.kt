@@ -1,21 +1,17 @@
 import koma.*
-import koma.matrix.default.*
+import koma.matrix.common.DoubleMatrixBase
+import koma.matrix.Matrix
+import koma.matrix.cblas.CBlasMatrix
+import kotlinx.cinterop.*
 
 fun main(args: Array<String>) {
-    
-    factory = DefaultDoubleMatrixFactory()
-    
-    println("randn(5,6): \n${randn(5,6).repr()}")
 
-    var a = mat[1,2,3 end
-                4,5,6]
+    val m1 = CBlasMatrix(nativeHeap.allocArray<DoubleVar>(25), 1,1)
+    m1[0] = 5.0
+    println("Before:" + m1[0])
+
+    val m2 = m1.times(m1)
+    println("After:" + m2[0])
     
-    var b = mat[2, 0 end
-                0, 1 end
-               -1, 5]
-    
-    println("a: \n${a.repr()}")
-    println("b: \n${b.repr()}")
-    println("a*b: \n${(a*b).repr()}")
-    
+
 }

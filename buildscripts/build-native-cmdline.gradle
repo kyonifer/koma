@@ -4,21 +4,34 @@ apply from: "buildscripts/codegen.gradle"
 
 
 konanArtifacts {
+    interop('cblas') {
+        // TODO: `headers` here, but search the include path for a blas header,
+        // removing the hardcoded one in the defFile
+        defFile('buildscripts/cblas.def')
+    }
     dynamic('libkoma') {
         srcFiles fileTree('core/srcgen'),
                 fileTree('core/src'),
                 fileTree('core/srcnative'),
-                fileTree('core/external')
+                fileTree('core/external'),
+                fileTree('backend-matrix-cblas/src')
         linkerOpts "-S"
         enableOptimizations(true)
+        libraries {
+            artifact 'cblas'
+        }
     }
     library('koma') {
         srcFiles fileTree('core/srcgen'),
                 fileTree('core/src'),
                 fileTree('core/srcnative'),
-                fileTree('core/external')
+                fileTree('core/external'),
+                fileTree('backend-matrix-cblas/src')
         linkerOpts "-S"
         enableOptimizations(true)
+        libraries {
+            artifact 'cblas'
+        }
     }
     program('komaExample') {
 
