@@ -11,6 +11,23 @@ import org.junit.Test
 class MatrixFuncsTests {
 
     @Test
+    fun testAllClose() {
+        allBackends {
+            val a = mat[1, 2, 3 end
+                    4, 3, -1]
+            val b = mat[1, 2, 3 end
+                    4, 3, -1]
+
+            assert(allclose(a,b))
+            assert(a.allClose(b))
+            assert(allclose(mat[1], mat[1+1e-5]))
+            assert(!allclose(mat[1], mat[1+1e-4]))
+            assert(allclose(mat[1e10], mat[1e10 + 1e-4]))
+            assert(!allclose(mat[1e10], mat[1e10 + 1.001e10]))
+        }
+    }
+
+    @Test
     fun testArgMin() {
         allBackends {
             val a = mat[1, 2, 3 end

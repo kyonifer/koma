@@ -126,4 +126,17 @@ operator fun Matrix<Double>.set(i: Int, j: Int, v: Double) = this.setDouble(i, j
 operator fun Matrix<Double>.get(i: Int) = this.getDouble(i)
 operator fun Matrix<Double>.get(i: Int, j: Int) = this.getDouble(i, j)
 operator fun Matrix<Double>.set(i: Int, v: Int) = this.setDouble(i, v.toDouble())
-operator fun Matrix<Double>.set(i: Int, j: Int, v: Int) = this.setDouble(i, j, v.toDouble()) 
+operator fun Matrix<Double>.set(i: Int, j: Int, v: Int) = this.setDouble(i, j, v.toDouble())
+
+fun Matrix<Double>.allClose(other: Matrix<Double>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {
+    if(other.numRows() != numRows() || other.numCols() != numCols())
+        return false
+    for(row in 0 until this.numRows()) {
+        for (col in 0 until this.numCols()) {
+            val err = abs(this[row, col] - other[row, col])
+            if (err > atol + rtol * abs(this[row, col]))
+                return false
+        }
+    }
+    return true
+}
