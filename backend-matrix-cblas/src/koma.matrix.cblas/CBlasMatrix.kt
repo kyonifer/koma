@@ -2,8 +2,10 @@ package koma.matrix.cblas
 
 import koma.matrix.Matrix
 import koma.matrix.common.DoubleMatrixBase
+import koma.matrix.cblas.internal.factoryInstance
 import kotlinx.cinterop.*
 import koma.get
+import koma.*
 
 /**
  * An implementation of the Matrix<Double> interface using 
@@ -13,9 +15,11 @@ import koma.get
  *                the matrix. The [CBlasMatrix] takes full control of the 
  *                pointer, including freeing the memory pointed at.
  */
+class CBlasMatrix(private val nRows: Int, 
+                  private val nCols: Int,
+                  private val storage: CArrayPointer<DoubleVar> ): Matrix<Double>, DoubleMatrixBase() {
 
-class CBlasMatrix(val storage: CArrayPointer<DoubleVar>,
-                  private val nRows: Int, private val nCols: Int): Matrix<Double>, DoubleMatrixBase() {
+    constructor(nRows: Int, nCols: Int): this(nRows, nCols, nativeHeap.allocArray<DoubleVar>(nRows*nCols))
 
      // TODO: Only expose this to CBlasMatrix, not the user, 
      // and add a pinned version for the user
@@ -33,30 +37,54 @@ class CBlasMatrix(val storage: CArrayPointer<DoubleVar>,
     }
 
 
-    override fun getDoubleData() = TODO()
+    override fun getDoubleData()
+        = DoubleArray(nRows*nCols).also {
+            for (i in 0 until nRows*nCols)
+                it[i] = this[i]
+        }
+    
     override fun diag() = TODO()
-    override fun max() = TODO()
-    override fun mean() = TODO()
-    override fun min() = TODO()
+    override fun max(): Double {
+        var max = Double.NEGATIVE_INFINITY
+        this.forEach { ele ->
+            if (ele > max) {
+                max = ele
+            }
+        }
+        return max
+    }
+    override fun mean() = elementSum() / (numCols() * numRows())
+    override fun min(): Double {
+        var min = Double.POSITIVE_INFINITY
+        this.forEach { ele ->
+            if (ele < min) {
+                min = ele
+            }
+        }
+        return min
+    }
     override fun argMax(): Int {
-        TODO()
+        var max = 0
+        for (i in 0..this.numCols() * this.numRows() - 1)
+            if (this[i] > this[max])
+                max = i
+        return max
     }
 
     override fun argMin(): Int {
-        TODO()
+        var min = 0
+        for (i in 0..this.numCols() * this.numRows() - 1)
+            if (this[i] < this[min])
+                min = i
+        return min
     }
 
     override fun numRows() = this.nRows
     override fun numCols() = this.nCols
     
     override fun times(other: Matrix<Double>): CBlasMatrix {
-        val out = CBlasMatrix(nativeHeap.allocArray<DoubleVar>(25), this.numRows(), other.numCols())
-        val innerOther = when(other) {
-            is CBlasMatrix -> {
-                other.getBaseMatrix()
-            }
-            else -> { TODO() }
-        }
+        val out = CBlasMatrix(this.numRows(), other.numCols())
+        val innerOther = castOrCopy(other, {it:CBlasMatrix->it}, getFactory()).storage
         val innerThis = this.getBaseMatrix()
         val innerOut = out.getBaseMatrix()
 
@@ -70,8 +98,20 @@ class CBlasMatrix(val storage: CArrayPointer<DoubleVar>,
         return out
     }
     
-    override fun times(other: Double) = TODO()
-    override fun elementTimes(other: Matrix<Double>) = TODO()
+    override fun times(other: Double)
+        = CBlasMatrix(this.numRows(), this.numCols()).also {
+            this.forEachIndexed { row, col, ele ->
+                it[row, col] = ele*other
+            }
+        }
+
+    override fun elementTimes(other: Matrix<Double>)
+        = CBlasMatrix(this.numRows(), this.numCols()).also {
+            this.forEachIndexed { row, col, ele ->
+                it[row, col] = ele*other[row, col]
+            }
+        }
+    
     override fun rem(other: Matrix<Double>) = TODO()
     override fun unaryMinus() = TODO()
     override fun minus(other: Double) = TODO()
@@ -98,7 +138,13 @@ class CBlasMatrix(val storage: CArrayPointer<DoubleVar>,
     override fun norm() = TODO()
     override fun normF() = TODO()
     override fun normIndP1() = TODO()
-    override fun elementSum() = TODO()
+    override fun elementSum(): Double {
+        var out = 0.0
+        this.forEach { ele ->
+            out += ele
+        }
+        return out
+    }
     override fun trace() = TODO()
     override fun epow(other: Double) = TODO()
     override fun epow(other: Int) = TODO()
@@ -112,7 +158,7 @@ class CBlasMatrix(val storage: CArrayPointer<DoubleVar>,
         TODO()
     }
 
-    override fun getFactory() = TODO()
+    override fun getFactory() = factoryInstance
 
     override fun T() = TODO()
 

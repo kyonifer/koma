@@ -6,7 +6,7 @@ import kotlinx.cinterop.*
 
 fun main(args: Array<String>) {
 
-    val m1 = CBlasMatrix(nativeHeap.allocArray<DoubleVar>(25), 1,1)
+    val m1 = CBlasMatrix(1, 1)
     m1[0] = 5.0
     println("Before:" + m1[0])
 

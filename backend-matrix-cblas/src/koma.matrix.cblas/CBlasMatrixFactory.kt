@@ -5,6 +5,7 @@ import koma.get
 import koma.set
 import koma.DEPRECATE_IMPLICIT_2D
 import koma.util.fromCollection
+import koma.platformsupport.rng
 
 class CBlasMatrixFactory: DoubleFactoryBase<CBlasMatrix>() {
 
@@ -69,12 +70,16 @@ class CBlasMatrixFactory: DoubleFactoryBase<CBlasMatrix>() {
         return rand(size, size)
     }
 
-    override fun rand(rows: Int, cols: Int): CBlasMatrix {
-        TODO()
-    }
+    override fun rand(rows: Int, cols: Int): CBlasMatrix 
+        = zeros(rows, cols).also {
+            it.forEachIndexed { row, col, _ ->
+                it[row, col] = rng.nextDouble()
+            }
+        }
 
     override fun rand(rows: Int, cols: Int, seed: Long): CBlasMatrix {
-        TODO()
+        rng.setSeed(seed.toInt())
+        return rand(rows, cols)
     }
 
     @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
@@ -82,12 +87,16 @@ class CBlasMatrixFactory: DoubleFactoryBase<CBlasMatrix>() {
         return randn(size, size)
     }
 
-    override fun randn(rows: Int, cols: Int): CBlasMatrix {
-        TODO()
-    }
+    override fun randn(rows: Int, cols: Int): CBlasMatrix 
+        = zeros(rows, cols).also {
+            it.forEachIndexed { row, col, _ ->
+                it[row, col] = rng.nextGaussian()
+            }
+        }
 
     override fun randn(rows: Int, cols: Int, seed: Long): CBlasMatrix {
-        TODO()
+        rng.setSeed(seed.toInt())
+        return randn(rows, cols)
     }
 
 }
