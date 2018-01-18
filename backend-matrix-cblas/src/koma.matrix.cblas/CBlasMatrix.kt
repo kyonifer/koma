@@ -4,7 +4,6 @@ import koma.matrix.Matrix
 import koma.matrix.common.DoubleMatrixBase
 import koma.matrix.cblas.internal.factoryInstance
 import kotlinx.cinterop.*
-import koma.get
 import koma.*
 
 /**

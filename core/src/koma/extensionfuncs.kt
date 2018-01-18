@@ -64,6 +64,13 @@ import koma.polyfill.annotations.*
             for (col in 0..this.numCols() - 1)
                 f(this[row, col])
     }
+    @JsName("forEachDouble")
+    @JvmName("forEachDouble")
+    fun Matrix<Double>.forEach(f: (Double) -> Unit) {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                f(this[row, col])
+    }
 
     /**
      * Passes each element in row major order into a function along with its index location.
@@ -76,7 +83,13 @@ import koma.polyfill.annotations.*
             for (col in 0..this.numCols() - 1)
                 f(row, col, this[row, col])
     }
-
+    @JsName("forEachIndexedDouble")
+    @JvmName("forEachIndexedDouble")
+    fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) -> Unit) {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                f(row, col, this[row, col])
+    }
     /**
      * Passes each row from top to bottom into a function.
      *
@@ -117,6 +130,15 @@ import koma.polyfill.annotations.*
                 out[row, col] = f(this[row, col])
         return out
     }
+    @JsName("mapDouble")
+    @JvmName("mapDouble")
+    fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
+        val out = this.getFactory().zeros(this.numRows(), this.numCols())
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                out[row, col] = f(this[row, col])
+        return out
+    }
 
     /**
      * Takes each element in a matrix, passes them through f, and puts the output of f into an
@@ -129,6 +151,15 @@ import koma.polyfill.annotations.*
      */
     @JsName("mapIndexed")
     fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
+        val out = this.getFactory().zeros(this.numRows(), this.numCols())
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                out[row, col] = f(row, col, this[row, col])
+        return out
+    }
+    @JsName("mapIndexedDouble")
+    @JvmName("mapIndexedDouble")
+    fun Matrix<Double>.mapIndexed(f: (row: Int, col: Int, ele: Double) -> Double): Matrix<Double> {
         val out = this.getFactory().zeros(this.numRows(), this.numCols())
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
