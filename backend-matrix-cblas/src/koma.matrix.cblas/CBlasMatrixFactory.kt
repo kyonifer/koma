@@ -42,7 +42,7 @@ class CBlasMatrixFactory: DoubleFactoryBase<CBlasMatrix>() {
     override fun ones(rows: Int, cols: Int)
         = CBlasMatrix(rows, cols).also {
             it.forEachIndexed { row, col, ele ->
-                it[row, col] = ele
+                it[row, col] = 1.0
             }
         }
 
