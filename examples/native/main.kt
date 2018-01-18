@@ -6,12 +6,12 @@ import kotlinx.cinterop.*
 
 fun main(args: Array<String>) {
 
-    val m1 = CBlasMatrix(1, 1)
-    m1[0] = 5.0
-    println("Before:" + m1[0])
-
-    val m2 = m1.times(m1)
-    println("After:" + m2[0])
+    val m1 = zeros(3,3)
+    val m2 = ones(3,3)
+    val m3 = (m1+1)*3+m2*4
+    print(m1)
+    print(m2)
+    print(m3)
     
 
 }
