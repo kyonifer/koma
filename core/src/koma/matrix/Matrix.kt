@@ -149,7 +149,6 @@ interface Matrix<T> {
      */
     fun getFactory(): MatrixFactory<Matrix<T>>
 
-
     fun repr(): String = koma.platformsupport.repr(this)
 
     /**
@@ -331,19 +330,6 @@ interface Matrix<T> {
             for (col in 0..this.numCols() - 1)
                 out[row][col] = this.getDouble(row, col)
         return out
-    }
-
-    /**
-     * Fills the matrix with the values returned by the input function.
-     *
-     * @param f A function which takes row,col and returns the value to fill. Note that
-     * the return type must be the matrix primitive type (e.g. Double).
-     */
-    fun fill(f: (row: Int, col: Int) -> T): Matrix<T> {
-        for (row in 0..this.numRows() - 1)
-            for (col in 0..this.numCols() - 1)
-                this[row, col] = f(row, col)
-        return this
     }
 
     /**
