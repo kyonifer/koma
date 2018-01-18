@@ -7,7 +7,7 @@ fun <T> repr(mat: Matrix<T>): String {
     // Replace when buildString {} is implemented on native
     val out = StringBuilder()
     out.append("mat[")
-    mat.eachIndexed { row, col, ele ->
+    mat.forEachIndexed { row, col, ele ->
         if (col == 0 && row != 0)
             out.append("\n    ")
         out.append("$ele,")

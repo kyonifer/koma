@@ -258,8 +258,6 @@ interface Matrix<T> {
             for (col in 0..this.numCols() - 1)
                 f(this[row, col])
     }
-    @Deprecated("Use forEach", ReplaceWith("forEach(f)"))
-    fun each(f: (T) -> Unit) = forEach(f)
 
     /**
      * Passes each element in row major order into a function along with its index location.
@@ -272,8 +270,6 @@ interface Matrix<T> {
             for (col in 0..this.numCols() - 1)
                 f(row, col, this[row, col])
     }
-    @Deprecated("Use forEachIndexed", ReplaceWith("forEachIndexed(f)"))
-    fun eachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) = forEachIndexed(f)
 
     /**
      * Passes each row from top to bottom into a function.
@@ -285,8 +281,6 @@ interface Matrix<T> {
         for (row in 0..this.numRows() - 1)
             f(this.getRow(row))
     }
-    @Deprecated("Use forEachRow", ReplaceWith("forEachRow(f)"))
-    fun eachRow(f: (Matrix<T>) -> Unit) = forEachRow(f)
     
     /**
      * Passes each col from left to right into a function.
@@ -298,8 +292,6 @@ interface Matrix<T> {
         for (col in 0..this.numCols() - 1)
             f(this.getCol(col))
     }
-    @Deprecated("Use forEachCol", ReplaceWith("forEachCol(f)"))
-    fun eachCol(f: (Matrix<T>) -> Unit) = forEachCol(f)
 
 
     // TODO: These need specialized versions for performance
@@ -319,8 +311,6 @@ interface Matrix<T> {
                 out[row, col] = f(this[row, col])
         return out
     }
-    @Deprecated("Use map instead", ReplaceWith("map(f)"))
-    fun mapMat(f: (T) -> T): Matrix<T> = map(f)
 
     /**
      * Takes each element in a matrix, passes them through f, and puts the output of f into an
@@ -339,8 +329,6 @@ interface Matrix<T> {
                 out[row, col] = f(row, col, this[row, col])
         return out
     }
-    @Deprecated("Use mapIndexed", ReplaceWith("mapIndexed(f)"))
-    fun mapMatIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> = mapIndexed(f)
 
     /**
      * Takes each row in a matrix, passes them through f, and puts the output of f into a
