@@ -128,7 +128,4 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     }
 
 
-    override fun toString() = this.repr()
-
-
 }

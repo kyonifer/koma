@@ -180,6 +180,4 @@ class CBlasMatrix(private val nRows: Int,
     override fun SVD(): Triple<CBlasMatrix, CBlasMatrix, CBlasMatrix> {
         TODO()
     }
-
-    override fun toString() = TODO()
 }

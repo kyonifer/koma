@@ -131,10 +131,6 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
 
     override fun getFactory() = JBlasMatrixFactory()
 
-    override fun repr(): String {
-        throw UnsupportedOperationException()
-    }
-
     /**
      * Gets row-major index from a col-major index.
      */

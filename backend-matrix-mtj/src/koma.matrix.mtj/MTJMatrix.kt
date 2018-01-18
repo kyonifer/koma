@@ -135,8 +135,4 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
         return Triple(MTJMatrix(svd.u), sMat, MTJMatrix(svd.vt).transpose())
     }
 
-
-    override fun toString() = this.repr()
-    
-
 }

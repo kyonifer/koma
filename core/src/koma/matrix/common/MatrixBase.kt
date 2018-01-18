@@ -29,6 +29,8 @@ abstract class MatrixBase<T>: Matrix<T> {
         return this::class.hashCode()
     }
 
+    override fun toString() = this.repr()
+
     /**
      * Attempts to downcast a matrix to its specific subclass,
      * accepting both inner wrapped types and outer types.
