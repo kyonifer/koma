@@ -302,6 +302,7 @@ interface Matrix<T> {
     fun eachCol(f: (Matrix<T>) -> Unit) = forEachCol(f)
 
 
+    // TODO: These need specialized versions for performance
     /**
      * Takes each element in a matrix, passes them through f, and puts the output of f into an
      * output matrix. This process is done in row-major order.

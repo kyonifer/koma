@@ -98,36 +98,33 @@ class CBlasMatrix(private val nRows: Int,
         return out
     }
     
-    override fun times(other: Double)
-        = CBlasMatrix(this.numRows(), this.numCols()).also {
-            this.forEachIndexed { row, col, ele ->
-                it[row, col] = ele*other
-            }
-        }
+    override fun times(other: Double) = map { it*other }
 
     override fun elementTimes(other: Matrix<Double>)
-        = CBlasMatrix(this.numRows(), this.numCols()).also {
-            this.forEachIndexed { row, col, ele ->
-                it[row, col] = ele*other[row, col]
-            }
+        = mapIndexed { row, col, ele ->
+            ele*other[row, col]
         }
     
     override fun rem(other: Matrix<Double>) = TODO()
-    override fun unaryMinus() = TODO()
-    override fun minus(other: Double) = TODO()
-    override fun minus(other: Matrix<Double>) = TODO()
-    override fun div(other: Int) = TODO()
-    override fun div(other: Double) = TODO()
-    override fun transpose() = TODO()
-    override fun copy() = TODO()
+    override fun unaryMinus() = this * -1
+    override fun minus(other: Double) = map { it - other }
+    override fun minus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele - other[row, col] }
+    override fun div(other: Int) = map { it / other }
+    override fun div(other: Double) = map { it / other }
+    override fun transpose() = mapIndexed { row, col, _ -> this[col, row] }
+    override fun copy() = map{it}
     override fun setDouble(i: Int, v: Double): Unit { storage[i] = v }
-    override fun setDouble(i: Int, j: Int, v: Double) = TODO()
-    override fun getDouble(i: Int, j: Int) = TODO()
+    override fun setDouble(i: Int, j: Int, v: Double) { storage[i*numCols() + j] = v}
+    override fun getDouble(i: Int, j: Int) = storage[i*numCols() + j]
     override fun getDouble(i: Int) = storage[i]
-    override fun getRow(row: Int) = TODO()
-    override fun getCol(col: Int) = TODO()
-    override fun plus(other: Matrix<Double>) = TODO()
-    override fun plus(other: Double) = TODO()
+    override fun getRow(row: Int) = zeros(1, numCols()).mapIndexed { _, col, _ ->
+        this[row, col]
+    }
+    override fun getCol(col: Int) = zeros(numRows(), 1).mapIndexed { row, _, _ ->
+        this[row, col]
+    }
+    override fun plus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele + other[row, col]}
+    override fun plus(other: Double) = map{it + other}
     override fun chol(): CBlasMatrix {
         TODO()
     }
@@ -146,24 +143,28 @@ class CBlasMatrix(private val nRows: Int,
         return out
     }
     override fun trace() = TODO()
-    override fun epow(other: Double) = TODO()
-    override fun epow(other: Int) = TODO()
+    override fun epow(other: Double) = map { pow(it, other)}
+    override fun epow(other: Int) = map { pow(it, other)}
 
 
     override fun setCol(index: Int, col: Matrix<Double>) {
-        TODO()
+        col.forEachIndexed { row, _, ele ->
+            this[row, index] = ele
+        }
     }
 
     override fun setRow(index: Int, row: Matrix<Double>) {
-        TODO()
+        row.forEachIndexed { _, col, ele ->
+            this[index, col] = ele
+        }
     }
 
     override fun getFactory() = factoryInstance
 
-    override fun T() = TODO()
+    override fun T() = transpose()
 
-    override val T: CBlasMatrix
-        get() = TODO()
+    override val T: Matrix<Double>
+        get() = transpose()
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): CBlasMatrix {
         TODO()
