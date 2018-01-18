@@ -35,48 +35,11 @@ class CBlasMatrix(private val nRows: Int,
         nativeHeap.free(storage)
     }
 
-
     override fun getDoubleData()
         = DoubleArray(nRows*nCols).also {
             for (i in 0 until nRows*nCols)
                 it[i] = this[i]
         }
-    
-    override fun diag() = TODO()
-    override fun max(): Double {
-        var max = Double.NEGATIVE_INFINITY
-        this.forEach { ele ->
-            if (ele > max) {
-                max = ele
-            }
-        }
-        return max
-    }
-    override fun mean() = elementSum() / (numCols() * numRows())
-    override fun min(): Double {
-        var min = Double.POSITIVE_INFINITY
-        this.forEach { ele ->
-            if (ele < min) {
-                min = ele
-            }
-        }
-        return min
-    }
-    override fun argMax(): Int {
-        var max = 0
-        for (i in 0..this.numCols() * this.numRows() - 1)
-            if (this[i] > this[max])
-                max = i
-        return max
-    }
-
-    override fun argMin(): Int {
-        var min = 0
-        for (i in 0..this.numCols() * this.numRows() - 1)
-            if (this[i] < this[min])
-                min = i
-        return min
-    }
 
     override fun numRows() = this.nRows
     override fun numCols() = this.nCols
@@ -97,73 +60,28 @@ class CBlasMatrix(private val nRows: Int,
         return out
     }
     
-    override fun times(other: Double) = map { it*other }
 
-    override fun elementTimes(other: Matrix<Double>)
-        = mapIndexed { row, col, ele ->
-            ele*other[row, col]
-        }
-    
     override fun rem(other: Matrix<Double>) = TODO()
-    override fun unaryMinus() = this * -1
-    override fun minus(other: Double) = map { it - other }
-    override fun minus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele - other[row, col] }
-    override fun div(other: Int) = map { it / other }
-    override fun div(other: Double) = map { it / other }
-    override fun transpose() = mapIndexed { row, col, _ -> this[col, row] }
-    override fun copy() = map{it}
     override fun setDouble(i: Int, v: Double): Unit { storage[i] = v }
     override fun setDouble(i: Int, j: Int, v: Double) { storage[i*numCols() + j] = v}
     override fun getDouble(i: Int, j: Int) = storage[i*numCols() + j]
     override fun getDouble(i: Int) = storage[i]
-    override fun getRow(row: Int) = zeros(1, numCols()).mapIndexed { _, col, _ ->
-        this[row, col]
-    }
-    override fun getCol(col: Int) = zeros(numRows(), 1).mapIndexed { row, _, _ ->
-        this[row, col]
-    }
-    override fun plus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele + other[row, col]}
-    override fun plus(other: Double) = map{it + other}
+
     override fun chol(): CBlasMatrix {
         TODO()
     }
 
+    override fun diag() = TODO()
     override fun inv() = TODO()
     override fun det() = TODO()
     override fun pinv() = TODO()
     override fun norm() = TODO()
     override fun normF() = TODO()
     override fun normIndP1() = TODO()
-    override fun elementSum(): Double {
-        var out = 0.0
-        this.forEach { ele ->
-            out += ele
-        }
-        return out
-    }
+
     override fun trace() = TODO()
-    override fun epow(other: Double) = map { pow(it, other)}
-    override fun epow(other: Int) = map { pow(it, other)}
-
-
-    override fun setCol(index: Int, col: Matrix<Double>) {
-        col.forEachIndexed { row, _, ele ->
-            this[row, index] = ele
-        }
-    }
-
-    override fun setRow(index: Int, row: Matrix<Double>) {
-        row.forEachIndexed { _, col, ele ->
-            this[index, col] = ele
-        }
-    }
 
     override fun getFactory() = factoryInstance
-
-    override fun T() = transpose()
-
-    override val T: Matrix<Double>
-        get() = transpose()
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): CBlasMatrix {
         TODO()

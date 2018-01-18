@@ -16,8 +16,6 @@ import org.jblas.Singular
 class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 
-    override fun T() = this.T
-
     override fun normIndP1(): Double {
         throw UnsupportedOperationException()
     }

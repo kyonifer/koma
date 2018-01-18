@@ -21,21 +21,6 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun max() = CommonOps.elementMax(this.storage.matrix)
     override fun mean() = elementSum() / (numCols() * numRows())
     override fun min() = CommonOps.elementMin(this.storage.matrix)
-    override fun argMax(): Int {
-        var max = 0
-        for (i in 0..this.numCols() * this.numRows() - 1)
-            if (this[i] > this[max])
-                max = i
-        return max
-    }
-
-    override fun argMin(): Int {
-        var max = 0
-        for (i in 0..this.numCols() * this.numRows() - 1)
-            if (this[i] < this[max])
-                max = i
-        return max
-    }
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numCols()
@@ -95,11 +80,6 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     }
 
     override fun getFactory() = factoryInstance
-
-    override fun T() = this.T
-
-    override val T: EJMLMatrix
-        get() = this.transpose()
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): EJMLMatrix {
         val out = this.getFactory().zeros(A.numCols(), 1)

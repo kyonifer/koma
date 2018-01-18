@@ -27,6 +27,82 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     override fun setFloat(i: Int, v: Float) { this[i] = v.toDouble() }
     override fun setFloat(i: Int, j: Int, v: Float) { this[i, j] = v.toDouble() }
 
+
+    override fun setRow(index: Int, row: Matrix<Double>) {
+        row.forEachIndexed { _, col, ele ->
+            this[index, col] = ele
+        }
+    }
+    override fun setCol(index: Int, col: Matrix<Double>) {
+        col.forEachIndexed { row, _, ele ->
+            this[row, index] = ele
+        }
+    }
+    override fun getRow(row: Int) = zeros(1, numCols()).mapIndexed { _, col, _ -> 
+        this[row, col] 
+    } 
+    override fun getCol(col: Int) = zeros(numRows(), 1).mapIndexed { row, _, _ -> 
+        this[row, col] 
+    } 
+    override fun elementTimes(other: Matrix<Double>)
+        = mapIndexed { row, col, ele ->
+        ele*other[row, col]
+    }
+    override fun elementSum(): Double { 
+        var out = 0.0 
+        this.forEach { ele -> 
+            out += ele 
+        } 
+        return out 
+    } 
+
+    override fun max(): Double {
+        var max = Double.NEGATIVE_INFINITY
+        this.forEach { ele ->
+            if (ele > max) {
+                max = ele
+            }
+        }
+        return max
+    }
+    override fun mean() = elementSum() / (numCols() * numRows())
+    override fun min(): Double {
+        var min = Double.POSITIVE_INFINITY
+        this.forEach { ele ->
+            if (ele < min) {
+                min = ele
+            }
+        }
+        return min
+    }
+    override fun argMax(): Int { 
+        var max = 0 
+        for (i in 0..this.numCols() * this.numRows() - 1) 
+            if (this[i] > this[max]) 
+                max = i 
+        return max 
+    }
+    override fun argMin(): Int { 
+        var min = 0 
+        for (i in 0..this.numCols() * this.numRows() - 1) 
+            if (this[i] < this[min]) 
+                min = i 
+        return min 
+    } 
+
+    override fun times(other: Double) = map { it*other } 
+    override fun unaryMinus() = this * -1
+    override fun minus(other: Double) = map { it - other }
+    override fun minus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele - other[row, col] }
+    override fun plus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele + other[row, col]} 
+    override fun plus(other: Double) = map{it + other}     
+    override fun div(other: Int) = map { it / other }
+    override fun div(other: Double) = map { it / other }
+    override fun transpose() = mapIndexed { row, col, _ -> this[col, row] }
+    override fun copy() = map{it}
+    override fun epow(other: Double) = map { pow(it, other)} 
+    override fun epow(other: Int) = map { pow(it, other)} 
+
     /**
      * A backend agnostic implementation of the matrix exponential (i.e. e to the matrix).
      */

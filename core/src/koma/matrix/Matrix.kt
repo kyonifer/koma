@@ -130,11 +130,6 @@ interface Matrix<T> {
     fun trace(): T
     
     /**
-     * Transpose operator.
-     */
-    fun T(): Matrix<T> // In MATLAB, this appears at foo.T
-
-    /**
      * Returns the underlying matrix object from the back-end this Matrix is wrapping. This should be used
      * sparingly (as it breaks encapsulation), but it can increase performance by using computation specifically
      * designed for a particular back-end. Code using this method should not rely on a particular back-end, and
@@ -150,6 +145,11 @@ interface Matrix<T> {
     fun getFactory(): MatrixFactory<Matrix<T>>
 
     fun repr(): String = koma.platformsupport.repr(this)
+
+    /**
+     * Transpose operator.
+     */
+    fun T() = transpose()
 
     /**
      * Transpose operator.
