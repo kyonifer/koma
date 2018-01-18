@@ -9,7 +9,7 @@ import org.jblas.Singular
 
 /**
  * An implementation of the Matrix<Double> interface using jBlas.
- * You should rarely use this class directly, instead use one of the
+ * You should rarely construct this class directly, instead make one via the
  * top-level functions in creators.kt (e.g. zeros(5,5)) or [JBlasMatrixFactory].
  */
 

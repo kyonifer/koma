@@ -9,7 +9,7 @@ import no.uib.cipr.matrix.Matrices
 
 /**
  * An implementation of the Matrix<Double> interface using MTJ.
- * You should rarely use this class directly, instead use one of the
+ * You should rarely construct this class directly, instead make one via the
  * top-level functions in creators.kt (e.g. zeros(5,5)) or [MTJMatrixFactory].
  */
 class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
@@ -33,11 +33,11 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     }
 
     override fun argMin(): Int {
-        var max = 0
+        var min = 0
         for (i in 0..this.numCols() * this.numRows() - 1)
-            if (this[i] < this[max])
-                max = i
-        return max
+            if (this[i] < this[min])
+                min = i
+        return min
     }
 
     override fun norm() = normF()
