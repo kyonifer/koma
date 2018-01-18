@@ -51,6 +51,12 @@ import koma.polyfill.annotations.*
                 this[row, col] = f(row, col)
         return this
     }
+    fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double> {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                this[row, col] = f(row, col)
+        return this
+    }
 
     /**
      * Passes each element in row major order into a function.

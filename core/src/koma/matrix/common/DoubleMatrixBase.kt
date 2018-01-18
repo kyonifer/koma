@@ -98,7 +98,11 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     override fun plus(other: Double) = map{it + other}     
     override fun div(other: Int) = map { it / other }
     override fun div(other: Double) = map { it / other }
-    override fun transpose() = mapIndexed { row, col, _ -> this[col, row] }
+    override fun transpose() = zeros(numCols(), numRows()).also {
+        it.fill { row, col ->
+            this[col,row]
+        }
+    }
     override fun copy() = map{it}
     override fun epow(other: Double) = map { pow(it, other)} 
     override fun epow(other: Int) = map { pow(it, other)} 

@@ -11,7 +11,16 @@ fun main(args: Array<String>) {
     val m3 = m1*2+m2/2
     println(m1)
     println(m2)
+    m3[0,1] = 12345.0
     println(m3)
     println(eye(3)+6)
     println(randn(2,2))
+
+    println(mat[1,2])
+    println(mat[3,4].T)
+    println(mat[3 end 4])
+    println(zeros(2,1))
+    println(mat[1,2]*mat[3,4].T)
+
+
 }
