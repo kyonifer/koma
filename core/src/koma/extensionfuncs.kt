@@ -4,6 +4,170 @@ import koma.matrix.Matrix
 import koma.polyfill.annotations.*
 
 
+
+
+    /**
+     * Checks to see if any element in the matrix causes f to return true.
+     *
+     * @param f A function which takes in an element from the matrix and returns a Boolean.
+     *
+     * @return Whether or not any element, when passed into f, causes f to return true.
+     */
+    @JsName("any")
+    fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                if (f(this[row, col]))
+                    return true
+        return false
+    }
+
+    /**
+     * Checks to see if all elements cause f to return true.
+     *
+     * @param f A function which takes in an element from the matrix and returns a Boolean.
+     *
+     * @return Returns true only if f is true for all elements of the input matrix
+     */
+    @JsName("all")
+    fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                if (!f(this[row, col]))
+                    return false
+        return true
+    }
+
+
+    /**
+     * Fills the matrix with the values returned by the input function.
+     *
+     * @param f A function which takes row,col and returns the value to fill. Note that
+     * the return type must be the matrix primitive type (e.g. Double).
+     */
+    fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                this[row, col] = f(row, col)
+        return this
+    }
+
+    /**
+     * Passes each element in row major order into a function.
+     *
+     * @param f A function that takes in an element
+     *
+     */
+    @JsName("forEach")
+    fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                f(this[row, col])
+    }
+
+    /**
+     * Passes each element in row major order into a function along with its index location.
+     *
+     * @param f A function that takes in a row,col position and an element value
+     */
+    @JsName("forEachIndexed")
+    fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                f(row, col, this[row, col])
+    }
+
+    /**
+     * Passes each row from top to bottom into a function.
+     *
+     * @param f A function that takes in a row (i.e. 1xN matrix)
+     */
+    @JsName("forEachRow")
+    fun <T> Matrix<T>.forEachRow(f: (Matrix<T>) -> Unit) {
+        for (row in 0..this.numRows() - 1)
+            f(this.getRow(row))
+    }
+    
+    /**
+     * Passes each col from left to right into a function.
+     *
+     * @param f A function that takes in a row (i.e. 1xN matrix)
+     */
+    @JsName("forEachCol")
+    fun <T> Matrix<T>.forEachCol(f: (Matrix<T>) -> Unit) {
+        for (col in 0..this.numCols() - 1)
+            f(this.getCol(col))
+    }
+
+
+    // TODO: These need specialized versions for performance
+    /**
+     * Takes each element in a matrix, passes them through f, and puts the output of f into an
+     * output matrix. This process is done in row-major order.
+     *
+     * @param f A function that takes in an element and returns an element
+     *
+     * @return the new matrix after each element is mapped through f
+     */
+    @JsName("map")
+    fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
+        val out = this.getFactory().zeros(this.numRows(), this.numCols())
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                out[row, col] = f(this[row, col])
+        return out
+    }
+
+    /**
+     * Takes each element in a matrix, passes them through f, and puts the output of f into an
+     * output matrix. This process is done in row-major order.
+     *
+     * @param f A function that takes in an element and returns an element. Function also takes
+     *      in the row, col index of the element's location.
+     *
+     * @return the new matrix after each element is mapped through f
+     */
+    @JsName("mapIndexed")
+    fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
+        val out = this.getFactory().zeros(this.numRows(), this.numCols())
+        for (row in 0..this.numRows() - 1)
+            for (col in 0..this.numCols() - 1)
+                out[row, col] = f(row, col, this[row, col])
+        return out
+    }
+
+    /**
+     * Takes each row in a matrix, passes them through f, and puts the output of f into a
+     * row of an output matrix.
+     *
+     * @param f A function that takes in a 1xN row and returns a 1xM row. Note that all output
+     * rows must be the same length. In addition, the input and output element types must be the same.
+     *
+     * @return the new matrix after each row is mapped through f
+     */
+    @JsName("mapRows")
+    fun <T> Matrix<T>.mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
+
+        val outRows = Array(this.numRows()) {
+            f(this.getRow(it))
+        }
+
+        val out = this.getFactory().zeros(this.numRows(), outRows[0].numCols())
+
+        outRows.forEachIndexed { i, matrix ->
+            if (matrix.numCols() != out.numCols())
+                throw RuntimeException("All output rows of mapRows must have same number of columns")
+            else
+                out.setRow(i, outRows[i])
+        }
+        return out
+    }
+
+
+
+
+
+
 /**
  * Set the ith element in the matrix. If 2D, selects elements in row-major order.
  */
