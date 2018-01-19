@@ -49,6 +49,8 @@ konanArtifacts {
 }
 
 compileKonanKoma.dependsOn(":codegen")
+compileKonanKomaExample.dependsOn(":codegen")
+compileKonanLibkoma.dependsOn(":codegen")
 
 build {
     doLast {
