@@ -51,7 +51,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun times(other: Double) = MTJMatrix(this.storage.times(other))
     override fun elementTimes(other: Matrix<Double>) =
             MTJMatrix(this.storage.rem(castOrCopy(other, ::MTJMatrix, getFactory()).storage))
-    override fun rem(other: Matrix<Double>) = elementTimes(other)
     override fun unaryMinus() = MTJMatrix(this.storage.unaryMinus())
     override fun minus(other: Double) = MTJMatrix(this.storage.minusElement(other))
     override fun minus(other: Matrix<Double>) =

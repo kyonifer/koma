@@ -28,8 +28,6 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun copy() = JBlasMatrix(this.storage.dup())
     override fun epow(other: Double) = JBlasMatrix(this.storage.powElement(other))
     override fun epow(other: Int): Matrix<Double> = JBlasMatrix(this.storage.powElement(other))
-    override fun rem(other: Matrix<Double>) =
-            JBlasMatrix(this.storage.rem(castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     override fun transpose() = JBlasMatrix(this.storage.transpose())
     override fun div(other: Int) = JBlasMatrix(this.storage.div(other.toDouble()))
     override fun div(other: Double) = JBlasMatrix(this.storage.div(other))

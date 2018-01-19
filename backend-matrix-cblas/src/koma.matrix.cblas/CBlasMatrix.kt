@@ -61,7 +61,6 @@ class CBlasMatrix(private val nRows: Int,
     }
     
 
-    override fun rem(other: Matrix<Double>) = TODO()
     override fun setDouble(i: Int, v: Double): Unit { storage[i] = v }
     override fun setDouble(i: Int, j: Int, v: Double) { storage[i*numCols() + j] = v}
     override fun getDouble(i: Int, j: Int) = storage[i*numCols() + j]

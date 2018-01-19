@@ -9,9 +9,6 @@ class Default${dtype}Matrix (val rows: Int,
                           val cols: Int): Matrix<${dtype}> {
     val storage = ${dtype}Array(rows*cols)
 
-    override fun rem(other: Matrix<${dtype}>): Matrix<${dtype}> 
-            = elementTimes(other)
-    
     ${div}
     
     override fun div(other: Int): Matrix<${dtype}>

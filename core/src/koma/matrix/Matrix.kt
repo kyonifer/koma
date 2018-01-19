@@ -12,8 +12,6 @@ import koma.*
  */
 interface Matrix<T> {
     // Algebraic Operators
-    @JsName("rem")
-    operator fun rem(other: Matrix<T>): Matrix<T>
     @JsName("divInt")
     operator fun div(other: Int): Matrix<T>
     @JsName("divScalar")
