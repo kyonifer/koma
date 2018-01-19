@@ -40,7 +40,6 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
         return min
     }
 
-    override fun norm() = normF()
     override fun normF() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.Frobenius)
     override fun normIndP1() = this.storage.norm(no.uib.cipr.matrix.Matrix.Norm.One)
 

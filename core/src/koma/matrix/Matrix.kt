@@ -29,15 +29,32 @@ interface Matrix<T> {
     operator fun plus(other: T): Matrix<T>
     @JsName("plus")
     operator fun plus(other: Matrix<T>): Matrix<T>
+    /**
+     * Transpose of the matrix
+     */
     fun transpose(): Matrix<T>
+    /**
+     * Element-wise multiplication with another matrix
+     */
     fun elementTimes(other: Matrix<T>): Matrix<T>
+    /**
+     * Element-wise exponentiation of each element in the matrix
+     */
     fun epow(other: T): Matrix<T>
     infix fun epow(other: Int): Matrix<T>
 
-    // Dimensions
+    /**
+     * Number of rows in the matrix
+     */
     fun numRows(): Int
+    /**
+     * Number of columns in the matrix
+     */
     fun numCols(): Int
 
+    /**
+     * Returns a copy of this matrix (same values, new memory)
+     */
     fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
@@ -91,7 +108,13 @@ interface Matrix<T> {
     @JsName("setRow")
     fun setRow(index: Int, row: Matrix<T>)
 
+    /**
+     * (lower triangular) Cholesky decomposition of the matrix. Matrix must be positive-semi definite.
+     */
     fun chol(): Matrix<T>
+    /**
+     * LU Decomposition. Returns p, l, u matrices as a triple.
+     */
     fun LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>>
     fun QR(): Pair<Matrix<T>, Matrix<T>>
     fun SVD(): Triple<Matrix<T>, Matrix<T>, Matrix<T>> // Returns U, S, V such that A = U * S * V.T
@@ -104,15 +127,42 @@ interface Matrix<T> {
     fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
 
     // Basic Functions
+    /**
+      * Matrix inverse (square matrices)
+      */
     fun inv(): Matrix<T>
+    /**
+     * Determinant of the matrix
+     */
     fun det(): T
+    /**
+     * Pseudo-inverse of (non-square) matrix
+     */
     fun pinv(): Matrix<T>
+    /**
+     * Frobenius normal of the matrix
+     */
     fun normF(): T
+    /**
+     * Induced, p=1 normal of the matrix. Equivalent of `norm(matrix,1)` in scipy.
+     */
     fun normIndP1(): T
+    /**
+     * Sum of all the elements in the matrix.
+     */
     fun elementSum(): T
     fun diag(): Matrix<T>
+    /**
+     * Maximum value contained in the matrix
+     */
     fun max(): T // add dimension: Int?
+    /**
+     * Mean (average) of all the elements in the matrix.
+     */
     fun mean(): T
+    /**
+     * Minimum value contained in the matrix
+     */
     fun min(): T
     
     /**
@@ -124,7 +174,10 @@ interface Matrix<T> {
      * Row major 1D index.
      */
     fun argMin(): Int
-    fun norm(): T // L2 (Euclidean) norm
+
+    /**
+     * The matrix trace.
+     */
     fun trace(): T
     
     /**
@@ -170,6 +223,9 @@ interface Matrix<T> {
             return MatrixIterator(this@Matrix)
         }
     }
+    /**
+     * Multiplies the matrix by itself [exponent] times (using matrix multiplication).
+     */
     @JsName("pow")
     infix fun pow(exponent: Int): Matrix<T> {
         var out = this.copy()

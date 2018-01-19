@@ -200,10 +200,6 @@ class Default${dtype}Matrix (val rows: Int,
         return lowestIdx
     }
 
-    override fun norm(): ${dtype} {
-        TODO("not implemented")
-    }
-
     override fun trace(): ${dtype} {
         TODO("not implemented")
     }

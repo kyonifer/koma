@@ -279,18 +279,6 @@ fun argMax(arr: Matrix<Double>) = arr.argMax()
  */
 fun argMin(arr: Matrix<Double>) = arr.argMin()
 
-/**
- * Returns the L2 norm of the input vector for vectors.
- *
- * TODO: Generalize this to matrices
- *
- * @param arr A Nx1 or 1xN vector
- *
- * @return The maximum value
- *
- */
-fun norm(arr: Matrix<Double>) = arr.norm()
-
 // Adv funcs
 /**
  * Calculates the matrix exponential of the input matrix. Note that this is

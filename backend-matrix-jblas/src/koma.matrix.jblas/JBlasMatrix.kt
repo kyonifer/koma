@@ -117,10 +117,6 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun argMax() = colToRowMajor(this.storage.argmax())
     override fun argMin() = this.storage.argmin()
 
-    override fun norm(): Double {
-        throw UnsupportedOperationException()
-    }
-
     override fun trace(): Double {
         throw UnsupportedOperationException()
     }

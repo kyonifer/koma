@@ -114,7 +114,6 @@ class CBlasMatrix(private val nRows: Int,
     }
     override fun det() = TODO()
     override fun pinv() = TODO()
-    override fun norm() = TODO()
     override fun normF() = TODO()
     override fun normIndP1() = TODO()
 
