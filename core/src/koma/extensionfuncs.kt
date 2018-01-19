@@ -67,14 +67,14 @@ import koma.polyfill.annotations.*
      *
      */
     @JsName("forEach")
-    fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
+    inline fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 f(this[row, col])
     }
     @JsName("forEachDouble")
     @JvmName("forEachDouble")
-    fun Matrix<Double>.forEach(f: (Double) -> Unit) {
+    inline fun Matrix<Double>.forEach(f: (Double) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 f(this[row, col])
@@ -86,14 +86,14 @@ import koma.polyfill.annotations.*
      * @param f A function that takes in a row,col position and an element value
      */
     @JsName("forEachIndexed")
-    fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
+    inline fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 f(row, col, this[row, col])
     }
     @JsName("forEachIndexedDouble")
     @JvmName("forEachIndexedDouble")
-    fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) -> Unit) {
+    inline fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) -> Unit) {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
                 f(row, col, this[row, col])
@@ -104,7 +104,7 @@ import koma.polyfill.annotations.*
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
     @JsName("forEachRow")
-    fun <T> Matrix<T>.forEachRow(f: (Matrix<T>) -> Unit) {
+    inline fun <T> Matrix<T>.forEachRow(f: (Matrix<T>) -> Unit) {
         for (row in 0..this.numRows() - 1)
             f(this.getRow(row))
     }
@@ -115,7 +115,7 @@ import koma.polyfill.annotations.*
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
     @JsName("forEachCol")
-    fun <T> Matrix<T>.forEachCol(f: (Matrix<T>) -> Unit) {
+    inline fun <T> Matrix<T>.forEachCol(f: (Matrix<T>) -> Unit) {
         for (col in 0..this.numCols() - 1)
             f(this.getCol(col))
     }
