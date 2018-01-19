@@ -124,6 +124,7 @@ interface Matrix<T> {
     // Advanced Functions
     fun expm(): Matrix<T>
     @JsName("solve")
+    // Solves Ax=B for x, returning x (x is either column vector or a matrix composed of several col vectors)
     fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
 
     // Basic Functions

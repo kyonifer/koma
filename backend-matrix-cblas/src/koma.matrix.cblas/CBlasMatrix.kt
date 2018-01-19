@@ -132,7 +132,25 @@ class CBlasMatrix(private val nRows: Int,
     override fun getFactory(): MatrixFactory<CBlasMatrix> = factoryInstance
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): CBlasMatrix {
-        TODO()
+        val Ac = castOrCopy(A.copy(), {it:CBlasMatrix->it}, getFactory())
+        val Bc = castOrCopy(B.copy(), {it:CBlasMatrix->it}, getFactory())
+        val pivLen = min(A.numRows(), A.numCols())
+        memScoped {
+            val pivot = allocArray<IntVar>(pivLen)
+            val res = lapacke.LAPACKE_dgesv(
+                matrix_layout=lapacke.LAPACK_ROW_MAJOR,
+                n=Ac.numRows(),
+                lda=Ac.numCols(),
+                nrhs=Bc.numCols(),
+                ldb=Bc.numCols(),
+                a=Ac.storage,
+                b=Bc.storage,
+                ipiv=pivot
+            )
+            if (res != 0)
+                throw IllegalStateException("Solve (dgesv) failed: return code $res")
+            return Bc
+        }
     }
 
     // Returns pivot via the passed in memory, combined LU in the returned matrix

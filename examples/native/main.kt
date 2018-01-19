@@ -48,5 +48,7 @@ fun main(args: Array<String>) {
     println("F-Norm:")
     println(mat[1,2 end 3,4 end 5,6].normF())
 
+    println("expm:")
+    println(expm(mat[1,2,3 end 4,5,6 end 7,8,9]))
 
 }
