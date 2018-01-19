@@ -29,7 +29,7 @@ import koma.polyfill.annotations.*
      *
      * @return Returns true only if f is true for all elements of the input matrix
      */
-    @JsName("all")
+    @JsName("allExt")
     fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
@@ -51,6 +51,8 @@ import koma.polyfill.annotations.*
                 this[row, col] = f(row, col)
         return this
     }
+    @JsName("fillDouble")
+    @JvmName("fillDouble")
     fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double> {
         for (row in 0..this.numRows() - 1)
             for (col in 0..this.numCols() - 1)
