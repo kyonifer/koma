@@ -88,6 +88,7 @@ class CBlasMatrix(private val nRows: Int,
         return out
     }
 
+    override fun copy(): CBlasMatrix = getFactory().zeros(numRows(), numCols()).also{it.fill{row, col -> this[row, col]}}
     override fun diag() = TODO()
     override fun inv() = TODO()
     override fun det() = TODO()
@@ -104,8 +105,48 @@ class CBlasMatrix(private val nRows: Int,
         TODO()
     }
 
-    override fun LU(): Triple<CBlasMatrix, CBlasMatrix, CBlasMatrix> {
-        TODO()
+    // Returns pivot via the passed in memory, combined LU in the returned matrix
+    // Storage must have min(numRows(), numCols()) space allocated
+    private fun rawLU(pivotStorage: CArrayPointer<IntVar>): CBlasMatrix {
+        val out: CBlasMatrix = copy()
+        val res = lapacke.LAPACKE_dgetrf(
+            matrix_layout=lapacke.LAPACK_ROW_MAJOR,
+            m=numRows(),
+            n=numCols(),
+            a=out.storage,
+            lda=numRows(),
+            ipiv=pivotStorage
+        )
+        if (res != 0) {
+            throw IllegalStateException("LU decomposition (dgetrf) failed: return code $res")
+
+        }
+        return out
+    }
+
+    override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
+        val pivLen = min(numRows(), numCols())
+        memScoped {
+            val pivot = allocArray<IntVar>(pivLen)
+            val LU = rawLU(pivot)
+            val p = zeros(pivLen, 1).also{it.fill{row, col -> pivot[row].toDouble()}}
+            val l = LU.mapIndexed{row, col, ele ->
+                if (row == col) 
+                    1.0
+                else if (row > col)
+                    ele
+                else
+                    0.0
+            }
+            val u = LU.mapIndexed{row, col, ele ->
+                if (row > col)
+                    0.0
+                else
+                    ele
+            }
+            return Triple(p,l,u)
+        }
+
     }
 
     override fun QR(): Pair<CBlasMatrix, CBlasMatrix> {
