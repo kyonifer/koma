@@ -54,7 +54,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
         if (decomp.decompose(this.storage.matrix.copy()))
             return EJMLMatrix(SimpleMatrix(decomp.getT(null)))
         else
-            throw Exception("Decomposition failed")
+            throw IllegalStateException("chol decomposition failed (is the matrix full rank?)")
     }
 
     override fun inv() = EJMLMatrix(this.storage.inv())
