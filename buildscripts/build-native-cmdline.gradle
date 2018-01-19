@@ -9,6 +9,9 @@ konanArtifacts {
         // removing the hardcoded one in the defFile
         defFile('buildscripts/cblas.def')
     }
+    interop('lapacke') {
+        defFile('buildscripts/lapacke.def')
+    }
     dynamic('libkoma') {
         srcFiles fileTree('core/srcgen'),
                 fileTree('core/src'),
@@ -19,6 +22,7 @@ konanArtifacts {
         enableOptimizations(true)
         libraries {
             artifact 'cblas'
+            artifact 'lapacke'
         }
     }
     library('koma') {
@@ -31,6 +35,7 @@ konanArtifacts {
         enableOptimizations(true)
         libraries {
             artifact 'cblas'
+            artifact 'lapacke'
         }
     }
     program('komaExample') {
