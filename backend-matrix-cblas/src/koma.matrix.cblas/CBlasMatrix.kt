@@ -90,7 +90,28 @@ class CBlasMatrix(private val nRows: Int,
 
     override fun copy(): CBlasMatrix = getFactory().zeros(numRows(), numCols()).also{it.fill{row, col -> this[row, col]}}
     override fun diag() = TODO()
-    override fun inv() = TODO()
+    override fun inv(): CBlasMatrix {
+        val pivLen = min(numRows(), numCols())
+        println("ohai")
+        memScoped {
+            val pivot = allocArray<IntVar>(pivLen)
+            val out = rawLU(pivot)
+            println(pivot[0])
+            println(pivot[1])
+            println(pivot[2])
+            //fun LAPACKE_dgetri(matrix_layout: Int, n: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?): Int {
+            val res = lapacke.LAPACKE_dgetri(
+                matrix_layout=lapacke.LAPACK_ROW_MAJOR,
+                n=numCols(),
+                lda=numRows(),
+                a=out.storage,
+                ipiv=pivot
+            )
+            if (res != 0)
+                throw IllegalStateException("Matrix inversion (dgetri) failed: return code $res")
+            return out
+        }
+    }
     override fun det() = TODO()
     override fun pinv() = TODO()
     override fun norm() = TODO()

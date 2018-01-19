@@ -36,5 +36,10 @@ fun main(args: Array<String>) {
     println(l)
     println(u)
 
+    println("Inverse:")
+    println(eye(3)*4)
+    val inv = (eye(3)*4).inv()
+    println(inv)
+    println(eye(3)*4*inv)
 
 }
