@@ -4,7 +4,7 @@ dist: trusty
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y libgfortran3
+  - sudo apt-get install -y libgfortran3 liblapacke-dev libopenblas-dev
 
 script: ./gradlew $BUILDCMD -Ptarget=$TARGET --info
 
