@@ -42,4 +42,11 @@ fun main(args: Array<String>) {
     println(inv)
     println(eye(3)*4*inv)
 
+    println("1-Norm:")
+    println(mat[1,2 end 3,4 end 5,6].normIndP1())
+
+    println("F-Norm:")
+    println(mat[1,2 end 3,4 end 5,6].normF())
+
+
 }

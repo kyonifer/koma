@@ -99,11 +99,10 @@ class CBlasMatrix(private val nRows: Int,
             println(pivot[0])
             println(pivot[1])
             println(pivot[2])
-            //fun LAPACKE_dgetri(matrix_layout: Int, n: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?): Int {
             val res = lapacke.LAPACKE_dgetri(
                 matrix_layout=lapacke.LAPACK_ROW_MAJOR,
                 n=numCols(),
-                lda=numRows(),
+                lda=numCols(),
                 a=out.storage,
                 ipiv=pivot
             )
@@ -114,8 +113,19 @@ class CBlasMatrix(private val nRows: Int,
     }
     override fun det() = TODO()
     override fun pinv() = TODO()
-    override fun normF() = TODO()
-    override fun normIndP1() = TODO()
+    override fun normF() = rawNorm(normType='F')
+    override fun normIndP1() = rawNorm(normType='1')
+
+    private fun rawNorm(normType: Char): Double {
+        return lapacke.LAPACKE_dlange(
+            matrix_layout=lapacke.LAPACK_ROW_MAJOR,
+            m=numRows(),
+            n=numCols(),
+            lda=numCols(),
+            a=this.storage,
+            norm=normType.toByte()
+        )
+    }
 
     override fun trace() = TODO()
 
@@ -134,7 +144,7 @@ class CBlasMatrix(private val nRows: Int,
             m=numRows(),
             n=numCols(),
             a=out.storage,
-            lda=numRows(),
+            lda=numCols(),
             ipiv=pivotStorage
         )
         if (res != 0) {
