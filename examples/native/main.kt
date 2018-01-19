@@ -24,5 +24,10 @@ fun main(args: Array<String>) {
                  3, 2]
     println(a1*a2)
 
+    val c = (mat[4,1 end 1,6]).chol()
+    println(c)
+    println(c*c.T)
+
+
 
 }

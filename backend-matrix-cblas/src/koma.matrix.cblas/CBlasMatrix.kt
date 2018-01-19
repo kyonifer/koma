@@ -1,6 +1,7 @@
 package koma.matrix.cblas
 
 import koma.matrix.Matrix
+import koma.matrix.MatrixFactory
 import koma.matrix.common.DoubleMatrixBase
 import koma.matrix.cblas.internal.factoryInstance
 import kotlinx.cinterop.*
@@ -69,7 +70,22 @@ class CBlasMatrix(private val nRows: Int,
     override fun getDouble(i: Int) = storage[i]
 
     override fun chol(): CBlasMatrix {
-        TODO()
+        val out = getFactory().zeros(numRows(), numCols())
+        out.fill { row, col -> 
+            if (row >= col)
+                this[row, col]
+            else
+                0.0
+        }
+        val res = lapacke.LAPACKE_dpotrf(
+                    uplo='L'.toByte(), 
+                    matrix_layout=lapacke.LAPACK_ROW_MAJOR,
+                    lda=this.numCols(),
+                    n=this.numRows(),
+                    a=out.storage)
+        if (res != 0)
+            throw IllegalStateException("chol decomposition failed (is matrix positive semi-definite?)")
+        return out
     }
 
     override fun diag() = TODO()
@@ -82,7 +98,7 @@ class CBlasMatrix(private val nRows: Int,
 
     override fun trace() = TODO()
 
-    override fun getFactory() = factoryInstance
+    override fun getFactory(): MatrixFactory<CBlasMatrix> = factoryInstance
 
     override fun solve(A: Matrix<Double>, B: Matrix<Double>): CBlasMatrix {
         TODO()
