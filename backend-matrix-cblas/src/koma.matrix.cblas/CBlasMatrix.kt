@@ -45,6 +45,8 @@ class CBlasMatrix(private val nRows: Int,
     override fun numCols() = this.nCols
     
     override fun times(other: Matrix<Double>): CBlasMatrix {
+        if (this.numCols() != other.numRows())
+            throw IllegalArgumentException("Cannot multiply matrices: incompatible dimensions")
         val out = CBlasMatrix(this.numRows(), other.numCols())
         val innerOther = castOrCopy(other, {it:CBlasMatrix->it}, getFactory()).storage
         val innerThis = this.getBaseMatrix()
