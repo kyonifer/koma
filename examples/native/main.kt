@@ -1,8 +1,4 @@
 import koma.*
-import koma.matrix.common.DoubleMatrixBase
-import koma.matrix.Matrix
-import koma.matrix.cblas.CBlasMatrix
-import kotlinx.cinterop.*
 
 fun main(args: Array<String>) {
 
@@ -21,6 +17,12 @@ fun main(args: Array<String>) {
     println(mat[3 end 4])
     println(zeros(2,1))
     println(mat[1,2]*mat[3,4].T)
+
+    val a1 = mat[1, 2 end
+                 3, 4]
+    val a2 = mat[4, 5 end
+                 3, 2]
+    println(a1*a2)
 
 
 }
