@@ -5,7 +5,7 @@ import koma.matrix.MatrixFactory
 import koma.matrix.common.DoubleMatrixBase
 import koma.matrix.cblas.internal.factoryInstance
 import kotlinx.cinterop.*
-import koma.*
+import koma.zeros
 import koma.extensions.*
 
 /**
@@ -105,13 +105,9 @@ class CBlasMatrix(private val nRows: Int,
     override fun diag() = TODO()
     override fun inv(): CBlasMatrix {
         val pivLen = min(numRows(), numCols())
-        println("ohai")
         memScoped {
             val pivot = allocArray<IntVar>(pivLen)
             val out = rawLU(pivot)
-            println(pivot[0])
-            println(pivot[1])
-            println(pivot[2])
 
             // matrix_layout: Int, n: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?
             val res = lapacke.LAPACKE_dgetri(
@@ -147,10 +143,10 @@ class CBlasMatrix(private val nRows: Int,
 
     override fun getFactory(): MatrixFactory<CBlasMatrix> = factoryInstance
 
-    override fun solve(A: Matrix<Double>, B: Matrix<Double>): CBlasMatrix {
-        val Ac = castOrCopy(A.copy(), {it:CBlasMatrix->it}, getFactory())
-        val Bc = castOrCopy(B.copy(), {it:CBlasMatrix->it}, getFactory())
-        val pivLen = min(A.numRows(), A.numCols())
+    override fun solve(other: Matrix<Double>): CBlasMatrix {
+        val Ac = this.copy()
+        val Bc = castOrCopy(other.copy(), {it:CBlasMatrix->it}, getFactory())
+        val pivLen = min(this.numRows(), other.numCols())
         memScoped {
             val pivot = allocArray<IntVar>(pivLen)
             // matrix_layout: Int, n: Int, nrhs: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?, b: CValuesRef<DoubleVar>?, ldb: Int

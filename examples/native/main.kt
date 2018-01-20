@@ -1,4 +1,5 @@
 import koma.*
+import koma.extensions.*
 
 fun main(args: Array<String>) {
 
