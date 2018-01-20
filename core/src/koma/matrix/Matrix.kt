@@ -122,10 +122,16 @@ interface Matrix<T> {
 
 
     // Advanced Functions
+    /**
+     * Compute the matrix exponential e^x (NOT elementwise)
+     */
     fun expm(): Matrix<T>
     @JsName("solve")
-    // Solves Ax=B for x, returning x (x is either column vector or a matrix composed of several col vectors)
-    fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T>
+    /**
+     * Solves A*X=B for X, returning X (X is either column vector or a matrix composed of several col vectors).
+     * A is the current matrix, B is the passed in [other], and X is the returned matrix.
+     */
+    fun solve(other: Matrix<T>): Matrix<T>
 
     // Basic Functions
     /**

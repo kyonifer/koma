@@ -78,10 +78,10 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
 
     override fun getFactory() = factoryInstance
 
-    override fun solve(A: Matrix<Double>, B: Matrix<Double>): EJMLMatrix {
-        val out = this.getFactory().zeros(A.numCols(), 1)
-        CommonOps.solve(castOrCopy(A, ::EJMLMatrix, getFactory()).storage.matrix,
-                        castOrCopy(B, ::EJMLMatrix, getFactory()).storage.matrix,
+    override fun solve(other: Matrix<Double>): EJMLMatrix {
+        val out = this.getFactory().zeros(this.numCols(), 1)
+        CommonOps.solve(this.storage.matrix,
+                        castOrCopy(other, ::EJMLMatrix, getFactory()).storage.matrix,
                         out.storage.matrix)
         return out
     }

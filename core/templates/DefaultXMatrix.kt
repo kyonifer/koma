@@ -142,7 +142,7 @@ class Default${dtype}Matrix (val rows: Int,
         TODO("not implemented")
     }
 
-    override fun solve(A: Matrix<${dtype}>, B: Matrix<${dtype}>): Matrix<${dtype}> {
+    override fun solve(other: Matrix<${dtype}>): Matrix<${dtype}> {
         TODO("not implemented")
     }
 

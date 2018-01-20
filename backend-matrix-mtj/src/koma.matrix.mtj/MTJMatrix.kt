@@ -106,9 +106,9 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override val T: MTJMatrix
         get() = this.transpose()
 
-    override fun solve(A: Matrix<Double>, B: Matrix<Double>): MTJMatrix {
-        val out = this.getFactory().zeros(A.numCols(), 1)
-        castOrCopy(A, ::MTJMatrix, getFactory()).storage.solve(castOrCopy(B, ::MTJMatrix, getFactory()).storage, out.storage)
+    override fun solve(other: Matrix<Double>): MTJMatrix {
+        val out = this.getFactory().zeros(this.numCols(), 1)
+        this.storage.solve(castOrCopy(other, ::MTJMatrix, getFactory()).storage, out.storage)
         return out
     }
 

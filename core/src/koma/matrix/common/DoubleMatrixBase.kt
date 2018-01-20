@@ -112,7 +112,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
      */
     override fun expm(): Matrix<Double> {
 
-        val solveProvider = { A: Matrix<Double>, B: Matrix<Double> -> this.solve(A, B) }
+        val solveProvider = { A: Matrix<Double>, B: Matrix<Double> -> A.solve(B) }
         var A: Matrix<Double> = this
         val A_L1 = A.normIndP1()
         var n_squarings = 0
