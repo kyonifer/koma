@@ -1,5 +1,6 @@
 package koma
 
+import koma.extensions.*
 import koma.util.test.*
 import org.junit.Test
 

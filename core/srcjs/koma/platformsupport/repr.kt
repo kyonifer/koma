@@ -1,6 +1,7 @@
 package koma.platformsupport
 
 import koma.*
+import koma.extensions.*
 import koma.matrix.*
 
 fun <T> repr(mat: Matrix<T>): String {

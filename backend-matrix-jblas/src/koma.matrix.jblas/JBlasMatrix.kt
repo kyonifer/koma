@@ -3,7 +3,7 @@ package koma.matrix.jblas
 import koma.matrix.*
 import koma.matrix.common.*
 import koma.matrix.jblas.backend.*
-import koma.set
+import koma.extensions.*
 import org.jblas.DoubleMatrix
 import org.jblas.Singular
 

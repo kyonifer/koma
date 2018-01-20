@@ -1,8 +1,9 @@
 package koma.matrix.mtj
 
-import koma.*
-import koma.matrix.*
-import koma.matrix.common.*
+import koma.min
+import koma.extensions.*
+import koma.matrix.Matrix
+import koma.matrix.common.DoubleMatrixBase
 import koma.matrix.mtj.backend.*
 import no.uib.cipr.matrix.DenseMatrix
 import no.uib.cipr.matrix.Matrices

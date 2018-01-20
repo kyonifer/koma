@@ -1,6 +1,7 @@
 package koma.platformsupport
 
 import koma.*
+import koma.extensions.*
 import koma.matrix.*
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream

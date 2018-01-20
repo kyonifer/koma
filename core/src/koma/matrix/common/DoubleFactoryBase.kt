@@ -1,8 +1,10 @@
 package koma.matrix.common
 
-import koma.*
-import koma.matrix.*
+import koma.extensions.*
+import koma.matrix.Matrix
+import koma.matrix.MatrixFactory
 import koma.platformsupport.*
+import koma.round
 
 /**
  * Some functionality to help more easily implement double based koma backends. Feel free to not use if

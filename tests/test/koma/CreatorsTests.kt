@@ -1,12 +1,11 @@
 package koma
 
-import koma.matrix.*
+import koma.extensions.*
 import koma.util.test.*
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
-import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 
 import koma.matrix.MatrixTypes.DoubleType as dbltype

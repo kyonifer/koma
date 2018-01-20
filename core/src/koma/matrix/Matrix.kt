@@ -1,7 +1,7 @@
 package koma.matrix
 
 import koma.polyfill.annotations.*
-import koma.*
+import koma.extensions.*
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be

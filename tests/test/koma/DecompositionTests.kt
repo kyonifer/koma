@@ -1,6 +1,7 @@
 package koma
 
 import koma.util.test.*
+import koma.extensions.*
 import org.junit.Test
 
 // @formatter:off

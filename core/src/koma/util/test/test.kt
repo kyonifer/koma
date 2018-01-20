@@ -7,6 +7,7 @@
 package koma.util.test
 
 import koma.*
+import koma.extensions.*
 import koma.matrix.*
 import koma.platformsupport.assert
 import koma.polyfill.annotations.*

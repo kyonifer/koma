@@ -1,6 +1,7 @@
 package koma.matrix.default
 
 import koma.*
+import koma.extensions.*
 import koma.matrix.*
 import koma.platformsupport.*
 import koma.polyfill.*

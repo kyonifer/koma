@@ -6,6 +6,7 @@ import koma.matrix.common.DoubleMatrixBase
 import koma.matrix.cblas.internal.factoryInstance
 import kotlinx.cinterop.*
 import koma.*
+import koma.extensions.*
 
 /**
  * An implementation of the Matrix<Double> interface using 

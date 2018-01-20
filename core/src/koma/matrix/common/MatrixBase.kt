@@ -1,6 +1,7 @@
 package koma.matrix.common
 
 import koma.matrix.*
+import koma.extensions.*
 import koma.*
 
 abstract class MatrixBase<T>: Matrix<T> {

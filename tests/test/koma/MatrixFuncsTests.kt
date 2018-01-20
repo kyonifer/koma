@@ -1,5 +1,6 @@
 package koma
 
+import koma.extensions.*
 import koma.matrix.ejml.EJMLMatrixFactory
 import koma.matrix.jblas.JBlasMatrixFactory
 import koma.matrix.mtj.MTJMatrixFactory

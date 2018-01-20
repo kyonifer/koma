@@ -2,9 +2,13 @@
 
 package koma.matrix.common
 
-import koma.*
+import koma.ceil
+import koma.extensions.*
+import koma.logb
 import koma.matrix.*
+import koma.pow
 import koma.polyfill.annotations.*
+import koma.zeros
 
 /**
  * Some functionality to help more easily implement double based koma backends. Feel free to not use if

@@ -1,6 +1,6 @@
 package koma.matrix.ejml
 
-import koma.*
+import koma.extensions.*
 import koma.matrix.*
 import koma.matrix.common.*
 import koma.matrix.ejml.backend.*

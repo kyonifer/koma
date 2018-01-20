@@ -10,7 +10,8 @@
 
 package koma
 
-import koma.matrix.*
+import koma.extensions.*
+import koma.matrix.Matrix
 import koma.polyfill.annotations.*
 import koma.polyfill.*
 

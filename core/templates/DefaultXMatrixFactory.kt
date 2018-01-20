@@ -2,6 +2,7 @@ package koma.matrix.default
 
 import koma.*
 import koma.matrix.*
+import koma.extensions.*
 
 class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     override fun zeros(rows: Int, cols: Int) 

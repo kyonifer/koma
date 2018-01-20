@@ -9,6 +9,7 @@
 
 package koma
 
+import koma.extensions.*
 import koma.matrix.*
 import koma.polyfill.annotations.*
 
