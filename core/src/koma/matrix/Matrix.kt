@@ -133,6 +133,9 @@ interface Matrix<T> {
      */
     fun solve(other: Matrix<T>): Matrix<T>
 
+    @Deprecated("Use solve(B) instead", ReplaceWith("A.solve(B)"))
+    fun solve(A: Matrix<T>, B: Matrix<T>): Matrix<T> = A.solve(B)
+
     // Basic Functions
     /**
       * Matrix inverse (square matrices)
@@ -150,6 +153,9 @@ interface Matrix<T> {
      * Frobenius normal of the matrix
      */
     fun normF(): T
+
+    @Deprecated("Use normF instead", ReplaceWith("normF()"))
+    fun norm(): T = normF()
     /**
      * Induced, p=1 normal of the matrix. Equivalent of `norm(matrix,1)` in scipy.
      */
