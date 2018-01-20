@@ -4,6 +4,7 @@ Koma provides definitions for a domain-specific language that you can use to val
 
 ```kotlin
 import koma.*
+import koma.extensions.*
 import koma.util.validation.*
 
 fun mFunction(foo: Matrix<Double>, bar: Matrix<Double>, baz: Matrix<Double>) {

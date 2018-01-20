@@ -42,6 +42,7 @@ And we're ready to go. Lets plot a random walk:
 
 ```kotlin
 import koma.*
+import koma.extensions.*
 
 fun main(args: Array<String>)
 {
@@ -91,16 +92,15 @@ console.log(m2.plus(m2).minusScalar(3))
 ### Quickstart (Native)
 
 To produce a native executable including koma you currently have to [build from source](General_Usage_Guide/Advanced/Build_From_Source.md). 
-This will produce an executable called `Koma.kexe` which includes the koma library as
-well as the toy example main function defined at `examples/native/main.kt`:
+This will produce an executable called `build/konan/bin/linux/komaExample.kexe` which 
+includes the koma library as well as the toy example main function 
+defined at `examples/native/main.kt`:
 
 ```
 import koma.*
-import koma.matrix.default.*
+import koma.extensions.*
 
 fun main(args: Array<String>) {
-    
-    factory = DefaultDoubleMatrixFactory()
     
     println("randn(5,6): \n${randn(5,6).repr()}")
 
@@ -120,10 +120,10 @@ fun main(args: Array<String>) {
 
 You can run the executable directly, without any js or java runtime dependency:
 ```
-./Koma.kexe
+./build/konan/bin/linux/komaExample.kexe
 ```
 You can edit the binary by making modifications to `examples/native/main.kt` in the source tree.
-Support for building shared or static libraries will be added as the kotlin-native backend matures
-(currently in pre-release).
+See the build from source section above for instructions on building shared or static libraries
+will be added as the kotlin-native backend matures.
 
 

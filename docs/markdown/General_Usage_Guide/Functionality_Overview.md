@@ -19,7 +19,7 @@ Koma consists of the `core` module and several (optional) platform optimized mod
 the default implementation doesnt implement some of the advanced functionalities on `Matrix`, such as 
 decompositions. For a complete implementation of the `Matrix` interface, you'll want to select an 
 optimized backend available on your target platform. Currently optimized backends are only available
- for the JVM, with more on the way for JS and Native soon. Here's a summary of the current available backends:
+ for the JVM and Native, with JS coming soon. Here's a summary of the current available backends:
 
 | Artifact              | Supported Platforms  | Provided Classes | ...which implement (respectively) |
 |-----------------------|----------------------|------------------------|------------------|
@@ -27,7 +27,7 @@ optimized backend available on your target platform. Currently optimized backend
 |  backend-matrix-mtj   | JVM                  | `MTJMatrix`<br>`MTJMatrixFactory`| `Matrix<Double>`<br>`MatrixFactory<Double>`|
 |  backend-matrix-ejml  | JVM                  | `EJMLMatrix`<br>`EJMLMatrixFactory`| `Matrix<Double>`<br>`MatrixFactory<Double>`|
 |  backend-matrix-jblas | JVM                  | `JBlasMatrix`<br>`JBlasMatrixFactory`|`Matrix<Double>`<br>`MatrixFactory<Double>`|
-
+|  backend-matrix-cblas | Native               | `CBlasMatrix`<br>`CBlasMatrixFactory`|`Matrix<Double>`<br>`MatrixFactory<Double>`|
 where **XX** is any of `Int`, `Double`, `Long`, or `Float`. 
 
 Each of the backends uses an external library optimized for the platform 
@@ -38,10 +38,15 @@ implementation in `core` acting as a fallback that is unoptimized but always ava
 \* Only contains support for basic functionality like additions or multiplications. Please use 
 an optimized backend for advanced features like matrix decompositions.
 
+### Enabling a Backend (Native)
+
+On Kotlin/Native the CBlas matrix backend is automatically included in the built artifacts by default,
+so no additional action is needed. The `CBlasMatrix` it provides will delegate work to the available
+blas and lapack libraries on your system when possible.
 
 ### Enabling a Backend (JVM)
 
-Once you've chosen a backend you want to use, you can enable it by adding it to your dependencies.
+Once you've chosen which backend you want to use, you can enable it by adding it to your dependencies.
 For example, if you would like to use the Matrix container based on MTJ, you can add the corresponding
 artifact to your build.gradle dependencies:
 
@@ -52,9 +57,11 @@ dependencies {
 }
 ```
 
-Koma should now pick up the new backend and use it for the [top-level functions](Matrices_&_Linear_Algebra.md). Koma will always try to 
-use a platform specific backend if one is available, and fallback to the default `core` implementations 
-if that fails. Continue to the next section if you are interested in forcing which backend is used.
+Koma should now pick up the new backend and use it for the 
+[top-level functions](Matrices_&_Linear_Algebra.md) with no further action required. Koma will always
+try to use a platform specific backend if one is available, and fallback to the default 
+unoptimized implementations if that fails. Continue to the next section if you are interested in
+forcing which backend is used.
 
 
 ### Multiple Backends at Once
@@ -95,8 +102,8 @@ val b = zeros(3,3) // Now returns an MTJMatrix
 
 This property can be set from Java and other languages via
 `koma.Options.setFactory(...)`. If not set, koma will default
-to using MTJ, EJML, and then JBlas in that order, falling back to Default if
-none of them are found.
+to using MTJ, EJML, and then JBlas in that order, finally falling back to the Default**XX**
+classes if none of those are available.
 
 It is also possible to create any matrix type manually by using the
 corresponding factory. For example, even if `koma.factory` is set to

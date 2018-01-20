@@ -1,9 +1,15 @@
 # Matrices & Linear Algebra
 
 While it is always possible to use the [`*Factory` and `*Matrix`](Functionality_Overview.md) classes provided by your chosen backend or the core directly,
-Koma provides a set of top-level convenience functions to make the experience more similar to other scientific environments.
-All these functions reside in the `import koma.*` namespace and use the underlying 
-object-oriented hierarchy internally.
+Koma provides a set of top-level convenience functions to make the experience more similar to other scientific environments. All these functions reside in the `koma` namespace and use the underlying object-oriented hierarchy internally.
+
+When working with matrices in Koma you'll almost always want to 
+
+```kotlin
+import koma.extensions.*
+```
+
+This namespace defines some extension functions which would ordinarily be defined on `Matrix` itself but can't be for performance reasons. Since there are only `Matrix` extension functions defined in `koma.extensions`, it should be safe to star import it without polluting your workspace. If you don't import `koma.extensions` you'll be missing a lot of functionality including basic things like getters and setters.
 
 ### Creating Matrices
 
@@ -12,6 +18,9 @@ Koma provides several functions for creating new matrices:
 ```kotlin
 // x is a 3x3 identity matrix
 var x = eye(3)
+
+// x is a 3x3 matrix of zeros
+x = zeros(3,3)
 
 // x is a 3x3 with Gaussian random noise, distribution 0,1
 x = randn(3,3)
@@ -37,7 +46,7 @@ val a = mat[1,2,3.3 end
 ```
 
 ### Math Functions
-Matrices have useful map functions that return matrices for chaining operations (see [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/matrix/Matrix.kt#L254) for a complete list).
+Matrices have useful map functions that return matrices for chaining operations (see [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/extensions/extensionfuncs.kt) for a complete list).
 
 ```kotlin
     // Create a 3x3 identity and then add 0.1 to all elements

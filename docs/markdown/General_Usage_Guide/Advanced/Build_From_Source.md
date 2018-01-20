@@ -32,8 +32,19 @@ are building for:
 ```
 ```bash
 # Outputs a linked executable with main supplied by examples/native/main.kt
-# (lib not yet supported)
-./gradlew build -Ptarget=native
+# The exectuable is located at build/konan/bin/linux/komaExample.kexe
+./gradlew compileKonanKomaExample -Ptarget=native
+
+# Outputs a dynamic lib (.so) and a header (.h) supporting using koma from
+# C. Requires kotlin-native to be built from master (until next k/native release).
+# The generated files are located at build/konan/bin/linux/libkoma.so and 
+# build/konan/bin/linux/libkoma_api.h
+./gradlew compileKonanLibkoma -Ptarget=native -Pkonan.home=/path/to/kotlin-native/dist
+
+# Outputs a kotlin library (.klib) that can be imported to other kotlin/native projects
+# The .klib is located at build/konan/libs/linux/koma.klib
+./gradlew compileKonanKoma -Ptarget=native
+
 ```
 
 To verify success, run some test code:
@@ -48,8 +59,8 @@ To verify success, run some test code:
 node examples/js/example.js
 ```
 ```bash
-# Runs the previously built executable
-./Koma.kexe
+# Runs the previously built example executable
+./build/konan/bin/linux/komaExample.kexe
 ```
 
 ## Note About IDEs

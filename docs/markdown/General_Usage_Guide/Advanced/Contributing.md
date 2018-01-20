@@ -10,8 +10,8 @@ You can verify that the project still builds successfully on all three targets b
 
 ```
 ./gradlew test
-./gradlew -Ptarget=native
-./gradlew -Ptarget=js
+./gradlew build -Ptarget=native
+./gradlew build -Ptarget=js
 ```
 
 Unit tests on platforms other than java aren't currently available.
