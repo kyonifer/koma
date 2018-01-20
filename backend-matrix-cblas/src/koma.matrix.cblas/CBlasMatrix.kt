@@ -53,13 +53,24 @@ class CBlasMatrix(private val nRows: Int,
         val innerThis = this.getBaseMatrix()
         val innerOut = out.getBaseMatrix()
 
-        cblas.cblas_dgemm(Order=cblas.CblasRowMajor, TransA=cblas.CblasNoTrans, TransB=cblas.CblasNoTrans, 
-                            M=this.numRows(), N=other.numCols(), K=other.numRows(), 
-                            alpha=1.0, 
-                            A=innerThis, lda=this.numCols(), 
-                            B=innerOther, ldb=other.numCols(), 
-                            beta=1.0, 
-                            C=innerOut, ldc=out.numCols())
+        // Since named params are unstable in cblas header, 
+        // commented here instead of named in call:
+        //
+        // Order: CBLAS_ORDER, TransA: CBLAS_TRANSPOSE, TransB: CBLAS_TRANSPOSE, 
+        // M: blasint, N: blasint, K: blasint, 
+        // alpha: Double, 
+        // A: CValuesRef<DoubleVar>?, lda: blasint, 
+        // B: CValuesRef<DoubleVar>?, ldb: blasint, 
+        // beta: Double, 
+        // C: CValuesRef<DoubleVar>?, ldc: blasint
+
+        cblas.cblas_dgemm(cblas.CblasRowMajor, cblas.CblasNoTrans, cblas.CblasNoTrans, 
+                            this.numRows(), other.numCols(), other.numRows(), 
+                            1.0, 
+                            innerThis, this.numCols(), 
+                            innerOther, other.numCols(), 
+                            1.0, 
+                            innerOut, out.numCols())
         return out
     }
     
@@ -77,12 +88,13 @@ class CBlasMatrix(private val nRows: Int,
             else
                 0.0
         }
+        // matrix_layout: Int, uplo: Byte, n: Int, a: CValuesRef<DoubleVar>?, lda: Int
         val res = lapacke.LAPACKE_dpotrf(
-                    uplo='L'.toByte(), 
-                    matrix_layout=lapacke.LAPACK_ROW_MAJOR,
-                    lda=this.numCols(),
-                    n=this.numRows(),
-                    a=out.storage)
+                    lapacke.LAPACK_ROW_MAJOR,
+                    'L'.toByte(), 
+                    this.numRows(),
+                    out.storage,
+                    this.numCols())
         if (res != 0)
             throw IllegalStateException("chol decomposition failed (is matrix positive semi-definite?)")
         return out
@@ -99,12 +111,14 @@ class CBlasMatrix(private val nRows: Int,
             println(pivot[0])
             println(pivot[1])
             println(pivot[2])
+
+            // matrix_layout: Int, n: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?
             val res = lapacke.LAPACKE_dgetri(
-                matrix_layout=lapacke.LAPACK_ROW_MAJOR,
-                n=numCols(),
-                lda=numCols(),
-                a=out.storage,
-                ipiv=pivot
+                lapacke.LAPACK_ROW_MAJOR,
+                numCols(),
+                out.storage,
+                numCols(),
+                pivot
             )
             if (res != 0)
                 throw IllegalStateException("Matrix inversion (dgetri) failed: return code $res")
@@ -117,13 +131,14 @@ class CBlasMatrix(private val nRows: Int,
     override fun normIndP1() = rawNorm(normType='1')
 
     private fun rawNorm(normType: Char): Double {
+        // matrix_layout: Int, norm: Byte, m: Int, n: Int, a: CValuesRef<DoubleVar>?, lda: Int
         return lapacke.LAPACKE_dlange(
-            matrix_layout=lapacke.LAPACK_ROW_MAJOR,
-            m=numRows(),
-            n=numCols(),
-            lda=numCols(),
-            a=this.storage,
-            norm=normType.toByte()
+            lapacke.LAPACK_ROW_MAJOR,
+            normType.toByte(),
+            numRows(),
+            numCols(),
+            this.storage,
+            numCols()
         )
     }
 
@@ -137,15 +152,16 @@ class CBlasMatrix(private val nRows: Int,
         val pivLen = min(A.numRows(), A.numCols())
         memScoped {
             val pivot = allocArray<IntVar>(pivLen)
+            // matrix_layout: Int, n: Int, nrhs: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?, b: CValuesRef<DoubleVar>?, ldb: Int
             val res = lapacke.LAPACKE_dgesv(
-                matrix_layout=lapacke.LAPACK_ROW_MAJOR,
-                n=Ac.numRows(),
-                lda=Ac.numCols(),
-                nrhs=Bc.numCols(),
-                ldb=Bc.numCols(),
-                a=Ac.storage,
-                b=Bc.storage,
-                ipiv=pivot
+                lapacke.LAPACK_ROW_MAJOR,
+                Ac.numRows(),
+                Bc.numCols(),
+                Ac.storage,
+                Ac.numCols(),
+                pivot,
+                Bc.storage,
+                Bc.numCols()
             )
             if (res != 0)
                 throw IllegalStateException("Solve (dgesv) failed: return code $res")
@@ -157,13 +173,14 @@ class CBlasMatrix(private val nRows: Int,
     // Storage must have min(numRows(), numCols()) space allocated
     private fun rawLU(pivotStorage: CArrayPointer<IntVar>): CBlasMatrix {
         val out: CBlasMatrix = copy()
+        // matrix_layout: Int, m: Int, n: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?
         val res = lapacke.LAPACKE_dgetrf(
-            matrix_layout=lapacke.LAPACK_ROW_MAJOR,
-            m=numRows(),
-            n=numCols(),
-            a=out.storage,
-            lda=numCols(),
-            ipiv=pivotStorage
+            lapacke.LAPACK_ROW_MAJOR,
+            numRows(),
+            numCols(),
+            out.storage,
+            numCols(),
+            pivotStorage
         )
         if (res != 0) {
             throw IllegalStateException("LU decomposition (dgetrf) failed: return code $res")
