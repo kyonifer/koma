@@ -45,31 +45,5 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
         return EJMLMatrix(out)
     }
 
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
-    override fun rand(size: Int): EJMLMatrix {
-        return rand(size, size)
-    }
-
-    override fun rand(rows: Int, cols: Int): EJMLMatrix {
-        return EJMLMatrix(koma.matrix.ejml.backend.rand(rows, cols))
-    }
-
-    override fun rand(rows: Int, cols: Int, seed: Long): EJMLMatrix {
-        return EJMLMatrix(koma.matrix.ejml.backend.rand(rows, cols, seed))
-    }
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
-    override fun randn(size: Int): EJMLMatrix {
-        return EJMLMatrix(koma.matrix.ejml.backend.randn(size))
-    }
-
-    override fun randn(rows: Int, cols: Int): EJMLMatrix {
-        return EJMLMatrix(koma.matrix.ejml.backend.randn(rows, cols))
-    }
-
-    override fun randn(rows: Int, cols: Int, seed: Long): EJMLMatrix {
-        return EJMLMatrix(koma.matrix.ejml.backend.randn(rows, cols, seed))
-    }
-
 }
 

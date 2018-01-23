@@ -137,29 +137,6 @@ fun DenseMatrix.det(): Double {
 
 }
 
-
-fun rand(rows: Int, cols: Int, seed: Long): DenseMatrix {
-    if (seed != curSeed) {
-        random.setSeed(seed)
-        curSeed = seed
-    }
-    return DenseMatrix(rows, cols).mapMat { random.nextDouble() }
-}
-
-fun rand(rows: Int, cols: Int) = rand(rows, cols, curSeed)
-fun rand(len: Int, seed: Long) = rand(1, len, seed)
-fun rand(len: Int) = rand(len, curSeed)
-
-fun randn(len: Int) = randn(len, len)
-fun randn(rows: Int, cols: Int) = randn(rows, cols, curSeed)
-fun randn(rows: Int, cols: Int, seed: Long): DenseMatrix {
-    if (seed != curSeed) {
-        random.setSeed(seed)
-        curSeed = seed
-    }
-    return DenseMatrix(rows, cols).mapMat { random.nextGaussian() }
-}
-
 object mat {
     operator fun get(vararg ts: Any): DenseMatrix {
         // Todo: check for malformed inputs to avoid ambiguous out of bounds exceptions

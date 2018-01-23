@@ -44,14 +44,4 @@ class MTJMatrixFactory : DoubleFactoryBase<MTJMatrix>() {
         return MTJMatrix(out)
     }
 
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
-    override fun rand(size: Int) = rand(size, size)
-    override fun rand(rows: Int, cols: Int) = MTJMatrix(koma.matrix.mtj.backend.rand(rows, cols))
-    override fun rand(rows: Int, cols: Int, seed: Long) = MTJMatrix(koma.matrix.mtj.backend.rand(rows, cols, seed))
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
-    override fun randn(size: Int) = randn(size, size)
-    override fun randn(rows: Int, cols: Int) = MTJMatrix(koma.matrix.mtj.backend.randn(rows, cols))
-    override fun randn(rows: Int, cols: Int, seed: Long) = MTJMatrix(koma.matrix.mtj.backend.randn(rows, cols, seed))
-
 }

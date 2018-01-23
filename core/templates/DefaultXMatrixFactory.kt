@@ -8,7 +8,7 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     override fun zeros(rows: Int, cols: Int) 
             = Default${dtype}Matrix(rows, cols)
     @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
-    override fun zeros(size: Int): Matrix<${dtype}> 
+    override fun zeros(size: Int): Matrix<${dtype}>
             = zeros(size, size)
 
     override fun create(data: IntRange): Matrix<${dtype}> {
@@ -45,10 +45,7 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
             = zeros(rows, cols)
             .fill {row,col->if (row==col) 1.to${dtype}() else 0.to${dtype}() }
 
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
-    override fun rand(size: Int): Matrix<${dtype}> 
-            = rand(size, size)
-    
+
     override fun rand(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
             .fill { _, _ -> koma.platformsupport.rng.nextDouble().to${dtype}()}
@@ -60,10 +57,7 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
         return rand(rows, cols)
     }
 
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
-    override fun randn(size: Int): Matrix<${dtype}> 
-            = randn(size, size)
-    
+
     override fun randn(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
             .fill { _, _ -> koma.platformsupport.rng.nextGaussian().to${dtype}()}

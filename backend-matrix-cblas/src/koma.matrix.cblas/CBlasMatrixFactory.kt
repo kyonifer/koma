@@ -63,39 +63,4 @@ class CBlasMatrixFactory: DoubleFactoryBase<CBlasMatrix>() {
                     it[row, col] = 0
             }
         }
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
-    override fun rand(size: Int): CBlasMatrix {
-        return rand(size, size)
-    }
-
-    override fun rand(rows: Int, cols: Int): CBlasMatrix 
-        = zeros(rows, cols).also {
-            it.forEachIndexed { row, col, _ ->
-                it[row, col] = rng.nextDouble()
-            }
-        }
-
-    override fun rand(rows: Int, cols: Int, seed: Long): CBlasMatrix {
-        rng.setSeed(seed.toInt())
-        return rand(rows, cols)
-    }
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
-    override fun randn(size: Int): CBlasMatrix {
-        return randn(size, size)
-    }
-
-    override fun randn(rows: Int, cols: Int): CBlasMatrix 
-        = zeros(rows, cols).also {
-            it.forEachIndexed { row, col, _ ->
-                it[row, col] = rng.nextGaussian()
-            }
-        }
-
-    override fun randn(rows: Int, cols: Int, seed: Long): CBlasMatrix {
-        rng.setSeed(seed.toInt())
-        return randn(rows, cols)
-    }
-
 }

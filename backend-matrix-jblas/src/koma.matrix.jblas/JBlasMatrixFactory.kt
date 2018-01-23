@@ -22,24 +22,4 @@ class JBlasMatrixFactory : DoubleFactoryBase<JBlasMatrix>() {
             out[i, i] = 1.0
         return JBlasMatrix(out)
     }
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("rand(size, size)"))
-    override fun rand(size: Int) = JBlasMatrix(koma.matrix.jblas.backend.rand(size))
-    override fun rand(rows: Int, cols: Int) = JBlasMatrix(koma.matrix.jblas.backend.rand(rows, cols))
-
-    override fun rand(rows: Int, cols: Int, seed: Long): JBlasMatrix {
-        println("Warning: JBlas RNG doesnt support seeds")
-        return JBlasMatrix(koma.matrix.jblas.backend.rand(rows, cols))
-    }
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("randn(size, size)"))
-    override fun randn(size: Int) = JBlasMatrix(koma.matrix.jblas.backend.randn(size))
-
-    override fun randn(rows: Int, cols: Int) = JBlasMatrix(koma.matrix.jblas.backend.randn(rows, cols))
-
-    override fun randn(rows: Int, cols: Int, seed: Long): JBlasMatrix {
-        println("Warning: JBlas RNG doesnt support seeds")
-        return JBlasMatrix(koma.matrix.jblas.backend.randn(rows, cols))
-    }
-
 }

@@ -71,13 +71,6 @@ interface MatrixFactory<out T> {
     fun eye(rows: Int, cols: Int): T
 
     /**
-     * Creates a vector of [size] many uniform 0-1 random samples
-     */
-    @JsName("rand__")
-    @Deprecated(DEPRECATE_IMPLICIT_2D)
-    fun rand(size: Int): T
-
-    /**
      * Creates a matrix of uniform 0-1 random samples
      */
     @JsName("rand")
@@ -89,13 +82,6 @@ interface MatrixFactory<out T> {
      */
     @JsName("randSeed")
     fun rand(rows: Int, cols: Int, seed: Long): T
-
-    /**
-     * Creates a vector of [size] many unit-normal random samples
-     */
-    @JsName("randn__Deprecated")
-    @Deprecated(DEPRECATE_IMPLICIT_2D)
-    fun randn(size: Int): T
 
     /**
      * Creates a matrix of unit-normal random samples

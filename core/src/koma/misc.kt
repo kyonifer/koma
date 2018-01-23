@@ -17,6 +17,9 @@ val SCIENTIFIC_VERY_LONG_NUMBER = "SciNotVLong"
 val end = -1
 val all = 0..end
 
+fun setSeed(seed: Long) {
+    koma.platformsupport.seed = seed
+}
 /**
  * Sets the format for Koma to display numbers in. For example, calling
  *
