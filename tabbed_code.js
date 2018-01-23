@@ -28,7 +28,7 @@ function isCodeExample(ele) {
 
 function harvestCustomLangNames(eles) {
     nameNode = eles[0].previousSibling.previousSibling
-    if (nameNode.data && nameNode.data.startsWith("names=")) {
+    if (nameNode.data != undefined && nameNode.data.startsWith("names=")) {
         return nameNode.data.split("=")[1].split(",")
     }
     return []
@@ -70,20 +70,19 @@ function makeTabs(eles) {
     tabHTML = '<div class="tab">'
     for(var i=0; i< eles.length; i++) {
         ele = eles[i]
-        if (names[i]) {
+        if (names[i] != undefined) {
             name = names[i]
         } else {
             name = harvestLangName(ele)
         }
         // TODO: this should all be CSS somewhere
-        buttonStyle = 'padding: 6px 12px; border: none; color: white; background-color: '
+        buttonStyle = 'padding: 6px 12px; border: none; background-color: '
         if(i==0) { 
             buttonStyle += "black;"
         } else {
             buttonStyle += "gray;"
         }
-        tabHTML += '<button class="tablinks" style="' + buttonStyle + 
-            '" onclick="switchToTab(\'' + getTabUUID() + '\',\''+name+'\', this)">' + name + '</button>'
+        tabHTML += '<button class="tablinks" style="' + buttonStyle + '" onclick="switchToTab(\'' + getTabUUID() + '\',\''+name+'\', this)">' + name + '</button>'
     }
     tabHTML += '</div>'
 
@@ -95,7 +94,7 @@ function makeTabs(eles) {
 
 function prepareExamples(eles) {
     for (var i=0; i < eles.length; i++) {
-        if (names[i]) {
+        if (names[i] != undefined) {
             name = names[i]
         } else {
             name = harvestLangName(ele)
