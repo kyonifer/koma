@@ -32,9 +32,9 @@ Now add a dependency on the `core` artifact:
 
 ```Groovy
 dependencies{
-    compile group: "koma", name:"core", version:"0.10"
+    compile group: "koma", name:"core", version:"0.11"
     // Optional, uses EJML's optimized routines for matrix operations
-    compile group: "koma", name:"backend-matrix-ejml", version: "0.10"
+    compile group: "koma", name:"backend-matrix-ejml", version: "0.11"
 }
 ```
 

@@ -52,8 +52,8 @@ artifact to your build.gradle dependencies:
 
 ```
 dependencies {
-    compile group: "koma", name:"backend-matrix-mtj", version: "0.10"
-    compile group: "koma", name:"core", version:"0.10"
+    compile group: "koma", name:"backend-matrix-mtj", version: "0.11"
+    compile group: "koma", name:"core", version:"0.11"
 }
 ```
 
@@ -74,9 +74,9 @@ to have both EJML and MTJ available you might write:
 
 ```
 dependencies {
-    compile group: "koma", name:"backend-matrix-mtj", version: "0.10"
-    compile group: "koma", name:"backend-matrix-ejml", version: "0.10"
-    compile group: "koma", name:"core", version:"0.10"
+    compile group: "koma", name:"backend-matrix-mtj", version: "0.11"
+    compile group: "koma", name:"backend-matrix-ejml", version: "0.11"
+    compile group: "koma", name:"core", version:"0.11"
 }
 ```
 
