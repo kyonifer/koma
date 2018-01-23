@@ -225,4 +225,5 @@ fun <T> arange(start: Double,
 // TODO: Get these versions working
 //fun linspace(...) = factory.linspace(lower, upper, num)
 
-
+@Deprecated("Use arr.normF()", ReplaceWith("arr.normF()"))
+fun norm(arr: Matrix<Double>) = arr.norm()
