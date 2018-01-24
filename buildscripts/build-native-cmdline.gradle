@@ -62,7 +62,7 @@ build {
 }
 
 buildscript {
-    ext.kotlin_version='1.2.10'
+    ext.kotlin_version='1.2.20'
 
     repositories {
         mavenCentral()
