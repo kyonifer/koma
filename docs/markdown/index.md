@@ -11,7 +11,7 @@ Project goals:
 - Use pluggable back-ends to enable optimized computation via pre-existing platform libraries
 
 To get started, try the quickstart instructions below for your desired platform. After that,
-take a look at the [functionality overview](General_Usage_Guide/Functionality_Overview.md) for a quick intro on what Koma provides.
+take a look at the [functionality overview](General_Usage_Guide/Functionality_Overview.md) for a quick intro on what Koma provides, or the [linear algebra](General_Usage_Guide/Matrices_&_Linear_Algebra.md) section to see some usage examples.
 
 
 ### Quickstart (Java)
@@ -94,28 +94,8 @@ console.log(m2.plus(m2).minusScalar(3))
 To produce a native executable including koma you currently have to [build from source](General_Usage_Guide/Advanced/Build_From_Source.md). 
 This will produce an executable called `build/konan/bin/linux/komaExample.kexe` which 
 includes the koma library as well as the toy example main function 
-defined at `examples/native/main.kt`:
+defined at [examples/native/main.kt](https://github.com/kyonifer/koma/blob/master/examples/native/main.kt).
 
-```
-import koma.*
-import koma.extensions.*
-
-fun main(args: Array<String>) {
-    
-    println("randn(5,6): \n${randn(5,6).repr()}")
-
-    var a = mat[1,2,3 end
-                4,5,6]
-    
-    var b = mat[2, 0 end
-                0, 1 end
-               -1, 5]
-    
-    println("a: \n${a.repr()}")
-    println("b: \n${b.repr()}")
-    println("a*b: \n${(a*b).repr()}")
-    
-}
 ```
 
 You can run the executable directly, without any js or java runtime dependency:
@@ -123,7 +103,6 @@ You can run the executable directly, without any js or java runtime dependency:
 ./build/konan/bin/linux/komaExample.kexe
 ```
 You can edit the binary by making modifications to `examples/native/main.kt` in the source tree.
-See the build from source section above for instructions on building shared or static libraries
-will be added as the kotlin-native backend matures.
+See the build from source section above for instructions on building shared or static libraries.
 
 
