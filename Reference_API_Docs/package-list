@@ -21,3 +21,4 @@ koma.ndarray.common
 koma.ndarray.default
 koma.util
 koma.util.test
+koma.util.validation

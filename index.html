@@ -3785,6 +3785,156 @@
 </li>
 
         
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/dim/index.html">Dim</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/index.html">Home</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/max/index.html">Max</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/min/index.html">Min</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/symmetric/index.html">Symmetric</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/test-matrix/index.html">Test matrix</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/transposable/index.html">Transposable</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/validate/index.html">Validate</a>
+</li>
+
+        
+            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href=""> validation context</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/-init-/index.html"> init </a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/add-validator/index.html">Add validator</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/current-matrix-name/index.html">Current matrix name</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/current-matrix/index.html">Current matrix</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/index.html">Home</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/invoke/index.html">Invoke</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/matrices/index.html">Matrices</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/matrix-names/index.html">Matrix names</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/metadata-storage/index.html">Metadata storage</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/metadata/index.html">Metadata</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/validate/index.html">Validate</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validation-context/x/index.html">X</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+        
+            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href=""> validator</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validator/index.html">Home</a>
+</li>
+
+        
+            
+<li >
+    <a href="Reference_API_Docs/koma.util.validation/-validator/perform-validation/index.html">Perform validation</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+        
     </ul>
   </li>
 
@@ -3846,7 +3996,7 @@ of cross-platform numerical applications targeting Javascript, Java (JVM), and e
 <li>Use pluggable back-ends to enable optimized computation via pre-existing platform libraries</li>
 </ul>
 <p>To get started, try the quickstart instructions below for your desired platform. After that,
-take a look at the <a href="General_Usage_Guide/Functionality_Overview/index.html">functionality overview</a> for a quick intro on what Koma provides.</p>
+take a look at the <a href="General_Usage_Guide/Functionality_Overview/index.html">functionality overview</a> for a quick intro on what Koma provides, or the <a href="General_Usage_Guide/Matrices_&amp;_Linear_Algebra/index.html">linear algebra</a> section to see some usage examples.</p>
 <h3 id="quickstart-java">Quickstart (Java)</h3>
 <p>Koma is hosted on bintray. First add the koma repository to your repo list. If
 using gradle:</p>
@@ -3916,35 +4066,13 @@ console.log(m2.plus(m2).minusScalar(3))
 <p>To produce a native executable including koma you currently have to <a href="General_Usage_Guide/Advanced/Build_From_Source/index.html">build from source</a>. 
 This will produce an executable called <code>build/konan/bin/linux/komaExample.kexe</code> which 
 includes the koma library as well as the toy example main function 
-defined at <code>examples/native/main.kt</code>:</p>
-<pre><code>import koma.*
-import koma.extensions.*
-
-fun main(args: Array&lt;String&gt;) {
-
-    println(&quot;randn(5,6): \n${randn(5,6).repr()}&quot;)
-
-    var a = mat[1,2,3 end
-                4,5,6]
-
-    var b = mat[2, 0 end
-                0, 1 end
-               -1, 5]
-
-    println(&quot;a: \n${a.repr()}&quot;)
-    println(&quot;b: \n${b.repr()}&quot;)
-    println(&quot;a*b: \n${(a*b).repr()}&quot;)
-
-}
-</code></pre>
-
+defined at <a href="https://github.com/kyonifer/koma/blob/master/examples/native/main.kt">examples/native/main.kt</a>.</p>
 <p>You can run the executable directly, without any js or java runtime dependency:</p>
 <pre><code>./build/konan/bin/linux/komaExample.kexe
 </code></pre>
 
 <p>You can edit the binary by making modifications to <code>examples/native/main.kt</code> in the source tree.
-See the build from source section above for instructions on building shared or static libraries
-will be added as the kotlin-native backend matures.</p></div>
+See the build from source section above for instructions on building shared or static libraries.</p></div>
         </div>
 
         <footer class="col-md-12">
