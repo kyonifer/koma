@@ -96,12 +96,13 @@ This will produce an executable called `build/konan/bin/linux/komaExample.kexe` 
 includes the koma library as well as the toy example main function 
 defined at [examples/native/main.kt](https://github.com/kyonifer/koma/blob/master/examples/native/main.kt).
 
-```
 
 You can run the executable directly, without any js or java runtime dependency:
+
 ```
 ./build/konan/bin/linux/komaExample.kexe
 ```
+
 You can edit the binary by making modifications to `examples/native/main.kt` in the source tree.
 See the build from source section above for instructions on building shared or static libraries.
 
