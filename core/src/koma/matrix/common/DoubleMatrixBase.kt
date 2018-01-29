@@ -16,43 +16,43 @@ import koma.zeros
  */
 abstract class DoubleMatrixBase : MatrixBase<Double>() {
 
-    override fun getGeneric(i: Int) = getDouble(i)
-    override fun getGeneric(i: Int, j: Int) = getDouble(i, j)
-    override fun setGeneric(i: Int, v: Double) = setDouble(i, v)
-    override fun setGeneric(i: Int, j: Int, v: Double) = setDouble(i, j, v)
+    override fun _getGeneric(i: Int) = getDouble(i)
+    override fun _getGeneric(i: Int, j: Int) = getDouble(i, j)
+    override fun _setGeneric(i: Int, v: Double) = setDouble(i, v)
+    override fun _setGeneric(i: Int, j: Int, v: Double) = setDouble(i, j, v)
 
-    override fun getInt(i: Int, j: Int) = this[i, j].toInt()
-    override fun getInt(i: Int) = this[i].toInt()
-    override fun setInt(i: Int, v: Int) { this[i] = v.toDouble() }
-    override fun setInt(i: Int, j: Int, v: Int) { this[i, j] = v.toDouble() }
+    override fun _getInt(i: Int, j: Int) = this[i, j].toInt()
+    override fun _getInt(i: Int) = this[i].toInt()
+    override fun _setInt(i: Int, v: Int) { this[i] = v.toDouble() }
+    override fun _setInt(i: Int, j: Int, v: Int) { this[i, j] = v.toDouble() }
 
-    override fun getFloat(i: Int, j: Int) = this[i, j].toFloat()
-    override fun getFloat(i: Int) = this[i].toFloat()
-    override fun setFloat(i: Int, v: Float) { this[i] = v.toDouble() }
-    override fun setFloat(i: Int, j: Int, v: Float) { this[i, j] = v.toDouble() }
+    override fun _getFloat(i: Int, j: Int) = this[i, j].toFloat()
+    override fun _getFloat(i: Int) = this[i].toFloat()
+    override fun _setFloat(i: Int, v: Float) { this[i] = v.toDouble() }
+    override fun _setFloat(i: Int, j: Int, v: Float) { this[i, j] = v.toDouble() }
 
 
-    override fun setRow(index: Int, row: Matrix<Double>) {
+    override fun _setRow(index: Int, row: Matrix<Double>) {
         row.forEachIndexed { _, col, ele ->
             this[index, col] = ele
         }
     }
-    override fun setCol(index: Int, col: Matrix<Double>) {
+    override fun _setCol(index: Int, col: Matrix<Double>) {
         col.forEachIndexed { row, _, ele ->
             this[row, index] = ele
         }
     }
-    override fun getRow(row: Int) = zeros(1, numCols()).mapIndexed { _, col, _ -> 
+    override fun _getRow(row: Int) = zeros(1, numCols()).mapIndexed { _, col, _ -> 
         this[row, col] 
     } 
-    override fun getCol(col: Int) = zeros(numRows(), 1).mapIndexed { row, _, _ -> 
+    override fun _getCol(col: Int) = zeros(numRows(), 1).mapIndexed { row, _, _ -> 
         this[row, col] 
     } 
-    override fun elementTimes(other: Matrix<Double>)
+    override fun _elementTimes(other: Matrix<Double>)
         = mapIndexed { row, col, ele ->
         ele*other[row, col]
     }
-    override fun elementSum(): Double { 
+    override fun _elementSum(): Double { 
         var out = 0.0 
         this.forEach { ele -> 
             out += ele 
@@ -60,7 +60,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         return out 
     } 
 
-    override fun max(): Double {
+    override fun _max(): Double {
         var max = Double.NEGATIVE_INFINITY
         this.forEach { ele ->
             if (ele > max) {
@@ -69,8 +69,8 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         }
         return max
     }
-    override fun mean() = elementSum() / (numCols() * numRows())
-    override fun min(): Double {
+    override fun _mean() = elementSum() / (numCols() * numRows())
+    override fun _min(): Double {
         var min = Double.POSITIVE_INFINITY
         this.forEach { ele ->
             if (ele < min) {
@@ -79,14 +79,14 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         }
         return min
     }
-    override fun argMax(): Int { 
+    override fun _argMax(): Int { 
         var max = 0 
         for (i in 0..this.numCols() * this.numRows() - 1) 
             if (this[i] > this[max]) 
                 max = i 
         return max 
     }
-    override fun argMin(): Int { 
+    override fun _argMin(): Int { 
         var min = 0 
         for (i in 0..this.numCols() * this.numRows() - 1) 
             if (this[i] < this[min]) 
@@ -94,27 +94,27 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         return min 
     } 
 
-    override fun times(other: Double) = map { it*other } 
-    override fun unaryMinus() = this * -1
-    override fun minus(other: Double) = map { it - other }
-    override fun minus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele - other[row, col] }
-    override fun plus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele + other[row, col]} 
-    override fun plus(other: Double) = map{it + other}     
-    override fun div(other: Int) = map { it / other }
-    override fun div(other: Double) = map { it / other }
-    override fun transpose() = zeros(numCols(), numRows()).also {
+    override fun _times(other: Double) = map { it*other } 
+    override fun _unaryMinus() = this * -1
+    override fun _minus(other: Double) = map { it - other }
+    override fun _minus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele - other[row, col] }
+    override fun _plus(other: Matrix<Double>) = mapIndexed { row, col, ele -> ele + other[row, col]} 
+    override fun _plus(other: Double) = map{it + other}     
+    override fun _div(other: Int) = map { it / other }
+    override fun _div(other: Double) = map { it / other }
+    override fun _transpose() = zeros(numCols(), numRows()).also {
         it.fill { row, col ->
             this[col,row]
         }
     }
-    override fun copy() = map{it}
-    override fun epow(other: Double) = map { pow(it, other)} 
-    override fun epow(other: Int) = map { pow(it, other)} 
+    override fun _copy() = map{it}
+    override fun _epow(other: Double) = map { pow(it, other)} 
+    override fun _epow(other: Int) = map { pow(it, other)} 
 
     /**
      * A backend agnostic implementation of the matrix exponential (i.e. e to the matrix).
      */
-    override fun expm(): Matrix<Double> {
+    override fun _expm(): Matrix<Double> {
 
         val solveProvider = { A: Matrix<Double>, B: Matrix<Double> -> A.solve(B) }
         var A: Matrix<Double> = this

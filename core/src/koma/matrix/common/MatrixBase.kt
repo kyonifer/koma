@@ -2,9 +2,11 @@ package koma.matrix.common
 
 import koma.matrix.*
 import koma.extensions.*
-import koma.*
+import koma.extensions.getBaseMatrix as getbase
+import koma.extensions.numCols as numcols
+import koma.extensions.numRows as numrows
 
-abstract class MatrixBase<T>: Matrix<T> {
+abstract class MatrixBase<T>: Matrix<T>() {
 
     override fun equals(other: Any?): Boolean {
         when (other) {
@@ -59,13 +61,13 @@ abstract class MatrixBase<T>: Matrix<T> {
         when (mat) {
             is TOuter -> return mat
             else      -> {
-                val base = mat.getBaseMatrix()
+                val base = mat.getbase()
                 if (base is TInner)
                     return makeOuter(base)
                 else {
-                    val out = outerFac.zeros(mat.numRows(), mat.numCols())
-                    for (row in 0.until(mat.numRows()))
-                        for (col in 0.until(mat.numCols()))
+                    val out = outerFac.zeros(mat.numrows(), mat.numcols())
+                    for (row in 0.until(mat.numrows()))
+                        for (col in 0.until(mat.numcols()))
                             out[row, col] = mat[row, col]
                     return out
                 }

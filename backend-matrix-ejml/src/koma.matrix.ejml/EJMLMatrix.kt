@@ -13,40 +13,40 @@ import org.ejml.simple.SimpleSVD
  * You should rarely construct this class directly, instead make one via the
  * top-level functions in creators.kt (e.g. zeros(5,5)) or [EJMLMatrixFactory].
  */
-class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase() {
-    override fun getBaseMatrix() = this.storage
+class EJMLMatrix(var storage: SimpleMatrix) : DoubleMatrixBase() {
+    override fun _getBaseMatrix() = this.storage
 
-    override fun getDoubleData() = this.storage.matrix.getData()
-    override fun diag() = EJMLMatrix(storage.extractDiag())
-    override fun max() = CommonOps.elementMax(this.storage.matrix)
-    override fun mean() = elementSum() / (numCols() * numRows())
-    override fun min() = CommonOps.elementMin(this.storage.matrix)
+    override fun _getDoubleData() = this.storage.matrix.getData()
+    override fun _diag() = EJMLMatrix(storage.extractDiag())
+    override fun _max() = CommonOps.elementMax(this.storage.matrix)
+    override fun _mean() = elementSum() / (numCols() * numRows())
+    override fun _min() = CommonOps.elementMin(this.storage.matrix)
 
-    override fun numRows() = this.storage.numRows()
-    override fun numCols() = this.storage.numCols()
-    override fun times(other: Matrix<Double>) =
-            EJMLMatrix(this.storage.times(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
-    override fun times(other: Double) = EJMLMatrix(this.storage.times(other))
-    override fun elementTimes(other: Matrix<Double>) =
-            EJMLMatrix(this.storage.elementMult(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
-    override fun unaryMinus() = EJMLMatrix(this.storage.unaryMinus())
-    override fun minus(other: Double) = EJMLMatrix(this.storage.minus(other))
-    override fun minus(other: Matrix<Double>) =
-            EJMLMatrix(this.storage.minus(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
-    override fun div(other: Int) = EJMLMatrix(this.storage.div(other))
-    override fun div(other: Double) = EJMLMatrix(this.storage.div(other))
-    override fun transpose() = EJMLMatrix(this.storage.transpose())
-    override fun copy() = EJMLMatrix(this.storage.copy())
-    override fun setDouble(i: Int, v: Double): Unit = this.storage.set(i, v)
-    override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
-    override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
-    override fun getDouble(i: Int) = this.storage.get(i)
-    override fun getRow(row: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractRow(this.storage.matrix, row, null)))
-    override fun getCol(col: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
-    override fun plus(other: Matrix<Double>) =
-            EJMLMatrix(this.storage.plus(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
-    override fun plus(other: Double) = EJMLMatrix(this.storage.plus(other))
-    override fun chol(): EJMLMatrix {
+    override fun _numRows() = this.storage.numRows()
+    override fun _numCols() = this.storage.numCols()
+    override fun _times(other: Matrix<Double>) =
+            EJMLMatrix(this.storage.times(castOrCopy(other, ::EJMLMatrix, _getFactory()).storage))
+    override fun _times(other: Double) = EJMLMatrix(this.storage.times(other))
+    override fun _elementTimes(other: Matrix<Double>) =
+            EJMLMatrix(this.storage.elementMult(castOrCopy(other, ::EJMLMatrix, _getFactory()).storage))
+    override fun _unaryMinus() = EJMLMatrix(this.storage.unaryMinus())
+    override fun _minus(other: Double) = EJMLMatrix(this.storage.minus(other))
+    override fun _minus(other: Matrix<Double>) =
+            EJMLMatrix(this.storage.minus(castOrCopy(other, ::EJMLMatrix, _getFactory()).storage))
+    override fun _div(other: Int) = EJMLMatrix(this.storage.div(other))
+    override fun _div(other: Double) = EJMLMatrix(this.storage.div(other))
+    override fun _transpose() = EJMLMatrix(this.storage.transpose())
+    override fun _copy() = EJMLMatrix(this.storage.copy())
+    override fun _setDouble(i: Int, v: Double): Unit = this.storage.set(i, v)
+    override fun _setDouble(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
+    override fun _getDouble(i: Int, j: Int) = this.storage.get(i, j)
+    override fun _getDouble(i: Int) = this.storage.get(i)
+    override fun _getRow(row: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractRow(this.storage.matrix, row, null)))
+    override fun _getCol(col: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
+    override fun _plus(other: Matrix<Double>) =
+            EJMLMatrix(this.storage.plus(castOrCopy(other, ::EJMLMatrix, _getFactory()).storage))
+    override fun _plus(other: Double) = EJMLMatrix(this.storage.plus(other))
+    override fun _chol(): EJMLMatrix {
         val decomp = this.storage.chol()
         // Copy required to prevent decompose implementations distorting the input matrix
         if (decomp.decompose(this.storage.matrix.copy()))
@@ -55,51 +55,51 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
             throw IllegalStateException("chol decomposition failed (is the matrix full rank?)")
     }
 
-    override fun inv() = EJMLMatrix(this.storage.inv())
-    override fun det() = this.storage.determinant()
-    override fun pinv() = EJMLMatrix(this.storage.pseudoInverse())
-    override fun normF() = this.storage.normF()
-    override fun normIndP1() = org.ejml.ops.NormOps.inducedP1(this.storage.matrix)
-    override fun elementSum() = this.storage.elementSum()
-    override fun trace() = this.storage.trace()
-    override fun epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
-    override fun epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
+    override fun _inv() = EJMLMatrix(this.storage.inv())
+    override fun _det() = this.storage.determinant()
+    override fun _pinv() = EJMLMatrix(this.storage.pseudoInverse())
+    override fun _normF() = this.storage.normF()
+    override fun _normIndP1() = org.ejml.ops.NormOps.inducedP1(this.storage.matrix)
+    override fun _elementSum() = this.storage.elementSum()
+    override fun _trace() = this.storage.trace()
+    override fun _epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
+    override fun _epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
 
 
-    override fun setCol(index: Int, col: Matrix<Double>) {
+    override fun _setCol(index: Int, col: Matrix<Double>) {
         for (i in 0..col.numRows() - 1)
             this[i, index] = col[i]
     }
 
-    override fun setRow(index: Int, row: Matrix<Double>) {
+    override fun _setRow(index: Int, row: Matrix<Double>) {
         for (i in 0..row.numCols() - 1)
             this[index, i] = row[i]
     }
 
-    override fun getFactory() = factoryInstance
+    override fun _getFactory() = factoryInstance
 
-    override fun solve(other: Matrix<Double>): EJMLMatrix {
-        val out = this.getFactory().zeros(this.numCols(), 1)
+    override fun _solve(other: Matrix<Double>): EJMLMatrix {
+        val out = this._getFactory().zeros(this.numCols(), 1)
         CommonOps.solve(this.storage.matrix,
-                        castOrCopy(other, ::EJMLMatrix, getFactory()).storage.matrix,
+                        castOrCopy(other, ::EJMLMatrix, _getFactory()).storage.matrix,
                         out.storage.matrix)
         return out
     }
 
-    override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
+    override fun _LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
         val decomp = this.storage.LU()
         return Triple(EJMLMatrix(SimpleMatrix(decomp.getPivot(null))),
                       EJMLMatrix(SimpleMatrix(decomp.getLower(null))),
                       EJMLMatrix(SimpleMatrix(decomp.getUpper(null))))
     }
 
-    override fun QR(): Pair<EJMLMatrix, EJMLMatrix> {
+    override fun _QR(): Pair<EJMLMatrix, EJMLMatrix> {
         val decomp = this.storage.QR()
         return Pair(EJMLMatrix(SimpleMatrix(decomp.getQ(null, false))),
                     EJMLMatrix(SimpleMatrix(decomp.getR(null, false))))
     }
 
-    override fun SVD(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
+    override fun _SVD(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
         val svd = this.storage.svd()
         return Triple(EJMLMatrix(svd.u), EJMLMatrix(svd.w), EJMLMatrix(svd.v))
     }

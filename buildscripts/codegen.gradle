@@ -32,7 +32,7 @@ task codegen {
 def getDiv(dtype) {
     if (dtype != 'Int')
         return """
-    override fun div(other: ${dtype}): Matrix<${dtype}>
+    override fun _div(other: ${dtype}): Matrix<${dtype}>
             = this.mapIndexed { _, _, ele -> ele/other}
 """
     else
@@ -41,7 +41,7 @@ def getDiv(dtype) {
 def getEPow(dtype) {
     if (dtype != 'Int')
         return """
-    override fun epow(other: ${dtype}): Matrix<${dtype}> 
+    override fun _epow(other: ${dtype}): Matrix<${dtype}> 
             = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
 """
     else

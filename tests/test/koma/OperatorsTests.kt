@@ -295,18 +295,6 @@ class OperatorsTests {
         }
     }
 
-    @Test
-    fun testSubclassesFindInner() {
-        val a = object: Matrix<Double> by zeros(2,2){}
-        a[0,0]=5
-        var b = eye(2)*a
-        var expected = mat[5,0 end 0,0]
-        assertMatrixEquals(b, expected)
-        b = eye(2)+a
-        expected = mat[6,0 end 0,1]
-        assertMatrixEquals(b, expected)
-    }
-
     val exception = ExpectedException.none()
 
 }
