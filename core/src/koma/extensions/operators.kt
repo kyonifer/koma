@@ -1,155 +1,177 @@
 package koma.extensions
 
+import koma.abs
 import koma.matrix.Matrix
-import koma.matrix.MatrixFactory
+import koma.polyfill.annotations.JsName
 
 // Algebraic Operators 
 operator fun <T> Matrix<T>.div(other: Int): Matrix<T> = this.div(other)
 operator fun <T> Matrix<T>.div(other: T): Matrix<T> = this.div(other)
+
 operator fun <T> Matrix<T>.times(other: Matrix<T>): Matrix<T> = this.times(other)
 operator fun <T> Matrix<T>.times(other: T): Matrix<T> = this.times(other)
+operator fun Double.times(other: Matrix<Double>) = other.times(this)
+operator fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
+operator fun Matrix<Double>.times(other: Int) = this * other.toDouble()
+
 operator fun <T> Matrix<T>.unaryMinus(): Matrix<T> = this.unaryMinus()
+
 operator fun <T> Matrix<T>.minus(other: T): Matrix<T> = this.minus(other)
 operator fun <T> Matrix<T>.minus(other: Matrix<T>): Matrix<T> = this.minus(other)
+operator fun Double.minus(other: Matrix<Double>) = other * -1 + this
+operator fun Int.minus(other: Matrix<Double>) = other * -1 + this
+operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
+
 operator fun <T> Matrix<T>.plus(other: T): Matrix<T> = this.plus(other)
 operator fun <T> Matrix<T>.plus(other: Matrix<T>): Matrix<T> = this.plus(other)
+operator fun Double.plus(other: Matrix<Double>) = other.plus(this)
+operator fun Int.plus(other: Matrix<Double>) = other.plus(this)
+operator fun Matrix<Double>.plus(value: Int) = this.plus(value.toDouble())
 
-/**
- * Transpose of the matrix
- */
-fun <T> Matrix<T>.transpose(): Matrix<T> = this.transpose()
-/**
- * Element-wise multiplication with another matrix
- */
-fun <T> Matrix<T>.elementTimes(other: Matrix<T>): Matrix<T> = this.elementTimes(other)
 /**
  * Element-wise exponentiation of each element in the matrix
  */
 infix fun <T> Matrix<T>.epow(other: Int): Matrix<T> = this.epow(other)
 
 /**
- * Number of rows in the matrix
+ * Allow infix operator "a emul b" to be element-wise multiplication of two matrices.
  */
-fun <T> Matrix<T>.numRows(): Int = this.numRows()
-/**
- * Number of columns in the matrix
- */
-fun <T> Matrix<T>.numCols(): Int = this.numCols()
-
-/**
- * Returns a copy of this matrix (same values, new memory)
- */
-
-fun <T> Matrix<T>.copy(): Matrix<T> = this.copy()
-
-/**
- * Retrieves the data formatted as doubles in row-major order
- * This method is only for performance over potentially boxing get(Double)
- * methods. This method may or may not return a copy, and thus should be
- * treated as read-only unless backend behavior is known.
- */
-fun <T> Matrix<T>.getDoubleData(): DoubleArray = this.getDoubleData()
-
-fun <T> Matrix<T>.getRow(row: Int): Matrix<T> = this.getRow(row)
-fun <T> Matrix<T>.getCol(col: Int): Matrix<T> = this.getCol(col)
-fun <T> Matrix<T>.setCol(index: Int, col: Matrix<T>) = this.setCol(index, col)
-fun <T> Matrix<T>.setRow(index: Int, row: Matrix<T>) = this.setRow(index, row)
-
-/**
- * (lower triangular) Cholesky decomposition of the matrix. Matrix must be positive-semi definite.
- */
-fun <T> Matrix<T>.chol(): Matrix<T> = this.chol()
-/**
- * LU Decomposition. Returns p, l, u matrices as a triple.
- */
-fun <T> Matrix<T>.LU(): Triple<Matrix<T>, Matrix<T>, Matrix<T>> = this.LU()
-fun <T> Matrix<T>.QR(): Pair<Matrix<T>, Matrix<T>> = this.QR()
-/**
- * Returns U, S, V such that A = U * S * V.T
- */
-fun <T> Matrix<T>.SVD(): Triple<Matrix<T>, Matrix<T>, Matrix<T>> = this.SVD()
-
-// TODO: need schur, eig
+infix fun Matrix<Double>.emul(other: Matrix<Double>) = this.elementTimes(other)
 
 
-// Advanced Functions
-/**
- * Compute the matrix exponential e^x (NOT elementwise)
- */
-fun <T> Matrix<T>.expm(): Matrix<T> = this.expm()
+
+// Getters
 
 /**
- * Solves A*X=B for X, returning X (X is either column vector or a matrix composed of several col vectors).
- * A is the current matrix, B is the passed in [other], and X is the returned matrix.
+ * Get the element in the ith row and jth column.
  */
-fun <T> Matrix<T>.solve(other: Matrix<T>): Matrix<T> = this.solve(other)
-
-// Basic Functions
-/**
- * Matrix inverse (square matrices)
- */
-fun <T> Matrix<T>.inv(): Matrix<T> = this.inv()
-/**
- * Determinant of the matrix
- */
-fun <T> Matrix<T>.det(): T = this.det()
-/**
- * Pseudo-inverse of (non-square) matrix
- */
-fun <T> Matrix<T>.pinv(): Matrix<T> = this.pinv()
-/**
- * Frobenius normal of the matrix
- */
-fun <T> Matrix<T>.normF(): T = this.normF()
+@JsName("get")
+operator fun <T> Matrix<T>.get(i: Int, j: Int): T = getGeneric(i, j)
 
 /**
- * Induced, p=1 normal of the matrix. Equivalent of `norm(matrix,1)` in scipy.
+ * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
  */
-fun <T> Matrix<T>.normIndP1(): T = this.normIndP1()
-/**
- * Sum of all the elements in the matrix.
- */
-fun <T> Matrix<T>.elementSum(): T = this.elementSum()
-fun <T> Matrix<T>.diag(): Matrix<T> = this.diag()
-/**
- * Maximum value contained in the matrix
- */
-fun <T> Matrix<T>.max(): T = this.max()
-/**
- * Mean (average) of all the elements in the matrix.
- */
-fun <T> Matrix<T>.mean(): T = this.mean()
-/**
- * Minimum value contained in the matrix
- */
-fun <T> Matrix<T>.min(): T = this.min()
+@JsName("get1D")
+operator fun <T> Matrix<T>.get(i: Int): T = getGeneric(i)
 
 /**
- * Row major 1D index.
+ * Allow slicing, e.g. ```matrix[1..2, 3..4]```. Note that the range 1..2 is inclusive, so
+ * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+ *
+ * @param rows the set of rows to select
+ * @param cols the set of columns to select
+ *
+ * @return a new matrix containing the submatrix.
  */
-fun <T> Matrix<T>.argMax(): Int = this.argMax()
+@JsName("getRanges")
+operator fun <T> Matrix<T>.get(rows: IntRange, cols: IntRange): Matrix<T>
+{
+    val wrows = wrapRange(rows, numRows())
+    val wcols = wrapRange(cols, numCols())
+
+    val out = this.getFactory().zeros(wrows.endInclusive - wrows.start + 1,
+            wcols.endInclusive - wcols.start + 1)
+    for (row in wrows)
+        for (col in wcols)
+            out[row - wrows.start, col - wcols.start] = this[row, col]
+    return out
+}
 
 /**
- * Row major 1D index.
+ * Allows for slicing of the rows and selection of a single column
  */
-fun <T> Matrix<T>.argMin(): Int = this.argMin()
+@JsName("getRowRange")
+operator fun <T> Matrix<T>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
 
 /**
- * The matrix trace.
+ * Allows for slicing of the cols and selection of a single row
  */
-fun <T> Matrix<T>.trace(): T = this.trace()
+@JsName("getColRange")
+operator fun <T> Matrix<T>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
+
+operator fun Matrix<Double>.get(i: Int) = this.getDouble(i)
+operator fun Matrix<Double>.get(i: Int, j: Int) = this.getDouble(i, j)
+
+
+
+
+// Setters
 
 /**
- * Returns the underlying matrix object from the back-end this Matrix is wrapping. This should be used
- * sparingly (as it breaks encapsulation), but it can increase performance by using computation specifically
- * designed for a particular back-end. Code using this method should not rely on a particular back-end, and
- * should always fallback to slow generic code if an unrecognized matrix is returned here (e.g. use [get] and [set])
- * to access the elements generically).
+ * Set the ith element in the matrix. If 2D, selects elements in row-major order.
  */
-fun <T> Matrix<T>.getBaseMatrix(): Any = this.getBaseMatrix()
-
+@JsName("set1D")
+operator fun <T> Matrix<T>.set(i: Int, v: T) = setGeneric(i, v)
+@JsName("set")
+operator fun <T> Matrix<T>.set(i: Int, j: Int, v: T) = setGeneric(i, j, v)
 
 /**
- *  Because sometimes all you have is a Matrix, but you really want a MatrixFactory.
+ * Allow assignment to a slice, e.g. ```matrix[1..2, 3..4]```=something. Note that the range 1..2 is inclusive, so
+ * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+ *
+ * @param rows the set of rows to select
+ * @param cols the set of columns to select
+ * @param value the matrix to set the subslice to
+ *
  */
-fun <T> Matrix<T>.getFactory(): MatrixFactory<Matrix<T>> = this.getFactory()
+@JsName("setRanges")
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: Matrix<T>)
+{
+    val wrows = wrapRange(rows, numRows())
+    val wcols = wrapRange(cols, numCols())
+
+    for (i in wrows)
+        for (j in wcols)
+            this[i, j] = value[i - wrows.start, j - wcols.start]
+}
+@JsName("setRangesScalar")
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: T)
+{
+    val wrows = wrapRange(rows, numRows())
+    val wcols = wrapRange(cols, numCols())
+
+    for (i in wrows)
+        for (j in wcols)
+            this[i, j] = value
+}
+/**
+ * Allow assignment to a slice, e.g. ```matrix[2, 3..4]```=something. Note that the range 3..4 is inclusive, so
+ * it will retrieve col 3 and 4. Use 1.until(2) for a non-inclusive range.
+ *
+ * @param rows the row to select
+ * @param cols the set of columns to select
+ * @param value the matrix to set the subslice to
+ *
+ */
+@JsName("setColRange")
+operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: Matrix<T>)
+{
+    this[rows..rows, cols] = value
+}
+@JsName("setColRangeScalar")
+operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: T)
+{
+    this[rows..rows, cols] = value
+}
+/**
+ * Allow assignment to a slice, e.g. ```matrix[1..2, 3]```=something. Note that the range 1..2 is inclusive, so
+ * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
+ *
+ * @param rows the set of rows to select
+ * @param cols the column to select
+ * @param value the matrix to set the subslice to
+ *
+ */
+@JsName("setRowRange")
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: Matrix<T>) {
+    this[rows, cols..cols] = value
+}
+@JsName("setRowRangeScalar")
+operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: T) {
+    this[rows, cols..cols] = value
+}
+operator fun Matrix<Double>.set(i: Int, v: Int) = this.setDouble(i, v.toDouble())
+operator fun Matrix<Double>.set(i: Int, v: Double) = this.setDouble(i, v)
+operator fun Matrix<Double>.set(i: Int, j: Int, v: Int) = this.setDouble(i, j, v.toDouble())
+operator fun Matrix<Double>.set(i: Int, j: Int, v: Double) = this.setDouble(i, j, v)
+
