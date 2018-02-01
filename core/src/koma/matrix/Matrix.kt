@@ -256,6 +256,28 @@ interface Matrix<T> {
                 range.start..(max+range.endInclusive)
 
     /**
+     * Passes each row from top to bottom into a function.
+     *
+     * @param f A function that takes in a row (i.e. 1xN matrix)
+     */
+    @JsName("forEachRow")
+    fun forEachRow(f: (Matrix<T>) -> Unit) {
+        for (row in 0..this.numRows() - 1)
+            f(this.getRow(row))
+    }
+
+    /**
+     * Passes each col from left to right into a function.
+     *
+     * @param f A function that takes in a row (i.e. 1xN matrix)
+     */
+    @JsName("forEachCol")
+    fun forEachCol(f: (Matrix<T>) -> Unit) {
+        for (col in 0..this.numCols() - 1)
+            f(this.getCol(col))
+    }
+
+    /**
      * Select a set of cols from a matrix to form the cols of a new matrix.
      * For example, if you wanted a new matrix consisting of the first, second, and
      * fifth cols of an input matrix, you would write ```input.selectCols(0,1,4)```.
@@ -310,6 +332,32 @@ interface Matrix<T> {
     }
 
 
+    /**
+     * Takes each row in a matrix, passes them through f, and puts the output of f into a
+     * row of an output matrix.
+     *
+     * @param f A function that takes in a 1xN row and returns a 1xM row. Note that all output
+     * rows must be the same length. In addition, the input and output element types must be the same.
+     *
+     * @return the new matrix after each row is mapped through f
+     */
+    @JsName("mapRows")
+    fun mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
+
+        val outRows = Array(this.numRows()) {
+            f(this.getRow(it))
+        }
+
+        val out = this.getFactory().zeros(this.numRows(), outRows[0].numCols())
+
+        outRows.forEachIndexed { i, matrix ->
+            if (matrix.numCols() != out.numCols())
+                throw RuntimeException("All output rows of mapRows must have same number of columns")
+            else
+                out.setRow(i, outRows[i])
+        }
+        return out
+    }
 
     /**
      * Takes each row in a matrix, passes them through f, and puts the outputs into a List.

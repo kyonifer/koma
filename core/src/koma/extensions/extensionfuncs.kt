@@ -4,60 +4,6 @@ import koma.abs
 import koma.matrix.Matrix
 import koma.polyfill.annotations.*
 
-
-/**
- * Allow operator overloading with non-Double scalars
- */
-operator fun Matrix<Double>.plus(value: Int) = this.plus(value.toDouble())
-
-/**
- * Allow operator overloading with non-Double scalars
- */
-operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
-
-/**
- * Allow infix operator "a emul b" to be element-wise multiplication of two matrices.
- */
-infix fun Matrix<Double>.emul(other: Matrix<Double>) = this.elementTimes(other)
-
-
-/**
- * Add a scalar to a matrix
- */
-operator fun Double.plus(other: Matrix<Double>) = other.plus(this)
-
-/**
- * Add a scalar to a matrix
- */
-operator fun Int.plus(other: Matrix<Double>) = other.plus(this)
-
-/**
- * Subtract a matrix from a scala
- */
-operator fun Double.minus(other: Matrix<Double>) = other * -1 + this
-
-/**
- * Subtract a matrix from a scala
- */
-operator fun Int.minus(other: Matrix<Double>) = other * -1 + this
-
-/**
- * Multiply a scalar by a matrix
- */
-operator fun Double.times(other: Matrix<Double>) = other.times(this)
-
-/**
- * Multiply a scalar by a matrix
- */
-operator fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
-
-/**
- * Multiply a scalar by a matrix
- */
-operator fun Matrix<Double>.times(other: Int) = this * other.toDouble()
-
-
-
 /**
  * Checks to see if any element in the matrix causes f to return true.
  *
@@ -66,7 +12,16 @@ operator fun Matrix<Double>.times(other: Int) = this * other.toDouble()
  * @return Whether or not any element, when passed into f, causes f to return true.
  */
 @JsName("any")
-fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
+inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
+    for (row in 0..this.numRows() - 1)
+        for (col in 0..this.numCols() - 1)
+            if (f(this[row, col]))
+                return true
+    return false
+}
+@JsName("anyDouble")
+@JvmName("anyDouble")
+inline fun Matrix<Double>.any(f: (Double) -> Boolean): Boolean {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             if (f(this[row, col]))
@@ -82,7 +37,16 @@ fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
  * @return Returns true only if f is true for all elements of the input matrix
  */
 @JsName("allExt")
-fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
+inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
+    for (row in 0..this.numRows() - 1)
+        for (col in 0..this.numCols() - 1)
+            if (!f(this[row, col]))
+                return false
+    return true
+}
+@JsName("all")
+@JvmName("allDouble")
+inline fun Matrix<Double>.all(f: (Double) -> Boolean): Boolean {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             if (!f(this[row, col]))
@@ -90,14 +54,13 @@ fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
     return true
 }
 
-
 /**
  * Fills the matrix with the values returned by the input function.
  *
  * @param f A function which takes row,col and returns the value to fill. Note that
  * the return type must be the matrix primitive type (e.g. Double).
  */
-fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
+inline fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             this[row, col] = f(row, col)
@@ -105,7 +68,7 @@ fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
 }
 @JsName("fillDouble")
 @JvmName("fillDouble")
-fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double> {
+inline fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double> {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             this[row, col] = f(row, col)
@@ -150,27 +113,6 @@ inline fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) ->
         for (col in 0..this.numCols() - 1)
             f(row, col, this[row, col])
 }
-/**
- * Passes each row from top to bottom into a function.
- *
- * @param f A function that takes in a row (i.e. 1xN matrix)
- */
-@JsName("forEachRow")
-inline fun <T> Matrix<T>.forEachRow(f: (Matrix<T>) -> Unit) {
-    for (row in 0..this.numRows() - 1)
-        f(this.getRow(row))
-}
-
-/**
- * Passes each col from left to right into a function.
- *
- * @param f A function that takes in a row (i.e. 1xN matrix)
- */
-@JsName("forEachCol")
-inline fun <T> Matrix<T>.forEachCol(f: (Matrix<T>) -> Unit) {
-    for (col in 0..this.numCols() - 1)
-        f(this.getCol(col))
-}
 
 
 // TODO: These need specialized versions for performance
@@ -183,7 +125,7 @@ inline fun <T> Matrix<T>.forEachCol(f: (Matrix<T>) -> Unit) {
  * @return the new matrix after each element is mapped through f
  */
 @JsName("map")
-fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
+inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -192,7 +134,7 @@ fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
 }
 @JsName("mapDouble")
 @JvmName("mapDouble")
-fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
+inline fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -210,7 +152,7 @@ fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
  * @return the new matrix after each element is mapped through f
  */
 @JsName("mapIndexed")
-fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
+inline fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -219,7 +161,7 @@ fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
 }
 @JsName("mapIndexedDouble")
 @JvmName("mapIndexedDouble")
-fun Matrix<Double>.mapIndexed(f: (row: Int, col: Int, ele: Double) -> Double): Matrix<Double> {
+inline fun Matrix<Double>.mapIndexed(f: (row: Int, col: Int, ele: Double) -> Double): Matrix<Double> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -227,45 +169,22 @@ fun Matrix<Double>.mapIndexed(f: (row: Int, col: Int, ele: Double) -> Double): M
     return out
 }
 
-/**
- * Takes each row in a matrix, passes them through f, and puts the output of f into a
- * row of an output matrix.
- *
- * @param f A function that takes in a 1xN row and returns a 1xM row. Note that all output
- * rows must be the same length. In addition, the input and output element types must be the same.
- *
- * @return the new matrix after each row is mapped through f
- */
-@JsName("mapRows")
-fun <T> Matrix<T>.mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
-    val outRows = Array(this.numRows()) {
-        f(this.getRow(it))
+fun Matrix<Double>.allClose(other: Matrix<Double>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {
+    if(other.numRows() != numRows() || other.numCols() != numCols())
+        return false
+    for(row in 0 until this.numRows()) {
+        for (col in 0 until this.numCols()) {
+            val err = abs(this[row, col] - other[row, col])
+            if (err > atol + rtol * abs(this[row, col]))
+                return false
+        }
     }
-
-    val out = this.getFactory().zeros(this.numRows(), outRows[0].numCols())
-
-    outRows.forEachIndexed { i, matrix ->
-        if (matrix.numCols() != out.numCols())
-            throw RuntimeException("All output rows of mapRows must have same number of columns")
-        else
-            out.setRow(i, outRows[i])
-    }
-    return out
+    return true
 }
 
+// Getters
 
-
-
-
-
-/**
- * Set the ith element in the matrix. If 2D, selects elements in row-major order.
- */
-@JsName("set1D")
-operator fun <T> Matrix<T>.set(i: Int, v: T) = setGeneric(i, v)
-@JsName("set")
-operator fun <T> Matrix<T>.set(i: Int, j: Int, v: T) = setGeneric(i, j, v)
 @JsName("get")
 operator fun <T> Matrix<T>.get(i: Int, j: Int): T = getGeneric(i, j)
 /**
@@ -296,7 +215,32 @@ operator fun <T> Matrix<T>.get(rows: IntRange, cols: IntRange): Matrix<T>
             out[row - wrows.start, col - wcols.start] = this[row, col]
     return out
 }
+/**
+ * Allows for slicing of the rows and selection of a single column
+ */
+@JsName("getRowRange")
+operator fun <T> Matrix<T>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
 
+/**
+ * Allows for slicing of the cols and selection of a single row
+ */
+@JsName("getColRange")
+operator fun <T> Matrix<T>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
+
+
+operator fun Matrix<Double>.get(i: Int) = this.getDouble(i)
+operator fun Matrix<Double>.get(i: Int, j: Int) = this.getDouble(i, j)
+
+
+// Setters
+
+/**
+ * Set the ith element in the matrix. If 2D, selects elements in row-major order.
+ */
+@JsName("set1D")
+operator fun <T> Matrix<T>.set(i: Int, v: T) = setGeneric(i, v)
+@JsName("set")
+operator fun <T> Matrix<T>.set(i: Int, j: Int, v: T) = setGeneric(i, j, v)
 /**
  * Allow assignment to a slice, e.g. ```matrix[1..2, 3..4]```=something. Note that the range 1..2 is inclusive, so
  * it will retrieve row 1 and 2. Use 1.until(2) for a non-inclusive range.
@@ -362,36 +306,60 @@ operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: Matrix<T>) {
 operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: T) {
     this[rows, cols..cols] = value
 }
-/**
- * Allows for slicing of the rows and selection of a single column
- */
-@JsName("getRowRange")
-operator fun <T> Matrix<T>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
-
-/**
- * Allows for slicing of the cols and selection of a single row
- */
-@JsName("getColRange")
-operator fun <T> Matrix<T>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
-
-
-// Efficient unboxed access to get/set if element type is known to be Double
 operator fun Matrix<Double>.set(i: Int, v: Double) = this.setDouble(i, v)
 operator fun Matrix<Double>.set(i: Int, j: Int, v: Double) = this.setDouble(i, j, v)
-operator fun Matrix<Double>.get(i: Int) = this.getDouble(i)
-operator fun Matrix<Double>.get(i: Int, j: Int) = this.getDouble(i, j)
 operator fun Matrix<Double>.set(i: Int, v: Int) = this.setDouble(i, v.toDouble())
 operator fun Matrix<Double>.set(i: Int, j: Int, v: Int) = this.setDouble(i, j, v.toDouble())
 
-fun Matrix<Double>.allClose(other: Matrix<Double>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {
-    if(other.numRows() != numRows() || other.numCols() != numCols())
-        return false
-    for(row in 0 until this.numRows()) {
-        for (col in 0 until this.numCols()) {
-            val err = abs(this[row, col] - other[row, col])
-            if (err > atol + rtol * abs(this[row, col]))
-                return false
-        }
-    }
-    return true
-}
+// Other operators
+
+/**
+ * Allow operator overloading with non-Double scalars
+ */
+operator fun Matrix<Double>.plus(value: Int) = this.plus(value.toDouble())
+
+/**
+ * Allow operator overloading with non-Double scalars
+ */
+operator fun Matrix<Double>.minus(value: Int) = this.minus(value.toDouble())
+
+/**
+ * Allow infix operator "a emul b" to be element-wise multiplication of two matrices.
+ */
+infix fun Matrix<Double>.emul(other: Matrix<Double>) = this.elementTimes(other)
+
+
+/**
+ * Add a scalar to a matrix
+ */
+operator fun Double.plus(other: Matrix<Double>) = other.plus(this)
+
+/**
+ * Add a scalar to a matrix
+ */
+operator fun Int.plus(other: Matrix<Double>) = other.plus(this)
+
+/**
+ * Subtract a matrix from a scala
+ */
+operator fun Double.minus(other: Matrix<Double>) = other * -1 + this
+
+/**
+ * Subtract a matrix from a scala
+ */
+operator fun Int.minus(other: Matrix<Double>) = other * -1 + this
+
+/**
+ * Multiply a scalar by a matrix
+ */
+operator fun Double.times(other: Matrix<Double>) = other.times(this)
+
+/**
+ * Multiply a scalar by a matrix
+ */
+operator fun Int.times(other: Matrix<Double>) = other.times(this.toDouble())
+
+/**
+ * Multiply a scalar by a matrix
+ */
+operator fun Matrix<Double>.times(other: Int) = this * other.toDouble()
