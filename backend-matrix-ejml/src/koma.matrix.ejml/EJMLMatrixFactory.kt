@@ -9,9 +9,6 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
 
     override fun zeros(rows: Int, cols: Int) = EJMLMatrix(koma.matrix.ejml.backend.zeros(rows, cols))
 
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
-    override fun zeros(size: Int) = zeros(size, size)
-
     override fun create(data: IntRange): EJMLMatrix {
         val dataArray = fromCollection(data.map { it.toDouble() })
         return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
@@ -27,11 +24,6 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
 
     override fun ones(rows: Int, cols: Int): EJMLMatrix {
         return EJMLMatrix(koma.matrix.ejml.backend.ones(rows, cols))
-    }
-
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
-    override fun ones(size: Int): EJMLMatrix {
-        return ones(size, size)
     }
 
     override fun eye(size: Int): EJMLMatrix {

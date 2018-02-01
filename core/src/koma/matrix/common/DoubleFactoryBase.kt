@@ -45,18 +45,4 @@ abstract class DoubleFactoryBase<T: Matrix<Double>> : MatrixFactory<T> {
             koma.platformsupport.rng.nextGaussian()
         }
     }
-
-
-    @Deprecated("Call koma.setSeed and rand(row,col) separately")
-    override fun rand(rows: Int, cols: Int, seed: Long): T {
-        koma.platformsupport.seed = seed
-        return rand(rows, cols)
-    }
-
-
-    @Deprecated("Call koma.setSeed and randn(row,col) separately")
-    override fun randn(rows: Int, cols: Int, seed: Long): T {
-        koma.platformsupport.seed = seed
-        return randn(rows, cols)
-    }
 }

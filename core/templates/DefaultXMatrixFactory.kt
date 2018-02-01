@@ -7,9 +7,6 @@ import koma.extensions.*
 class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     override fun zeros(rows: Int, cols: Int) 
             = Default${dtype}Matrix(rows, cols)
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("zeros(size, size)"))
-    override fun zeros(size: Int): Matrix<${dtype}>
-            = zeros(size, size)
 
     override fun create(data: IntRange): Matrix<${dtype}> {
         val input = data.map { it.to${dtype}() }
@@ -33,9 +30,6 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
         return out
     }
 
-    @Deprecated(DEPRECATE_IMPLICIT_2D, ReplaceWith("ones(size, size)"))
-    override fun ones(size: Int): Matrix<${dtype}> 
-            = ones(size,size)
     override fun ones(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols).fill {_,_-> 1.to${dtype}()}
 
@@ -50,25 +44,11 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
             = zeros(rows, cols)
             .fill { _, _ -> koma.platformsupport.rng.nextDouble().to${dtype}()}
     
-    override fun rand(rows: Int, cols: Int, seed: Long): Matrix<${dtype}> {
-        if(koma.platformsupport.seed != seed) {
-            koma.platformsupport.seed = seed
-        }
-        return rand(rows, cols)
-    }
-
 
     override fun randn(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
             .fill { _, _ -> koma.platformsupport.rng.nextGaussian().to${dtype}()}
     
-    
-    override fun randn(rows: Int, cols: Int, seed: Long): Matrix<${dtype}> {
-        if(koma.platformsupport.seed != seed) {
-            koma.platformsupport.seed = seed
-        }
-        return randn(rows, cols)
-    }
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<${dtype}> {
         TODO("not implemented") 
