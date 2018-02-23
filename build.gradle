@@ -103,6 +103,9 @@ project(":matrix-js") {
         mavenCentral()
     }
 
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma-core.js"
+    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+    
     dependencies {
 
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
