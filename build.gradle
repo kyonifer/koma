@@ -34,7 +34,8 @@ project(":matrix-ejml") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
-
+    // TODO: Use multiplatform test support
+    sourceSets.test.kotlin.srcDirs = ['../tests']
 
     repositories {
         mavenCentral()
@@ -54,6 +55,7 @@ project(":matrix-jblas") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
+    sourceSets.test.kotlin.srcDirs = ['../tests']
 
 
     repositories {
@@ -75,6 +77,7 @@ project(":matrix-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
+    sourceSets.test.kotlin.srcDirs = ['../tests']
 
     repositories {
         mavenCentral()

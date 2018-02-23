@@ -2,9 +2,6 @@ package koma
 
 import koma.extensions.*
 import koma.matrix.Matrix
-import koma.matrix.ejml.EJMLMatrixFactory
-import koma.matrix.jblas.JBlasMatrixFactory
-import koma.matrix.mtj.MTJMatrixFactory
 import koma.util.test.*
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -170,27 +167,6 @@ class OperatorsTests {
             assertMatrixEquals(out, a * a)
         }
 
-    }
-
-    @Test
-    fun testMultiplicationMultiBackend() {
-        val a = MTJMatrixFactory().eye(3)*2
-        val b = EJMLMatrixFactory().eye(3)*3
-        val c = JBlasMatrixFactory().eye(3)*4
-
-        assertMatrixEquals(expected=eye(3)*6, actual=a*b)
-        assertMatrixEquals(expected=eye(3)*8, actual=a*c)
-        assertMatrixEquals(expected=eye(3)*12, actual=b*c)
-
-        assertMatrixEquals(expected=eye(3)*5, actual=a+b)
-        assertMatrixEquals(expected=eye(3)*6, actual=a+c)
-        assertMatrixEquals(expected=eye(3)*7, actual=b+c)
-
-        val d = MTJMatrixFactory().zeros(1,3).fill { _, col -> (col+1)*2.0 }
-        val e = EJMLMatrixFactory().zeros(3,1).fill { row, _ -> (row+1)*-3.0 }
-
-        assertMatrixEquals(expected=mat[2*-3 + 4*-6 + 6*-9], actual=d*e)
-        assertMatrixEquals(expected=mat[2*-3, 4*-6, 6*-9], actual=d.elementTimes(e.T))
     }
 
     @Test

@@ -1,9 +1,6 @@
 package koma
 
 import koma.extensions.*
-import koma.matrix.ejml.EJMLMatrixFactory
-import koma.matrix.jblas.JBlasMatrixFactory
-import koma.matrix.mtj.MTJMatrixFactory
 import koma.util.test.*
 import org.junit.Test
 
@@ -284,27 +281,5 @@ class MatrixFuncsTests {
             assert(a!=mat[1])
             assert(a!=5.toBigDecimal())
         }
-
-        koma.factory = EJMLMatrixFactory()
-        val a = mat[1, 2 end
-                3, 4]
-        koma.factory = MTJMatrixFactory()
-        val b = mat[-1, -2 end
-                -3, -4]
-        koma.factory = JBlasMatrixFactory()
-        val c = mat[1, 2 end
-                3, 4]
-
-        assert(a.equals(a))
-        assert(a==a)
-        assert(!a.equals(b))
-        assert(a!=b)
-        assert(a.equals(c))
-        assert(a==c)
-        assert(!a.equals(eye(4)))
-        assert(a!=eye(4))
-        assert(!a.equals(mat[1]))
-        assert(a!=mat[1])
-        assert(a!=5.toBigDecimal())
     }
 }
