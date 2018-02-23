@@ -160,3 +160,54 @@ project(":matrix-cblas") {
         expectedBy project(":matrix-common")
     }
 }
+
+task codegen {
+    doLast {
+        ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
+            copy {
+                from 'matrix-common/templates'
+                into 'matrix-common/srcgen/koma.matrix.default'
+                include 'DefaultXMatrix.kt'
+                rename { "Default${dtype}Matrix.kt" }
+
+                expand(div: getDiv(dtype),
+                        epow: getEPow(dtype),
+                        dtype: dtype)
+            }
+            copy {
+                from 'matrix-common/templates'
+                into 'matrix-common/srcgen/koma.matrix.default'
+                include 'DefaultXMatrixFactory.kt'
+                rename { "Default${dtype}MatrixFactory.kt" }
+                expand(dtype: dtype)
+            }
+            copy {
+                from 'matrix-common/templates'
+                into 'matrix-common/srcgen/koma.ndarray.default'
+                include 'DefaultXNDArray.kt'
+                rename { "Default${dtype}NDArray.kt"}
+                expand(dtype: dtype)
+            }
+        }
+    }
+
+}
+def getDiv(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun div(other: ${dtype}): Matrix<${dtype}>
+            = this.mapIndexed { _, _, ele -> ele/other}
+"""
+    else
+        return ""
+}
+def getEPow(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun epow(other: ${dtype}): Matrix<${dtype}> 
+            = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+"""
+    else
+        return ""
+
+}

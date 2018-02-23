@@ -1,7 +1,6 @@
 package koma.ndarray.default
 
 import koma.ndarray.*
-import koma.platformsupport.*
 
 class Default${dtype}NDArray(vararg shape: Int, init: (IntArray)->${dtype})
     : DefaultNDArray<${dtype}>(*shape, init=init), NumericalNDArray<${dtype}> {
