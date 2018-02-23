@@ -12,6 +12,8 @@ buildscript {
 
 apply from: "buildscripts/codegen.gradle"
 
+// TODO: Add in common module
+
 project(':core') {
     apply plugin: 'kotlin2js'
 

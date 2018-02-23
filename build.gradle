@@ -1,13 +1,18 @@
 buildscript {
     ext.kotlin_version = '1.2.20'
+    ext.kotlin_native_version = '0.6'
 
     repositories {
         mavenCentral()
+        maven { url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
     }
 }
+
+// TODO: Deal with codegen, and that intellij wont allow `common` to be imported in three projs
 
 project(':matrix-common') {
     apply plugin: 'kotlin-platform-common'
@@ -105,5 +110,50 @@ project(":matrix-js") {
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    }
+}
+
+project(":matrix-cblas") {
+    apply plugin: 'konan'
+
+    konanArtifacts {
+        interop('cblas') {
+            // TODO: `headers` here, but search the include path for a blas header,
+            // removing the hardcoded one in the defFile
+            defFile('cblas.def')
+        }
+        interop('lapacke') {
+            defFile('lapacke.def')
+        }
+        dynamic('libkoma') {
+            enableMultiplatform true
+            srcFiles fileTree('src')
+            linkerOpts "-S"
+            enableOptimizations(true)
+            libraries {
+                artifact 'cblas'
+                artifact 'lapacke'
+            }
+        }
+        library('koma') {
+            enableMultiplatform true
+            srcFiles fileTree('src')
+            linkerOpts "-S"
+            enableOptimizations(true)
+            libraries {
+                artifact 'cblas'
+                artifact 'lapacke'
+            }
+        }
+        program('komaExample') {
+
+            libraries {
+                artifact 'koma'
+                srcFiles '../examples/native/main.kt'
+            }
+        }
+    }
+    dependencies {
+        expectedBy project(":matrix-common")
     }
 }
