@@ -4,8 +4,8 @@
  * Otherwise, another defaults_* may be used (see build.gradle for details).
  */
 
-@file:JvmName("Options")
-@file:JvmMultifileClass
+@file:KomaJvmName("Options")
+@file:KomaJvmMultifileClass
 
 package koma
 

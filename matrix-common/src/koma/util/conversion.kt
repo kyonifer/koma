@@ -1,7 +1,7 @@
 /**
  * Some helper conversion functions
  */
-@file:JvmName("UtilConversions")
+@file:KomaJvmName("UtilConversions")
 
 package koma.util
 

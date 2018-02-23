@@ -10,7 +10,7 @@ import koma.matrix.Matrix
  *
  * @return Whether or not any element, when passed into f, causes f to return true.
  */
-@JsName("any")
+@KomaJsName("any")
 inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -18,8 +18,8 @@ inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
                 return true
     return false
 }
-@JsName("anyDouble")
-@JvmName("anyDouble")
+@KomaJsName("anyDouble")
+@KomaJvmName("anyDouble")
 inline fun Matrix<Double>.any(f: (Double) -> Boolean): Boolean {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -35,7 +35,7 @@ inline fun Matrix<Double>.any(f: (Double) -> Boolean): Boolean {
  *
  * @return Returns true only if f is true for all elements of the input matrix
  */
-@JsName("allExt")
+@KomaJsName("allExt")
 inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -43,8 +43,8 @@ inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
                 return false
     return true
 }
-@JsName("all")
-@JvmName("allDouble")
+@KomaJsName("all")
+@KomaJvmName("allDouble")
 inline fun Matrix<Double>.all(f: (Double) -> Boolean): Boolean {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -65,8 +65,8 @@ inline fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
             this[row, col] = f(row, col)
     return this
 }
-@JsName("fillDouble")
-@JvmName("fillDouble")
+@KomaJsName("fillDouble")
+@KomaJvmName("fillDouble")
 inline fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double> {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -80,14 +80,14 @@ inline fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double
  * @param f A function that takes in an element
  *
  */
-@JsName("forEach")
+@KomaJsName("forEach")
 inline fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             f(this[row, col])
 }
-@JsName("forEachDouble")
-@JvmName("forEachDouble")
+@KomaJsName("forEachDouble")
+@KomaJvmName("forEachDouble")
 inline fun Matrix<Double>.forEach(f: (Double) -> Unit) {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -99,14 +99,14 @@ inline fun Matrix<Double>.forEach(f: (Double) -> Unit) {
  *
  * @param f A function that takes in a row,col position and an element value
  */
-@JsName("forEachIndexed")
+@KomaJsName("forEachIndexed")
 inline fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
             f(row, col, this[row, col])
 }
-@JsName("forEachIndexedDouble")
-@JvmName("forEachIndexedDouble")
+@KomaJsName("forEachIndexedDouble")
+@KomaJvmName("forEachIndexedDouble")
 inline fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) -> Unit) {
     for (row in 0..this.numRows() - 1)
         for (col in 0..this.numCols() - 1)
@@ -123,7 +123,7 @@ inline fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) ->
  *
  * @return the new matrix after each element is mapped through f
  */
-@JsName("map")
+@KomaJsName("map")
 inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
@@ -131,8 +131,8 @@ inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
             out[row, col] = f(this[row, col])
     return out
 }
-@JsName("mapDouble")
-@JvmName("mapDouble")
+@KomaJsName("mapDouble")
+@KomaJvmName("mapDouble")
 inline fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
@@ -150,7 +150,7 @@ inline fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
  *
  * @return the new matrix after each element is mapped through f
  */
-@JsName("mapIndexed")
+@KomaJsName("mapIndexed")
 inline fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
@@ -158,8 +158,8 @@ inline fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matri
             out[row, col] = f(row, col, this[row, col])
     return out
 }
-@JsName("mapIndexedDouble")
-@JvmName("mapIndexedDouble")
+@KomaJsName("mapIndexedDouble")
+@KomaJvmName("mapIndexedDouble")
 inline fun Matrix<Double>.mapIndexed(f: (row: Int, col: Int, ele: Double) -> Double): Matrix<Double> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0..this.numRows() - 1)
@@ -184,12 +184,12 @@ fun Matrix<Double>.allClose(other: Matrix<Double>, rtol:Double=1e-05, atol:Doubl
 
 // Getters
 
-@JsName("get")
+@KomaJsName("get")
 operator fun <T> Matrix<T>.get(i: Int, j: Int): T = getGeneric(i, j)
 /**
  * Gets the ith element in the matrix. If 2D, selects elements in row-major order.
  */
-@JsName("get1D")
+@KomaJsName("get1D")
 operator fun <T> Matrix<T>.get(i: Int): T = getGeneric(i)
 
 /**
@@ -201,7 +201,7 @@ operator fun <T> Matrix<T>.get(i: Int): T = getGeneric(i)
  *
  * @return a new matrix containing the submatrix.
  */
-@JsName("getRanges")
+@KomaJsName("getRanges")
 operator fun <T> Matrix<T>.get(rows: IntRange, cols: IntRange): Matrix<T>
 {
     val wrows = wrapRange(rows, numRows())
@@ -217,13 +217,13 @@ operator fun <T> Matrix<T>.get(rows: IntRange, cols: IntRange): Matrix<T>
 /**
  * Allows for slicing of the rows and selection of a single column
  */
-@JsName("getRowRange")
+@KomaJsName("getRowRange")
 operator fun <T> Matrix<T>.get(rows: IntRange, cols: Int) = this[rows, cols..cols]
 
 /**
  * Allows for slicing of the cols and selection of a single row
  */
-@JsName("getColRange")
+@KomaJsName("getColRange")
 operator fun <T> Matrix<T>.get(rows: Int, cols: IntRange) = this[rows..rows, cols]
 
 
@@ -236,9 +236,9 @@ operator fun Matrix<Double>.get(i: Int, j: Int) = this.getDouble(i, j)
 /**
  * Set the ith element in the matrix. If 2D, selects elements in row-major order.
  */
-@JsName("set1D")
+@KomaJsName("set1D")
 operator fun <T> Matrix<T>.set(i: Int, v: T) = setGeneric(i, v)
-@JsName("set")
+@KomaJsName("set")
 operator fun <T> Matrix<T>.set(i: Int, j: Int, v: T) = setGeneric(i, j, v)
 /**
  * Allow assignment to a slice, e.g. ```matrix[1..2, 3..4]```=something. Note that the range 1..2 is inclusive, so
@@ -249,7 +249,7 @@ operator fun <T> Matrix<T>.set(i: Int, j: Int, v: T) = setGeneric(i, j, v)
  * @param value the matrix to set the subslice to
  *
  */
-@JsName("setRanges")
+@KomaJsName("setRanges")
 operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: Matrix<T>)
 {
     val wrows = wrapRange(rows, numRows())
@@ -259,7 +259,7 @@ operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: Matrix<T>)
         for (j in wcols)
             this[i, j] = value[i - wrows.start, j - wcols.start]
 }
-@JsName("setRangesScalar")
+@KomaJsName("setRangesScalar")
 operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: T)
 {
     val wrows = wrapRange(rows, numRows())
@@ -278,12 +278,12 @@ operator fun <T> Matrix<T>.set(rows: IntRange, cols: IntRange, value: T)
  * @param value the matrix to set the subslice to
  *
  */
-@JsName("setColRange")
+@KomaJsName("setColRange")
 operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: Matrix<T>)
 {
     this[rows..rows, cols] = value
 }
-@JsName("setColRangeScalar")
+@KomaJsName("setColRangeScalar")
 operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: T)
 {
     this[rows..rows, cols] = value
@@ -297,11 +297,11 @@ operator fun <T> Matrix<T>.set(rows: Int, cols: IntRange, value: T)
  * @param value the matrix to set the subslice to
  *
  */
-@JsName("setRowRange")
+@KomaJsName("setRowRange")
 operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: Matrix<T>) {
     this[rows, cols..cols] = value
 }
-@JsName("setRowRangeScalar")
+@KomaJsName("setRowRangeScalar")
 operator fun <T> Matrix<T>.set(rows: IntRange, cols: Int, value: T) {
     this[rows, cols..cols] = value
 }

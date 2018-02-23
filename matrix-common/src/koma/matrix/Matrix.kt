@@ -11,22 +11,22 @@ import koma.extensions.*
  */
 interface Matrix<T> {
     // Algebraic Operators
-    @JsName("divInt")
+    @KomaJsName("divInt")
     operator fun div(other: Int): Matrix<T>
-    @JsName("divScalar")
+    @KomaJsName("divScalar")
     operator fun div(other: T): Matrix<T>
-    @JsName("times")
+    @KomaJsName("times")
     operator fun times(other: Matrix<T>): Matrix<T>
-    @JsName("timesScalar")
+    @KomaJsName("timesScalar")
     operator fun times(other: T): Matrix<T>
     operator fun unaryMinus(): Matrix<T>
-    @JsName("minusScalar")
+    @KomaJsName("minusScalar")
     operator fun minus(other: T): Matrix<T>
-    @JsName("minus")
+    @KomaJsName("minus")
     operator fun minus(other: Matrix<T>): Matrix<T>
-    @JsName("plusScalar")
+    @KomaJsName("plusScalar")
     operator fun plus(other: T): Matrix<T>
-    @JsName("plus")
+    @KomaJsName("plus")
     operator fun plus(other: Matrix<T>): Matrix<T>
     /**
      * Transpose of the matrix
@@ -57,37 +57,37 @@ interface Matrix<T> {
     fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
-    @JsName("getInt")
+    @KomaJsName("getInt")
     fun getInt(i: Int, j: Int): Int
-    @JsName("getDouble")
+    @KomaJsName("getDouble")
     fun getDouble(i: Int, j: Int): Double
-    @JsName("getFloat")
+    @KomaJsName("getFloat")
     fun getFloat(i: Int, j: Int): Float
-    @JsName("getInt1D")
+    @KomaJsName("getInt1D")
     fun getInt(i: Int): Int
-    @JsName("getDouble1D")
+    @KomaJsName("getDouble1D")
     fun getDouble(i: Int): Double
-    @JsName("getFloat1D")
+    @KomaJsName("getFloat1D")
     fun getFloat(i: Int): Float
-    @JsName("setInt1D")
+    @KomaJsName("setInt1D")
     fun setInt(i: Int, v: Int)
-    @JsName("setDouble1D")
+    @KomaJsName("setDouble1D")
     fun setDouble(i: Int, v: Double)
-    @JsName("setFloat1D")
+    @KomaJsName("setFloat1D")
     fun setFloat(i: Int, v: Float)
-    @JsName("setInt")
+    @KomaJsName("setInt")
     fun setInt(i: Int, j: Int, v: Int)
-    @JsName("setDouble")
+    @KomaJsName("setDouble")
     fun setDouble(i: Int, j: Int, v: Double)
-    @JsName("setFloat")
+    @KomaJsName("setFloat")
     fun setFloat(i: Int, j: Int, v: Float)
-    @JsName("getGeneric")
+    @KomaJsName("getGeneric")
     fun getGeneric(i: Int, j: Int): T
-    @JsName("getGeneric1D")
+    @KomaJsName("getGeneric1D")
     fun getGeneric(i: Int): T
-    @JsName("setGeneric")
+    @KomaJsName("setGeneric")
     fun setGeneric(i: Int, j: Int, v: T)
-    @JsName("setGeneric1D")
+    @KomaJsName("setGeneric1D")
     fun setGeneric(i: Int, v: T)
 
     /**
@@ -98,13 +98,13 @@ interface Matrix<T> {
      */
     fun getDoubleData(): DoubleArray
 
-    @JsName("getRow")
+    @KomaJsName("getRow")
     fun getRow(row: Int): Matrix<T>
-    @JsName("getCol")
+    @KomaJsName("getCol")
     fun getCol(col: Int): Matrix<T>
-    @JsName("setCol")
+    @KomaJsName("setCol")
     fun setCol(index: Int, col: Matrix<T>)
-    @JsName("setRow")
+    @KomaJsName("setRow")
     fun setRow(index: Int, row: Matrix<T>)
 
     /**
@@ -125,7 +125,7 @@ interface Matrix<T> {
      * Compute the matrix exponential e^x (NOT elementwise)
      */
     fun expm(): Matrix<T>
-    @JsName("solve")
+    @KomaJsName("solve")
     /**
      * Solves A*X=B for X, returning X (X is either column vector or a matrix composed of several col vectors).
      * A is the current matrix, B is the passed in [other], and X is the returned matrix.
@@ -212,7 +212,7 @@ interface Matrix<T> {
     /**
      * Transpose operator.
      */
-    @JsName("TProperty")
+    @KomaJsName("TProperty")
     val T: Matrix<T>
         get() = this.transpose()
 
@@ -233,7 +233,7 @@ interface Matrix<T> {
     /**
      * Multiplies the matrix by itself [exponent] times (using matrix multiplication).
      */
-    @JsName("pow")
+    @KomaJsName("pow")
     infix fun pow(exponent: Int): Matrix<T> {
         var out = this.copy()
         for (i in 1..exponent - 1)
@@ -242,7 +242,7 @@ interface Matrix<T> {
     }
 
 
-    @JsName("wrapRange__")
+    @KomaJsName("wrapRange__")
     fun wrapRange(range: IntRange, max: Int) =
             if(range.endInclusive >= 0)
                 range
@@ -254,7 +254,7 @@ interface Matrix<T> {
      *
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
-    @JsName("forEachRow")
+    @KomaJsName("forEachRow")
     fun forEachRow(f: (Matrix<T>) -> Unit) {
         for (row in 0..this.numRows() - 1)
             f(this.getRow(row))
@@ -265,7 +265,7 @@ interface Matrix<T> {
      *
      * @param f A function that takes in a row (i.e. 1xN matrix)
      */
-    @JsName("forEachCol")
+    @KomaJsName("forEachCol")
     fun forEachCol(f: (Matrix<T>) -> Unit) {
         for (col in 0..this.numCols() - 1)
             f(this.getCol(col))
@@ -276,13 +276,13 @@ interface Matrix<T> {
      * For example, if you wanted a new matrix consisting of the first, second, and
      * fifth cols of an input matrix, you would write ```input.selectCols(0,1,4)```.
      */
-    @JsName("selectCols")
+    @KomaJsName("selectCols")
     fun selectCols(vararg idxs: Int) =
             getFactory()
                     .zeros(this.numRows(), idxs.size)
                     .fill { row, col -> this[row, idxs[col]] }
 
-    @JsName("selectColsMatrix")
+    @KomaJsName("selectColsMatrix")
     fun <U: Number> selectCols(idxs: Matrix<U>) =
             getFactory()
                     .zeros(this.numRows(), idxs.numRows()*idxs.numCols())
@@ -294,13 +294,13 @@ interface Matrix<T> {
      * For example, if you wanted a new matrix consisting of the first, second, and
      * fifth rows of an input matrix, you would write ```input.selectRows(0,1,4)```.
      */
-    @JsName("selectRows")
+    @KomaJsName("selectRows")
     fun selectRows(vararg idxs: Int) =
             getFactory()
                     .zeros(idxs.size, this.numCols())
                     .fill { row, col -> this[idxs[row], col] }
 
-    @JsName("selectRowsMatrix")
+    @KomaJsName("selectRowsMatrix")
     fun <U: Number> selectRows(idxs: Matrix<U>) =
             getFactory()
                     .zeros(idxs.numRows()*idxs.numCols(), this.numCols())
@@ -335,7 +335,7 @@ interface Matrix<T> {
      *
      * @return the new matrix after each row is mapped through f
      */
-    @JsName("mapRows")
+    @KomaJsName("mapRows")
     fun mapRows(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
         val outRows = Array(this.numRows()) {
@@ -361,7 +361,7 @@ interface Matrix<T> {
      * @param f A function that takes in a 1xN row and returns a 1xM row. Note that all output
      * rows must be the same length.
      */
-    @JsName("mapRowsToList")
+    @KomaJsName("mapRowsToList")
     fun <U> mapRowsToList(f: (Matrix<T>) -> U): List<U> {
         val a = ArrayList<U>(this.numRows())
         this.forEachRow {
@@ -379,7 +379,7 @@ interface Matrix<T> {
      *
      * @return the new matrix after each col is mapped through f
      */
-    @JsName("mapCols")
+    @KomaJsName("mapCols")
     fun mapCols(f: (Matrix<T>) -> Matrix<T>): Matrix<T> {
 
         val outCols = Array(this.numCols()) {
@@ -407,7 +407,7 @@ interface Matrix<T> {
      * @param f A function that takes in a Nx1 col and returns a Mx1 col. Note that all output
      * cols must be the same length.
      */
-    @JsName("mapColsToList")
+    @KomaJsName("mapColsToList")
     fun <U> mapColsToList(f: (Matrix<T>) -> U): List<U> {
         // TODO: Replace if cross-platform set capacity method is added to kotlin
         val a = arrayListOf<U>()

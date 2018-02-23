@@ -2,7 +2,7 @@
  * Helper functions for testing matrices
  */
 
-@file:JvmName("UtilTests")
+@file:KomaJvmName("UtilTests")
 
 package koma.util.test
 

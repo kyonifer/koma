@@ -1,4 +1,4 @@
-@file:JvmName("BoundsValidation")
+@file:KomaJvmName("BoundsValidation")
 
 package koma.util.validation
 import koma.validateMatrices

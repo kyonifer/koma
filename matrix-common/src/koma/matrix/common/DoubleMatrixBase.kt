@@ -1,4 +1,4 @@
-@file:JvmName("Algorithms")
+@file:KomaJvmName("Algorithms")
 
 package koma.matrix.common
 

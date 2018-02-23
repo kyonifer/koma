@@ -1,5 +1,5 @@
-@file:JvmName("Koma")
-@file:JvmMultifileClass
+@file:KomaJvmName("Koma")
+@file:KomaJvmMultifileClass
 
 package koma
 
@@ -250,24 +250,24 @@ fun pow(num: Int, exp: Double) = koma.pow(num.toDouble(), exp)
 /**
  * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
  */
-@JvmName("powDoubleDouble")
+@KomaJvmName("powDoubleDouble")
 infix fun Double.pow(exp: Double) = koma.pow(this, exp)
 
 /**
  * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
  */
-@JvmName("powIntInt")
+@KomaJvmName("powIntInt")
 infix fun Int.pow(exp: Int) = koma.pow(this.toDouble(), exp.toDouble())
 
 /**
  * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
  */
-@JvmName("powDoubleInt")
+@KomaJvmName("powDoubleInt")
 infix fun Double.pow(exp: Int) = koma.pow(this, exp.toDouble())
 
 /**
  * A convenience ext function performing the pow operation via the [kotlin.math] equivalent call.
  */
-@JvmName("powIntDouble")
+@KomaJvmName("powIntDouble")
 infix fun Int.pow(exp: Double) = koma.pow(this.toDouble(), exp)
 

@@ -1,4 +1,4 @@
-@file:JvmName("Validation")
+@file:KomaJvmName("Validation")
 
 package koma.util.validation
 

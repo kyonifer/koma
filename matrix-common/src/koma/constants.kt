@@ -2,8 +2,8 @@
  * This file defines commonly used math constants
  */
 
-@file:JvmName("Koma")
-@file:JvmMultifileClass
+@file:KomaJvmName("Koma")
+@file:KomaJvmMultifileClass
 
 package koma
 

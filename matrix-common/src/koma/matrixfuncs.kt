@@ -4,8 +4,8 @@
  * one to do things like cos(randn(5,5))
  */
 
-@file:JvmName("Koma")
-@file:JvmMultifileClass
+@file:KomaJvmName("Koma")
+@file:KomaJvmMultifileClass
 
 package koma
 

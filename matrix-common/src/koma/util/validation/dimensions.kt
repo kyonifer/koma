@@ -1,4 +1,4 @@
-@file:JvmName("DimensionValidation")
+@file:KomaJvmName("DimensionValidation")
 
 package koma.util.validation
 import koma.*

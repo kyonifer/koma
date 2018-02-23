@@ -1,12 +1,9 @@
-@file:JvmName("Koma")
-@file:JvmMultifileClass
+@file:KomaJvmName("Koma")
+@file:KomaJvmMultifileClass
 
 package koma
 
-import koma.internal.curSeed
-
-
-internal var matFormat: String = "L"
+var matFormat: String = "L"
 
 val LONG_NUMBER = "L"
 val VERY_LONG_NUMBER = "VL"
@@ -18,10 +15,7 @@ val SCIENTIFIC_VERY_LONG_NUMBER = "SciNotVLong"
 val end = -1
 val all = 0..end
 
-
-fun setSeed(seed: Long) {
-    curSeed = seed
-}
+fun setSeed(seed: Long) = koma.internal.rng.setSeed(seed)
 
 /**
  * Sets the format for Koma to display numbers in. For example, calling

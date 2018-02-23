@@ -1,4 +1,4 @@
-@file:JvmName("SymmetryValidation")
+@file:KomaJvmName("SymmetryValidation")
 
 package koma.util.validation
 

@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.20'
 
     repositories {
         mavenCentral()
@@ -23,19 +23,27 @@ project(':matrix-common') {
         testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
     }
 }
-/*
 project(":matrix-ejml") {
     apply plugin: 'kotlin-platform-jvm'
+
+    sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
+
+    // Workaround for KT-18882, why aren't these in all platform stdlibs?
+    compileKotlin.doFirst {
+        kotlinOptions.freeCompilerArgs += ['-Xallow-kotlin-package']
+    }
 
     repositories {
         mavenCentral()
     }
 
     dependencies {
+        compile "org.ejml:all:0.27"
+
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         expectedBy project(":matrix-common")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
-}*/
+}

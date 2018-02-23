@@ -4,8 +4,8 @@
  * matrix can be created via zeros(3,3)
  */
 
-@file:JvmName("Koma")
-@file:JvmMultifileClass
+@file:KomaJvmName("Koma")
+@file:KomaJvmMultifileClass
 
 package koma
 
@@ -15,7 +15,7 @@ import koma.matrix.*
 /**
  * Creates a zero-filled matrix with the given size
  */
-@JsName("zeros")
+@KomaJsName("zeros")
 fun zeros(rows: Int, cols: Int): Matrix<Double> = zeros(rows, cols, dtype=MatrixTypes.DoubleType)
 fun <T> zeros(rows:Int, 
               cols:Int,
@@ -26,7 +26,7 @@ fun <T> zeros(rows:Int,
 /**
  * Creates a matrix filled with the given range of values.
  */
-@JsName("createRange")
+@KomaJsName("createRange")
 fun create(data: IntRange) = create(data, dtype=MatrixTypes.DoubleType)
 fun <T> create(data: IntRange,
                dtype: MatrixType<T>): Matrix<T> 
@@ -35,7 +35,7 @@ fun <T> create(data: IntRange,
 /**
  * Creates a matrix filled with the given set of values as a row-vector.
  */
-@JsName("createArray")
+@KomaJsName("createArray")
 fun create(data: DoubleArray) = create(data, dtype=MatrixTypes.DoubleType)
 fun <T> create(data: DoubleArray,
                dtype: MatrixType<T>): Matrix<T> 
@@ -44,7 +44,7 @@ fun <T> create(data: DoubleArray,
 /**
  * Creates a matrix filled with the given set of values in row-major order.
  */
-@JsName("createArraySized")
+@KomaJsName("createArraySized")
 fun create(data: DoubleArray, numRows: Int, numCols: Int): Matrix<Double> =
     create(data, numRows, numCols, dtype=MatrixTypes.DoubleType)
 fun <T> create(data: DoubleArray, 
@@ -60,7 +60,7 @@ fun <T> create(data: DoubleArray,
 /**
  * Creates a matrix filled with the given data, assuming input is row major.
  */
-@JsName("create2DArray")
+@KomaJsName("create2DArray")
 fun create(data: Array<DoubleArray>): Matrix<Double> = create(data, dtype=MatrixTypes.DoubleType)
 fun <T> create(data: Array<DoubleArray>,
                dtype: MatrixType<T>): Matrix<T> 
@@ -70,7 +70,7 @@ fun <T> create(data: Array<DoubleArray>,
 /**
  * Creates a one-filled matrix with the given size
  */
-@JsName("ones")
+@KomaJsName("ones")
 fun ones(rows: Int, columns: Int): Matrix<Double> = ones(rows, columns, dtype=MatrixTypes.DoubleType)
 fun <T> ones(rows: Int, 
              columns: Int,
@@ -80,7 +80,7 @@ fun <T> ones(rows: Int,
 /**
  * Creates a square identity matrix with the given size
  */
-@JsName("eye")
+@KomaJsName("eye")
 fun eye(size: Int): Matrix<Double> = eye(size, dtype=MatrixTypes.DoubleType)
 fun <T> eye(size: Int,
             dtype: MatrixType<T>): Matrix<T> 
@@ -89,7 +89,7 @@ fun <T> eye(size: Int,
 /**
  * Creates an identity matrix with the given size
  */
-@JsName("eyeSized")
+@KomaJsName("eyeSized")
 fun eye(rows: Int, cols: Int): Matrix<Double> = eye(rows, cols, dtype=MatrixTypes.DoubleType)
 fun <T> eye(rows: Int, 
             cols: Int,
@@ -99,7 +99,7 @@ fun <T> eye(rows: Int,
 /**
  * Creates a new matrix that fills all the values with the return values of func(row,val)
  */
-@JsName("fill")
+@KomaJsName("fill")
 fun fill(rows: Int, cols: Int, func: (Int, Int) -> Double) = zeros(rows, cols).fill(func)
 fun <T> fill(rows: Int, 
              cols: Int,
@@ -110,7 +110,7 @@ fun <T> fill(rows: Int,
 /**
  * Creates a new matrix that fills all the values with [value]
  */
-@JsName("fillScalar")
+@KomaJsName("fillScalar")
 fun fill(rows: Int, 
          cols: Int, 
          value: Double) = zeros(rows, cols).fill({ _, _ -> value })
@@ -124,7 +124,7 @@ fun <T> fill(rows: Int,
 /**
  * Creates an matrix filled with unit uniform random numbers
  */
-@JsName("rand")
+@KomaJsName("rand")
 fun rand(rows: Int, cols: Int): Matrix<Double> = rand(rows, cols, dtype=MatrixTypes.DoubleType)
 fun <T> rand(rows: Int, 
              cols: Int,
@@ -135,7 +135,7 @@ fun <T> rand(rows: Int,
  * Creates an matrix filled with unit normal random numbers, using the given seed for the RNG.
  * Subsequent calls with the same seed will produce identical numbers.
  */
-@JsName("randSeed")
+@KomaJsName("randSeed")
 @Deprecated("Call setSeed and randn separately")
 fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> = rand(rows,
                                                                   cols, 
@@ -153,7 +153,7 @@ fun <T> rand(rows: Int,
 /**
  * Creates an matrix filled with unit normal random numbers
  */
-@JsName("randn")
+@KomaJsName("randn")
 fun randn(rows: Int, cols: Int): Matrix<Double> = randn(rows, 
                                                         cols, 
                                                         dtype=MatrixTypes.DoubleType)
@@ -166,7 +166,7 @@ fun <T> randn(rows: Int,
  * Creates an matrix filled with unit normal random numbers, using the given seed for the RNG.
  * Subsequent calls with the same seed will produce identical numbers.
  */
-@JsName("randnSeed")
+@KomaJsName("randnSeed")
 @Deprecated("Call setSeed and randn separately")
 fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = randn(rows, 
                                                                     cols, 
@@ -185,7 +185,7 @@ fun <T> randn(rows: Int,
  * Creates an vector filled in by the given range information. The filled values will start at [start] and
  * end at [stop], with the interval between each value [step].
  */
-@JsName("arange")
+@KomaJsName("arange")
 fun arange(start: Double, stop: Double, step: Double): Matrix<Double> = arange(start, 
                                                                                stop, 
                                                                                step,
