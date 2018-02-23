@@ -105,7 +105,23 @@ project(":matrix-js") {
 
     compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma-core.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-    
+
+    // copy kotlin.js to output dir
+    build.doLast {
+        configurations.compile.each { File file ->
+            copy {
+                includeEmptyDirs = false
+
+                from zipTree(file.absolutePath)
+                into "node_modules"
+                include { fileTreeElement ->
+                    def path = fileTreeElement.path
+                    path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+                }
+            }
+        }
+    }
+
     dependencies {
 
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
