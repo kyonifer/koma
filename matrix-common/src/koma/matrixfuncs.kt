@@ -11,6 +11,8 @@ package koma
 
 import koma.extensions.*
 import koma.matrix.*
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
 
 /**
  * Returns true if all elements are close to equal, as defined by

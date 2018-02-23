@@ -3,6 +3,9 @@
 
 package koma
 
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
+
 /**
  * An implementation of an unsigned byte. Still a WIP.
  */

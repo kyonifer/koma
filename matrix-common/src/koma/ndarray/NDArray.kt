@@ -1,6 +1,7 @@
 package koma.ndarray
 
 import koma.matrix.*
+import koma.internal.KomaJsName
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
 /**

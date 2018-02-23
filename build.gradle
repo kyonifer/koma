@@ -30,10 +30,6 @@ project(":matrix-ejml") {
 
     sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
 
-    // Workaround for KT-18882, why aren't these in all platform stdlibs?
-    compileKotlin.doFirst {
-        kotlinOptions.freeCompilerArgs += ['-Xallow-kotlin-package']
-    }
 
     repositories {
         mavenCentral()
@@ -54,10 +50,6 @@ project(":matrix-jblas") {
 
     sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
 
-    // Workaround for KT-18882, why aren't these in all platform stdlibs?
-    compileKotlin.doFirst {
-        kotlinOptions.freeCompilerArgs += ['-Xallow-kotlin-package']
-    }
 
     repositories {
         mavenCentral()
@@ -78,11 +70,6 @@ project(":matrix-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
-
-    // Workaround for KT-18882, why aren't these in all platform stdlibs?
-    compileKotlin.doFirst {
-        kotlinOptions.freeCompilerArgs += ['-Xallow-kotlin-package']
-    }
 
     repositories {
         mavenCentral()

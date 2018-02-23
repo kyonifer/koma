@@ -14,6 +14,8 @@ import koma.matrix.default.DefaultDoubleMatrixFactory
 import koma.matrix.default.DefaultFloatMatrixFactory
 import koma.matrix.default.DefaultIntMatrixFactory
 import kotlin.reflect.KProperty
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
 
 /**
  *

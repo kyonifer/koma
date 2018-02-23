@@ -12,6 +12,8 @@ package koma
 
 import koma.extensions.*
 import koma.matrix.Matrix
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
 
 //@formatter:off
 

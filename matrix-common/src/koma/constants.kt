@@ -7,6 +7,9 @@
 
 package koma
 
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
+
 /**
  * The value of Pi
  */

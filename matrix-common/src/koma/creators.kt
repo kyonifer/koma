@@ -11,6 +11,9 @@ package koma
 
 import koma.extensions.*
 import koma.matrix.*
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
+import koma.internal.KomaJsName
 
 /**
  * Creates a zero-filled matrix with the given size

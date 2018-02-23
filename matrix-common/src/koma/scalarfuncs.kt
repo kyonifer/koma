@@ -5,6 +5,9 @@ package koma
 
 import koma.internal.signum
 import kotlin.math.pow as kotlinPow
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
+
 // Scalar funcs
 
 /**

@@ -3,6 +3,9 @@
 
 package koma
 
+import koma.internal.KomaJvmName
+import koma.internal.KomaJvmMultifileClass
+
 var matFormat: String = "L"
 
 val LONG_NUMBER = "L"

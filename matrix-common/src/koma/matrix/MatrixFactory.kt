@@ -5,6 +5,7 @@
 
 package koma.matrix
 
+import koma.internal.KomaJsName
 
 /**
  * A set of constructors that must be implemented by a koma backend. Generates various types of matrices.

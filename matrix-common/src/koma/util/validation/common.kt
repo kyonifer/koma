@@ -4,6 +4,7 @@ package koma.util.validation
 
 import koma.*
 import koma.matrix.*
+import koma.internal.KomaJvmName
 
 private val DEFAULT_NAME = "matrix"
 

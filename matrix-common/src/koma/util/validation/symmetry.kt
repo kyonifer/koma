@@ -4,6 +4,7 @@ package koma.util.validation
 
 import koma.*
 import koma.extensions.*
+import koma.internal.KomaJvmName
 
 fun ValidationContext.symmetric(precision: Double = 1e-5): ValidationContext {
     if (!validateMatrices) return this

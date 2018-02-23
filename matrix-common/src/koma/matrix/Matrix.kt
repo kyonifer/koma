@@ -1,6 +1,7 @@
 package koma.matrix
 
 import koma.extensions.*
+import koma.internal.KomaJsName
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be

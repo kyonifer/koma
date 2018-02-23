@@ -3,6 +3,7 @@
 package koma.util.validation
 import koma.validateMatrices
 import koma.extensions.*
+import koma.internal.KomaJvmName
 
 /**
  * Maximum value for individual elements in the matrix.

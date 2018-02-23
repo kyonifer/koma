@@ -5,6 +5,8 @@
 
 package koma.util
 
+import koma.internal.KomaJvmName
+
 /**
  * Converts a collection into a primitive DoubleArray
  */

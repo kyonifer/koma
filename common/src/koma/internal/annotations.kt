@@ -1,4 +1,4 @@
-package kotlin
+package koma.internal
 
 actual typealias KomaJvmName = kotlin.jvm.JvmName
 actual typealias KomaJvmMultifileClass = kotlin.jvm.JvmMultifileClass

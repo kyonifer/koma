@@ -2,6 +2,8 @@ package koma.extensions
 
 import koma.abs
 import koma.matrix.Matrix
+import koma.internal.KomaJsName
+import koma.internal.KomaJvmName
 
 /**
  * Checks to see if any element in the matrix causes f to return true.

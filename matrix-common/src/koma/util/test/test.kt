@@ -10,6 +10,7 @@ import koma.*
 import koma.extensions.*
 import koma.matrix.*
 import koma.internal.assert
+import koma.internal.KomaJvmName
 
 /**
  * Asserts that a matrix [expected] roughly equals a matrix [actual]. eps is the acceptable numerical error.

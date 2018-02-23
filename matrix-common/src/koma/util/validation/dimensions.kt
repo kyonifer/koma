@@ -6,6 +6,7 @@ import koma.matrix.*
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
+import koma.internal.KomaJvmName
 
 private val ValidationContext.meta : DimensionValidator get() {
     return this.metadata("dim") {

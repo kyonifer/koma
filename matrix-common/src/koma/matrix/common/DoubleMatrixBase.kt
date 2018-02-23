@@ -8,6 +8,7 @@ import koma.logb
 import koma.matrix.*
 import koma.pow
 import koma.zeros
+import koma.internal.KomaJvmName
 
 /**
  * Some functionality to help more easily implement double based koma backends. Feel free to not use if

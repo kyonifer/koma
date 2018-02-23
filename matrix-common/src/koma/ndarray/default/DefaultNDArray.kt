@@ -1,6 +1,8 @@
 package koma.ndarray.default
 
 import koma.ndarray.*
+import koma.internal.KomaJsName
+
 
 /**
  * An (unoptimized) implementation of [NDArray] in pure Kotlin, for portability between the 
