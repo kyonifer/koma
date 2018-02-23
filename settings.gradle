@@ -1,2 +1,4 @@
 include 'matrix-common'
 include 'matrix-ejml'
+include 'matrix-jblas'
+include 'matrix-mtj'
