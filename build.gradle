@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.20'
+    ext.kotlin_version = '1.2.30'
     ext.kotlin_native_version = '0.6'
 
     repositories {
@@ -11,8 +11,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
     }
 }
-
-// TODO: Deal with codegen, and that intellij wont allow `common` to be imported in three projs
 
 project(':matrix-common') {
     apply plugin: 'kotlin-platform-common'
@@ -42,6 +40,12 @@ project(":matrix-jvm-base") {
         expectedBy project(":matrix-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build"
+        }
+    }
 }
 
 
@@ -65,6 +69,12 @@ project(":matrix-jvm-ejml") {
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build"
+        }
+    }
 }
 project(":matrix-jvm-jblas") {
     apply plugin: 'kotlin-platform-jvm'
@@ -84,6 +94,12 @@ project(":matrix-jvm-jblas") {
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build"
+        }
     }
 }
 
@@ -108,6 +124,12 @@ project(":matrix-jvm-mtj") {
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build"
+        }
+    }
 }
 
 project(":matrix-js") {
@@ -128,7 +150,7 @@ project(":matrix-js") {
     }
 
 
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma-core.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 
     // copy kotlin.js to output dir
@@ -148,6 +170,18 @@ project(":matrix-js") {
     }
 }
 
+task buildJs {
+    dependsOn(":matrix-js:build")
+}
+task buildJvm {
+    dependsOn(":matrix-jvm-mtj:build")
+    dependsOn(":matrix-jvm-ejml:build")
+    dependsOn(":matrix-jvm-jblas:build")
+}
+task buildNative {
+    dependsOn(":matrix-native-cblas:build")
+}
+
 project(":matrix-native-cblas") {
     apply plugin: 'konan'
 
@@ -160,7 +194,7 @@ project(":matrix-native-cblas") {
         interop('lapacke') {
             defFile('lapacke.def')
         }
-        dynamic('libkoma') {
+        dynamic('koma') {
             enableMultiplatform true
             srcFiles fileTree('src')
             linkerOpts "-S"
@@ -170,7 +204,7 @@ project(":matrix-native-cblas") {
                 artifact 'lapacke'
             }
         }
-        library('koma') {
+        library('komaKlib') {
             enableMultiplatform true
             srcFiles fileTree('src')
             linkerOpts "-S"
@@ -183,7 +217,7 @@ project(":matrix-native-cblas") {
         program('komaExample') {
 
             libraries {
-                artifact 'koma'
+                artifact 'komaKlib'
                 srcFiles '../examples/native/main.kt'
             }
         }
@@ -191,7 +225,21 @@ project(":matrix-native-cblas") {
     dependencies {
         expectedBy project(":matrix-common")
     }
+    build.doLast {
+        copy {
+            from "build/konan/bin/linux"
+            from "build/konan/libs/linux"
+            include "*.kexe"
+            include "*.klib"
+            include "*.h"
+            include "*.so"
+            include "*.dylib"
+            include "*.dll"
+            into getRootDir().toString() + "/build"
+        }
+    }
 }
+
 task codegen {
     doLast {
         ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
@@ -242,3 +290,4 @@ def getEPow(dtype) {
         return ""
 
 }
+
