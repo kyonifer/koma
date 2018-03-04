@@ -12,7 +12,7 @@ buildscript {
     }
 }
 
-project(':matrix-common') {
+project(':core-common') {
     apply plugin: 'kotlin-platform-common'
 
     sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
@@ -27,7 +27,7 @@ project(':matrix-common') {
     }
 }
 
-project(":matrix-jvm-base") {
+project(":core-jvm-base") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -37,7 +37,7 @@ project(":matrix-jvm-base") {
     }
 
     dependencies {
-        expectedBy project(":matrix-common")
+        expectedBy project(":core-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
     assemble.doLast {
@@ -50,7 +50,7 @@ project(":matrix-jvm-base") {
 
 
 
-project(":matrix-jvm-ejml") {
+project(":core-jvm-ejml") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -62,7 +62,7 @@ project(":matrix-jvm-ejml") {
     }
 
     dependencies {
-        compile project(":matrix-jvm-base")
+        compile project(":core-jvm-base")
         compile "org.ejml:all:0.27"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         testCompile "junit:junit:4.12"
@@ -76,7 +76,7 @@ project(":matrix-jvm-ejml") {
         }
     }
 }
-project(":matrix-jvm-jblas") {
+project(":core-jvm-jblas") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -88,7 +88,7 @@ project(":matrix-jvm-jblas") {
     }
 
     dependencies {
-        compile project(":matrix-jvm-base")
+        compile project(":core-jvm-base")
         compile "org.jblas:jblas:1.2.3"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         testCompile "junit:junit:4.12"
@@ -103,7 +103,7 @@ project(":matrix-jvm-jblas") {
     }
 }
 
-project(":matrix-jvm-mtj") {
+project(":core-jvm-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -114,7 +114,7 @@ project(":matrix-jvm-mtj") {
     }
 
     dependencies {
-        compile project(":matrix-jvm-base")
+        compile project(":core-jvm-base")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
             // Fix issue with pom-only artifacts in MTJ
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
@@ -132,7 +132,7 @@ project(":matrix-jvm-mtj") {
     }
 }
 
-project(":matrix-js") {
+project(":core-js") {
     apply plugin: 'kotlin-platform-js'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -142,7 +142,7 @@ project(":matrix-js") {
     }
 
     dependencies {
-        expectedBy project(":matrix-common")
+        expectedBy project(":core-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
@@ -171,18 +171,18 @@ project(":matrix-js") {
 }
 
 task buildJs {
-    dependsOn(":matrix-js:build")
+    dependsOn(":core-js:build")
 }
 task buildJvm {
-    dependsOn(":matrix-jvm-mtj:build")
-    dependsOn(":matrix-jvm-ejml:build")
-    dependsOn(":matrix-jvm-jblas:build")
+    dependsOn(":core-jvm-mtj:build")
+    dependsOn(":core-jvm-ejml:build")
+    dependsOn(":core-jvm-jblas:build")
 }
 task buildNative {
-    dependsOn(":matrix-native-cblas:build")
+    dependsOn(":core-native-cblas:build")
 }
 
-project(":matrix-native-cblas") {
+project(":core-native-cblas") {
     apply plugin: 'konan'
 
     konanArtifacts {
@@ -223,7 +223,7 @@ project(":matrix-native-cblas") {
         }
     }
     dependencies {
-        expectedBy project(":matrix-common")
+        expectedBy project(":core-common")
     }
     build.doLast {
         copy {
@@ -244,8 +244,8 @@ task codegen {
     doLast {
         ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
             copy {
-                from 'matrix-common/templates'
-                into 'matrix-common/srcgen/koma.matrix.default'
+                from 'core-common/templates'
+                into 'core-common/srcgen/koma.matrix.default'
                 include 'DefaultXMatrix.kt'
                 rename { "Default${dtype}Matrix.kt" }
 
@@ -254,15 +254,15 @@ task codegen {
                         dtype: dtype)
             }
             copy {
-                from 'matrix-common/templates'
-                into 'matrix-common/srcgen/koma.matrix.default'
+                from 'core-common/templates'
+                into 'core-common/srcgen/koma.matrix.default'
                 include 'DefaultXMatrixFactory.kt'
                 rename { "Default${dtype}MatrixFactory.kt" }
                 expand(dtype: dtype)
             }
             copy {
-                from 'matrix-common/templates'
-                into 'matrix-common/srcgen/koma.ndarray.default'
+                from 'core-common/templates'
+                into 'core-common/srcgen/koma.ndarray.default'
                 include 'DefaultXNDArray.kt'
                 rename { "Default${dtype}NDArray.kt"}
                 expand(dtype: dtype)
