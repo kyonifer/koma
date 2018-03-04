@@ -1,6 +1,8 @@
 include 'matrix-common'
-include 'matrix-ejml'
-include 'matrix-jblas'
-include 'matrix-mtj'
+include 'matrix-jvm-base'
+include 'matrix-jvm-ejml'
+include 'matrix-jvm-jblas'
+include 'matrix-jvm-mtj'
+include 'matrix-native-cblas'
 include 'matrix-js'
-include 'matrix-cblas'
+

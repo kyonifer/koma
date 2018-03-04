@@ -29,11 +29,27 @@ project(':matrix-common') {
     }
 }
 
-
-project(":matrix-ejml") {
+project(":matrix-jvm-base") {
     apply plugin: 'kotlin-platform-jvm'
 
-    sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
+    sourceSets.main.kotlin.srcDirs = ['src']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        expectedBy project(":matrix-common")
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+
+
+project(":matrix-jvm-ejml") {
+    apply plugin: 'kotlin-platform-jvm'
+
+    sourceSets.main.kotlin.srcDirs = ['src']
     // TODO: Use multiplatform test support
     sourceSets.test.kotlin.srcDirs = ['../tests']
 
@@ -42,19 +58,18 @@ project(":matrix-ejml") {
     }
 
     dependencies {
+        compile project(":matrix-jvm-base")
         compile "org.ejml:all:0.27"
-
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        expectedBy project(":matrix-common")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
 }
-project(":matrix-jblas") {
+project(":matrix-jvm-jblas") {
     apply plugin: 'kotlin-platform-jvm'
 
-    sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
+    sourceSets.main.kotlin.srcDirs = ['src']
     sourceSets.test.kotlin.srcDirs = ['../tests']
 
 
@@ -63,20 +78,19 @@ project(":matrix-jblas") {
     }
 
     dependencies {
+        compile project(":matrix-jvm-base")
         compile "org.jblas:jblas:1.2.3"
-
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        expectedBy project(":matrix-common")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
 }
 
-project(":matrix-mtj") {
+project(":matrix-jvm-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
-    sourceSets.main.kotlin.srcDirs = ['src', '../common/src']
+    sourceSets.main.kotlin.srcDirs = ['src']
     sourceSets.test.kotlin.srcDirs = ['../tests']
 
     repositories {
@@ -84,13 +98,12 @@ project(":matrix-mtj") {
     }
 
     dependencies {
+        compile project(":matrix-jvm-base")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
             // Fix issue with pom-only artifacts in MTJ
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
         }
-
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        expectedBy project(":matrix-common")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -105,6 +118,15 @@ project(":matrix-js") {
     repositories {
         mavenCentral()
     }
+
+    dependencies {
+        expectedBy project(":matrix-common")
+        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+        testCompile "junit:junit:4.12"
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    }
+
 
     compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma-core.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
@@ -124,18 +146,9 @@ project(":matrix-js") {
             }
         }
     }
-
-    dependencies {
-
-        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-        expectedBy project(":matrix-common")
-        testCompile "junit:junit:4.12"
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    }
 }
 
-project(":matrix-cblas") {
+project(":matrix-native-cblas") {
     apply plugin: 'konan'
 
     konanArtifacts {
@@ -179,7 +192,6 @@ project(":matrix-cblas") {
         expectedBy project(":matrix-common")
     }
 }
-
 task codegen {
     doLast {
         ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
