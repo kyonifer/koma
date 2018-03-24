@@ -25,7 +25,6 @@ project(':koma-core-api-common') {
 
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
     }
 }
 
@@ -77,8 +76,6 @@ project(":koma-core-ejml") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
-    // TODO: Use multiplatform test support
-    sourceSets.test.kotlin.srcDirs = ['../tests']
 
     repositories {
         mavenCentral()
@@ -88,9 +85,6 @@ project(":koma-core-ejml") {
         compile project(":koma-core-api-jvm")
         compile "org.ejml:all:0.27"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        testCompile "junit:junit:4.12"
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
     assemble.doLast {
         copy {
@@ -103,8 +97,6 @@ project(":koma-core-jblas") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
-    sourceSets.test.kotlin.srcDirs = ['../tests']
-
 
     repositories {
         mavenCentral()
@@ -114,9 +106,6 @@ project(":koma-core-jblas") {
         compile project(":koma-core-api-jvm")
         compile "org.jblas:jblas:1.2.3"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        testCompile "junit:junit:4.12"
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
     assemble.doLast {
         copy {
@@ -130,7 +119,6 @@ project(":koma-core-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
-    sourceSets.test.kotlin.srcDirs = ['../tests']
 
     repositories {
         mavenCentral()
@@ -143,9 +131,6 @@ project(":koma-core-mtj") {
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
         }
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        testCompile "junit:junit:4.12"
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
     assemble.doLast {
         copy {
@@ -166,9 +151,6 @@ project(":koma-core-js") {
 
     dependencies {
         compile project(":koma-core-api-js")
-        testCompile "junit:junit:4.12"
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     }
 
 
@@ -267,6 +249,24 @@ project(':koma-logging') {
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "ch.qos.logback:logback-classic:1.1.7"
     }
+}
+
+project(':koma-tests') {
+    apply plugin: 'kotlin'
+
+    sourceSets.test.kotlin.srcDirs = ['test']
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        testCompile "junit:junit:4.12"
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+        testCompile project(':koma-core-mtj')
+        testCompile project(':koma-core-ejml')
+        testCompile project(':koma-core-jblas')
+    }
+
 }
 
 task buildJs {
