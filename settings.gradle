@@ -1,5 +1,7 @@
 include 'koma-core-api-common'
 include 'koma-core-api-jvm'
+include 'koma-core-api-js'
+include 'koma-core-api-native'
 include 'koma-core-ejml'
 include 'koma-core-jblas'
 include 'koma-core-mtj'
@@ -8,6 +10,8 @@ include 'koma-core-js'
 
 project(":koma-core-api-common").projectDir = file("koma-core-api/core-api-common")
 project(":koma-core-api-jvm").projectDir = file("koma-core-api/core-api-jvm")
+project(":koma-core-api-js").projectDir = file("koma-core-api/core-api-js")
+project(":koma-core-api-native").projectDir = file("koma-core-api/core-api-native")
 project(":koma-core-js").projectDir = file("koma-core/core-js")
 project(":koma-core-ejml").projectDir = file("koma-core/core-ejml")
 project(":koma-core-mtj").projectDir = file("koma-core/core-mtj")

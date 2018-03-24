@@ -48,7 +48,42 @@ project(":koma-core-api-jvm") {
     }
 }
 
+project(":koma-core-api-js") {
+    apply plugin: 'kotlin-platform-js'
 
+    sourceSets.main.kotlin.srcDirs = ['src']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        expectedBy project(":koma-core-api-common")
+        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build"
+        }
+    }
+}
+
+project(":koma-core-api-native") {
+    apply plugin: 'konan'
+
+    konanArtifacts {
+        library('komaApiKlib') {
+            enableMultiplatform true
+            srcFiles fileTree('src')
+            linkerOpts "-S"
+            enableOptimizations(true)
+        }
+    }
+    dependencies {
+        expectedBy project(":koma-core-api-common")
+    }
+}
 
 project(":koma-core-ejml") {
     apply plugin: 'kotlin-platform-jvm'
@@ -142,8 +177,7 @@ project(":koma-core-js") {
     }
 
     dependencies {
-        expectedBy project(":koma-core-api-common")
-        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+        compile project(":koma-core-api-js")
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -181,10 +215,8 @@ task buildJvm {
 task buildNative {
     dependsOn(":core-native-cblas:build")
 }
-
 project(":koma-core-cblas") {
     apply plugin: 'konan'
-
     konanArtifacts {
         interop('cblas') {
             // TODO: `headers` here, but search the include path for a blas header,
@@ -200,6 +232,7 @@ project(":koma-core-cblas") {
             linkerOpts "-S"
             enableOptimizations(true)
             libraries {
+                artifact project(':koma-core-api-native'), 'komaApiKlib'
                 artifact 'cblas'
                 artifact 'lapacke'
             }
@@ -210,6 +243,7 @@ project(":koma-core-cblas") {
             linkerOpts "-S"
             enableOptimizations(true)
             libraries {
+                artifact project(':koma-core-api-native'), 'komaApiKlib'
                 artifact 'cblas'
                 artifact 'lapacke'
             }
@@ -221,9 +255,6 @@ project(":koma-core-cblas") {
                 srcFiles '../../examples/native/main.kt'
             }
         }
-    }
-    dependencies {
-        expectedBy project(":koma-core-api-common")
     }
     build.doLast {
         copy {
