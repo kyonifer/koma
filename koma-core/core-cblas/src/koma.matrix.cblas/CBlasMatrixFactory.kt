@@ -2,7 +2,6 @@ package koma.matrix.cblas
 
 import koma.matrix.common.DoubleFactoryBase
 import koma.extensions.*
-import koma.DEPRECATE_IMPLICIT_2D
 import koma.util.fromCollection
 import koma.internal.rng
 
