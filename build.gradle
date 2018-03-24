@@ -12,6 +12,8 @@ buildscript {
     }
 }
 
+apply from: 'buildscripts/publishing.gradle'
+
 project(':koma-core-api-common') {
     apply plugin: 'kotlin-platform-common'
 
