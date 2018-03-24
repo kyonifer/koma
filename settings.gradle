@@ -7,6 +7,7 @@ include 'koma-core-jblas'
 include 'koma-core-mtj'
 include 'koma-core-cblas'
 include 'koma-core-js'
+include 'koma-logging'
 
 project(":koma-core-api-common").projectDir = file("koma-core-api/core-api-common")
 project(":koma-core-api-jvm").projectDir = file("koma-core-api/core-api-jvm")
