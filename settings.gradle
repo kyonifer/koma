@@ -1,8 +1,17 @@
-include 'core-common'
-include 'core-jvm-base'
-include 'core-jvm-ejml'
-include 'core-jvm-jblas'
-include 'core-jvm-mtj'
-include 'core-native-cblas'
-include 'core-js'
+include 'koma-core-api-common'
+include 'koma-core-api-jvm'
+include 'koma-core-ejml'
+include 'koma-core-jblas'
+include 'koma-core-mtj'
+include 'koma-core-cblas'
+include 'koma-core-js'
+
+project(":koma-core-api-common").projectDir = file("koma-core-api/core-api-common")
+project(":koma-core-api-jvm").projectDir = file("koma-core-api/core-api-jvm")
+project(":koma-core-js").projectDir = file("koma-core/core-js")
+project(":koma-core-ejml").projectDir = file("koma-core/core-ejml")
+project(":koma-core-mtj").projectDir = file("koma-core/core-mtj")
+project(":koma-core-jblas").projectDir = file("koma-core/core-jblas")
+project(":koma-core-cblas").projectDir = file("koma-core/core-cblas")
+
 

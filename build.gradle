@@ -12,7 +12,7 @@ buildscript {
     }
 }
 
-project(':core-common') {
+project(':koma-core-api-common') {
     apply plugin: 'kotlin-platform-common'
 
     sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
@@ -27,7 +27,7 @@ project(':core-common') {
     }
 }
 
-project(":core-jvm-base") {
+project(":koma-core-api-jvm") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -37,7 +37,7 @@ project(":core-jvm-base") {
     }
 
     dependencies {
-        expectedBy project(":core-common")
+        expectedBy project(":koma-core-api-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
     assemble.doLast {
@@ -50,7 +50,7 @@ project(":core-jvm-base") {
 
 
 
-project(":core-jvm-ejml") {
+project(":koma-core-ejml") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -62,7 +62,7 @@ project(":core-jvm-ejml") {
     }
 
     dependencies {
-        compile project(":core-jvm-base")
+        compile project(":koma-core-api-jvm")
         compile "org.ejml:all:0.27"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         testCompile "junit:junit:4.12"
@@ -76,7 +76,7 @@ project(":core-jvm-ejml") {
         }
     }
 }
-project(":core-jvm-jblas") {
+project(":koma-core-jblas") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -88,7 +88,7 @@ project(":core-jvm-jblas") {
     }
 
     dependencies {
-        compile project(":core-jvm-base")
+        compile project(":koma-core-api-jvm")
         compile "org.jblas:jblas:1.2.3"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         testCompile "junit:junit:4.12"
@@ -103,7 +103,7 @@ project(":core-jvm-jblas") {
     }
 }
 
-project(":core-jvm-mtj") {
+project(":koma-core-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -114,7 +114,7 @@ project(":core-jvm-mtj") {
     }
 
     dependencies {
-        compile project(":core-jvm-base")
+        compile project(":koma-core-api-jvm")
         compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
             // Fix issue with pom-only artifacts in MTJ
             exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
@@ -132,7 +132,7 @@ project(":core-jvm-mtj") {
     }
 }
 
-project(":core-js") {
+project(":koma-core-js") {
     apply plugin: 'kotlin-platform-js'
 
     sourceSets.main.kotlin.srcDirs = ['src']
@@ -142,7 +142,7 @@ project(":core-js") {
     }
 
     dependencies {
-        expectedBy project(":core-common")
+        expectedBy project(":koma-core-api-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
         testCompile "junit:junit:4.12"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
@@ -182,7 +182,7 @@ task buildNative {
     dependsOn(":core-native-cblas:build")
 }
 
-project(":core-native-cblas") {
+project(":koma-core-cblas") {
     apply plugin: 'konan'
 
     konanArtifacts {
@@ -218,12 +218,12 @@ project(":core-native-cblas") {
 
             libraries {
                 artifact 'komaKlib'
-                srcFiles '../examples/native/main.kt'
+                srcFiles '../../examples/native/main.kt'
             }
         }
     }
     dependencies {
-        expectedBy project(":core-common")
+        expectedBy project(":koma-core-api-common")
     }
     build.doLast {
         copy {
