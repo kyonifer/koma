@@ -1,8 +1,14 @@
 package koma
 
+import koma.internal.getDoubleFactory
+import koma.internal.getFloatFactory
+import koma.internal.getIntFactory
 import koma.matrix.Matrix
 import koma.matrix.MatrixFactory
 
+// TODO: Ideally these properties are expect/actual with implementations. However, there's currently
+// a generation issue with kotlin/native that breaks this approach, so as a workaround we'll define
+// getXFactory methods in koma.internal as expect actual and proxy them here
 
 /**
  *
@@ -13,7 +19,7 @@ import koma.matrix.MatrixFactory
  * backend the top-level functions use for computation.
  *
  */
-expect var doubleFactory: MatrixFactory<Matrix<Double>>
+var doubleFactory: MatrixFactory<Matrix<Double>> = getDoubleFactory()
 
 /**
  *
@@ -24,7 +30,7 @@ expect var doubleFactory: MatrixFactory<Matrix<Double>>
  * backend the top-level functions use for computation.
  *
  */
-expect var floatFactory: MatrixFactory<Matrix<Float>>
+var floatFactory: MatrixFactory<Matrix<Float>> = getFloatFactory()
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -34,4 +40,4 @@ expect var floatFactory: MatrixFactory<Matrix<Float>>
  * backend the top-level functions use for computation.
  *
  */
-expect var intFactory: MatrixFactory<Matrix<Int>>
+var intFactory: MatrixFactory<Matrix<Int>> = getIntFactory()
