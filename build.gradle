@@ -69,22 +69,6 @@ project(":koma-core-api-js") {
     }
 }
 
-project(":koma-core-api-native") {
-    apply plugin: 'konan'
-
-    konanArtifacts {
-        library('komaApiKlib') {
-            enableMultiplatform true
-            srcFiles fileTree('src')
-            linkerOpts "-S"
-            enableOptimizations(true)
-        }
-    }
-    dependencies {
-        expectedBy project(":koma-core-api-common")
-    }
-}
-
 project(":koma-core-ejml") {
     apply plugin: 'kotlin-platform-jvm'
 
@@ -204,17 +188,6 @@ project(":koma-core-js") {
     }
 }
 
-task buildJs {
-    dependsOn(":core-js:build")
-}
-task buildJvm {
-    dependsOn(":core-jvm-mtj:build")
-    dependsOn(":core-jvm-ejml:build")
-    dependsOn(":core-jvm-jblas:build")
-}
-task buildNative {
-    dependsOn(":core-native-cblas:build")
-}
 project(":koma-core-cblas") {
     apply plugin: 'konan'
     konanArtifacts {
@@ -229,10 +202,12 @@ project(":koma-core-cblas") {
         dynamic('koma') {
             enableMultiplatform true
             srcFiles fileTree('src')
+            // Because k/native doesnt support ServiceLoaders, reflection, etc., we have to build
+            // the API and the artifact together here.
+            srcFiles fileTree('../../koma-core-api/core-api-native/src')
             linkerOpts "-S"
             enableOptimizations(true)
             libraries {
-                artifact project(':koma-core-api-native'), 'komaApiKlib'
                 artifact 'cblas'
                 artifact 'lapacke'
             }
@@ -240,10 +215,10 @@ project(":koma-core-cblas") {
         library('komaKlib') {
             enableMultiplatform true
             srcFiles fileTree('src')
+            srcFiles fileTree('../../koma-core-api/core-api-native/src')
             linkerOpts "-S"
             enableOptimizations(true)
             libraries {
-                artifact project(':koma-core-api-native'), 'komaApiKlib'
                 artifact 'cblas'
                 artifact 'lapacke'
             }
@@ -255,6 +230,9 @@ project(":koma-core-cblas") {
                 srcFiles '../../examples/native/main.kt'
             }
         }
+    }
+    dependencies {
+        expectedBy project(":koma-core-api-common")
     }
     build.doLast {
         copy {
@@ -270,6 +248,19 @@ project(":koma-core-cblas") {
         }
     }
 }
+
+task buildJs {
+    dependsOn(":core-js:build")
+}
+task buildJvm {
+    dependsOn(":core-jvm-mtj:build")
+    dependsOn(":core-jvm-ejml:build")
+    dependsOn(":core-jvm-jblas:build")
+}
+task buildNative {
+    dependsOn(":core-native-cblas:build")
+}
+
 
 task codegen {
     doLast {

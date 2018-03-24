@@ -2,7 +2,7 @@ package koma.internal
 
 // TODO: merge this with kotlin-native implementation
 
-actual val rng = object: KomaRandom {
+actual internal val rng = object: KomaRandom {
 
     override fun setSeed(seed: Long) = TODO()
 

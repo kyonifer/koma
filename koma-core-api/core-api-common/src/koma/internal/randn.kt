@@ -1,6 +1,6 @@
 package koma.internal
 
-expect val rng: KomaRandom
+expect internal val rng: KomaRandom
 
 interface KomaRandom {
     fun setSeed(seed: Long)

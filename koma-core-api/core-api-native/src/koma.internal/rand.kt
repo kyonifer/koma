@@ -3,7 +3,7 @@ package koma.internal
 import kotlinx.cinterop.*
 import platform.posix.*
 
-actual val rng = object: KomaRandom {
+actual internal val rng = object: KomaRandom {
 
     init {
         srand(time(null).toInt())
