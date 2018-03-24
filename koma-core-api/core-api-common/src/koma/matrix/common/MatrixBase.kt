@@ -55,18 +55,18 @@ abstract class MatrixBase<T>: Matrix<T> {
                        makeOuter: (TInner) -> TOuter,
                        outerFac: MatrixFactory<TOuter>): TOuter {
 
-        when (mat) {
-            is TOuter -> return mat
+        return when (mat) {
+            is TOuter -> mat
             else      -> {
                 val base = mat.getBaseMatrix()
                 if (base is TInner)
-                    return makeOuter(base)
+                    makeOuter(base)
                 else {
                     val out = outerFac.zeros(mat.numRows(), mat.numCols())
                     for (row in 0.until(mat.numRows()))
                         for (col in 0.until(mat.numCols()))
                             out[row, col] = mat[row, col]
-                    return out
+                    out
                 }
             }
         }

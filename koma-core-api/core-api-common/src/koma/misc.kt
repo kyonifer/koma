@@ -47,5 +47,3 @@ fun format(formatStr: String) {
         "scivlong", "SciVLong", "SciNotVLong" -> matFormat = SCIENTIFIC_VERY_LONG_NUMBER
     }
 }
-
-const val DEPRECATE_IMPLICIT_2D = "Use rows,col overload instead. This method will be removed in a future update."

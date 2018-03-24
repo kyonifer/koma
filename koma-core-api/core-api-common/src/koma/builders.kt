@@ -62,19 +62,7 @@ object mat {
             if (curCol >= numCols)
                 throw IllegalArgumentException("When building matrices with mat[] please give even rows/cols")
             when (ele) {
-                is Double -> {
-                    out[curRow, curCol] = ele
-                    curCol += 1
-                }
-                is Int -> {
-                    out[curRow, curCol] = ele.toDouble()
-                    curCol += 1
-                }
-                is Long -> {
-                    out[curRow, curCol] = ele.toDouble()
-                    curCol += 1
-                }
-                is Float -> {
+                is Number -> {
                     out[curRow, curCol] = ele.toDouble()
                     curCol += 1
                 }

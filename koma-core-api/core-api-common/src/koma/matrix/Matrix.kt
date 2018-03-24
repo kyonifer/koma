@@ -257,7 +257,7 @@ interface Matrix<T> {
      */
     @KomaJsName("forEachRow")
     fun forEachRow(f: (Matrix<T>) -> Unit) {
-        for (row in 0..this.numRows() - 1)
+        for (row in 0 until this.numRows())
             f(this.getRow(row))
     }
 
@@ -268,7 +268,7 @@ interface Matrix<T> {
      */
     @KomaJsName("forEachCol")
     fun forEachCol(f: (Matrix<T>) -> Unit) {
-        for (col in 0..this.numCols() - 1)
+        for (col in 0 until this.numCols())
             f(this.getCol(col))
     }
 

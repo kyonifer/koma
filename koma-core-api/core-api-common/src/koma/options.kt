@@ -17,6 +17,11 @@ import kotlin.reflect.KProperty
 import koma.internal.KomaJvmName
 import koma.internal.KomaJvmMultifileClass
 
+@Deprecated("Use doubleFactory instead", replaceWith=ReplaceWith("doubleFactory"))
+var factory: MatrixFactory<Matrix<Double>>
+    get() = doubleFactory
+    set(value: MatrixFactory<Matrix<Double>>) { doubleFactory = value }
+
 /**
  *
  * Default factory that all top-level functions use when building new matrices.
@@ -26,8 +31,9 @@ import koma.internal.KomaJvmMultifileClass
  * backend the top-level functions use for computation.
  *
  */
-var factory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getPlatformDoubleFactories,
+var doubleFactory: MatrixFactory<Matrix<Double>> by MatFacProperty(::getPlatformDoubleFactories,
                                                              default = DefaultDoubleMatrixFactory())
+
 /**
  *
  * Default factory that all top-level functions use when building new matrices.

@@ -14,8 +14,8 @@ import koma.internal.KomaJvmName
  */
 @KomaJsName("any")
 inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             if (f(this[row, col]))
                 return true
     return false
@@ -23,8 +23,8 @@ inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
 @KomaJsName("anyDouble")
 @KomaJvmName("anyDouble")
 inline fun Matrix<Double>.any(f: (Double) -> Boolean): Boolean {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             if (f(this[row, col]))
                 return true
     return false
@@ -39,8 +39,8 @@ inline fun Matrix<Double>.any(f: (Double) -> Boolean): Boolean {
  */
 @KomaJsName("allExt")
 inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             if (!f(this[row, col]))
                 return false
     return true
@@ -48,8 +48,8 @@ inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
 @KomaJsName("all")
 @KomaJvmName("allDouble")
 inline fun Matrix<Double>.all(f: (Double) -> Boolean): Boolean {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             if (!f(this[row, col]))
                 return false
     return true
@@ -62,16 +62,16 @@ inline fun Matrix<Double>.all(f: (Double) -> Boolean): Boolean {
  * the return type must be the matrix primitive type (e.g. Double).
  */
 inline fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             this[row, col] = f(row, col)
     return this
 }
 @KomaJsName("fillDouble")
 @KomaJvmName("fillDouble")
 inline fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double> {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             this[row, col] = f(row, col)
     return this
 }
@@ -84,15 +84,15 @@ inline fun Matrix<Double>.fill(f: (row: Int, col: Int) -> Double): Matrix<Double
  */
 @KomaJsName("forEach")
 inline fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             f(this[row, col])
 }
 @KomaJsName("forEachDouble")
 @KomaJvmName("forEachDouble")
 inline fun Matrix<Double>.forEach(f: (Double) -> Unit) {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             f(this[row, col])
 }
 
@@ -103,15 +103,15 @@ inline fun Matrix<Double>.forEach(f: (Double) -> Unit) {
  */
 @KomaJsName("forEachIndexed")
 inline fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             f(row, col, this[row, col])
 }
 @KomaJsName("forEachIndexedDouble")
 @KomaJvmName("forEachIndexedDouble")
 inline fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) -> Unit) {
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             f(row, col, this[row, col])
 }
 
@@ -128,8 +128,8 @@ inline fun Matrix<Double>.forEachIndexed(f: (row: Int, col: Int, ele: Double) ->
 @KomaJsName("map")
 inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             out[row, col] = f(this[row, col])
     return out
 }
@@ -137,8 +137,8 @@ inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
 @KomaJvmName("mapDouble")
 inline fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             out[row, col] = f(this[row, col])
     return out
 }
@@ -155,8 +155,8 @@ inline fun Matrix<Double>.map(f: (Double) -> Double): Matrix<Double> {
 @KomaJsName("mapIndexed")
 inline fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             out[row, col] = f(row, col, this[row, col])
     return out
 }
@@ -164,8 +164,8 @@ inline fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matri
 @KomaJvmName("mapIndexedDouble")
 inline fun Matrix<Double>.mapIndexed(f: (row: Int, col: Int, ele: Double) -> Double): Matrix<Double> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
-    for (row in 0..this.numRows() - 1)
-        for (col in 0..this.numCols() - 1)
+    for (row in 0 until this.numRows())
+        for (col in 0 until this.numCols())
             out[row, col] = f(row, col, this[row, col])
     return out
 }

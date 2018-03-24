@@ -81,14 +81,14 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
     }
     override fun argMax(): Int { 
         var max = 0 
-        for (i in 0..this.numCols() * this.numRows() - 1) 
+        for (i in 0 until this.numCols() * this.numRows())
             if (this[i] > this[max]) 
                 max = i 
         return max 
     }
     override fun argMin(): Int { 
         var min = 0 
-        for (i in 0..this.numCols() * this.numRows() - 1) 
+        for (i in 0 until this.numCols() * this.numRows())
             if (this[i] < this[min]) 
                 min = i 
         return min 
