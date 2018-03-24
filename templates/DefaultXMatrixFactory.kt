@@ -42,27 +42,27 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
 
     override fun rand(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.rng.nextDouble().to${dtype}()}
-    
+            .fill { _, _ -> koma.internal.getRng().nextDouble().to${dtype}()}
+
 
     override fun randn(rows: Int, cols: Int): Matrix<${dtype}>
             = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.rng.nextGaussian().to${dtype}()}
-    
+            .fill { _, _ -> koma.internal.getRng().nextGaussian().to${dtype}()}
+
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<${dtype}> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Double, stop: Double): Matrix<${dtype}> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Int, stop: Int, increment: Int): Matrix<${dtype}> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Int, stop: Int): Matrix<${dtype}> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 }

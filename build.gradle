@@ -69,7 +69,7 @@ project(":koma-core-api-js") {
 project(":koma-core-ejml") {
     apply plugin: 'kotlin-platform-jvm'
 
-    sourceSets.main.kotlin.srcDirs = ['src']
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
 
     repositories {
         mavenCentral()
@@ -90,7 +90,7 @@ project(":koma-core-ejml") {
 project(":koma-core-jblas") {
     apply plugin: 'kotlin-platform-jvm'
 
-    sourceSets.main.kotlin.srcDirs = ['src']
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
 
     repositories {
         mavenCentral()
@@ -112,7 +112,7 @@ project(":koma-core-jblas") {
 project(":koma-core-mtj") {
     apply plugin: 'kotlin-platform-jvm'
 
-    sourceSets.main.kotlin.srcDirs = ['src']
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
 
     repositories {
         mavenCentral()
@@ -137,7 +137,7 @@ project(":koma-core-mtj") {
 project(":koma-core-js") {
     apply plugin: 'kotlin-platform-js'
 
-    sourceSets.main.kotlin.srcDirs = ['src']
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
 
     repositories {
         mavenCentral()
@@ -186,6 +186,7 @@ project(":koma-core-cblas") {
         dynamic('koma') {
             enableMultiplatform true
             srcFiles fileTree('src')
+            srcFiles fileTree('srcgen')
             // Because k/native doesnt support ServiceLoaders, reflection, etc., we have to build
             // the API and the artifact together here.
             srcFiles fileTree('../../koma-core-api/core-api-native/src')
@@ -199,6 +200,7 @@ project(":koma-core-cblas") {
         library('komaKlib') {
             enableMultiplatform true
             srcFiles fileTree('src')
+            srcFiles fileTree('srcgen')
             srcFiles fileTree('../../koma-core-api/core-api-native/src')
             linkerOpts "-S"
             enableOptimizations(true)
@@ -280,37 +282,45 @@ task buildNative {
     dependsOn(":koma-core-cblas:build")
 }
 
+def genCode(project, dtypesMatrix, dtypesNDArray) {
+    dtypesMatrix.forEach { dtype ->
+        copy {
+            from 'templates'
+            into "$project/srcgen/koma.matrix.default"
+            include 'DefaultXMatrix.kt'
+            rename { "Default${dtype}Matrix.kt" }
+
+            expand(div: getDiv(dtype),
+                    epow: getEPow(dtype),
+                    dtype: dtype)
+        }
+        copy {
+            from 'templates'
+            into "$project/srcgen/koma.matrix.default"
+            include 'DefaultXMatrixFactory.kt'
+            rename { "Default${dtype}MatrixFactory.kt" }
+            expand(dtype: dtype)
+        }
+    }
+    dtypesNDArray.forEach { dtype ->
+        copy {
+            from 'templates'
+            into "$project/srcgen/koma.ndarray.default"
+            include 'DefaultXNDArray.kt'
+            rename { "Default${dtype}NDArray.kt"}
+            expand(dtype: dtype)
+        }
+    }
+}
 
 task codegen {
     doLast {
-        ['Double', 'Float', 'Int', 'Long'].forEach { dtype ->
-            copy {
-                from 'core-common/templates'
-                into 'core-common/srcgen/koma.matrix.default'
-                include 'DefaultXMatrix.kt'
-                rename { "Default${dtype}Matrix.kt" }
-
-                expand(div: getDiv(dtype),
-                        epow: getEPow(dtype),
-                        dtype: dtype)
-            }
-            copy {
-                from 'core-common/templates'
-                into 'core-common/srcgen/koma.matrix.default'
-                include 'DefaultXMatrixFactory.kt'
-                rename { "Default${dtype}MatrixFactory.kt" }
-                expand(dtype: dtype)
-            }
-            copy {
-                from 'core-common/templates'
-                into 'core-common/srcgen/koma.ndarray.default'
-                include 'DefaultXNDArray.kt'
-                rename { "Default${dtype}NDArray.kt"}
-                expand(dtype: dtype)
-            }
-        }
+        genCode("koma-core/core-ejml", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-jblas", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-mtj", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-cblas", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-js", ['Double', 'Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
     }
-
 }
 def getDiv(dtype) {
     if (dtype != 'Int')
