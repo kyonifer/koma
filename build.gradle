@@ -44,7 +44,7 @@ project(":koma-core-api-jvm") {
     assemble.doLast {
         copy {
             from 'build/libs'
-            into getRootDir().toString() + "/build"
+            into getRootDir().toString() + "/build/jvm"
         }
     }
 }
@@ -64,12 +64,6 @@ project(":koma-core-api-js") {
     }
     compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_api.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build"
-        }
-    }
 }
 
 project(":koma-core-ejml") {
@@ -89,7 +83,7 @@ project(":koma-core-ejml") {
     assemble.doLast {
         copy {
             from 'build/libs'
-            into getRootDir().toString() + "/build"
+            into getRootDir().toString() + "/build/jvm"
         }
     }
 }
@@ -110,7 +104,7 @@ project(":koma-core-jblas") {
     assemble.doLast {
         copy {
             from 'build/libs'
-            into getRootDir().toString() + "/build"
+            into getRootDir().toString() + "/build/jvm"
         }
     }
 }
@@ -135,7 +129,7 @@ project(":koma-core-mtj") {
     assemble.doLast {
         copy {
             from 'build/libs'
-            into getRootDir().toString() + "/build"
+            into getRootDir().toString() + "/build/jvm"
         }
     }
 }
@@ -157,7 +151,7 @@ project(":koma-core-js") {
     compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 
-    // copy kotlin.js to output dir
+    // copy kotlin.js and friends to output dir
     build.doLast {
         configurations.compile.each { File file ->
             copy {
@@ -170,6 +164,10 @@ project(":koma-core-js") {
                     path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
                 }
             }
+        }
+        copy {
+            from getRootDir().toString() + "/node_modules"
+            into getRootDir().toString() + "/build/node_modules"
         }
     }
 }
@@ -230,7 +228,7 @@ project(":koma-core-cblas") {
             include "*.so"
             include "*.dylib"
             include "*.dll"
-            into getRootDir().toString() + "/build"
+            into getRootDir().toString() + "/build/native"
         }
     }
 }
@@ -276,6 +274,7 @@ task buildJvm {
     dependsOn(":koma-core-mtj:build")
     dependsOn(":koma-core-ejml:build")
     dependsOn(":koma-core-jblas:build")
+    dependsOn(":koma-core-api-jvm:build")
 }
 task buildNative {
     dependsOn(":koma-core-cblas:build")
