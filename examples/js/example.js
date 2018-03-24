@@ -1,4 +1,6 @@
-koma = require('koma').koma
+
+kotlin = require('kotlin')
+koma = require('koma_api').koma
 
 m = koma.randn(3,3)
 

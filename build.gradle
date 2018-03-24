@@ -63,6 +63,8 @@ project(":koma-core-api-js") {
         expectedBy project(":koma-core-api-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_api.js"
+    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
     assemble.doLast {
         copy {
             from 'build/libs'
