@@ -270,15 +270,15 @@ project(':koma-tests') {
 }
 
 task buildJs {
-    dependsOn(":core-js:build")
+    dependsOn(":koma-core-js:build")
 }
 task buildJvm {
-    dependsOn(":core-jvm-mtj:build")
-    dependsOn(":core-jvm-ejml:build")
-    dependsOn(":core-jvm-jblas:build")
+    dependsOn(":koma-core-mtj:build")
+    dependsOn(":koma-core-ejml:build")
+    dependsOn(":koma-core-jblas:build")
 }
 task buildNative {
-    dependsOn(":core-native-cblas:build")
+    dependsOn(":koma-core-cblas:build")
 }
 
 
