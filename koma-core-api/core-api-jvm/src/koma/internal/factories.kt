@@ -1,8 +1,9 @@
 package koma.internal
 
 import koma.matrix.*
+import koma.matrix.default.DefaultDoubleMatrixFactory
 
-internal actual fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
+internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
     val facCandidates = arrayOf("koma.matrix.mtj.MTJMatrixFactory",
                                 "koma.matrix.ejml.EJMLMatrixFactory",
                                 "koma.matrix.jblas.JBlasMatrixFactory")
@@ -27,5 +28,6 @@ internal actual fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
         catch(e: NoClassDefFoundError) {
         }
     }
+    out.add(DefaultDoubleMatrixFactory())
     return out
 }

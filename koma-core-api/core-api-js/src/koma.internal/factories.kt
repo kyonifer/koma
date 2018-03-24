@@ -1,7 +1,7 @@
 package koma.internal
 
 import koma.matrix.*
+import koma.matrix.default.DefaultDoubleMatrixFactory
 
-internal actual fun getFactories(): List<MatrixFactory<Matrix<Double>>> {
-    return listOf()
-}
+internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>>
+        = listOf(DefaultDoubleMatrixFactory())

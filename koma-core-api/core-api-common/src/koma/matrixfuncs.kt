@@ -280,7 +280,6 @@ fun argMax(arr: Matrix<Double>) = arr.argMax()
  */
 fun argMin(arr: Matrix<Double>) = arr.argMin()
 
-// Adv funcs
 /**
  * Calculates the matrix exponential of the input matrix. Note that this is
  * NOT the same thing as the elementwise exponential function.
@@ -343,6 +342,3 @@ fun vstack(vararg arrs: Matrix<Double>): Matrix<Double> {
     }
     return out
 }
-
-// TODO:
-//fun fft(arr: Matrix)
