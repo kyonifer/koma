@@ -42,27 +42,27 @@ class DefaultDoubleMatrixFactory: MatrixFactory<Matrix<Double>> {
 
     override fun rand(rows: Int, cols: Int): Matrix<Double>
             = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.rng.nextDouble().toDouble()}
-    
+            .fill { _, _ -> koma.internal.getRng().nextDouble().toDouble()}
+
 
     override fun randn(rows: Int, cols: Int): Matrix<Double>
             = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.rng.nextGaussian().toDouble()}
-    
+            .fill { _, _ -> koma.internal.getRng().nextGaussian().toDouble()}
+
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<Double> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Double, stop: Double): Matrix<Double> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Int, stop: Int, increment: Int): Matrix<Double> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Int, stop: Int): Matrix<Double> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 }

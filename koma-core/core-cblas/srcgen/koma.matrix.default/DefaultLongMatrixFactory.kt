@@ -42,27 +42,27 @@ class DefaultLongMatrixFactory: MatrixFactory<Matrix<Long>> {
 
     override fun rand(rows: Int, cols: Int): Matrix<Long>
             = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.rng.nextDouble().toLong()}
-    
+            .fill { _, _ -> koma.internal.getRng().nextDouble().toLong()}
+
 
     override fun randn(rows: Int, cols: Int): Matrix<Long>
             = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.rng.nextGaussian().toLong()}
-    
+            .fill { _, _ -> koma.internal.getRng().nextGaussian().toLong()}
+
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<Long> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Double, stop: Double): Matrix<Long> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Int, stop: Int, increment: Int): Matrix<Long> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 
     override fun arange(start: Int, stop: Int): Matrix<Long> {
-        TODO("not implemented") 
+        TODO("not implemented")
     }
 }
