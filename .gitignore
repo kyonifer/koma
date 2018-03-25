@@ -1,4 +1,4 @@
-build/*
+**/build/*
 *.iml
 .idea/*
 .gradle/*
@@ -11,7 +11,6 @@ kobalt/out/*
 local.properties
 node_modules/*
 *.kexe
-*/srcgen/*
 docs/site
 docs/markdown/Reference*
 */out/*

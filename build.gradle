@@ -1,0 +1,344 @@
+buildscript {
+    ext.kotlin_version = '1.2.31'
+    ext.kotlin_native_version = '0.6.2'
+
+    repositories {
+        mavenCentral()
+        maven { url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
+    }
+}
+
+apply from: 'buildscripts/publishing.gradle'
+
+project(':koma-core-api-common') {
+    apply plugin: 'kotlin-platform-common'
+
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+    }
+}
+
+project(":koma-core-api-jvm") {
+    apply plugin: 'kotlin-platform-jvm'
+
+    sourceSets.main.kotlin.srcDirs = ['src']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        expectedBy project(":koma-core-api-common")
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build/jvm"
+        }
+    }
+}
+
+project(":koma-core-api-js") {
+    apply plugin: 'kotlin-platform-js'
+
+    sourceSets.main.kotlin.srcDirs = ['src']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        expectedBy project(":koma-core-api-common")
+        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    }
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_api.js"
+    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+}
+
+project(":koma-core-ejml") {
+    apply plugin: 'kotlin-platform-jvm'
+
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(":koma-core-api-jvm")
+        compile "org.ejml:all:0.27"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build/jvm"
+        }
+    }
+}
+project(":koma-core-jblas") {
+    apply plugin: 'kotlin-platform-jvm'
+
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(":koma-core-api-jvm")
+        compile "org.jblas:jblas:1.2.3"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build/jvm"
+        }
+    }
+}
+
+project(":koma-core-mtj") {
+    apply plugin: 'kotlin-platform-jvm'
+
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(":koma-core-api-jvm")
+        compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
+            // Fix issue with pom-only artifacts in MTJ
+            exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
+        }
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build/jvm"
+        }
+    }
+}
+
+project(":koma-core-js") {
+    apply plugin: 'kotlin-platform-js'
+
+    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(":koma-core-api-js")
+    }
+
+
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_implementation.js"
+    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+
+    // copy kotlin.js and friends to output dir
+    build.doLast {
+        configurations.compile.each { File file ->
+            copy {
+                includeEmptyDirs = false
+
+                from zipTree(file.absolutePath)
+                into "node_modules"
+                include { fileTreeElement ->
+                    def path = fileTreeElement.path
+                    path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+                }
+            }
+        }
+        copy {
+            from getRootDir().toString() + "/node_modules"
+            into getRootDir().toString() + "/build/node_modules"
+        }
+    }
+}
+
+project(":koma-core-cblas") {
+    apply plugin: 'konan'
+    konanArtifacts {
+        interop('cblas') {
+            // TODO: `headers` here, but search the include path for a blas header,
+            // removing the hardcoded one in the defFile
+            defFile('cblas.def')
+        }
+        interop('lapacke') {
+            defFile('lapacke.def')
+        }
+        dynamic('koma') {
+            enableMultiplatform true
+            srcFiles fileTree('src')
+            srcFiles fileTree('srcgen')
+            // Because k/native doesnt support ServiceLoaders, reflection, etc., we have to build
+            // the API and the artifact together here.
+            srcFiles fileTree('../../koma-core-api/native/src')
+            linkerOpts "-S"
+            enableOptimizations(true)
+            libraries {
+                artifact 'cblas'
+                artifact 'lapacke'
+            }
+        }
+        library('komaKlib') {
+            enableMultiplatform true
+            srcFiles fileTree('src')
+            srcFiles fileTree('srcgen')
+            srcFiles fileTree('../../koma-core-api/native/src')
+            linkerOpts "-S"
+            enableOptimizations(true)
+            libraries {
+                artifact 'cblas'
+                artifact 'lapacke'
+            }
+        }
+        program('komaExample') {
+
+            libraries {
+                artifact 'komaKlib'
+                srcFiles '../../examples/native/main.kt'
+            }
+        }
+    }
+    dependencies {
+        expectedBy project(":koma-core-api-common")
+    }
+    build.doLast {
+        copy {
+            from "build/konan/bin/linux"
+            from "build/konan/libs/linux"
+            include "*.kexe"
+            include "*.klib"
+            include "*.h"
+            include "*.so"
+            include "*.dylib"
+            include "*.dll"
+            into getRootDir().toString() + "/build/native"
+        }
+    }
+}
+
+project(':koma-logging') {
+    apply plugin: 'kotlin'
+
+    sourceSets.main.kotlin.srcDirs = ['src']
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile project(":koma-core-api-jvm")
+        compile "org.slf4j:slf4j-api:1.7.21"
+        compile "ch.qos.logback:logback-classic:1.1.7"
+    }
+}
+
+project(':koma-tests') {
+    apply plugin: 'kotlin'
+
+    sourceSets.test.kotlin.srcDirs = ['test']
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        testCompile "junit:junit:4.12"
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+        testCompile project(':koma-core-mtj')
+        testCompile project(':koma-core-ejml')
+        testCompile project(':koma-core-jblas')
+    }
+
+}
+
+task buildJs {
+    dependsOn(":koma-core-js:build")
+}
+task buildJvm {
+    dependsOn(":koma-core-mtj:build")
+    dependsOn(":koma-core-ejml:build")
+    dependsOn(":koma-core-jblas:build")
+    dependsOn(":koma-core-api-jvm:build")
+}
+task buildNative {
+    dependsOn(":koma-core-cblas:build")
+}
+
+def genCode(project, dtypesMatrix, dtypesNDArray) {
+    dtypesMatrix.forEach { dtype ->
+        copy {
+            from 'templates'
+            into "$project/srcgen/koma.matrix.default"
+            include 'DefaultXMatrix.kt'
+            rename { "Default${dtype}Matrix.kt" }
+
+            expand(div: getDiv(dtype),
+                    epow: getEPow(dtype),
+                    dtype: dtype)
+        }
+        copy {
+            from 'templates'
+            into "$project/srcgen/koma.matrix.default"
+            include 'DefaultXMatrixFactory.kt'
+            rename { "Default${dtype}MatrixFactory.kt" }
+            expand(dtype: dtype)
+        }
+    }
+    dtypesNDArray.forEach { dtype ->
+        copy {
+            from 'templates'
+            into "$project/srcgen/koma.ndarray.default"
+            include 'DefaultXNDArray.kt'
+            rename { "Default${dtype}NDArray.kt"}
+            expand(dtype: dtype)
+        }
+    }
+}
+
+task codegen {
+    doLast {
+        genCode("koma-core/core-ejml", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-jblas", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-mtj", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-cblas", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core/core-js", ['Double', 'Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+    }
+}
+def getDiv(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun div(other: ${dtype}): Matrix<${dtype}>
+            = this.mapIndexed { _, _, ele -> ele/other}
+"""
+    else
+        return ""
+}
+def getEPow(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun epow(other: ${dtype}): Matrix<${dtype}> 
+            = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+"""
+    else
+        return ""
+
+}
+

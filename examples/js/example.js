@@ -1,4 +1,8 @@
-koma = require('koma-core').koma
+
+kotlin = require('kotlin')
+koma = require('koma_core_api').koma
+// Load the default implementation
+require('koma_core_implementation').koma
 
 m = koma.randn(3,3)
 

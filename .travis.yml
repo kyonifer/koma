@@ -6,25 +6,12 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libgfortran3 liblapacke-dev libopenblas-dev
 
-script: ./gradlew $BUILDCMD -Ptarget=$TARGET --info
-
-# TODO: enable dynlib generation when k/native #1199 fix is released
-env:
-  - TARGET=jvm BUILDCMD=build
-  - TARGET=js BUILDCMD=build
-  - TARGET=native BUILDCMD=":compileKonanKomaExample"
+script: ./gradlew build --info
 
 jdk:
   - oraclejdk8
   - openjdk8
   
-matrix:
-  exclude:
-  - jdk: oraclejdk8
-    env: TARGET=js BUILDCMD=build
-  - jdk: oraclejdk8
-    env: TARGET=native BUILDCMD=":compileKonanKomaExample"
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
