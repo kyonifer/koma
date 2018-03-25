@@ -26,7 +26,7 @@ fun <T: Number> assertMatrixEquals(expected: Matrix<T>, actual: Matrix<T>, eps: 
     }
 }
 
-private var facs = getDoubleFactories()
+private val facs get() = getDoubleFactories()
 
 /**
  * A helper function to run tests against all available backends in sequence. Sets [koma.factory] to each backend
