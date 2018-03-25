@@ -62,7 +62,7 @@ project(":koma-core-api-js") {
         expectedBy project(":koma-core-api-common")
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_api.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_api.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 }
 
@@ -148,7 +148,7 @@ project(":koma-core-js") {
     }
 
 
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma.js"
+    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_implementation.js"
     compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 
     // copy kotlin.js and friends to output dir
