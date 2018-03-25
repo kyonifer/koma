@@ -10,14 +10,14 @@ include 'koma-core-js'
 include 'koma-logging'
 include 'koma-tests'
 
-project(":koma-core-api-common").projectDir = file("koma-core-api/core-api-common")
-project(":koma-core-api-jvm").projectDir = file("koma-core-api/core-api-jvm")
-project(":koma-core-api-js").projectDir = file("koma-core-api/core-api-js")
-project(":koma-core-api-native").projectDir = file("koma-core-api/core-api-native")
-project(":koma-core-js").projectDir = file("koma-core/core-js")
-project(":koma-core-ejml").projectDir = file("koma-core/core-ejml")
-project(":koma-core-mtj").projectDir = file("koma-core/core-mtj")
-project(":koma-core-jblas").projectDir = file("koma-core/core-jblas")
-project(":koma-core-cblas").projectDir = file("koma-core/core-cblas")
+project(":koma-core-api-common").projectDir = file("koma-core-api/common")
+project(":koma-core-api-jvm").projectDir = file("koma-core-api/jvm")
+project(":koma-core-api-js").projectDir = file("koma-core-api/js")
+project(":koma-core-api-native").projectDir = file("koma-core-api/native")
+project(":koma-core-js").projectDir = file("koma-core/js-default")
+project(":koma-core-ejml").projectDir = file("koma-core/jvm-ejml")
+project(":koma-core-mtj").projectDir = file("koma-core/jvm-mtj")
+project(":koma-core-jblas").projectDir = file("koma-core/jvm-jblas")
+project(":koma-core-cblas").projectDir = file("koma-core/native-cblas")
 
 

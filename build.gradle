@@ -189,7 +189,7 @@ project(":koma-core-cblas") {
             srcFiles fileTree('srcgen')
             // Because k/native doesnt support ServiceLoaders, reflection, etc., we have to build
             // the API and the artifact together here.
-            srcFiles fileTree('../../koma-core-api/core-api-native/src')
+            srcFiles fileTree('../../koma-core-api/native/src')
             linkerOpts "-S"
             enableOptimizations(true)
             libraries {
@@ -201,7 +201,7 @@ project(":koma-core-cblas") {
             enableMultiplatform true
             srcFiles fileTree('src')
             srcFiles fileTree('srcgen')
-            srcFiles fileTree('../../koma-core-api/core-api-native/src')
+            srcFiles fileTree('../../koma-core-api/native/src')
             linkerOpts "-S"
             enableOptimizations(true)
             libraries {
