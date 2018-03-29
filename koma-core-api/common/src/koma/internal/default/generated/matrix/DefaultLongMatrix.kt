@@ -8,6 +8,8 @@ package koma.internal.default.generated.matrix
 import koma.*
 import koma.extensions.*
 import koma.matrix.*
+import koma.internal.notImplemented
+
 
 class DefaultLongMatrix (val rows: Int, 
                           val cols: Int): Matrix<Long> {
@@ -133,47 +135,47 @@ class DefaultLongMatrix (val rows: Int,
     }
 
     override fun chol(): Matrix<Long> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun LU(): Triple<Matrix<Long>, Matrix<Long>, Matrix<Long>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun QR(): Pair<Matrix<Long>, Matrix<Long>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun SVD(): Triple<Matrix<Long>, Matrix<Long>, Matrix<Long>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
 	override fun expm(): Matrix<Long> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun solve(other: Matrix<Long>): Matrix<Long> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun inv(): Matrix<Long> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun det(): Long {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun pinv(): Matrix<Long> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun normF(): Long {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun normIndP1(): Long {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun elementSum(): Long 
@@ -211,7 +213,7 @@ class DefaultLongMatrix (val rows: Int,
     }
 
     override fun trace(): Long {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun T(): Matrix<Long> = this.transpose()

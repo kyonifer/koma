@@ -1,5 +1,7 @@
 package koma.internal
 
+import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
+import koma.internal.default.generated.matrix.DefaultIntMatrixFactory
 import koma.matrix.*
 
 // TODO: Replace with ServiceLoader
@@ -34,9 +36,14 @@ internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
 }
 
 
-actual fun getDoubleFactory(): MatrixFactory<Matrix<Double>> = getFactories<Double>()[0]
-actual fun getFloatFactory(): MatrixFactory<Matrix<Float>> = getFactories<Float>()[0]
-actual fun getIntFactory(): MatrixFactory<Matrix<Int>> = getFactories<Int>()[0]
+actual fun getDoubleFactory(): MatrixFactory<Matrix<Double>> {
+    val facs = getFactories<Double>()
+    if (facs.isNotEmpty())
+        return facs[0]
+    error("No double matrix factories available. (Did you forget to import a koma-core implementation?)")
+}
+actual fun getFloatFactory(): MatrixFactory<Matrix<Float>> = DefaultFloatMatrixFactory()
+actual fun getIntFactory(): MatrixFactory<Matrix<Int>> = DefaultIntMatrixFactory()
 
 
 internal fun <T> getFactories(): List<MatrixFactory<Matrix<T>>> {

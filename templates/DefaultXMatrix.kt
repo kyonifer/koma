@@ -8,6 +8,8 @@ package ${namespace}.matrix
 import koma.*
 import koma.extensions.*
 import koma.matrix.*
+import koma.internal.notImplemented
+
 
 class Default${dtype}Matrix (val rows: Int, 
                           val cols: Int): Matrix<${dtype}> {
@@ -127,47 +129,47 @@ class Default${dtype}Matrix (val rows: Int,
     }
 
     override fun chol(): Matrix<${dtype}> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun LU(): Triple<Matrix<${dtype}>, Matrix<${dtype}>, Matrix<${dtype}>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun QR(): Pair<Matrix<${dtype}>, Matrix<${dtype}>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun SVD(): Triple<Matrix<${dtype}>, Matrix<${dtype}>, Matrix<${dtype}>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
 	override fun expm(): Matrix<${dtype}> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun solve(other: Matrix<${dtype}>): Matrix<${dtype}> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun inv(): Matrix<${dtype}> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun det(): ${dtype} {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun pinv(): Matrix<${dtype}> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun normF(): ${dtype} {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun normIndP1(): ${dtype} {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun elementSum(): ${dtype} 
@@ -205,7 +207,7 @@ class Default${dtype}Matrix (val rows: Int,
     }
 
     override fun trace(): ${dtype} {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun T(): Matrix<${dtype}> = this.transpose()

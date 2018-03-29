@@ -8,6 +8,8 @@ package koma.internal.default.generated.matrix
 import koma.*
 import koma.extensions.*
 import koma.matrix.*
+import koma.internal.notImplemented
+
 
 class DefaultDoubleMatrix (val rows: Int, 
                           val cols: Int): Matrix<Double> {
@@ -133,47 +135,47 @@ class DefaultDoubleMatrix (val rows: Int,
     }
 
     override fun chol(): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun QR(): Pair<Matrix<Double>, Matrix<Double>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun SVD(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
 	override fun expm(): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun solve(other: Matrix<Double>): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun inv(): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun det(): Double {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun pinv(): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun normF(): Double {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun normIndP1(): Double {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun elementSum(): Double 
@@ -211,7 +213,7 @@ class DefaultDoubleMatrix (val rows: Int,
     }
 
     override fun trace(): Double {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun T(): Matrix<Double> = this.transpose()

@@ -8,6 +8,7 @@ package koma.internal.default.generated.matrix
 import koma.*
 import koma.matrix.*
 import koma.extensions.*
+import koma.internal.notImplemented
 
 class DefaultDoubleMatrixFactory: MatrixFactory<Matrix<Double>> {
     override fun zeros(rows: Int, cols: Int) 
@@ -56,18 +57,18 @@ class DefaultDoubleMatrixFactory: MatrixFactory<Matrix<Double>> {
 
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun arange(start: Double, stop: Double): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun arange(start: Int, stop: Int, increment: Int): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 
     override fun arange(start: Int, stop: Int): Matrix<Double> {
-        TODO("not implemented")
+        error(notImplemented)
     }
 }
