@@ -8,9 +8,7 @@ import org.ejml.ops.CommonOps
 import org.ejml.simple.SimpleMatrix
 import org.ejml.simple.SimpleSVD
 
-fun main(args: Array<String>) {
-    println("hi")
-}
+
 /**
  * An implementation of the Matrix<Double> interface using EJML.
  * You should rarely construct this class directly, instead make one via the

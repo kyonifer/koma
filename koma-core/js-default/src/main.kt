@@ -1,7 +1,6 @@
-import koma.matrix.default.DefaultDoubleMatrixFactory
-import koma.matrix.default.DefaultFloatMatrixFactory
-import koma.matrix.default.DefaultIntMatrixFactory
-import koma.matrix.default.DefaultLongMatrixFactory
+import koma.internal.default.generated.matrix.DefaultDoubleMatrixFactory
+import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
+import koma.internal.default.generated.matrix.DefaultIntMatrixFactory
 
 fun main(args: Array<String>) {
     /**

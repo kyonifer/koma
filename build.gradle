@@ -282,44 +282,46 @@ task buildNative {
     dependsOn(":koma-core-cblas:build")
 }
 
-def genCode(project, dtypesMatrix, dtypesNDArray) {
+def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
     dtypesMatrix.forEach { dtype ->
         copy {
             from 'templates'
-            into "$project/srcgen/koma.matrix.default"
+            into "$project/matrix"
             include 'DefaultXMatrix.kt'
             rename { "Default${dtype}Matrix.kt" }
 
             expand(div: getDiv(dtype),
                     epow: getEPow(dtype),
-                    dtype: dtype)
+                    dtype: dtype,
+                    namespace: namespace)
         }
         copy {
             from 'templates'
-            into "$project/srcgen/koma.matrix.default"
+            into "$project/matrix"
             include 'DefaultXMatrixFactory.kt'
             rename { "Default${dtype}MatrixFactory.kt" }
-            expand(dtype: dtype)
+            expand(dtype: dtype,
+                   namespace: namespace)
         }
     }
     dtypesNDArray.forEach { dtype ->
         copy {
             from 'templates'
-            into "$project/srcgen/koma.ndarray.default"
+            into "$project/ndarray"
             include 'DefaultXNDArray.kt'
             rename { "Default${dtype}NDArray.kt"}
-            expand(dtype: dtype)
+            expand(dtype: dtype,
+                   namespace: namespace)
         }
     }
 }
 
 task codegen {
     doLast {
-        genCode("koma-core/core-ejml", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
-        genCode("koma-core/core-jblas", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
-        genCode("koma-core/core-mtj", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
-        genCode("koma-core/core-cblas", ['Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
-        genCode("koma-core/core-js", ['Double', 'Float', 'Int', 'Long'], ['Double', 'Float', 'Int', 'Long'])
+        genCode("koma-core-api/common/src/koma/internal/default/generated",
+                "koma.internal.default.generated",
+                ['Double', 'Float', 'Int', 'Long'],
+                ['Double', 'Float', 'Int', 'Long'])
     }
 }
 def getDiv(dtype) {
