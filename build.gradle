@@ -1,18 +1,19 @@
 buildscript {
     ext.kotlin_version = '1.2.31'
     ext.kotlin_native_version = '0.6.2'
+    ext.project_version = '0.12'
 
     repositories {
         mavenCentral()
+        jcenter()
         maven { url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
-
-apply from: 'buildscripts/publishing.gradle'
 
 project(':koma-core-api-common') {
     apply plugin: 'kotlin-platform-common'
@@ -344,3 +345,4 @@ def getEPow(dtype) {
 
 }
 
+apply from: 'buildscripts/publishing.gradle'

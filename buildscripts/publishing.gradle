@@ -1,38 +1,39 @@
 
-subprojects {
-    project.ext.configurePublishing = {
-        apply plugin: 'com.jfrog.bintray'
-        bintray {
-            user = System.getenv('BINTRAY_USER')
-            key = System.getenv("BINTRAY_KEY")
-            publications = ['MyPublication']
-            pkg {
-                repo = 'maven'
-                name = project.name
-                licenses = ['Apache-2.0']
-                vcsUrl = 'https://github.com/kyonifer/koma.git'
-                version {
-                    name=project_version
-                }
+def published = ['koma-core-ejml', 'koma-core-mtj', 'koma-core-jblas',
+                 'koma-core-api-common', 'koma-core-api-js', 'koma-core-api-jvm',
+                 'koma-core-js']
+
+configure(subprojects.findAll { published.contains(it.name) }) {
+    apply plugin: 'com.jfrog.bintray'
+    bintray {
+        user = System.getenv('BINTRAY_USER')
+        key = System.getenv("BINTRAY_KEY")
+        publications = ['MyPublication']
+        pkg {
+            repo = 'maven'
+            name = project.name
+            licenses = ['Apache-2.0']
+            vcsUrl = 'https://github.com/kyonifer/koma.git'
+            version {
+                name=project_version
             }
         }
-        task sourceJar ( type: Jar, dependsOn: classes ) {
-            classifier 'sources'
-            from sourceSets.main.kotlin
-        }
+    }
+    task sourceJar ( type: Jar ) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
 
-        apply plugin: 'maven-publish'
-        publishing {
-            publications {
-                MyPublication(MavenPublication) {
-                    from components.java
-                    artifact sourceJar
-                    groupId 'koma'
-                    artifactId project.name
-                    version project_version
-                }
+    apply plugin: 'maven-publish'
+    publishing {
+        publications {
+            MyPublication(MavenPublication) {
+                from components.java
+                artifact sourceJar
+                groupId 'koma'
+                artifactId project.name
+                version project_version
             }
         }
-
     }
 }
