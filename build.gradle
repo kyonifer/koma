@@ -64,7 +64,9 @@ project(":koma-core-api-js") {
         compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     }
     compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_api.js"
-    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+    compileKotlin2Js.kotlinOptions.moduleKind = "umd"
+    compileKotlin2Js.kotlinOptions.sourceMap = true
+    compileKotlin2Js.kotlinOptions.metaInfo = true
 }
 
 project(":koma-core-ejml") {
@@ -150,7 +152,9 @@ project(":koma-core-js") {
 
 
     compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_implementation.js"
-    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+    compileKotlin2Js.kotlinOptions.moduleKind = "umd"
+    compileKotlin2Js.kotlinOptions.sourceMap = true
+    compileKotlin2Js.kotlinOptions.metaInfo = true
 
     // copy kotlin.js and friends to output dir
     build.doLast {
