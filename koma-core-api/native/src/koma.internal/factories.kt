@@ -2,8 +2,8 @@ package koma.internal
 
 import koma.matrix.*
 import koma.matrix.cblas.CBlasMatrixFactory
-import koma.matrix.default.DefaultFloatMatrixFactory
-import koma.matrix.default.DefaultIntMatrixFactory
+import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
+import koma.internal.default.generated.matrix.DefaultIntMatrixFactory
 
 internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
     return listOf(CBlasMatrixFactory())
