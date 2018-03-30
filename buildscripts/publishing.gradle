@@ -1,7 +1,7 @@
 
 def published = ['koma-core-ejml', 'koma-core-mtj', 'koma-core-jblas',
                  'koma-core-api-common', 'koma-core-api-js', 'koma-core-api-jvm',
-                 'koma-core-js']
+                 'koma-core-js', 'koma-logging']
 
 configure(subprojects.findAll { published.contains(it.name) }) {
     apply plugin: 'com.jfrog.bintray'
@@ -30,7 +30,7 @@ configure(subprojects.findAll { published.contains(it.name) }) {
             MyPublication(MavenPublication) {
                 from components.java
                 artifact sourceJar
-                groupId 'koma'
+                groupId 'com.kyonifer'
                 artifactId project.name
                 version project_version
             }
