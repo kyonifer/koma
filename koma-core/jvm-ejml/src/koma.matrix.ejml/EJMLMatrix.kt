@@ -4,7 +4,8 @@ import koma.extensions.*
 import koma.matrix.*
 import koma.matrix.common.*
 import koma.matrix.ejml.backend.*
-import org.ejml.ops.CommonOps
+import org.ejml.dense.row.CommonOps_DDRM
+import org.ejml.dense.row.NormOps_DDRM
 import org.ejml.simple.SimpleMatrix
 import org.ejml.simple.SimpleSVD
 
@@ -17,11 +18,11 @@ import org.ejml.simple.SimpleSVD
 class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase() {
     override fun getBaseMatrix() = this.storage
 
-    override fun getDoubleData() = this.storage.matrix.getData()
-    override fun diag() = EJMLMatrix(storage.extractDiag())
-    override fun max() = CommonOps.elementMax(this.storage.matrix)
+    override fun getDoubleData() = this.storage.ddrm.getData()
+    override fun diag() = EJMLMatrix(storage.diag())
+    override fun max() = CommonOps_DDRM.elementMax(this.storage.ddrm)
     override fun mean() = elementSum() / (numCols() * numRows())
-    override fun min() = CommonOps.elementMin(this.storage.matrix)
+    override fun min() = CommonOps_DDRM.elementMin(this.storage.ddrm)
 
     override fun numRows() = this.storage.numRows()
     override fun numCols() = this.storage.numCols()
@@ -42,15 +43,15 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun setDouble(i: Int, j: Int, v: Double) = this.storage.set(i, j, v)
     override fun getDouble(i: Int, j: Int) = this.storage.get(i, j)
     override fun getDouble(i: Int) = this.storage.get(i)
-    override fun getRow(row: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractRow(this.storage.matrix, row, null)))
-    override fun getCol(col: Int) = EJMLMatrix(SimpleMatrix(CommonOps.extractColumn(this.storage.matrix, col, null)))
+    override fun getRow(row: Int) = EJMLMatrix(SimpleMatrix(this.storage.extractVector(true, row)))
+    override fun getCol(col: Int) = EJMLMatrix(SimpleMatrix(this.storage.extractVector(false, col)))
     override fun plus(other: Matrix<Double>) =
             EJMLMatrix(this.storage.plus(castOrCopy(other, ::EJMLMatrix, getFactory()).storage))
     override fun plus(other: Double) = EJMLMatrix(this.storage.plus(other))
     override fun chol(): EJMLMatrix {
         val decomp = this.storage.chol()
         // Copy required to prevent decompose implementations distorting the input matrix
-        if (decomp.decompose(this.storage.matrix.copy()))
+        if (decomp.decompose(this.storage.ddrm.copy()))
             return EJMLMatrix(SimpleMatrix(decomp.getT(null)))
         else
             throw IllegalStateException("chol decomposition failed (is the matrix full rank?)")
@@ -60,7 +61,7 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun det() = this.storage.determinant()
     override fun pinv() = EJMLMatrix(this.storage.pseudoInverse())
     override fun normF() = this.storage.normF()
-    override fun normIndP1() = org.ejml.ops.NormOps.inducedP1(this.storage.matrix)
+    override fun normIndP1() = NormOps_DDRM.inducedP1(this.storage.ddrm)
     override fun elementSum() = this.storage.elementSum()
     override fun trace() = this.storage.trace()
     override fun epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
@@ -74,15 +75,15 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
 
     override fun solve(other: Matrix<Double>): EJMLMatrix {
         val out = this.getFactory().zeros(this.numCols(), 1)
-        CommonOps.solve(this.storage.matrix,
-                        castOrCopy(other, ::EJMLMatrix, getFactory()).storage.matrix,
-                        out.storage.matrix)
+        CommonOps_DDRM.solve(this.storage.ddrm,
+                        castOrCopy(other, ::EJMLMatrix, getFactory()).storage.ddrm,
+                        out.storage.ddrm)
         return out
     }
 
     override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
         val decomp = this.storage.LU()
-        return Triple(EJMLMatrix(SimpleMatrix(decomp.getPivot(null))),
+        return Triple(EJMLMatrix(SimpleMatrix(decomp.getRowPivot(null))),
                       EJMLMatrix(SimpleMatrix(decomp.getLower(null))),
                       EJMLMatrix(SimpleMatrix(decomp.getUpper(null))))
     }

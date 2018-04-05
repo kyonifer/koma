@@ -19,8 +19,8 @@
 
 package koma.matrix.ejml.backend
 
-import org.ejml.factory.DecompositionFactory
-import org.ejml.ops.CommonOps
+import org.ejml.dense.row.CommonOps_DDRM
+import org.ejml.dense.row.factory.DecompositionFactory_DDRM
 import org.ejml.simple.SimpleMatrix
 
 // Algebraic Operators (Already has plus, minus, set(i,v:Float), set(i,j,v:Float), toString)
@@ -52,14 +52,14 @@ operator fun SimpleMatrix.plus(other: Int) = this.plus(other.toDouble(), this)
 operator fun SimpleMatrix.plus(other: Double) = this.plus(other, this)
 
 // Decompositions (Already has eig, svd) [expm,schur not available]
-fun SimpleMatrix.chol() = DecompositionFactory.chol(this.numCols(), true).also {
-    it.decompose(this.matrix.copy())
+fun SimpleMatrix.chol() = DecompositionFactory_DDRM.chol(this.numCols(), true).also {
+    it.decompose(this.ddrm.copy())
 }
-fun SimpleMatrix.LU() = DecompositionFactory.lu(this.numRows(), this.numCols()).also {
-    it.decompose(this.matrix.copy())
+fun SimpleMatrix.LU() = DecompositionFactory_DDRM.lu(this.numRows(), this.numCols()).also {
+    it.decompose(this.ddrm.copy())
 }
-fun SimpleMatrix.QR() = DecompositionFactory.qr(this.numRows(), this.numCols()).also {
-    it.decompose(this.matrix.copy())
+fun SimpleMatrix.QR() = DecompositionFactory_DDRM.qr(this.numRows(), this.numCols()).also {
+    it.decompose(this.ddrm.copy())
 }
 
 // Basic Functions
@@ -72,7 +72,7 @@ fun zeros(rows: Int, cols: Int) = SimpleMatrix(rows, cols)
 fun eye(size: Int) = SimpleMatrix.identity(size)
 fun ones(rows: Int, cols: Int): SimpleMatrix {
     val out = SimpleMatrix(rows, cols)
-    CommonOps.fill(out.matrix, 1.0)
+    CommonOps_DDRM.fill(out.ddrm, 1.0)
     return out
 }
 

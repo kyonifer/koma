@@ -81,7 +81,7 @@ project(":koma-core-ejml") {
 
     dependencies {
         compile project(":koma-core-api-jvm")
-        compile "org.ejml:all:0.27"
+        compile "org.ejml:ejml-all:0.33"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
     assemble.doLast {
