@@ -67,15 +67,8 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
 
 
-    override fun setCol(index: Int, col: Matrix<Double>) {
-        for (i in 0..col.numRows() - 1)
-            this[i, index] = col[i]
-    }
 
-    override fun setRow(index: Int, row: Matrix<Double>) {
-        for (i in 0..row.numCols() - 1)
-            this[index, i] = row[i]
-    }
+
 
     override fun getFactory() = factoryInstance
 

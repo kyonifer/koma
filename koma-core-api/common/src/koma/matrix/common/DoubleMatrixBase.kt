@@ -33,13 +33,13 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
 
 
     override fun setRow(index: Int, row: Matrix<Double>) {
-        row.forEachIndexed { _, col, ele ->
-            this[index, col] = ele
+        for (i in 0 until numCols()) {
+            this[index, i] = row[0, i]
         }
     }
     override fun setCol(index: Int, col: Matrix<Double>) {
-        col.forEachIndexed { row, _, ele ->
-            this[row, index] = ele
+        for (i in 0 until numRows()) {
+            this[i, index] = col[i, 0]
         }
     }
     override fun getRow(row: Int) = zeros(1, numCols()).mapIndexed { _, col, _ -> 
