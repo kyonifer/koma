@@ -1,20 +1,36 @@
 package koma.extensions
 
+import koma.internal.KomaJsName
+import koma.internal.KomaJvmName
 import koma.internal.default.utils.linearToNIdx
 import koma.ndarray.NDArray
+import koma.ndarray.NumericalNDArray
+import koma.pow
 
 operator fun <T> NDArray<T>.get(vararg indices: Int) = getGeneric(*indices)
 operator fun <T> NDArray<T>.get(vararg indices: IntRange) = getGeneric(*indices)
 
 operator fun NDArray<Double>.get(vararg indices: Int) = getDouble(*indices)
+@KomaJvmName("getDouble")
 operator fun NDArray<Double>.get(vararg indices: IntRange) = getDouble(*indices)
 
 operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, value=value)
 operator fun <T> NDArray<T>.set(vararg indices: Int, value: NDArray<T>) = setGeneric(indices=*indices, value=value)
 
 operator fun NDArray<Double>.set(vararg indices: Int, value: Double) = setDouble(indices=*indices, value=value)
+@KomaJvmName("setDouble")
 operator fun NDArray<Double>.set(vararg indices: Int, value: NDArray<Double>) = setDouble(indices=*indices, value=value)
 
+
+operator fun NDArray<Double>.div(other: Double) = map { it/other }
+operator fun NDArray<Double>.times(other: NDArray<Double>) = mapIndexedN { idx, ele -> ele*other.get(*idx) }
+operator fun NDArray<Double>.times(other: Double) = map { it * other }
+operator fun NDArray<Double>.unaryMinus() = map { -it }
+operator fun NDArray<Double>.minus(other: Double) = map { it - other }
+operator fun NDArray<Double>.minus(other: NDArray<Double>) = mapIndexedN { idx, ele -> ele - other.get(*idx) }
+operator fun NDArray<Double>.plus(other: Double) = map { it + other }
+operator fun NDArray<Double>.plus(other: NDArray<Double>) = mapIndexedN { idx, ele -> ele + other.get(*idx) }
+infix fun NDArray<Double>.pow(exponent: Int) = map { pow(it, exponent) }
 
 
 /**

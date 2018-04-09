@@ -1,6 +1,7 @@
 package koma.internal.default
 
 import koma.extensions.forEachIndexedN
+import koma.extensions.get
 import koma.ndarray.*
 import koma.internal.KomaJsName
 import koma.internal.default.utils.*
@@ -80,10 +81,26 @@ open class DefaultNDArray<T>(@KomaJsName("shape_private") vararg protected val s
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
-    override fun getDouble(vararg indices: Int): Double { error(wrongType) }
-    override fun getDouble(vararg indices: IntRange): NDArray<Double> { error(wrongType) }
-    override fun setDouble(vararg indices: Int, value: Double) { error(wrongType) }
-    override fun setDouble(vararg indices: Int, value: NDArray<Double>) { error(wrongType) }
+    override fun getDouble(vararg indices: Int): Double {
+        val ele = getGeneric(*indices)
+        if (ele is Double)
+            return ele
+        else
+            error(wrongType)
+    }
+    override fun getDouble(vararg indices: IntRange): NDArray<Double> {
+        val arr = getGeneric(*indices)
+        if (arr[0] is Double)
+            return arr as NDArray<Double>
+        else
+            error(wrongType)
+    }
+    override fun setDouble(vararg indices: Int, value: Double) {
+        setGeneric(indices=*indices, value=value as T)
+    }
+    override fun setDouble(vararg indices: Int, value: NDArray<Double>) {
+        setGeneric(indices=*indices, value=value as NDArray<T>)
+    }
 }
 
 

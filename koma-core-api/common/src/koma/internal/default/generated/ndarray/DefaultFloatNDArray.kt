@@ -5,6 +5,7 @@
 
 package koma.internal.default.generated.ndarray
 
+import koma.extensions.*
 import koma.ndarray.*
 import koma.internal.default.DefaultNDArray
 

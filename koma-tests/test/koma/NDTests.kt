@@ -1,5 +1,6 @@
 package koma
 
+import koma.extensions.*
 import koma.ndarray.*
 import koma.ndarray.default.*
 import org.junit.Test
@@ -7,6 +8,22 @@ import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
 class NDTests {
+    @Test
+    fun testElementMath() {
+        for (arr in listOf(DefaultNDArray(2,3,4) { 4.5 }, DefaultDoubleNDArray(2,3,4) { 4.5 })) {
+            assert((arr+5.0)[0,0,0] == 9.5)
+            assert((arr/2.0)[1,1,1] == 2.25)
+            assert((-arr[1,2,2] == -4.5))
+            assert((arr*arr)[1,1,1] == 4.5*4.5)
+            assert((arr*4.0)[1,2,2] == 4.5*4)
+            assert((arr+arr+2.0)[0,0,1] == 4.5*2+2.0)
+            val arr2 = DefaultNDArray(2,3,4,5,6) { it[0].toDouble() }
+            (arr2 * 4.0 + 5.0 - 7.0).also {
+                assert(it[0,1,1,1,1] == 0*4+5-7.0)
+                assert(it[1,1,1,1,1] == 1*4+5-7.0)
+            }
+        }
+    }
     @Test
     fun testIndexing() {
         val arr = DefaultNDArray(3, 5, 4) { 1.0 }

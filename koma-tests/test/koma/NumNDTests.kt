@@ -1,5 +1,6 @@
 package koma
 
+import koma.extensions.*
 import koma.ndarray.default.*
 import org.junit.Test
 

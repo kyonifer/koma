@@ -49,6 +49,3 @@ interface NDArray<T> {
     fun setDouble(vararg indices: Int, value: Double)
     fun setDouble(vararg indices: Int, value: NDArray<Double>)
 }
-
-
-
