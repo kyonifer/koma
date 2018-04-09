@@ -1,7 +1,9 @@
 package koma.internal.default
 
+import koma.extensions.forEachIndexedN
 import koma.ndarray.*
 import koma.internal.KomaJsName
+import koma.internal.default.utils.*
 
 
 /**
@@ -36,29 +38,29 @@ open class DefaultNDArray<T>(@KomaJsName("shape_private") vararg protected val s
                                                "${indices.toList()} (out of bounds)")
         }
     }
-    override fun get(vararg indices: Int): T {
+    override fun getGeneric(vararg indices: Int): T {
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
     }
-    override fun get(vararg indices: IntRange): NDArray<T> {
+    override fun getGeneric(vararg indices: IntRange): NDArray<T> {
         checkIndices(indices.map { it.last }.toIntArray())
         return DefaultNDArray<T>(shape = *indices
                 .map { it.last - it.first + 1 }
                 .toIntArray()) { newIdxs ->
             val offsets = indices.map { it.first }
             val oldIdxs = newIdxs.zip(offsets).map { it.first + it.second }
-            this.get(*oldIdxs.toIntArray())
+            this.getGeneric(*oldIdxs.toIntArray())
         }
         
     }
     override fun getLinear(index: Int): T = storage[index]
     override fun setLinear(index: Int, value: T) { storage[index] = value }
     
-    override operator fun set(vararg indices: Int, value: T) {
+    override fun setGeneric(vararg indices: Int, value: T) {
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value
     }
-    override fun set(vararg indices: Int, value: NDArray<T>) {
+    override fun setGeneric(vararg indices: Int, value: NDArray<T>) {
         val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
         val outOfBounds = lastIndex.withIndex().any { it.value > shape()[it.index] }
         if (outOfBounds)
@@ -69,58 +71,19 @@ open class DefaultNDArray<T>(@KomaJsName("shape_private") vararg protected val s
         val offset = indices.map { it }.toIntArray()
         value.forEachIndexedN { idx, ele ->
             val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-            this.set(indices=*newIdx, value=ele) 
+            this.setGeneric(indices=*newIdx, value=ele)
         }
     }
     // TODO: cache this
     override fun shape(): List<Int> = shape.toList()
-    override fun copy(): NDArray<T> = DefaultNDArray(*shape, init = { this.get(*it) })
+    override fun copy(): NDArray<T> = DefaultNDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
-    // TODO: for both of these, batch compute [linearToNIdx] instead of computing for every ele
-    
-    override fun mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T> 
-            = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
-
-    override fun forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit) 
-            = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
-    
-    /**
-     * Given a ND index into this array, find the corresponding 1D index in the raw underlying 
-     * 1D storage array.
-     */
-    private fun nIdxToLinear(indices: IntArray): Int {
-        var out = 0
-        val widthOfDims = widthOfDims()
-
-        indices.forEachIndexed { i, idxArr ->
-            out += idxArr * widthOfDims[i]
-        }
-        return out
-    }
-    
-    /**
-     * Given the 1D index of an element in the underlying storage, find the corresponding
-     * ND index. Inverse of [nIdxToLinear].
-     */
-    private fun linearToNIdx(linear:Int): IntArray {
-        // TODO: optimize this
-        val widthOfDims = widthOfDims()
-        var remaining = linear
-        val out = IntArray(shape.size, {it})
-        out.map { idx ->
-            out[idx] = remaining / widthOfDims[idx]
-            remaining -= out[idx] * widthOfDims[idx]
-        }
-        return out
-    }
-    private fun widthOfDims() = shape
-            .toList()
-            .accumulateRight { left, right -> left * right }
-            .apply {
-                add(1)
-                removeAt(0)
-            }
+    private val wrongType = "Double methods not implemented for generic NDArray"
+    override fun getDouble(vararg indices: Int): Double { error(wrongType) }
+    override fun getDouble(vararg indices: IntRange): NDArray<Double> { error(wrongType) }
+    override fun setDouble(vararg indices: Int, value: Double) { error(wrongType) }
+    override fun setDouble(vararg indices: Int, value: NDArray<Double>) { error(wrongType) }
 }
 
 

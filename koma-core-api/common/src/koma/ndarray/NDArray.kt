@@ -5,17 +5,14 @@ import koma.internal.KomaJsName
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
 /**
- * A general N-dimensional container for arbitrary types. If you are looking
- * for a ND container restricted to numerical types, please look at [NumericalNDArray].
- * If you are looking for a 2D container supporting linear algebra, please look at 
+ * A general N-dimensional container for arbitrary types. For this container to be
+ * useful, you'll probably want to import koma.extensions.*, which includes e.g.
+ * element getter/setters which are non boxed for primitives.
+ *
+ * If you are looking for a 2D container supporting linear algebra, please look at
  * [Matrix].
  */
 interface NDArray<T> {
-    operator fun get(vararg indices: Int): T
-    operator fun get(vararg indices: IntRange): NDArray<T>
-    operator fun set(vararg indices: Int, value: T)
-    operator fun set(vararg indices: Int, value: NDArray<T>)
-
     fun getLinear(index: Int): T
     fun setLinear(index: Int, value: T)
     
@@ -39,81 +36,18 @@ interface NDArray<T> {
             }
         }
     }
-    
-    /**
-     * Takes each element in a NDArray, passes them through f, and puts the output of f into an
-     * output NDArray.
-     *
-     * @param f A function that takes in an element and returns an element
-     *
-     * @return the new NDArray after each element is mapped through f
-     */
-    fun map(f: (T) -> T): NDArray<T> {
-        // TODO: Something better than copy here
-        val out = this.copy()
-        for ((idx, ele) in this.toIterable().withIndex())
-            out.setLinear(idx, f(ele))
-        return out
-    }
-    /**
-     * Takes each element in a NDArray, passes them through f, and puts the output of f into an
-     * output NDArray. Index given to f is a linear index, depending on the underlying storage
-     * major dimension.
-     *
-     * @param f A function that takes in an element and returns an element. Function also takes
-     *      in the linear index of the element's location.
-     *
-     * @return the new NDArray after each element is mapped through f
-     */
-    fun mapIndexed(f: (idx: Int, ele: T) -> T): NDArray<T> {
-        // TODO: Something better than copy here
-        val out = this.copy()
-        for ((idx, ele) in this.toIterable().withIndex())
-            out.setLinear(idx, f(idx, ele))
-        return out
-    }
-    /**
-     * Takes each element in a NDArray and passes them through f.
-     *
-     * @param f A function that takes in an element
-     *
-     */
-    fun forEach(f: (ele: T) -> Unit) {
-        for (ele in this.toIterable())
-            f(ele)
-    }
-    /**
-     * Takes each element in a NDArray and passes them through f. Index given to f is a linear 
-     * index, depending on the underlying storage major dimension.
-     *
-     * @param f A function that takes in an element. Function also takes
-     *      in the linear index of the element's location.
-     *
-     */
-    fun forEachIndexed(f: (idx: Int, ele: T) -> Unit) {
-        for ((idx, ele) in this.toIterable().withIndex())
-            f(idx, ele)
-    }
-    /**
-     * Takes each element in a NDArray, passes them through f, and puts the output of f into an
-     * output NDArray. Index given to f is the full ND index of the element.
-     *
-     * @param f A function that takes in an element and returns an element. Function also takes
-     *      in the ND index of the element's location.
-     *
-     * @return the new NDArray after each element is mapped through f
-     */
-    fun mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T>
-    /**
-     * Takes each element in a NDArray and passes them through f. Index given to f is the full 
-     * ND index of the element.
-     *
-     * @param f A function that takes in an element. Function also takes
-     *      in the ND index of the element's location.
-     *
-     */
-    fun forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit)
 
+    // Primitive optimized getter/setters to avoid boxing. Not intended
+    // to be used directly, but instead are used by ext funcs in `koma.extensions`.
+
+    fun getGeneric(vararg indices: Int): T
+    fun getGeneric(vararg indices: IntRange): NDArray<T>
+    fun getDouble(vararg indices: Int): Double
+    fun getDouble(vararg indices: IntRange): NDArray<Double>
+    fun setGeneric(vararg indices: Int, value: T)
+    fun setGeneric(vararg indices: Int, value: NDArray<T>)
+    fun setDouble(vararg indices: Int, value: Double)
+    fun setDouble(vararg indices: Int, value: NDArray<Double>)
 }
 
 
