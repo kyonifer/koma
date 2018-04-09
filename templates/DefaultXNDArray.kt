@@ -37,6 +37,7 @@ class Default${dtype}NDArray(vararg shape: Int, init: (IntArray)->${dtype})
  * Converts a regular [NDArray] with the same primitive type to
  * a NumericalNDArray, attempting to avoid a copy when possible
  */
+@Deprecated("Use NDArray<Double> and the math extensions in koma.extension instead of NumericalNDArray")
 fun NDArray<${dtype}>.toNumerical(): NumericalNDArray<${dtype}> 
         = when(this) {
     is NumericalNDArray<${dtype}> -> { this }

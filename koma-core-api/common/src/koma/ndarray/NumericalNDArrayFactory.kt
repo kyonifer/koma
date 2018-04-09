@@ -6,6 +6,7 @@ import koma.matrix.*
  * A set of constructors that must be implemented by a koma NDArray backend.
  * Generic parameter is the type of element, i.e. T=NDArray<Double> or T=NDArray<Int>, etc.
  */
+@Deprecated("Use NDArray<Double> and the math extensions in koma.extension instead of NumericalNDArray")
 interface NumericalNDArrayFactory<out T> {
     /**
      * Generate a zero initialized ND container of the requested shape

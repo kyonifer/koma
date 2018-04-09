@@ -37,6 +37,7 @@ class DefaultFloatNDArray(vararg shape: Int, init: (IntArray)->Float)
  * Converts a regular [NDArray] with the same primitive type to
  * a NumericalNDArray, attempting to avoid a copy when possible
  */
+@Deprecated("Use NDArray<Double> and the math extensions in koma.extension instead of NumericalNDArray")
 fun NDArray<Float>.toNumerical(): NumericalNDArray<Float> 
         = when(this) {
     is NumericalNDArray<Float> -> { this }
