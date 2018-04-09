@@ -16,6 +16,4 @@ interface NumericalNDArray<T>: NDArray<T> {
     operator fun plus(other: T): NumericalNDArray<T>
     operator fun plus(other: NDArray<T>): NumericalNDArray<T>
     infix fun pow(exponent: Int): NumericalNDArray<T>
-
-
 }

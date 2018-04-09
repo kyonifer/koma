@@ -39,3 +39,15 @@ fun <T> NDArray<T>.widthOfDims() = shape()
             add(1)
             removeAt(0)
         }
+
+fun <T> NDArray<T>.checkIndices(indices: IntArray) {
+    val shape = shape()
+    if (indices.size != shape.size)
+        throw IllegalArgumentException("Cannot index an array with shape ${shape.toList()} with " +
+                "anything other than ${shape.size} indices (${indices.size} given)")
+    indices.forEachIndexed{ i, idx ->
+        if (idx >= shape[i])
+            throw IllegalArgumentException("Cannot index an array with shape ${shape.toList()} at " +
+                    "${indices.toList()} (out of bounds)")
+    }
+}

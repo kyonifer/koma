@@ -2,6 +2,7 @@ package koma.matrix
 
 import koma.extensions.*
 import koma.internal.KomaJsName
+import koma.ndarray.NDArray
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -10,7 +11,7 @@ import koma.internal.KomaJsName
  * to have a numerical type. For storage of arbitrary types and dimensions, see
  * [koma.ndarray.NDArray].
  */
-interface Matrix<T> {
+interface Matrix<T>: NDArray<T> {
     // Algebraic Operators
     @KomaJsName("divInt")
     operator fun div(other: Int): Matrix<T>
@@ -55,7 +56,7 @@ interface Matrix<T> {
     /**
      * Returns a copy of this matrix (same values, new memory)
      */
-    fun copy(): Matrix<T>
+    override fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
     @KomaJsName("getInt")
@@ -217,8 +218,40 @@ interface Matrix<T> {
     val T: Matrix<T>
         get() = this.transpose()
 
+    // Implement NDArray
+    override fun getGeneric(vararg indices: Int): T
+            = when(indices.size) {
+        1 -> { this[indices[0]] }
+        2 -> { this[indices[0], indices[1]]}
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun getDouble(vararg indices: Int): Double
+            = when(indices.size) {
+        1 -> { this.getDouble(indices[0]) }
+        2 -> { this.getDouble(indices[0], indices[1])}
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun setGeneric(vararg indices: Int, value: T)
+            = when(indices.size) {
+        1 -> { this.setGeneric(indices[0], value) }
+        2 -> { this.setGeneric(indices[0], indices[1], value) }
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun setDouble(vararg indices: Int, value: Double)
+            = when(indices.size) {
+        1 -> { this.setDouble(indices[0], value) }
+        2 -> { this.setDouble(indices[0], indices[1], value) }
+        else -> { dimMismatch(indices.size) }
+    }
 
-    fun toIterable() = object: Iterable<T> {
+    override fun getLinear(index: Int): T = getGeneric(index)
+    override fun setLinear(index: Int, value: T) = setGeneric(index, value)
+    override fun shape(): List<Int> = listOf(this.numRows(), this.numCols())
+    override fun getBaseArray(): Any = this.getBaseMatrix()
+
+    // Convenience functions
+
+    override fun toIterable() = object: Iterable<T> {
         override fun iterator(): Iterator<T> {
             class MatrixIterator(var matrix: Matrix<T>) : Iterator<T> {
                 private var cursor = 0
@@ -487,3 +520,5 @@ interface Matrix<T> {
     fun filterCols(f: (col: Matrix<T>) -> Boolean) = filterColsIndexed { n, col -> f(col) }
 }
 
+
+private fun dimMismatch(dims: Int): Nothing = error("Dimension mismatch: Matrices have 2 dimensions ($dims requested)")

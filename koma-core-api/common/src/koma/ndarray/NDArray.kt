@@ -41,11 +41,7 @@ interface NDArray<T> {
     // to be used directly, but instead are used by ext funcs in `koma.extensions`.
 
     fun getGeneric(vararg indices: Int): T
-    fun getGeneric(vararg indices: IntRange): NDArray<T>
     fun getDouble(vararg indices: Int): Double
-    fun getDouble(vararg indices: IntRange): NDArray<Double>
     fun setGeneric(vararg indices: Int, value: T)
-    fun setGeneric(vararg indices: Int, value: NDArray<T>)
     fun setDouble(vararg indices: Int, value: Double)
-    fun setDouble(vararg indices: Int, value: NDArray<Double>)
 }

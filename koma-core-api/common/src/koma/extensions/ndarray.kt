@@ -1,26 +1,54 @@
 package koma.extensions
 
-import koma.internal.KomaJsName
-import koma.internal.KomaJvmName
+import koma.internal.default.DefaultNDArray
+import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
+import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
-import koma.ndarray.NumericalNDArray
 import koma.pow
+import koma.matrix.Matrix
+
+fun NDArray<Double>.toMatrix(): Matrix<Double> {
+    val dims = this.shape()
+    return when (dims.size) {
+        1 -> { doubleFactory.zeros(dims[0], 1).fill { row, _ -> this[row] } }
+        2 -> { doubleFactory.zeros(dims[0], dims[1]).fill { row, col -> this[row, col] } }
+        else -> error("Cannot convert NDArray with ${dims.size} dimensions to matrix (must be 1 or 2)")
+    }
+}
+
+operator fun <T> NDArray<T>.get(vararg indices: IntRange): NDArray<T> {
+    checkIndices(indices.map { it.last }.toIntArray())
+    return DefaultNDArray<T>(shape = *indices
+            .map { it.last - it.first + 1 }
+            .toIntArray()) { newIdxs ->
+        val offsets = indices.map { it.first }
+        val oldIdxs = newIdxs.zip(offsets).map { it.first + it.second }
+        this.getGeneric(*oldIdxs.toIntArray())
+    }
+}
+
+operator fun <T> NDArray<T>.set(vararg indices: Int, value: NDArray<T>) {
+    val shape = shape()
+    val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
+    val outOfBounds = lastIndex.withIndex().any { it.value > shape()[it.index] }
+    if (outOfBounds)
+        throw IllegalArgumentException("NDArray with shape ${shape()} cannot be " +
+                "set at ${indices.toList()} by a ${value.shape()} array " +
+                "(out of bounds)")
+
+    val offset = indices.map { it }.toIntArray()
+    value.forEachIndexedN { idx, ele ->
+        val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
+        this.setGeneric(indices=*newIdx, value=ele)
+    }
+}
+
 
 operator fun <T> NDArray<T>.get(vararg indices: Int) = getGeneric(*indices)
-operator fun <T> NDArray<T>.get(vararg indices: IntRange) = getGeneric(*indices)
-
 operator fun NDArray<Double>.get(vararg indices: Int) = getDouble(*indices)
-@KomaJvmName("getDouble")
-operator fun NDArray<Double>.get(vararg indices: IntRange) = getDouble(*indices)
-
 operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, value=value)
-operator fun <T> NDArray<T>.set(vararg indices: Int, value: NDArray<T>) = setGeneric(indices=*indices, value=value)
-
 operator fun NDArray<Double>.set(vararg indices: Int, value: Double) = setDouble(indices=*indices, value=value)
-@KomaJvmName("setDouble")
-operator fun NDArray<Double>.set(vararg indices: Int, value: NDArray<Double>) = setDouble(indices=*indices, value=value)
-
 
 operator fun NDArray<Double>.div(other: Double) = map { it/other }
 operator fun NDArray<Double>.times(other: NDArray<Double>) = mapIndexedN { idx, ele -> ele*other.get(*idx) }

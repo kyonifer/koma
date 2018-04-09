@@ -28,31 +28,9 @@ open class DefaultNDArray<T>(@KomaJsName("shape_private") vararg protected val s
                         {init(linearToNIdx(it)) as Any?}) as Array<T>
     }
 
-
-    fun checkIndices(indices: IntArray) {
-        if (indices.size != shape.size)
-            throw IllegalArgumentException("Cannot index an array with shape ${shape.toList()} with " +
-                                           "anything other than ${shape.size} indices (${indices.size} given)")
-        indices.forEachIndexed{ i, idx -> 
-            if (idx >= shape[i])
-                throw IllegalArgumentException("Cannot index an array with shape ${shape.toList()} at " +
-                                               "${indices.toList()} (out of bounds)")
-        }
-    }
     override fun getGeneric(vararg indices: Int): T {
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
-    }
-    override fun getGeneric(vararg indices: IntRange): NDArray<T> {
-        checkIndices(indices.map { it.last }.toIntArray())
-        return DefaultNDArray<T>(shape = *indices
-                .map { it.last - it.first + 1 }
-                .toIntArray()) { newIdxs ->
-            val offsets = indices.map { it.first }
-            val oldIdxs = newIdxs.zip(offsets).map { it.first + it.second }
-            this.getGeneric(*oldIdxs.toIntArray())
-        }
-        
     }
     override fun getLinear(index: Int): T = storage[index]
     override fun setLinear(index: Int, value: T) { storage[index] = value }
@@ -60,20 +38,6 @@ open class DefaultNDArray<T>(@KomaJsName("shape_private") vararg protected val s
     override fun setGeneric(vararg indices: Int, value: T) {
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value
-    }
-    override fun setGeneric(vararg indices: Int, value: NDArray<T>) {
-        val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
-        val outOfBounds = lastIndex.withIndex().any { it.value > shape()[it.index] }
-        if (outOfBounds)
-            throw IllegalArgumentException("NDArray with shape ${shape()} cannot be " +
-                                           "set at ${indices.toList()} by a ${value.shape()} array " +
-                                           "(out of bounds)")
-        
-        val offset = indices.map { it }.toIntArray()
-        value.forEachIndexedN { idx, ele ->
-            val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-            this.setGeneric(indices=*newIdx, value=ele)
-        }
     }
     // TODO: cache this
     override fun shape(): List<Int> = shape.toList()
@@ -88,18 +52,8 @@ open class DefaultNDArray<T>(@KomaJsName("shape_private") vararg protected val s
         else
             error(wrongType)
     }
-    override fun getDouble(vararg indices: IntRange): NDArray<Double> {
-        val arr = getGeneric(*indices)
-        if (arr[0] is Double)
-            return arr as NDArray<Double>
-        else
-            error(wrongType)
-    }
     override fun setDouble(vararg indices: Int, value: Double) {
         setGeneric(indices=*indices, value=value as T)
-    }
-    override fun setDouble(vararg indices: Int, value: NDArray<Double>) {
-        setGeneric(indices=*indices, value=value as NDArray<T>)
     }
 }
 
