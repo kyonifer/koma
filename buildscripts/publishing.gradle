@@ -1,7 +1,7 @@
 
 def published = ['koma-core-ejml', 'koma-core-mtj', 'koma-core-jblas',
                  'koma-core-api-common', 'koma-core-api-js', 'koma-core-api-jvm',
-                 'koma-core-js', 'koma-logging']
+                 'koma-core-js', 'koma-logging', 'koma-plotting']
 
 configure(subprojects.findAll { published.contains(it.name) }) {
     apply plugin: 'com.jfrog.bintray'
