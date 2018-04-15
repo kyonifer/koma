@@ -1,6 +1,3 @@
-@file:JvmName("Koma")
-@file:JvmMultifileClass
-
 package koma
 
 import koma.matrix.Matrix
