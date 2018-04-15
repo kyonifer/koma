@@ -6,6 +6,7 @@ def published = ['koma-core-ejml', 'koma-core-mtj', 'koma-core-jblas',
 configure(subprojects.findAll { published.contains(it.name) }) {
     apply plugin: 'com.jfrog.bintray'
     bintray {
+        override = true
         user = System.getenv('BINTRAY_USER')
         key = System.getenv("BINTRAY_KEY")
         publications = ['MyPublication']
