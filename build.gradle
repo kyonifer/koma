@@ -313,27 +313,41 @@ task buildNative {
 }
 
 def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
+    // Generate matrix types
     dtypesMatrix.forEach { dtype ->
-        copy {
-            from 'templates'
-            into "$project/matrix"
-            include 'DefaultXMatrix.kt'
-            rename { "Default${dtype}Matrix.kt" }
+        if (dtype != 'T') {
+            copy {
+                from 'templates'
+                into "$project/matrix"
+                include 'DefaultXMatrix.kt'
+                rename { "Default${dtype}Matrix.kt" }
 
-            expand(div: getDiv(dtype),
-                    epow: getEPow(dtype),
-                    dtype: dtype,
-                    namespace: namespace)
+                expand(div: getDiv(dtype),
+                        epow: getEPow(dtype),
+                        dtype: dtype,
+                        namespace: namespace)
+            }
+            copy {
+                from 'templates'
+                into "$project/matrix"
+                include 'DefaultXMatrixFactory.kt'
+                rename { "Default${dtype}MatrixFactory.kt" }
+                expand(dtype: dtype,
+                        namespace: namespace)
+            }
         }
         copy {
             from 'templates'
-            into "$project/matrix"
-            include 'DefaultXMatrixFactory.kt'
-            rename { "Default${dtype}MatrixFactory.kt" }
+            into "koma-core-api/common/src/koma/extensions"
+            include 'extension_matrix.kt'
+            rename { "extension_matrix_${dtypeName(dtype)}.kt"}
             expand(dtype: dtype,
-                   namespace: namespace)
+                   dtypeName: dtypeName(dtype),
+                   genDec: genDec(dtype),
+                   floatersOnly: floatersOnly(dtype))
         }
     }
+    // Generate ndarray types
     dtypesNDArray.forEach { dtype ->
         copy {
             from 'templates'
@@ -366,7 +380,7 @@ task codegen {
     doLast {
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
-                ['Double', 'Float', 'Int', 'Long'],
+                ['T', 'Double', 'Float', 'Int'],
                 ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte'])
     }
 }
@@ -447,7 +461,34 @@ def convertSetter(baseDtype, toDtype) {
 
 }
 
-
+def floatersOnly(dtype) {
+    if(dtype == "Double" || dtype == "Float") {
+        return "\n" +
+                "@KomaJvmName(\"set1D${dtype}FromInt\")\n" +
+                "@KomaJsName(\"set1D${dtype}FromInt\")\n" +
+                "operator fun Matrix<${dtype}>.set(i: Int, v: Int) = this.set${dtype}(i, v.to${dtype}())\n" +
+                "@KomaJvmName(\"set2D${dtype}FromInt\")\n" +
+                "@KomaJsName(\"set2D${dtype}FromInt\")\n" +
+                "operator fun Matrix<${dtype}>.set(i: Int, j: Int, v: Int) = this.set${dtype}(i, j, v.to${dtype}())\n" +
+                "\n" +
+                "@KomaJvmName(\"allClose${dtype}\")\n" +
+                "fun Matrix<${dtype}>.allClose(other: Matrix<${dtype}>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {\n" +
+                "    if(other.numRows() != numRows() || other.numCols() != numCols())\n" +
+                "        return false\n" +
+                "    for(row in 0 until this.numRows()) {\n" +
+                "        for (col in 0 until this.numCols()) {\n" +
+                "            val err = kotlin.math.abs(this[row, col] - other[row, col])\n" +
+                "            if (err > atol + rtol * kotlin.math.abs(this[row, col]))\n" +
+                "                return false\n" +
+                "        }\n" +
+                "    }\n" +
+                "    return true\n" +
+                "}"
+    }
+    else {
+        return ""
+    }
+}
 
 
 apply from: 'buildscripts/publishing.gradle'
