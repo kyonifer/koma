@@ -1,3 +1,6 @@
+@file:koma.internal.JvmName("Matrix")
+@file:koma.internal.JvmMultifileClass
+
 package koma.extensions
 
 import koma.matrix.Matrix
