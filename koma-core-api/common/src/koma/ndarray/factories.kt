@@ -1,6 +1,7 @@
 package koma.ndarray
 
 import koma.internal.*
+import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
 
 
 // TODO: Ideally these properties are expect/actual with implementations. However, there's currently
@@ -39,3 +40,4 @@ var byteFactory: NumericalNDArrayFactory<Byte>
     set(value) { _byteFactory = value}
 private var _byteFactory: NumericalNDArrayFactory<Byte>? = null
 
+fun <T> getGenericFactory(): GenericNDArrayFactory<T> = DefaultGenericNDArrayFactory<T>()
