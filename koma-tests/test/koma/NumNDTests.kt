@@ -1,6 +1,7 @@
 package koma
 
 import koma.extensions.*
+import koma.ndarray.NDArray
 import koma.ndarray.default.*
 import org.junit.Test
 
@@ -8,9 +9,9 @@ class NumNDTests {
     @Test
     fun testOperators() {
         val testArrs = arrayOf (
-                koma.ndarray.doubleFactory.create(3,5,4) { idx -> idx[0].toDouble() },
+                NDArray.doubleFactory.create(3,5,4) { idx -> idx[0].toDouble() },
                 DefaultDoubleNDArray(3,5,4) { idx -> idx[0].toDouble() },
-                koma.ndarray.getGenericFactory<Double>().create(3,5,4) { idx -> idx[0].toDouble() }
+                NDArray.getGenericFactory<Double>().create(3,5,4) { idx -> idx[0].toDouble() }
         )
 
         for (arr in testArrs) {
