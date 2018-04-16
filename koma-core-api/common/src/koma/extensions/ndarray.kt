@@ -1,6 +1,6 @@
 package koma.extensions
 
-import koma.internal.default.DefaultNDArray
+import koma.internal.default.generated.ndarray.DefaultGenericNDArray
 import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
@@ -19,7 +19,7 @@ fun NDArray<Double>.toMatrix(): Matrix<Double> {
 
 operator fun <T> NDArray<T>.get(vararg indices: IntRange): NDArray<T> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultNDArray<T>(shape = *indices
+    return DefaultGenericNDArray<T>(shape = *indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }

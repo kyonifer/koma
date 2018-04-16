@@ -1,6 +1,5 @@
 package koma.internal.default.utils
 
-import koma.internal.default.accumulateRight
 import koma.ndarray.NDArray
 
 /**
@@ -50,4 +49,18 @@ fun <T> NDArray<T>.checkIndices(indices: IntArray) {
             throw IllegalArgumentException("Cannot index an array with shape ${shape.toList()} at " +
                     "${indices.toList()} (out of bounds)")
     }
+}
+
+
+/**
+ * Similar to reduceRight, except the results of each stage are stored off into
+ * the output list instead of just the final result.
+ */
+fun <T> List<T>.accumulateRight(f: (T, T) -> T)
+        = this.foldRight(ArrayList<T>()) { ele, accum ->
+    if (accum.isEmpty())
+        accum.add(ele)
+    else
+        accum.add(0, f(ele, accum.first()))
+    accum
 }

@@ -339,9 +339,15 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
             from 'templates'
             into "$project/ndarray"
             include 'DefaultXNDArray.kt'
-            rename { "Default${dtype}NDArray.kt"}
+            rename { "Default${dtypeName(dtype)}NDArray.kt"}
             expand(dtype: dtype,
-                   namespace: namespace)
+                   namespace: namespace,
+                   storage: getStorage(dtype),
+                   genDec: genDec(dtype),
+                   initStorage: initStorage(dtype),
+                   dtypeName: dtypeName(dtype),
+                   getDouble: convertGetter(dtype, "Double"),
+                   setDouble: convertSetter(dtype, "Double"))
         }
     }
 }
@@ -351,9 +357,11 @@ task codegen {
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
                 ['Double', 'Float', 'Int', 'Long'],
-                ['Double', 'Float', 'Int', 'Long'])
+                ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte'])
     }
 }
+// Matrices
+
 def getDiv(dtype) {
     if (dtype != 'Int')
         return """
@@ -373,5 +381,63 @@ def getEPow(dtype) {
         return ""
 
 }
+
+// NDArray
+
+def getStorage(dtype) {
+    if (dtype != 'T')
+        return "${dtype}Array"
+    else
+        return "Array<T>"
+}
+
+def genDec(dtype) {
+    if (dtype != 'T')
+        return ""
+    else
+        return "<T>"
+}
+
+def initStorage(dtype) {
+    if (dtype != 'T')
+        return "        storage = if (init!=null) \n" +
+               "            ${dtype}Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) \n" +
+               "        else\n" +
+               "            ${dtype}Array(shape.reduce{ a, b-> a * b})"
+    else
+        return "storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as Any?}) as Array<T>"
+}
+
+def dtypeName(dtype) {
+    if (dtype != 'T')
+        return dtype
+    else
+        return "Generic"
+}
+
+def convertGetter(baseDtype, toDtype) {
+    if(baseDtype == 'T')
+        return "        val ele = getGeneric(*indices)\n" +
+               "        if (ele is ${toDtype})\n" +
+               "            return ele\n" +
+               "        else\n" +
+               "            error(wrongType)"
+    else
+        return "        checkIndices(indices)\n" +
+               "        val ele = storage[nIdxToLinear(indices)]\n" +
+               "        return ele.to${toDtype}()"
+}
+
+def convertSetter(baseDtype, toDtype) {
+    if(baseDtype == 'T')
+        return "        setGeneric(indices=*indices, value=value as ${baseDtype})"
+    else
+        return "        checkIndices(indices)\n" +
+               "        storage[nIdxToLinear(indices)] = value.to${baseDtype}()"
+
+}
+
+
+
 
 apply from: 'buildscripts/publishing.gradle'

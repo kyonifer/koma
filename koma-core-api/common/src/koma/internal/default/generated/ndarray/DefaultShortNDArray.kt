@@ -17,36 +17,36 @@ import koma.internal.default.utils.*
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class DefaultLongNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Long)?): NDArray<Long> {
+open class DefaultShortNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
+                             init: ((IntArray)->Short)?): NDArray<Short> {
 
     /**
      * Underlying storage. PureKt backend uses a simple array.
      */
-    private val storage: LongArray
+    private val storage: ShortArray
 
     init {
         @Suppress("UNCHECKED_CAST")
         storage = if (init!=null) 
-            LongArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
+            ShortArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
         else
-            LongArray(shape.reduce{ a, b-> a * b})
+            ShortArray(shape.reduce{ a, b-> a * b})
     }
 
-    override fun getGeneric(vararg indices: Int): Long {
+    override fun getGeneric(vararg indices: Int): Short {
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
     }
-    override fun getLinear(index: Int): Long = storage[index]
-    override fun setLinear(index: Int, value: Long) { storage[index] = value }
+    override fun getLinear(index: Int): Short = storage[index]
+    override fun setLinear(index: Int, value: Short) { storage[index] = value }
 
-    override fun setGeneric(vararg indices: Int, value: Long) {
+    override fun setGeneric(vararg indices: Int, value: Short) {
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value
     }
     // TODO: cache this
     override fun shape(): List<Int> = shape.toList()
-    override fun copy(): NDArray<Long> = DefaultLongNDArray(*shape, init = { this.getGeneric(*it) })
+    override fun copy(): NDArray<Short> = DefaultShortNDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
@@ -57,7 +57,7 @@ open class DefaultLongNDArray(@KomaJsName("shape_private") vararg protected val 
     }
     override fun setDouble(vararg indices: Int, value: Double) {
         checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toLong()
+        storage[nIdxToLinear(indices)] = value.toShort()
     }
 }
 
