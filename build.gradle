@@ -349,6 +349,16 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                    getDouble: convertGetter(dtype, "Double"),
                    setDouble: convertSetter(dtype, "Double"))
         }
+        if (dtype != "T") {
+            copy {
+                from 'templates'
+                into "$project/ndarray"
+                include 'DefaultXNDArrayFactory.kt'
+                rename { "Default${dtypeName(dtype)}NDArrayFactory.kt"}
+                expand(dtype: dtype,
+                        namespace: namespace)
+            }
+        }
     }
 }
 

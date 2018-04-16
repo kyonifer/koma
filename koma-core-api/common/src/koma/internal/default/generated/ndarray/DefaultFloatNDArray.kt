@@ -18,7 +18,7 @@ import koma.internal.default.utils.*
  * @param init A function that takes a location in the new array and returns its initial value.
  */
 open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Float)?): NDArray<Float> {
+                             init: ((IntArray)->Float)? = null): NDArray<Float> {
 
     /**
      * Underlying storage. PureKt backend uses a simple array.

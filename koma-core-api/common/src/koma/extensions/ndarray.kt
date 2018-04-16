@@ -17,6 +17,13 @@ fun NDArray<Double>.toMatrix(): Matrix<Double> {
     }
 }
 
+inline fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T): NDArray<T> {
+    this.forEachIndexedN { idx, ele ->
+        this.set(indices=*idx, value = f(idx))
+    }
+    return this
+}
+
 operator fun <T> NDArray<T>.get(vararg indices: IntRange): NDArray<T> {
     checkIndices(indices.map { it.last }.toIntArray())
     return DefaultGenericNDArray<T>(shape = *indices
