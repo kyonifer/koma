@@ -1,5 +1,6 @@
 package koma.internal
 
+import koma.internal.default.generated.ndarray.*
 import koma.matrix.*
 import koma.matrix.cblas.CBlasMatrixFactory
 import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
