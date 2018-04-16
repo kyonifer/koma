@@ -1,12 +1,11 @@
-@file:KomaJvmName("Koma")
-@file:KomaJvmMultifileClass
+@file:koma.internal.JvmName("Koma")
+@file:koma.internal.JvmMultifileClass
 
 package koma
 
+import koma.internal.KomaJvmName
 import koma.internal.signum
 import kotlin.math.pow as kotlinPow
-import koma.internal.KomaJvmName
-import koma.internal.KomaJvmMultifileClass
 
 // Scalar funcs
 
@@ -273,4 +272,3 @@ infix fun Double.pow(exp: Int) = koma.pow(this, exp.toDouble())
  */
 @KomaJvmName("powIntDouble")
 infix fun Int.pow(exp: Double) = koma.pow(this.toDouble(), exp)
-

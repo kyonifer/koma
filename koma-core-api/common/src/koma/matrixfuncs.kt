@@ -1,18 +1,20 @@
+@file:koma.internal.JvmName("Koma")
+@file:koma.internal.JvmMultifileClass
+
+package koma
+
+import koma.extensions.allClose
+import koma.extensions.get
+import koma.extensions.map
+import koma.extensions.set
+import koma.matrix.Matrix
+
+
 /**
  * This file contains top-level common mathematical functions that operate on
  * Matrices. These definitions follow numpy as close as possible, and allow
  * one to do things like cos(randn(5,5))
  */
-
-@file:KomaJvmName("Koma")
-@file:KomaJvmMultifileClass
-
-package koma
-
-import koma.extensions.*
-import koma.matrix.*
-import koma.internal.KomaJvmName
-import koma.internal.KomaJvmMultifileClass
 
 /**
  * Returns true if all elements are close to equal, as defined by

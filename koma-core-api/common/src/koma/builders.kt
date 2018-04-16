@@ -1,3 +1,12 @@
+@file:koma.internal.JvmName("Koma")
+@file:koma.internal.JvmMultifileClass
+
+package koma
+
+import koma.extensions.set
+import koma.matrix.Matrix
+
+
 /**
  *   A DSL for writing matrix literals. You can define a new matrix via e.g.
  *
@@ -5,17 +14,6 @@
  *               3, 4]
  */
 
-@file:KomaJvmName("Koma")
-@file:KomaJvmMultifileClass
-
-package koma
-
-import koma.extensions.*
-import koma.matrix.Matrix
-import koma.internal.KomaJvmName
-import koma.internal.KomaJvmMultifileClass
-
-//@formatter:off
 
 /**
  * A helper object that allows for quick construction of matrix literals.

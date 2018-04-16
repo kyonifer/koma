@@ -17,47 +17,45 @@ import koma.internal.default.utils.*
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class DefaultLongNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Long)? = null): NDArray<Long> {
+open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protected val shape: Int,
+                             init: ((IntArray)->T)? = null): NDArray<T> {
 
     /**
      * Underlying storage. PureKt backend uses a simple array.
      */
-    private val storage: LongArray
+    private val storage: Array<T>
 
     init {
         @Suppress("UNCHECKED_CAST")
-        storage = if (init!=null) 
-            LongArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
-        else
-            LongArray(shape.reduce{ a, b-> a * b})
+storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as Any?}) as Array<T>
     }
 
-    override fun getGeneric(vararg indices: Int): Long {
+    override fun getGeneric(vararg indices: Int): T {
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
     }
-    override fun getLinear(index: Int): Long = storage[index]
-    override fun setLinear(index: Int, value: Long) { storage[index] = value }
+    override fun getLinear(index: Int): T = storage[index]
+    override fun setLinear(index: Int, value: T) { storage[index] = value }
 
-    override fun setGeneric(vararg indices: Int, value: Long) {
+    override fun setGeneric(vararg indices: Int, value: T) {
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value
     }
     // TODO: cache this
     override fun shape(): List<Int> = shape.toList()
-    override fun copy(): NDArray<Long> = DefaultLongNDArray(*shape, init = { this.getGeneric(*it) })
+    override fun copy(): NDArray<T> = DefaultGenericNDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
     override fun getDouble(vararg indices: Int): Double {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
-        return ele.toDouble()
+        val ele = getGeneric(*indices)
+        if (ele is Double)
+            return ele
+        else
+            error(wrongType)
     }
     override fun setDouble(vararg indices: Int, value: Double) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toLong()
+        setGeneric(indices=*indices, value=value as T)
     }
 }
 

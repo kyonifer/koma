@@ -1,10 +1,7 @@
-@file:KomaJvmName("Koma")
-@file:KomaJvmMultifileClass
+@file:koma.internal.JvmName("Koma")
+@file:koma.internal.JvmMultifileClass
 
 package koma
-
-import koma.internal.KomaJvmName
-import koma.internal.KomaJvmMultifileClass
 
 var matFormat: String = "L"
 

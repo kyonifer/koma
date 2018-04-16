@@ -1,14 +1,7 @@
-/**
- * This file defines commonly used math constants
- */
-
-@file:KomaJvmName("Koma")
-@file:KomaJvmMultifileClass
+@file:koma.internal.JvmName("Koma")
+@file:koma.internal.JvmMultifileClass
 
 package koma
-
-import koma.internal.KomaJvmName
-import koma.internal.KomaJvmMultifileClass
 
 val PI = kotlin.math.PI
 val E = kotlin.math.E

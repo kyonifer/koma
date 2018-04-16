@@ -1,14 +1,24 @@
 package koma.internal
 
+import koma.internal.default.generated.ndarray.*
 import koma.matrix.*
 import koma.matrix.cblas.CBlasMatrixFactory
 import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
 import koma.internal.default.generated.matrix.DefaultIntMatrixFactory
+import koma.ndarray.NumericalNDArrayFactory
 
-internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
+internal actual fun getDoubleMatrixFactories(): List<MatrixFactory<Matrix<Double>>> {
     return listOf(CBlasMatrixFactory())
 }
 
-actual fun getDoubleFactory(): MatrixFactory<Matrix<Double>> = CBlasMatrixFactory()
-actual fun getFloatFactory(): MatrixFactory<Matrix<Float>> = DefaultFloatMatrixFactory()
-actual fun getIntFactory(): MatrixFactory<Matrix<Int>> = DefaultIntMatrixFactory()
+actual fun getDoubleMatrixFactory(): MatrixFactory<Matrix<Double>> = CBlasMatrixFactory()
+actual fun getFloatMatrixFactory(): MatrixFactory<Matrix<Float>> = DefaultFloatMatrixFactory()
+actual fun getIntMatrixFactory(): MatrixFactory<Matrix<Int>> = DefaultIntMatrixFactory()
+
+actual fun getDoubleNDArrayFactory(): NumericalNDArrayFactory<Double> = DefaultDoubleNDArrayFactory()
+actual fun getFloatNDArrayFactory(): NumericalNDArrayFactory<Float> = DefaultFloatNDArrayFactory()
+actual fun getLongNDArrayFactory(): NumericalNDArrayFactory<Long> = DefaultLongNDArrayFactory()
+actual fun getIntNDArrayFactory(): NumericalNDArrayFactory<Int> = DefaultIntNDArrayFactory()
+actual fun getShortNDArrayFactory(): NumericalNDArrayFactory<Short> = DefaultShortNDArrayFactory()
+actual fun getByteNDArrayFactory(): NumericalNDArrayFactory<Byte> = DefaultByteNDArrayFactory()
+

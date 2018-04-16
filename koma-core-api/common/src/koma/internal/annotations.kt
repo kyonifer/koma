@@ -1,5 +1,15 @@
 package koma.internal
 
+// Workaround for KT-22902
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FILE)
+@Retention(AnnotationRetention.BINARY)
+@MustBeDocumented
+expect annotation class JvmName(val name: String)
+
+@Target(AnnotationTarget.FILE)
+@Retention(AnnotationRetention.SOURCE)
+@MustBeDocumented
+expect annotation class JvmMultifileClass()
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.BINARY)

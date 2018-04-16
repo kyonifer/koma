@@ -1,10 +1,10 @@
 package koma.ndarray.default
 
-// These types have been moved to internal in anticipation of NDArray reorg.
-// However, as the reorg hasn't happened yet they aren't marked @Deprecated.
-// They should be shortly.
-
-typealias DefaultNDArray<T> = koma.internal.default.DefaultNDArray<T>
+@Deprecated("Use toplevel factory koma.ndarray.getGenericFactory<T>().create()")
+typealias DefaultNDArray<T> = koma.internal.default.generated.ndarray.DefaultGenericNDArray<T>
+@Deprecated("Use toplevel factory koma.ndarray.intFactory.create()")
 typealias DefaultIntNDArray = koma.internal.default.generated.ndarray.DefaultIntNDArray
+@Deprecated("Use toplevel factory koma.ndarray.floatFactory.create()")
 typealias DefaultFloatNDArray = koma.internal.default.generated.ndarray.DefaultFloatNDArray
+@Deprecated("Use toplevel factory koma.ndarray.doubleFactory.create()")
 typealias DefaultDoubleNDArray = koma.internal.default.generated.ndarray.DefaultDoubleNDArray

@@ -2,12 +2,14 @@ package koma.internal
 
 import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
 import koma.internal.default.generated.matrix.DefaultIntMatrixFactory
+import koma.internal.default.generated.ndarray.*
 import koma.matrix.*
+import koma.ndarray.NumericalNDArrayFactory
 
 // TODO: Replace with ServiceLoader
 
 
-internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
+internal actual fun getDoubleMatrixFactories(): List<MatrixFactory<Matrix<Double>>> {
     val facCandidates = arrayOf("koma.matrix.mtj.MTJMatrixFactory",
                                 "koma.matrix.ejml.EJMLMatrixFactory",
                                 "koma.matrix.jblas.JBlasMatrixFactory")
@@ -36,14 +38,14 @@ internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>> {
 }
 
 
-actual fun getDoubleFactory(): MatrixFactory<Matrix<Double>> {
+actual fun getDoubleMatrixFactory(): MatrixFactory<Matrix<Double>> {
     val facs = getFactories<Double>()
     if (facs.isNotEmpty())
         return facs[0]
     error("No double matrix factories available. (Did you forget to import a koma-core implementation?)")
 }
-actual fun getFloatFactory(): MatrixFactory<Matrix<Float>> = DefaultFloatMatrixFactory()
-actual fun getIntFactory(): MatrixFactory<Matrix<Int>> = DefaultIntMatrixFactory()
+actual fun getFloatMatrixFactory(): MatrixFactory<Matrix<Float>> = DefaultFloatMatrixFactory()
+actual fun getIntMatrixFactory(): MatrixFactory<Matrix<Int>> = DefaultIntMatrixFactory()
 
 
 internal fun <T> getFactories(): List<MatrixFactory<Matrix<T>>> {
@@ -77,3 +79,12 @@ internal fun <T> getFactories(): List<MatrixFactory<Matrix<T>>> {
     }
     return out
 }
+
+
+actual fun getDoubleNDArrayFactory(): NumericalNDArrayFactory<Double> = DefaultDoubleNDArrayFactory()
+actual fun getFloatNDArrayFactory(): NumericalNDArrayFactory<Float> = DefaultFloatNDArrayFactory()
+actual fun getLongNDArrayFactory(): NumericalNDArrayFactory<Long> = DefaultLongNDArrayFactory()
+actual fun getIntNDArrayFactory(): NumericalNDArrayFactory<Int> = DefaultIntNDArrayFactory()
+actual fun getShortNDArrayFactory(): NumericalNDArrayFactory<Short> = DefaultShortNDArrayFactory()
+actual fun getByteNDArrayFactory(): NumericalNDArrayFactory<Byte> = DefaultByteNDArrayFactory()
+

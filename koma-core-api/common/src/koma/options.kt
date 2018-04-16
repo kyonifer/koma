@@ -1,18 +1,11 @@
-@file:KomaJvmName("Options")
-@file:KomaJvmMultifileClass
+@file:koma.internal.JvmName("Koma")
+@file:koma.internal.JvmMultifileClass
 
 package koma
 
-import koma.internal.KomaJvmName
-import koma.internal.KomaJvmMultifileClass
 import koma.matrix.Matrix
 import koma.matrix.MatrixFactory
 
-
-@Deprecated("Use doubleFactory instead", replaceWith=ReplaceWith("doubleFactory"))
-var factory: MatrixFactory<Matrix<Double>>
-    get() = doubleFactory
-    set(value) { doubleFactory = value }
 
 /**
  * Whether to validate the dimensions, symmetry, and values of input matrices. false is faster, and should be
@@ -20,4 +13,3 @@ var factory: MatrixFactory<Matrix<Double>>
  * differently than your code expects.
  */
 var validateMatrices = true
-

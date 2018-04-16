@@ -1,9 +1,11 @@
 package koma.internal
 
+import koma.internal.default.generated.ndarray.*
 import koma.matrix.*
+import koma.ndarray.NumericalNDArrayFactory
 
-internal actual fun getDoubleFactories(): List<MatrixFactory<Matrix<Double>>>
-        = listOf(getDoubleFactory())
+internal actual fun getDoubleMatrixFactories(): List<MatrixFactory<Matrix<Double>>>
+        = listOf(getDoubleMatrixFactory())
 
 /**
  * js implementations should add themselves to these arrays
@@ -14,6 +16,15 @@ var doubleFac: MatrixFactory<Matrix<Double>>? = null
 var floatFac: MatrixFactory<Matrix<Float>>? = null
 var intFac: MatrixFactory<Matrix<Int>>? = null
 
-actual fun getDoubleFactory(): MatrixFactory<Matrix<Double>> = doubleFac ?: error("No koma-core implementations available")
-actual fun getFloatFactory(): MatrixFactory<Matrix<Float>> = floatFac ?: error("No koma-core implementations available")
-actual fun getIntFactory(): MatrixFactory<Matrix<Int>> = intFac ?: error("No koma-core implementations available")
+actual fun getDoubleMatrixFactory(): MatrixFactory<Matrix<Double>> = doubleFac ?: error("No koma-core implementations available")
+actual fun getFloatMatrixFactory(): MatrixFactory<Matrix<Float>> = floatFac ?: error("No koma-core implementations available")
+actual fun getIntMatrixFactory(): MatrixFactory<Matrix<Int>> = intFac ?: error("No koma-core implementations available")
+
+actual fun getDoubleNDArrayFactory(): NumericalNDArrayFactory<Double> = DefaultDoubleNDArrayFactory()
+actual fun getFloatNDArrayFactory(): NumericalNDArrayFactory<Float> = DefaultFloatNDArrayFactory()
+actual fun getLongNDArrayFactory(): NumericalNDArrayFactory<Long> = DefaultLongNDArrayFactory()
+actual fun getIntNDArrayFactory(): NumericalNDArrayFactory<Int> = DefaultIntNDArrayFactory()
+actual fun getShortNDArrayFactory(): NumericalNDArrayFactory<Short> = DefaultShortNDArrayFactory()
+actual fun getByteNDArrayFactory(): NumericalNDArrayFactory<Byte> = DefaultByteNDArrayFactory()
+
+

@@ -11,7 +11,7 @@ import koma.internal.KomaJsName
  * A set of constructors that must be implemented by a koma backend. Generates various types of matrices.
  * Generic parameter is the type of element, i.e. T=Matrix<Double> or T=Matrix<Int>, etc.
  */
-interface MatrixFactory<out T> {
+interface MatrixFactory<out T: Matrix<*>> {
     /**
      * Generate a zero initialized matrix of the requested shape.
      */

@@ -2,6 +2,10 @@ package koma.matrix
 
 import koma.extensions.*
 import koma.internal.KomaJsName
+import koma.internal.getDoubleMatrixFactory
+import koma.internal.getFloatMatrixFactory
+import koma.internal.getIntMatrixFactory
+import koma.ndarray.NDArray
 
 /**
  * A general facade for a Matrix type. Allows for various backend to be
@@ -10,7 +14,58 @@ import koma.internal.KomaJsName
  * to have a numerical type. For storage of arbitrary types and dimensions, see
  * [koma.ndarray.NDArray].
  */
-interface Matrix<T> {
+interface Matrix<T>: NDArray<T> {
+    companion object {
+
+        // TODO: Ideally these properties are expect/actual with implementations. However, there's currently
+        // a generation issue with kotlin/native that breaks this approach, so as a workaround we'll define
+        // getXFactory methods in koma.internal as expect actual and proxy them here. These properties have
+        // to be lazily evaluated to avoid a race on startup in js, so we use private nullable fields and
+        // initialize on first use
+
+        /**
+         *
+         * Default factory that all top-level functions use when building new matrices.
+         * Double precision.
+         *
+         * Replace this factory at runtime with e.g. koma.matrix.ejml.EJMLMatrixFactory() to change what
+         * backend the top-level functions use for computation.
+         *
+         */
+        var doubleFactory: MatrixFactory<Matrix<Double>>
+            get() = _doubleFactory ?: getDoubleMatrixFactory().also { _doubleFactory = it }
+            set(value) { _doubleFactory = value}
+        private var _doubleFactory: MatrixFactory<Matrix<Double>>? = null
+
+        /**
+         *
+         * Default factory that all top-level functions use when building new matrices.
+         * Single precision.
+         *
+         * Replace this factory at runtime with another to change what
+         * backend the top-level functions use for computation.
+         *
+         */
+        var floatFactory: MatrixFactory<Matrix<Float>>
+            get() = _floatFactory ?: getFloatMatrixFactory().also { _floatFactory = it }
+            set(value) { _floatFactory = value}
+        private var _floatFactory: MatrixFactory<Matrix<Float>>? = null
+
+        /**
+         *
+         * Default factory that all top-level functions use when building new matrices.
+         * Integer matrices.
+         *
+         * Replace this factory at runtime with another to change what
+         * backend the top-level functions use for computation.
+         *
+         */
+        var intFactory: MatrixFactory<Matrix<Int>>
+            get() = _intFactory ?: getIntMatrixFactory().also { _intFactory = it }
+            set(value) { _intFactory = value}
+        private var _intFactory: MatrixFactory<Matrix<Int>>? = null
+
+    }
     // Algebraic Operators
     @KomaJsName("divInt")
     operator fun div(other: Int): Matrix<T>
@@ -55,7 +110,7 @@ interface Matrix<T> {
     /**
      * Returns a copy of this matrix (same values, new memory)
      */
-    fun copy(): Matrix<T>
+    override fun copy(): Matrix<T>
 
     // For speed optimized code (if backend isnt chosen type, may throw an exception or incur performance loss)
     @KomaJsName("getInt")
@@ -217,8 +272,40 @@ interface Matrix<T> {
     val T: Matrix<T>
         get() = this.transpose()
 
+    // Implement NDArray
+    override fun getGeneric(vararg indices: Int): T
+            = when(indices.size) {
+        1 -> { this[indices[0]] }
+        2 -> { this[indices[0], indices[1]]}
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun getDouble(vararg indices: Int): Double
+            = when(indices.size) {
+        1 -> { this.getDouble(indices[0]) }
+        2 -> { this.getDouble(indices[0], indices[1])}
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun setGeneric(vararg indices: Int, value: T)
+            = when(indices.size) {
+        1 -> { this.setGeneric(indices[0], value) }
+        2 -> { this.setGeneric(indices[0], indices[1], value) }
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun setDouble(vararg indices: Int, value: Double)
+            = when(indices.size) {
+        1 -> { this.setDouble(indices[0], value) }
+        2 -> { this.setDouble(indices[0], indices[1], value) }
+        else -> { dimMismatch(indices.size) }
+    }
 
-    fun toIterable() = object: Iterable<T> {
+    override fun getLinear(index: Int): T = getGeneric(index)
+    override fun setLinear(index: Int, value: T) = setGeneric(index, value)
+    override fun shape(): List<Int> = listOf(this.numRows(), this.numCols())
+    override fun getBaseArray(): Any = this.getBaseMatrix()
+
+    // Convenience functions
+
+    override fun toIterable() = object: Iterable<T> {
         override fun iterator(): Iterator<T> {
             class MatrixIterator(var matrix: Matrix<T>) : Iterator<T> {
                 private var cursor = 0
@@ -487,3 +574,5 @@ interface Matrix<T> {
     fun filterCols(f: (col: Matrix<T>) -> Boolean) = filterColsIndexed { n, col -> f(col) }
 }
 
+
+private fun dimMismatch(dims: Int): Nothing = error("Dimension mismatch: Matrices have 2 dimensions ($dims requested)")

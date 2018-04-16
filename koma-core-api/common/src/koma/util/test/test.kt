@@ -11,7 +11,7 @@ import koma.extensions.*
 import koma.matrix.*
 import koma.internal.assert
 import koma.internal.KomaJvmName
-import koma.internal.getDoubleFactories
+import koma.internal.getDoubleMatrixFactories
 
 /**
  * Asserts that a matrix [expected] roughly equals a matrix [actual]. eps is the acceptable numerical error.
@@ -26,7 +26,7 @@ fun <T: Number> assertMatrixEquals(expected: Matrix<T>, actual: Matrix<T>, eps: 
     }
 }
 
-private val facs get() = getDoubleFactories()
+private val facs get() = getDoubleMatrixFactories()
 
 /**
  * A helper function to run tests against all available backends in sequence. Sets [koma.factory] to each backend
