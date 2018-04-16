@@ -7,7 +7,6 @@ package koma.internal.default.generated.ndarray
 
 import koma.extensions.fill
 import koma.ndarray.*
-import koma.ndarray.default.DefaultDoubleNDArray
 
 class DefaultFloatNDArrayFactory: NumericalNDArrayFactory<Float> {
     override fun create(vararg lengths: Int,
