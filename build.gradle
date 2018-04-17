@@ -344,7 +344,8 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
             expand(dtype: dtype,
                    dtypeName: dtypeName(dtype),
                    genDec: genDec(dtype),
-                   floatersOnly: floatersOnly(dtype))
+                   floatersOnly: floatersOnly(dtype),
+                   inline: inline(dtype))
         }
     }
     // Generate ndarray types
@@ -392,7 +393,8 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                     dtypeName: dtypeName(dtype),
                     genDec: genDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
-                    operators: operators(dtype))
+                    operators: operators(dtype),
+                    inline: inline(dtype))
         }
     }
 }
@@ -558,6 +560,15 @@ def operators(dtype) {
                 "@koma.internal.JvmName(\"pow${dtype}\")\n" +
                 "infix fun NDArray<${dtype}>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).to${dtype}() }\n" +
                 ""
+    }
+    else {
+        return ""
+    }
+}
+
+def inline(dtype) {
+    if (dtype != "T") {
+        return "inline "
     }
     else {
         return ""

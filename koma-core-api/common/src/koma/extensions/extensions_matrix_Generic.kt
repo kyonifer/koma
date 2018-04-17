@@ -21,7 +21,7 @@ import koma.internal.KomaJvmName
  */
 @KomaJsName("anyGeneric")
 @KomaJvmName("anyGeneric")
-inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
+fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             if (f(this[row, col]))
@@ -38,7 +38,7 @@ inline fun <T> Matrix<T>.any(f: (T) -> Boolean): Boolean {
  */
 @KomaJsName("allGeneric")
 @KomaJvmName("allGeneric")
-inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
+fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             if (!f(this[row, col]))
@@ -54,7 +54,7 @@ inline fun <T> Matrix<T>.all(f: (T) -> Boolean): Boolean {
  */
 @KomaJsName("fillGeneric")
 @KomaJvmName("fillGeneric")
-inline fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
+fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             this[row, col] = f(row, col)
@@ -69,7 +69,7 @@ inline fun <T> Matrix<T>.fill(f: (row: Int, col: Int) -> T): Matrix<T> {
  */
 @KomaJsName("forEachGeneric")
 @KomaJvmName("forEachGeneric")
-inline fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
+fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             f(this[row, col])
@@ -82,7 +82,7 @@ inline fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
  */
 @KomaJsName("forEachIndexedGeneric")
 @KomaJvmName("forEachIndexedGeneric")
-inline fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
+fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit) {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             f(row, col, this[row, col])
@@ -99,7 +99,7 @@ inline fun <T> Matrix<T>.forEachIndexed(f: (row: Int, col: Int, ele: T) -> Unit)
  */
 @KomaJsName("mapGeneric")
 @KomaJvmName("mapGeneric")
-inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
+fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
@@ -118,7 +118,7 @@ inline fun <T> Matrix<T>.map(f: (T) -> T): Matrix<T> {
  */
 @KomaJsName("mapIndexedGeneric")
 @KomaJvmName("mapIndexedGeneric")
-inline fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
+fun <T> Matrix<T>.mapIndexed(f: (row: Int, col: Int, ele: T) -> T): Matrix<T> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())

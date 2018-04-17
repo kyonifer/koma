@@ -18,8 +18,8 @@ import koma.matrix.Matrix
 
 $toMatrix
 
-@koma.internal.JvmName("fill${dtype}")
-inline fun ${genDec} NDArray<${dtype}>.fill(f: (idx: IntArray) -> ${dtype}): NDArray<${dtype}> {
+@koma.internal.JvmName("fill${dtypeName}")
+${inline}fun ${genDec} NDArray<${dtype}>.fill(f: (idx: IntArray) -> ${dtype}): NDArray<${dtype}> {
     this.forEachIndexedN { idx, ele ->
         this.set(indices=*idx, value = f(idx))
     }
@@ -35,8 +35,8 @@ inline fun ${genDec} NDArray<${dtype}>.fill(f: (idx: IntArray) -> ${dtype}): NDA
  *
  * @return the new NDArray after each element is mapped through f
  */
-@koma.internal.JvmName("map${dtype}")
-inline fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype}): NDArray<${dtype}> {
+@koma.internal.JvmName("map${dtypeName}")
+${inline}fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype}): NDArray<${dtype}> {
     // TODO: Something better than copy here
     val out = this.copy()
     for ((idx, ele) in this.toIterable().withIndex())
@@ -53,8 +53,8 @@ inline fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype}): NDArray<$
  *
  * @return the new NDArray after each element is mapped through f
  */
-@koma.internal.JvmName("mapIndexed${dtype}")
-inline fun ${genDec} NDArray<${dtype}>.mapIndexed(f: (idx: Int, ele: ${dtype}) -> ${dtype}): NDArray<${dtype}> {
+@koma.internal.JvmName("mapIndexed${dtypeName}")
+${inline}fun ${genDec} NDArray<${dtype}>.mapIndexed(f: (idx: Int, ele: ${dtype}) -> ${dtype}): NDArray<${dtype}> {
     // TODO: Something better than copy here
     val out = this.copy()
     for ((idx, ele) in this.toIterable().withIndex())
@@ -67,8 +67,8 @@ inline fun ${genDec} NDArray<${dtype}>.mapIndexed(f: (idx: Int, ele: ${dtype}) -
  * @param f A function that takes in an element
  *
  */
-@koma.internal.JvmName("forEach${dtype}")
-inline fun ${genDec} NDArray<${dtype}>.forEach(f: (ele: ${dtype}) -> Unit) {
+@koma.internal.JvmName("forEach${dtypeName}")
+${inline}fun ${genDec} NDArray<${dtype}>.forEach(f: (ele: ${dtype}) -> Unit) {
     for (ele in this.toIterable())
         f(ele)
 }
@@ -80,8 +80,8 @@ inline fun ${genDec} NDArray<${dtype}>.forEach(f: (ele: ${dtype}) -> Unit) {
  *      in the linear index of the element's location.
  *
  */
-@koma.internal.JvmName("forEachIndexed${dtype}")
-inline fun $genDec NDArray<${dtype}>.forEachIndexed(f: (idx: Int, ele: ${dtype}) -> Unit) {
+@koma.internal.JvmName("forEachIndexed${dtypeName}")
+${inline}fun $genDec NDArray<${dtype}>.forEachIndexed(f: (idx: Int, ele: ${dtype}) -> Unit) {
     for ((idx, ele) in this.toIterable().withIndex())
         f(idx, ele)
 }
@@ -97,8 +97,8 @@ inline fun $genDec NDArray<${dtype}>.forEachIndexed(f: (idx: Int, ele: ${dtype})
  *
  * @return the new NDArray after each element is mapped through f
  */
-@koma.internal.JvmName("mapIndexedN${dtype}")
-inline fun $genDec NDArray<${dtype}>.mapIndexedN(f: (idx: IntArray, ele: ${dtype}) -> ${dtype}): NDArray<${dtype}>
+@koma.internal.JvmName("mapIndexedN${dtypeName}")
+${inline}fun $genDec NDArray<${dtype}>.mapIndexedN(f: (idx: IntArray, ele: ${dtype}) -> ${dtype}): NDArray<${dtype}>
         = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
 /**
@@ -109,12 +109,12 @@ inline fun $genDec NDArray<${dtype}>.mapIndexedN(f: (idx: IntArray, ele: ${dtype
  *      in the ND index of the element's location.
  *
  */
-@koma.internal.JvmName("forEachIndexedN${dtype}")
-inline fun $genDec NDArray<${dtype}>.forEachIndexedN(f: (idx: IntArray, ele: ${dtype}) -> Unit)
+@koma.internal.JvmName("forEachIndexedN${dtypeName}")
+${inline}fun $genDec NDArray<${dtype}>.forEachIndexedN(f: (idx: IntArray, ele: ${dtype}) -> Unit)
         = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
 
-@koma.internal.JvmName("getRanges${dtype}")
+@koma.internal.JvmName("getRanges${dtypeName}")
 operator fun $genDec NDArray<${dtype}>.get(vararg indices: IntRange): NDArray<${dtype}> {
     checkIndices(indices.map { it.last }.toIntArray())
     return DefaultGenericNDArray<${dtype}>(shape = *indices
@@ -126,7 +126,7 @@ operator fun $genDec NDArray<${dtype}>.get(vararg indices: IntRange): NDArray<${
     }
 }
 
-@koma.internal.JvmName("set${dtype}")
+@koma.internal.JvmName("set${dtypeName}")
 operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: NDArray<${dtype}>) {
     val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }

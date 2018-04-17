@@ -21,7 +21,7 @@ import koma.internal.KomaJvmName
  */
 @KomaJsName("any${dtypeName}")
 @KomaJvmName("any${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.any(f: (${dtype}) -> Boolean): Boolean {
+${inline}fun ${genDec} Matrix<${dtype}>.any(f: (${dtype}) -> Boolean): Boolean {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             if (f(this[row, col]))
@@ -38,7 +38,7 @@ inline fun ${genDec} Matrix<${dtype}>.any(f: (${dtype}) -> Boolean): Boolean {
  */
 @KomaJsName("all${dtypeName}")
 @KomaJvmName("all${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.all(f: (${dtype}) -> Boolean): Boolean {
+${inline}fun ${genDec} Matrix<${dtype}>.all(f: (${dtype}) -> Boolean): Boolean {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             if (!f(this[row, col]))
@@ -54,7 +54,7 @@ inline fun ${genDec} Matrix<${dtype}>.all(f: (${dtype}) -> Boolean): Boolean {
  */
 @KomaJsName("fill${dtypeName}")
 @KomaJvmName("fill${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.fill(f: (row: Int, col: Int) -> ${dtype}): Matrix<${dtype}> {
+${inline}fun ${genDec} Matrix<${dtype}>.fill(f: (row: Int, col: Int) -> ${dtype}): Matrix<${dtype}> {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             this[row, col] = f(row, col)
@@ -69,7 +69,7 @@ inline fun ${genDec} Matrix<${dtype}>.fill(f: (row: Int, col: Int) -> ${dtype}):
  */
 @KomaJsName("forEach${dtypeName}")
 @KomaJvmName("forEach${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.forEach(f: (${dtype}) -> Unit) {
+${inline}fun ${genDec} Matrix<${dtype}>.forEach(f: (${dtype}) -> Unit) {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             f(this[row, col])
@@ -82,7 +82,7 @@ inline fun ${genDec} Matrix<${dtype}>.forEach(f: (${dtype}) -> Unit) {
  */
 @KomaJsName("forEachIndexed${dtypeName}")
 @KomaJvmName("forEachIndexed${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.forEachIndexed(f: (row: Int, col: Int, ele: ${dtype}) -> Unit) {
+${inline}fun ${genDec} Matrix<${dtype}>.forEachIndexed(f: (row: Int, col: Int, ele: ${dtype}) -> Unit) {
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
             f(row, col, this[row, col])
@@ -99,7 +99,7 @@ inline fun ${genDec} Matrix<${dtype}>.forEachIndexed(f: (row: Int, col: Int, ele
  */
 @KomaJsName("map${dtypeName}")
 @KomaJvmName("map${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.map(f: (${dtype}) -> ${dtype}): Matrix<${dtype}> {
+${inline}fun ${genDec} Matrix<${dtype}>.map(f: (${dtype}) -> ${dtype}): Matrix<${dtype}> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
@@ -118,7 +118,7 @@ inline fun ${genDec} Matrix<${dtype}>.map(f: (${dtype}) -> ${dtype}): Matrix<${d
  */
 @KomaJsName("mapIndexed${dtypeName}")
 @KomaJvmName("mapIndexed${dtypeName}")
-inline fun ${genDec} Matrix<${dtype}>.mapIndexed(f: (row: Int, col: Int, ele: ${dtype}) -> ${dtype}): Matrix<${dtype}> {
+${inline}fun ${genDec} Matrix<${dtype}>.mapIndexed(f: (row: Int, col: Int, ele: ${dtype}) -> ${dtype}): Matrix<${dtype}> {
     val out = this.getFactory().zeros(this.numRows(), this.numCols())
     for (row in 0 until this.numRows())
         for (col in 0 until this.numCols())
