@@ -361,7 +361,17 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                    initStorage: initStorage(dtype),
                    dtypeName: dtypeName(dtype),
                    getDouble: convertGetter(dtype, "Double"),
-                   setDouble: convertSetter(dtype, "Double"))
+                   setDouble: convertSetter(dtype, "Double"),
+                   getByte: convertGetter(dtype, "Byte"),
+                   setByte: convertSetter(dtype, "Byte"),
+                   getInt: convertGetter(dtype, "Int"),
+                   setInt: convertSetter(dtype, "Int"),
+                   getFloat: convertGetter(dtype, "Float"),
+                   setFloat: convertSetter(dtype, "Float"),
+                   getLong: convertGetter(dtype, "Long"),
+                   setLong: convertSetter(dtype, "Long"),
+                   getShort: convertGetter(dtype, "Short"),
+                   setShort: convertSetter(dtype, "Short"))
         }
         if (dtype != "T") {
             copy {
@@ -450,23 +460,31 @@ def dtypeName(dtype) {
 
 def convertGetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "        val ele = getGeneric(*indices)\n" +
+        return "    override fun get${toDtype}(vararg indices: Int): ${toDtype} {\n" +
+               "        val ele = getGeneric(*indices)\n" +
                "        if (ele is ${toDtype})\n" +
                "            return ele\n" +
                "        else\n" +
-               "            error(wrongType)"
+               "            error(wrongType)\n" +
+               "    }"
     else
-        return "        checkIndices(indices)\n" +
+        return "    override fun get${toDtype}(vararg indices: Int): ${toDtype} {\n" +
+               "        checkIndices(indices)\n" +
                "        val ele = storage[nIdxToLinear(indices)]\n" +
-               "        return ele.to${toDtype}()"
+               "        return ele.to${toDtype}()\n" +
+               "    }"
 }
 
 def convertSetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "        setGeneric(indices=*indices, value=value as ${baseDtype})"
+        return "    override fun set${toDtype}(vararg indices: Int, value: ${toDtype}) {\n" +
+               "        setGeneric(indices=*indices, value=value as ${baseDtype})\n" +
+               "    }"
     else
-        return "        checkIndices(indices)\n" +
-               "        storage[nIdxToLinear(indices)] = value.to${baseDtype}()"
+        return "    override fun set${toDtype}(vararg indices: Int, value: ${toDtype}) {\n" +
+               "        checkIndices(indices)\n" +
+               "        storage[nIdxToLinear(indices)] = value.to${baseDtype}()\n" +
+               "    }"
 
 }
 
@@ -501,7 +519,8 @@ def floatersOnly(dtype) {
 
 def toMatrix(dtype, dtypesMatrix) {
     if (dtype in dtypesMatrix && dtype != "T") {
-        return "fun NDArray<${dtype}>.toMatrix(): Matrix<${dtype}> {\n" +
+        return "@koma.internal.JvmName(\"toMatrix${dtype}\")" +
+                "fun NDArray<${dtype}>.toMatrix(): Matrix<${dtype}> {\n" +
                 "    if (this is Matrix)\n" +
                 "        return this\n" +
                 "    val dims = this.shape()\n" +
@@ -520,14 +539,23 @@ def toMatrix(dtype, dtypesMatrix) {
 def operators(dtype) {
     if (dtype != "T") {
         return "\n" +
+                "@koma.internal.JvmName(\"div${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.div(other: ${dtype}) = map { (it/other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"timesArr${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.times(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"times${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.times(other: ${dtype}) = map { (it * other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"unaryMinus${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.unaryMinus() = map { (-it).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"minus${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.minus(other: ${dtype}) = map { (it - other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"minusArr${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.minus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"plus${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.plus(other: ${dtype}) = map { (it + other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"plusArr${dtype}\")\n" +
                 "operator fun NDArray<${dtype}>.plus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"pow${dtype}\")\n" +
                 "infix fun NDArray<${dtype}>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).to${dtype}() }\n" +
                 ""
     }

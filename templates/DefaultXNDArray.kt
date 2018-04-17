@@ -47,11 +47,19 @@ ${initStorage}
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
-    override fun getDouble(vararg indices: Int): Double {
 ${getDouble}
-    }
-    override fun setDouble(vararg indices: Int, value: Double) {
 ${setDouble}
-    }
+${getByte}
+${setByte}
+${getInt}
+${setInt}
+${getFloat}
+${setFloat}
+${getLong}
+${setLong}
+${getShort}
+${setShort}
+
+
 }
 

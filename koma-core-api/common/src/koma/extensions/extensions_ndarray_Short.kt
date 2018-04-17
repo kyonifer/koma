@@ -18,6 +18,7 @@ import koma.matrix.Matrix
 
 
 
+@koma.internal.JvmName("fillShort")
 inline fun  NDArray<Short>.fill(f: (idx: IntArray) -> Short): NDArray<Short> {
     this.forEachIndexedN { idx, ele ->
         this.set(indices=*idx, value = f(idx))
@@ -34,6 +35,7 @@ inline fun  NDArray<Short>.fill(f: (idx: IntArray) -> Short): NDArray<Short> {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapShort")
 inline fun  NDArray<Short>.map(f: (Short) -> Short): NDArray<Short> {
     // TODO: Something better than copy here
     val out = this.copy()
@@ -51,6 +53,7 @@ inline fun  NDArray<Short>.map(f: (Short) -> Short): NDArray<Short> {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapIndexedShort")
 inline fun  NDArray<Short>.mapIndexed(f: (idx: Int, ele: Short) -> Short): NDArray<Short> {
     // TODO: Something better than copy here
     val out = this.copy()
@@ -64,6 +67,7 @@ inline fun  NDArray<Short>.mapIndexed(f: (idx: Int, ele: Short) -> Short): NDArr
  * @param f A function that takes in an element
  *
  */
+@koma.internal.JvmName("forEachShort")
 inline fun  NDArray<Short>.forEach(f: (ele: Short) -> Unit) {
     for (ele in this.toIterable())
         f(ele)
@@ -76,6 +80,7 @@ inline fun  NDArray<Short>.forEach(f: (ele: Short) -> Unit) {
  *      in the linear index of the element's location.
  *
  */
+@koma.internal.JvmName("forEachIndexedShort")
 inline fun  NDArray<Short>.forEachIndexed(f: (idx: Int, ele: Short) -> Unit) {
     for ((idx, ele) in this.toIterable().withIndex())
         f(idx, ele)
@@ -92,6 +97,7 @@ inline fun  NDArray<Short>.forEachIndexed(f: (idx: Int, ele: Short) -> Unit) {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapIndexedNShort")
 inline fun  NDArray<Short>.mapIndexedN(f: (idx: IntArray, ele: Short) -> Short): NDArray<Short>
         = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
@@ -103,10 +109,12 @@ inline fun  NDArray<Short>.mapIndexedN(f: (idx: IntArray, ele: Short) -> Short):
  *      in the ND index of the element's location.
  *
  */
+@koma.internal.JvmName("forEachIndexedNShort")
 inline fun  NDArray<Short>.forEachIndexedN(f: (idx: IntArray, ele: Short) -> Unit)
         = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
 
+@koma.internal.JvmName("getRangesShort")
 operator fun  NDArray<Short>.get(vararg indices: IntRange): NDArray<Short> {
     checkIndices(indices.map { it.last }.toIntArray())
     return DefaultGenericNDArray<Short>(shape = *indices
@@ -118,6 +126,7 @@ operator fun  NDArray<Short>.get(vararg indices: IntRange): NDArray<Short> {
     }
 }
 
+@koma.internal.JvmName("setShort")
 operator fun  NDArray<Short>.set(vararg indices: Int, value: NDArray<Short>) {
     val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
@@ -139,13 +148,22 @@ operator fun  NDArray<Short>.get(vararg indices: Int) = getShort(*indices)
 operator fun  NDArray<Short>.set(vararg indices: Int, value: Short) = setShort(indices=*indices, value=value)
 
 
+@koma.internal.JvmName("divShort")
 operator fun NDArray<Short>.div(other: Short) = map { (it/other).toShort() }
+@koma.internal.JvmName("timesArrShort")
 operator fun NDArray<Short>.times(other: NDArray<Short>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).toShort() }
+@koma.internal.JvmName("timesShort")
 operator fun NDArray<Short>.times(other: Short) = map { (it * other).toShort() }
+@koma.internal.JvmName("unaryMinusShort")
 operator fun NDArray<Short>.unaryMinus() = map { (-it).toShort() }
+@koma.internal.JvmName("minusShort")
 operator fun NDArray<Short>.minus(other: Short) = map { (it - other).toShort() }
+@koma.internal.JvmName("minusArrShort")
 operator fun NDArray<Short>.minus(other: NDArray<Short>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).toShort() }
+@koma.internal.JvmName("plusShort")
 operator fun NDArray<Short>.plus(other: Short) = map { (it + other).toShort() }
+@koma.internal.JvmName("plusArrShort")
 operator fun NDArray<Short>.plus(other: NDArray<Short>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).toShort() }
+@koma.internal.JvmName("powShort")
 infix fun NDArray<Short>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).toShort() }
 

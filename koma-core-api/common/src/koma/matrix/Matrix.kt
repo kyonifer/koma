@@ -285,6 +285,25 @@ interface Matrix<T>: NDArray<T> {
         2 -> { this.getDouble(indices[0], indices[1])}
         else -> { dimMismatch(indices.size) }
     }
+    override fun getFloat(vararg indices: Int): Float
+            = when(indices.size) {
+        1 -> { this.getFloat(indices[0]) }
+        2 -> { this.getFloat(indices[0], indices[1])}
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun getInt(vararg indices: Int): Int
+            = when(indices.size) {
+        1 -> { this.getInt(indices[0]) }
+        2 -> { this.getInt(indices[0], indices[1])}
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun getShort(vararg indices: Int): Short
+            = error("Matrices do not support Short values")
+    override fun getByte(vararg indices: Int): Byte
+            = error("Matrices do not support Byte values")
+    override fun getLong(vararg indices: Int): Long
+            = error("Matrices do not support Long values")
+
     override fun setGeneric(vararg indices: Int, value: T)
             = when(indices.size) {
         1 -> { this.setGeneric(indices[0], value) }
@@ -297,6 +316,24 @@ interface Matrix<T>: NDArray<T> {
         2 -> { this.setDouble(indices[0], indices[1], value) }
         else -> { dimMismatch(indices.size) }
     }
+    override fun setFloat(vararg indices: Int, value: Float)
+            = when(indices.size) {
+        1 -> { this.setFloat(indices[0], value) }
+        2 -> { this.setFloat(indices[0], indices[1], value) }
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun setInt(vararg indices: Int, value: Int)
+            = when(indices.size) {
+        1 -> { this.setInt(indices[0], value) }
+        2 -> { this.setInt(indices[0], indices[1], value) }
+        else -> { dimMismatch(indices.size) }
+    }
+    override fun setShort(vararg indices: Int, value: Short)
+            = error("Matrices do not support Short values")
+    override fun setByte(vararg indices: Int, value: Byte)
+            = error("Matrices do not support Byte values")
+    override fun setLong(vararg indices: Int, value: Long)
+            = error("Matrices do not support Long values")
 
     override fun getLinear(index: Int): T = getGeneric(index)
     override fun setLinear(index: Int, value: T) = setGeneric(index, value)

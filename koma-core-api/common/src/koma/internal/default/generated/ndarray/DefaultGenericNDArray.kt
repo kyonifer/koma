@@ -57,5 +57,57 @@ storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as 
     override fun setDouble(vararg indices: Int, value: Double) {
         setGeneric(indices=*indices, value=value as T)
     }
+    override fun getByte(vararg indices: Int): Byte {
+        val ele = getGeneric(*indices)
+        if (ele is Byte)
+            return ele
+        else
+            error(wrongType)
+    }
+    override fun setByte(vararg indices: Int, value: Byte) {
+        setGeneric(indices=*indices, value=value as T)
+    }
+    override fun getInt(vararg indices: Int): Int {
+        val ele = getGeneric(*indices)
+        if (ele is Int)
+            return ele
+        else
+            error(wrongType)
+    }
+    override fun setInt(vararg indices: Int, value: Int) {
+        setGeneric(indices=*indices, value=value as T)
+    }
+    override fun getFloat(vararg indices: Int): Float {
+        val ele = getGeneric(*indices)
+        if (ele is Float)
+            return ele
+        else
+            error(wrongType)
+    }
+    override fun setFloat(vararg indices: Int, value: Float) {
+        setGeneric(indices=*indices, value=value as T)
+    }
+    override fun getLong(vararg indices: Int): Long {
+        val ele = getGeneric(*indices)
+        if (ele is Long)
+            return ele
+        else
+            error(wrongType)
+    }
+    override fun setLong(vararg indices: Int, value: Long) {
+        setGeneric(indices=*indices, value=value as T)
+    }
+    override fun getShort(vararg indices: Int): Short {
+        val ele = getGeneric(*indices)
+        if (ele is Short)
+            return ele
+        else
+            error(wrongType)
+    }
+    override fun setShort(vararg indices: Int, value: Short) {
+        setGeneric(indices=*indices, value=value as T)
+    }
+
+
 }
 

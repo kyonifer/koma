@@ -18,6 +18,7 @@ import koma.matrix.Matrix
 
 
 
+@koma.internal.JvmName("fillByte")
 inline fun  NDArray<Byte>.fill(f: (idx: IntArray) -> Byte): NDArray<Byte> {
     this.forEachIndexedN { idx, ele ->
         this.set(indices=*idx, value = f(idx))
@@ -34,6 +35,7 @@ inline fun  NDArray<Byte>.fill(f: (idx: IntArray) -> Byte): NDArray<Byte> {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapByte")
 inline fun  NDArray<Byte>.map(f: (Byte) -> Byte): NDArray<Byte> {
     // TODO: Something better than copy here
     val out = this.copy()
@@ -51,6 +53,7 @@ inline fun  NDArray<Byte>.map(f: (Byte) -> Byte): NDArray<Byte> {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapIndexedByte")
 inline fun  NDArray<Byte>.mapIndexed(f: (idx: Int, ele: Byte) -> Byte): NDArray<Byte> {
     // TODO: Something better than copy here
     val out = this.copy()
@@ -64,6 +67,7 @@ inline fun  NDArray<Byte>.mapIndexed(f: (idx: Int, ele: Byte) -> Byte): NDArray<
  * @param f A function that takes in an element
  *
  */
+@koma.internal.JvmName("forEachByte")
 inline fun  NDArray<Byte>.forEach(f: (ele: Byte) -> Unit) {
     for (ele in this.toIterable())
         f(ele)
@@ -76,6 +80,7 @@ inline fun  NDArray<Byte>.forEach(f: (ele: Byte) -> Unit) {
  *      in the linear index of the element's location.
  *
  */
+@koma.internal.JvmName("forEachIndexedByte")
 inline fun  NDArray<Byte>.forEachIndexed(f: (idx: Int, ele: Byte) -> Unit) {
     for ((idx, ele) in this.toIterable().withIndex())
         f(idx, ele)
@@ -92,6 +97,7 @@ inline fun  NDArray<Byte>.forEachIndexed(f: (idx: Int, ele: Byte) -> Unit) {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapIndexedNByte")
 inline fun  NDArray<Byte>.mapIndexedN(f: (idx: IntArray, ele: Byte) -> Byte): NDArray<Byte>
         = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
@@ -103,10 +109,12 @@ inline fun  NDArray<Byte>.mapIndexedN(f: (idx: IntArray, ele: Byte) -> Byte): ND
  *      in the ND index of the element's location.
  *
  */
+@koma.internal.JvmName("forEachIndexedNByte")
 inline fun  NDArray<Byte>.forEachIndexedN(f: (idx: IntArray, ele: Byte) -> Unit)
         = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
 
+@koma.internal.JvmName("getRangesByte")
 operator fun  NDArray<Byte>.get(vararg indices: IntRange): NDArray<Byte> {
     checkIndices(indices.map { it.last }.toIntArray())
     return DefaultGenericNDArray<Byte>(shape = *indices
@@ -118,6 +126,7 @@ operator fun  NDArray<Byte>.get(vararg indices: IntRange): NDArray<Byte> {
     }
 }
 
+@koma.internal.JvmName("setByte")
 operator fun  NDArray<Byte>.set(vararg indices: Int, value: NDArray<Byte>) {
     val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
@@ -139,13 +148,22 @@ operator fun  NDArray<Byte>.get(vararg indices: Int) = getByte(*indices)
 operator fun  NDArray<Byte>.set(vararg indices: Int, value: Byte) = setByte(indices=*indices, value=value)
 
 
+@koma.internal.JvmName("divByte")
 operator fun NDArray<Byte>.div(other: Byte) = map { (it/other).toByte() }
+@koma.internal.JvmName("timesArrByte")
 operator fun NDArray<Byte>.times(other: NDArray<Byte>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).toByte() }
+@koma.internal.JvmName("timesByte")
 operator fun NDArray<Byte>.times(other: Byte) = map { (it * other).toByte() }
+@koma.internal.JvmName("unaryMinusByte")
 operator fun NDArray<Byte>.unaryMinus() = map { (-it).toByte() }
+@koma.internal.JvmName("minusByte")
 operator fun NDArray<Byte>.minus(other: Byte) = map { (it - other).toByte() }
+@koma.internal.JvmName("minusArrByte")
 operator fun NDArray<Byte>.minus(other: NDArray<Byte>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).toByte() }
+@koma.internal.JvmName("plusByte")
 operator fun NDArray<Byte>.plus(other: Byte) = map { (it + other).toByte() }
+@koma.internal.JvmName("plusArrByte")
 operator fun NDArray<Byte>.plus(other: NDArray<Byte>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).toByte() }
+@koma.internal.JvmName("powByte")
 infix fun NDArray<Byte>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).toByte() }
 

@@ -59,5 +59,52 @@ open class DefaultLongNDArray(@KomaJsName("shape_private") vararg protected val 
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value.toLong()
     }
+    override fun getByte(vararg indices: Int): Byte {
+        checkIndices(indices)
+        val ele = storage[nIdxToLinear(indices)]
+        return ele.toByte()
+    }
+    override fun setByte(vararg indices: Int, value: Byte) {
+        checkIndices(indices)
+        storage[nIdxToLinear(indices)] = value.toLong()
+    }
+    override fun getInt(vararg indices: Int): Int {
+        checkIndices(indices)
+        val ele = storage[nIdxToLinear(indices)]
+        return ele.toInt()
+    }
+    override fun setInt(vararg indices: Int, value: Int) {
+        checkIndices(indices)
+        storage[nIdxToLinear(indices)] = value.toLong()
+    }
+    override fun getFloat(vararg indices: Int): Float {
+        checkIndices(indices)
+        val ele = storage[nIdxToLinear(indices)]
+        return ele.toFloat()
+    }
+    override fun setFloat(vararg indices: Int, value: Float) {
+        checkIndices(indices)
+        storage[nIdxToLinear(indices)] = value.toLong()
+    }
+    override fun getLong(vararg indices: Int): Long {
+        checkIndices(indices)
+        val ele = storage[nIdxToLinear(indices)]
+        return ele.toLong()
+    }
+    override fun setLong(vararg indices: Int, value: Long) {
+        checkIndices(indices)
+        storage[nIdxToLinear(indices)] = value.toLong()
+    }
+    override fun getShort(vararg indices: Int): Short {
+        checkIndices(indices)
+        val ele = storage[nIdxToLinear(indices)]
+        return ele.toShort()
+    }
+    override fun setShort(vararg indices: Int, value: Short) {
+        checkIndices(indices)
+        storage[nIdxToLinear(indices)] = value.toLong()
+    }
+
+
 }
 

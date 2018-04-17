@@ -16,7 +16,7 @@ import koma.ndarray.NDArray
 import koma.pow
 import koma.matrix.Matrix
 
-fun NDArray<Float>.toMatrix(): Matrix<Float> {
+@koma.internal.JvmName("toMatrixFloat")fun NDArray<Float>.toMatrix(): Matrix<Float> {
     if (this is Matrix)
         return this
     val dims = this.shape()
@@ -27,6 +27,7 @@ fun NDArray<Float>.toMatrix(): Matrix<Float> {
     }
 }
 
+@koma.internal.JvmName("fillFloat")
 inline fun  NDArray<Float>.fill(f: (idx: IntArray) -> Float): NDArray<Float> {
     this.forEachIndexedN { idx, ele ->
         this.set(indices=*idx, value = f(idx))
@@ -43,6 +44,7 @@ inline fun  NDArray<Float>.fill(f: (idx: IntArray) -> Float): NDArray<Float> {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapFloat")
 inline fun  NDArray<Float>.map(f: (Float) -> Float): NDArray<Float> {
     // TODO: Something better than copy here
     val out = this.copy()
@@ -60,6 +62,7 @@ inline fun  NDArray<Float>.map(f: (Float) -> Float): NDArray<Float> {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapIndexedFloat")
 inline fun  NDArray<Float>.mapIndexed(f: (idx: Int, ele: Float) -> Float): NDArray<Float> {
     // TODO: Something better than copy here
     val out = this.copy()
@@ -73,6 +76,7 @@ inline fun  NDArray<Float>.mapIndexed(f: (idx: Int, ele: Float) -> Float): NDArr
  * @param f A function that takes in an element
  *
  */
+@koma.internal.JvmName("forEachFloat")
 inline fun  NDArray<Float>.forEach(f: (ele: Float) -> Unit) {
     for (ele in this.toIterable())
         f(ele)
@@ -85,6 +89,7 @@ inline fun  NDArray<Float>.forEach(f: (ele: Float) -> Unit) {
  *      in the linear index of the element's location.
  *
  */
+@koma.internal.JvmName("forEachIndexedFloat")
 inline fun  NDArray<Float>.forEachIndexed(f: (idx: Int, ele: Float) -> Unit) {
     for ((idx, ele) in this.toIterable().withIndex())
         f(idx, ele)
@@ -101,6 +106,7 @@ inline fun  NDArray<Float>.forEachIndexed(f: (idx: Int, ele: Float) -> Unit) {
  *
  * @return the new NDArray after each element is mapped through f
  */
+@koma.internal.JvmName("mapIndexedNFloat")
 inline fun  NDArray<Float>.mapIndexedN(f: (idx: IntArray, ele: Float) -> Float): NDArray<Float>
         = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
@@ -112,10 +118,12 @@ inline fun  NDArray<Float>.mapIndexedN(f: (idx: IntArray, ele: Float) -> Float):
  *      in the ND index of the element's location.
  *
  */
+@koma.internal.JvmName("forEachIndexedNFloat")
 inline fun  NDArray<Float>.forEachIndexedN(f: (idx: IntArray, ele: Float) -> Unit)
         = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
 
 
+@koma.internal.JvmName("getRangesFloat")
 operator fun  NDArray<Float>.get(vararg indices: IntRange): NDArray<Float> {
     checkIndices(indices.map { it.last }.toIntArray())
     return DefaultGenericNDArray<Float>(shape = *indices
@@ -127,6 +135,7 @@ operator fun  NDArray<Float>.get(vararg indices: IntRange): NDArray<Float> {
     }
 }
 
+@koma.internal.JvmName("setFloat")
 operator fun  NDArray<Float>.set(vararg indices: Int, value: NDArray<Float>) {
     val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
@@ -148,13 +157,22 @@ operator fun  NDArray<Float>.get(vararg indices: Int) = getFloat(*indices)
 operator fun  NDArray<Float>.set(vararg indices: Int, value: Float) = setFloat(indices=*indices, value=value)
 
 
+@koma.internal.JvmName("divFloat")
 operator fun NDArray<Float>.div(other: Float) = map { (it/other).toFloat() }
+@koma.internal.JvmName("timesArrFloat")
 operator fun NDArray<Float>.times(other: NDArray<Float>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).toFloat() }
+@koma.internal.JvmName("timesFloat")
 operator fun NDArray<Float>.times(other: Float) = map { (it * other).toFloat() }
+@koma.internal.JvmName("unaryMinusFloat")
 operator fun NDArray<Float>.unaryMinus() = map { (-it).toFloat() }
+@koma.internal.JvmName("minusFloat")
 operator fun NDArray<Float>.minus(other: Float) = map { (it - other).toFloat() }
+@koma.internal.JvmName("minusArrFloat")
 operator fun NDArray<Float>.minus(other: NDArray<Float>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).toFloat() }
+@koma.internal.JvmName("plusFloat")
 operator fun NDArray<Float>.plus(other: Float) = map { (it + other).toFloat() }
+@koma.internal.JvmName("plusArrFloat")
 operator fun NDArray<Float>.plus(other: NDArray<Float>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).toFloat() }
+@koma.internal.JvmName("powFloat")
 infix fun NDArray<Float>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).toFloat() }
 
