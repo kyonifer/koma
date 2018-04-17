@@ -340,7 +340,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
             from 'templates'
             into "koma-core-api/common/src/koma/extensions"
             include 'extension_matrix.kt'
-            rename { "extension_matrix_${dtypeName(dtype)}.kt"}
+            rename { "extensions_matrix_${dtypeName(dtype)}.kt"}
             expand(dtype: dtype,
                    dtypeName: dtypeName(dtype),
                    genDec: genDec(dtype),
@@ -373,6 +373,17 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                         namespace: namespace)
             }
         }
+        copy {
+            from 'templates'
+            into "koma-core-api/common/src/koma/extensions"
+            include 'extensions_ndarray.kt'
+            rename { "extensions_ndarray_${dtypeName(dtype)}.kt"}
+            expand(dtype: dtype,
+                    dtypeName: dtypeName(dtype),
+                    genDec: genDec(dtype),
+                    toMatrix: toMatrix(dtype, dtypesMatrix),
+                    operators: operators(dtype))
+        }
     }
 }
 
@@ -384,7 +395,6 @@ task codegen {
                 ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte'])
     }
 }
-// Matrices
 
 def getDiv(dtype) {
     if (dtype != 'Int')
@@ -406,7 +416,6 @@ def getEPow(dtype) {
 
 }
 
-// NDArray
 
 def getStorage(dtype) {
     if (dtype != 'T')
@@ -490,5 +499,41 @@ def floatersOnly(dtype) {
     }
 }
 
+def toMatrix(dtype, dtypesMatrix) {
+    if (dtype in dtypesMatrix && dtype != "T") {
+        return "fun NDArray<${dtype}>.toMatrix(): Matrix<${dtype}> {\n" +
+                "    if (this is Matrix)\n" +
+                "        return this\n" +
+                "    val dims = this.shape()\n" +
+                "    return when (dims.size) {\n" +
+                "        1 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], 1).fill { row, _ -> this[row] } }\n" +
+                "        2 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], dims[1]).fill { row, col -> this[row, col] } }\n" +
+                "        else -> error(\"Cannot convert NDArray with \${dims.size} dimensions to matrix (must be 1 or 2)\")\n" +
+                "    }\n" +
+                "}"
+    }
+    else {
+        return ""
+    }
+}
+
+def operators(dtype) {
+    if (dtype != "T") {
+        return "\n" +
+                "operator fun NDArray<${dtype}>.div(other: ${dtype}) = map { (it/other).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.times(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.times(other: ${dtype}) = map { (it * other).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.unaryMinus() = map { (-it).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.minus(other: ${dtype}) = map { (it - other).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.minus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.plus(other: ${dtype}) = map { (it + other).to${dtype}() }\n" +
+                "operator fun NDArray<${dtype}>.plus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).to${dtype}() }\n" +
+                "infix fun NDArray<${dtype}>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).to${dtype}() }\n" +
+                ""
+    }
+    else {
+        return ""
+    }
+}
 
 apply from: 'buildscripts/publishing.gradle'

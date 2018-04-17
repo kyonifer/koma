@@ -82,7 +82,18 @@ interface NDArray<T> {
     // to be used directly, but instead are used by ext funcs in `koma.extensions`.
 
     fun getGeneric(vararg indices: Int): T
+    fun getByte(vararg indices: Int): Byte
     fun getDouble(vararg indices: Int): Double
+    fun getFloat(vararg indices: Int): Float
+    fun getInt(vararg indices: Int): Int
+    fun getLong(vararg indices: Int): Long
+    fun getShort(vararg indices: Int): Short
+
     fun setGeneric(vararg indices: Int, value: T)
+    fun setByte(vararg indices: Int, value: Byte)
     fun setDouble(vararg indices: Int, value: Double)
+    fun setFloat(vararg indices: Int, value: Float)
+    fun setInt(vararg indices: Int, value: Int)
+    fun setLong(vararg indices: Int, value: Long)
+    fun setShort(vararg indices: Int, value: Short)
 }
