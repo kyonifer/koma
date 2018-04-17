@@ -1,4 +1,4 @@
-@file:koma.internal.JvmName("Matrix")
+@file:koma.internal.JvmName("MatrixExtensions")
 @file:koma.internal.JvmMultifileClass
 
 /**

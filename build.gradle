@@ -339,7 +339,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
         copy {
             from 'templates'
             into "koma-core-api/common/src/koma/extensions"
-            include 'extension_matrix.kt'
+            include 'extensions_matrix.kt'
             rename { "extensions_matrix_${dtypeName(dtype)}.kt"}
             expand(dtype: dtype,
                    dtypeName: dtypeName(dtype),
