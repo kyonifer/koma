@@ -1,10 +1,12 @@
 package koma.ndarray.default
 
-@Deprecated("Use toplevel factory koma.ndarray.getGenericFactory<T>().create()")
+import koma.ndarray.NDArray
+
+@Deprecated("Use NDArray.getGenericFactory<T>().create(...)")
 typealias DefaultNDArray<T> = koma.internal.default.generated.ndarray.DefaultGenericNDArray<T>
-@Deprecated("Use toplevel factory koma.ndarray.intFactory.create()")
+@Deprecated("Use NDArray.intFactory", ReplaceWith("NDArray.intFactory.create"))
 typealias DefaultIntNDArray = koma.internal.default.generated.ndarray.DefaultIntNDArray
-@Deprecated("Use toplevel factory koma.ndarray.floatFactory.create()")
+@Deprecated("Use NDArray.floatFactory", ReplaceWith("NDArray.floatFactory.create"))
 typealias DefaultFloatNDArray = koma.internal.default.generated.ndarray.DefaultFloatNDArray
-@Deprecated("Use toplevel factory koma.ndarray.doubleFactory.create()")
+@Deprecated("Use NDArray.doubleFactory", ReplaceWith("NDArray.doubleFactory.create"))
 typealias DefaultDoubleNDArray = koma.internal.default.generated.ndarray.DefaultDoubleNDArray
