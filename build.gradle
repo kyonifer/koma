@@ -521,7 +521,7 @@ def floatersOnly(dtype) {
 
 def toMatrix(dtype, dtypesMatrix) {
     if (dtype in dtypesMatrix && dtype != "T") {
-        return "@koma.internal.JvmName(\"toMatrix${dtype}\")" +
+        return "@koma.internal.JvmName(\"toMatrix${dtype}\")\n" +
                 "fun NDArray<${dtype}>.toMatrix(): Matrix<${dtype}> {\n" +
                 "    if (this is Matrix)\n" +
                 "        return this\n" +
@@ -530,6 +530,20 @@ def toMatrix(dtype, dtypesMatrix) {
                 "        1 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], 1).fill { row, _ -> this[row] } }\n" +
                 "        2 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], dims[1]).fill { row, col -> this[row, col] } }\n" +
                 "        else -> error(\"Cannot convert NDArray with \${dims.size} dimensions to matrix (must be 1 or 2)\")\n" +
+                "    }\n" +
+                "}"
+    }
+    else if (dtype == "T") {
+        return "@Suppress(\"UNCHECKED_CAST\")\n" +
+                "@koma.internal.JvmName(\"toMatrixGeneric\")\n" +
+                "fun <T> NDArray<T>.toMatrixOrNull(): Matrix<T>? {\n" +
+                "    \n" +
+                "    val ele = this.toIterable().iterator().next()\n" +
+                "    return when (ele) {\n" +
+                dtypesMatrix
+                        .findAll{it != "T"}
+                        .collect{"        is ${it} -> { try{(this as NDArray<${it}>).toMatrix() as Matrix<T>}catch(e:Exception){null}}\n"}.join() +
+                "        else -> { null }\n" +
                 "    }\n" +
                 "}"
     }

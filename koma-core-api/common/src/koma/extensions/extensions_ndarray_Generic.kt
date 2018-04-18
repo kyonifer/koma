@@ -16,7 +16,18 @@ import koma.ndarray.NDArray
 import koma.pow
 import koma.matrix.Matrix
 
-
+@Suppress("UNCHECKED_CAST")
+@koma.internal.JvmName("toMatrixGeneric")
+fun <T> NDArray<T>.toMatrixOrNull(): Matrix<T>? {
+    
+    val ele = this.toIterable().iterator().next()
+    return when (ele) {
+        is Double -> { try{(this as NDArray<Double>).toMatrix() as Matrix<T>}catch(e:Exception){null}}
+        is Float -> { try{(this as NDArray<Float>).toMatrix() as Matrix<T>}catch(e:Exception){null}}
+        is Int -> { try{(this as NDArray<Int>).toMatrix() as Matrix<T>}catch(e:Exception){null}}
+        else -> { null }
+    }
+}
 
 @koma.internal.JvmName("fillGeneric")
 fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T): NDArray<T> {

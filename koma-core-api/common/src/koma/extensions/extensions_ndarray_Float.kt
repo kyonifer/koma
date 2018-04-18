@@ -16,7 +16,8 @@ import koma.ndarray.NDArray
 import koma.pow
 import koma.matrix.Matrix
 
-@koma.internal.JvmName("toMatrixFloat")fun NDArray<Float>.toMatrix(): Matrix<Float> {
+@koma.internal.JvmName("toMatrixFloat")
+fun NDArray<Float>.toMatrix(): Matrix<Float> {
     if (this is Matrix)
         return this
     val dims = this.shape()
