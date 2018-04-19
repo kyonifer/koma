@@ -11,7 +11,7 @@ class NumNDTests {
         val testArrs = arrayOf (
                 NDArray.doubleFactory.create(3,5,4) { idx -> idx[0].toDouble() },
                 DefaultDoubleNDArray(3,5,4) { idx -> idx[0].toDouble() },
-                NDArray.getGenericFactory<Double>().create(3,5,4) { idx -> idx[0].toDouble() }
+                NDArray.createGeneric<Double>(3,5,4) { idx -> idx[0].toDouble() }
         )
 
         for (arr in testArrs) {

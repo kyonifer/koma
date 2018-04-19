@@ -52,11 +52,12 @@ interface NDArray<T> {
             set(value) { _byteFactory = value}
         private var _byteFactory: NumericalNDArrayFactory<Byte>? = null
 
-        fun <T> getGenericFactory(): GenericNDArrayFactory<T> = DefaultGenericNDArrayFactory<T>()
+        fun <T> createGeneric(vararg dims: Int, filler: (IntArray) -> T) =
+            DefaultGenericNDArrayFactory<T>().create(*dims, filler = filler)
     }
     fun getLinear(index: Int): T
     fun setLinear(index: Int, value: T)
-    
+
     fun shape(): List<Int>
     fun copy(): NDArray<T>
 

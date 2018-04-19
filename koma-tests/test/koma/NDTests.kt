@@ -163,15 +163,15 @@ class NDTests {
     }
     @Test
     fun testToMatrixOrNull() {
-        assert(NDArray.getGenericFactory<Double>().create(1,2){5.5}.toMatrixOrNull() != null)
-        assert(NDArray.getGenericFactory<Double>().create(6){5.5}.toMatrixOrNull() != null)
-        assert(NDArray.getGenericFactory<Long>().create(1,2){5}.toMatrixOrNull() == null)
-        assert(NDArray.getGenericFactory<String>().create(1,2){"a"}.toMatrixOrNull() == null)
+        assert(NDArray.createGeneric<Double>(1,2){5.5}.toMatrixOrNull() != null)
+        assert(NDArray.createGeneric<Double>(6){5.5}.toMatrixOrNull() != null)
+        assert(NDArray.createGeneric<Long>(1,2){5}.toMatrixOrNull() == null)
+        assert(NDArray.createGeneric<String>(1,2){"a"}.toMatrixOrNull() == null)
         assert(NDArray.doubleFactory.zeros(3,3).toMatrixOrNull() != null)
         assert(NDArray.doubleFactory.zeros(3).toMatrixOrNull() != null)
         assert(NDArray.doubleFactory.zeros(3,3,5).toMatrixOrNull() == null)
         assert(NDArray.intFactory.zeros(3,3,5,9).toMatrixOrNull() == null)
-        val a = NDArray.getGenericFactory<Any>().create(1,2){ it ->
+        val a = NDArray.createGeneric<Any>(1,2){ it ->
             if(it[1]==0)
                 1.1
             else
