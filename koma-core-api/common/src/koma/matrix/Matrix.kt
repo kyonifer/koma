@@ -65,6 +65,16 @@ interface Matrix<T>: NDArray<T> {
             set(value) { _intFactory = value}
         private var _intFactory: MatrixFactory<Matrix<Int>>? = null
 
+        @Suppress("UNCHECKED_CAST")
+        inline operator fun <reified T> invoke(rows: Int, cols: Int,
+                                               crossinline filler: (Int, Int) -> T): Matrix<T> =
+                when(T::class) {
+                    Double::class -> doubleFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Double } as Matrix<T>
+                    Float::class  -> floatFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Float } as Matrix<T>
+                    Int::class    -> intFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Int } as Matrix<T>
+                    else          -> error("Unsupported Matrix type ${T::class.simpleName}")
+                }
+
     }
     // Algebraic Operators
     @KomaJsName("divInt")
