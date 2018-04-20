@@ -13,6 +13,7 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.NumericalNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
@@ -29,13 +30,15 @@ fun NDArray<Int>.toMatrix(): Matrix<Int> {
 }
 
 @koma.internal.JvmName("fillInt")
-inline fun  NDArray<Int>.fill(f: (idx: IntArray) -> Int): NDArray<Int> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+inline fun  NDArray<Int>.fill(f: (idx: IntArray) -> Int) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setInt(linear, f(nd))
 }
 
+
+@koma.internal.JvmName("createInt")
+inline fun  NumericalNDArrayFactory<Int>.create(vararg lengths: Int, filler: (idx: IntArray) -> Int)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -127,7 +130,7 @@ inline fun  NDArray<Int>.forEachIndexedN(f: (idx: IntArray, ele: Int) -> Unit)
 @koma.internal.JvmName("getRangesInt")
 operator fun  NDArray<Int>.get(vararg indices: IntRange): NDArray<Int> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<Int>(shape = *indices
+    return DefaultGenericNDArray<Int>(indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }
@@ -149,13 +152,13 @@ operator fun  NDArray<Int>.set(vararg indices: Int, value: NDArray<Int>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun  NDArray<Int>.get(vararg indices: Int) = getInt(*indices)
-operator fun  NDArray<Int>.set(vararg indices: Int, value: Int) = setInt(indices=*indices, value=value)
+operator fun  NDArray<Int>.set(vararg indices: Int, value: Int) = setInt(indices=*indices, v=value)
 
 
 @koma.internal.JvmName("divInt")

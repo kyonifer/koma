@@ -13,19 +13,22 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.${factoryPrefix}NDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
 $toMatrix
 
 @koma.internal.JvmName("fill${dtypeName}")
-${inline}fun ${genDec} NDArray<${dtype}>.fill(f: (idx: IntArray) -> ${dtype}): NDArray<${dtype}> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+${inline}fun ${genDec} NDArray<${dtype}>.fill(f: (idx: IntArray) -> ${dtype}) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.set${dtypeName}(linear, f(nd))
 }
 
+
+@koma.internal.JvmName("create${dtypeName}")
+${inline}fun ${genDec} ${factoryPrefix}NDArrayFactory<${dtype}>.create(vararg lengths: Int, filler: (idx: IntArray) -> ${dtype})
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -117,7 +120,7 @@ ${inline}fun $genDec NDArray<${dtype}>.forEachIndexedN(f: (idx: IntArray, ele: $
 @koma.internal.JvmName("getRanges${dtypeName}")
 operator fun $genDec NDArray<${dtype}>.get(vararg indices: IntRange): NDArray<${dtype}> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<${dtype}>(shape = *indices
+    return DefaultGenericNDArray<${dtype}>(indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }
@@ -139,12 +142,12 @@ operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: NDArray<$
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun $genDec NDArray<${dtype}>.get(vararg indices: Int) = get${dtypeName}(*indices)
-operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: ${dtype}) = set${dtypeName}(indices=*indices, value=value)
+operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: ${dtype}) = set${dtypeName}(indices=*indices, v=value)
 
 $operators

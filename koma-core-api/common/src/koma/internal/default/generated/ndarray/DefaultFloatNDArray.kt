@@ -17,8 +17,11 @@ import koma.internal.default.utils.*
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
+open class DefaultFloatNDArray(@KomaJsName("shape_private") protected val shape: IntArray,
                              init: ((IntArray)->Float)? = null): NDArray<Float> {
+
+    constructor(shape0: Int, vararg restOfShape: Int, init: ((IntArray)->Float)? = null)
+        : this(intArrayOf(shape0) + restOfShape, init)
 
     /**
      * Underlying storage. PureKt backend uses a simple array.
@@ -47,7 +50,7 @@ open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val
     // TODO: cache this
     override val size get() = storage.size
     override fun shape(): List<Int> = shape.toList()
-    override fun copy(): NDArray<Float> = DefaultFloatNDArray(*shape, init = { this.getGeneric(*it) })
+    override fun copy(): NDArray<Float> = DefaultFloatNDArray(shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
@@ -55,48 +58,48 @@ open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val
         val ele = storage[checkLinearIndex(i)]
         return ele.toDouble()
     }
-    override fun setDouble(i: Int, value: Double) {
-        storage[checkLinearIndex(i)] = value.toFloat()
+    override fun setDouble(i: Int, v: Double) {
+        storage[checkLinearIndex(i)] = v.toFloat()
     }
 
     override fun getByte(i: Int): Byte {
         val ele = storage[checkLinearIndex(i)]
         return ele.toByte()
     }
-    override fun setByte(i: Int, value: Byte) {
-        storage[checkLinearIndex(i)] = value.toFloat()
+    override fun setByte(i: Int, v: Byte) {
+        storage[checkLinearIndex(i)] = v.toFloat()
     }
 
     override fun getInt(i: Int): Int {
         val ele = storage[checkLinearIndex(i)]
         return ele.toInt()
     }
-    override fun setInt(i: Int, value: Int) {
-        storage[checkLinearIndex(i)] = value.toFloat()
+    override fun setInt(i: Int, v: Int) {
+        storage[checkLinearIndex(i)] = v.toFloat()
     }
 
     override fun getFloat(i: Int): Float {
         val ele = storage[checkLinearIndex(i)]
         return ele.toFloat()
     }
-    override fun setFloat(i: Int, value: Float) {
-        storage[checkLinearIndex(i)] = value.toFloat()
+    override fun setFloat(i: Int, v: Float) {
+        storage[checkLinearIndex(i)] = v.toFloat()
     }
 
     override fun getLong(i: Int): Long {
         val ele = storage[checkLinearIndex(i)]
         return ele.toLong()
     }
-    override fun setLong(i: Int, value: Long) {
-        storage[checkLinearIndex(i)] = value.toFloat()
+    override fun setLong(i: Int, v: Long) {
+        storage[checkLinearIndex(i)] = v.toFloat()
     }
 
     override fun getShort(i: Int): Short {
         val ele = storage[checkLinearIndex(i)]
         return ele.toShort()
     }
-    override fun setShort(i: Int, value: Short) {
-        storage[checkLinearIndex(i)] = value.toFloat()
+    override fun setShort(i: Int, v: Short) {
+        storage[checkLinearIndex(i)] = v.toFloat()
     }
 
 

@@ -135,15 +135,15 @@ interface Matrix<T>: NDArray<T> {
     // GENERATED CODE! See build.gradle
 
     override fun getLong(i: Int): Long = getGeneric(i) as Long
-    override fun setLong(i: Int, value: Long) { setGeneric(i, value as T) }
+    override fun setLong(i: Int, v: Long) { setGeneric(i, v as T) }
 
 
     override fun getShort(i: Int): Short = getGeneric(i) as Short
-    override fun setShort(i: Int, value: Short) { setGeneric(i, value as T) }
+    override fun setShort(i: Int, v: Short) { setGeneric(i, v as T) }
 
 
     override fun getByte(i: Int): Byte = getGeneric(i) as Byte
-    override fun setByte(i: Int, value: Byte) { setGeneric(i, value as T) }
+    override fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }
 
     //!}}
 

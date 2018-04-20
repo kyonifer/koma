@@ -13,6 +13,7 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.GenericNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
@@ -30,13 +31,15 @@ fun <T> NDArray<T>.toMatrixOrNull(): Matrix<T>? {
 }
 
 @koma.internal.JvmName("fillGeneric")
-fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T): NDArray<T> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setGeneric(linear, f(nd))
 }
 
+
+@koma.internal.JvmName("createGeneric")
+fun <T> GenericNDArrayFactory<T>.create(vararg lengths: Int, filler: (idx: IntArray) -> T)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -128,7 +131,7 @@ fun <T> NDArray<T>.forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit)
 @koma.internal.JvmName("getRangesGeneric")
 operator fun <T> NDArray<T>.get(vararg indices: IntRange): NDArray<T> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<T>(shape = *indices
+    return DefaultGenericNDArray<T>(indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }
@@ -150,12 +153,12 @@ operator fun <T> NDArray<T>.set(vararg indices: Int, value: NDArray<T>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun <T> NDArray<T>.get(vararg indices: Int) = getGeneric(*indices)
-operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, value=value)
+operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, v=value)
 
 

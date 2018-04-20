@@ -13,19 +13,22 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.NumericalNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
 
 
 @koma.internal.JvmName("fillLong")
-inline fun  NDArray<Long>.fill(f: (idx: IntArray) -> Long): NDArray<Long> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+inline fun  NDArray<Long>.fill(f: (idx: IntArray) -> Long) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setLong(linear, f(nd))
 }
 
+
+@koma.internal.JvmName("createLong")
+inline fun  NumericalNDArrayFactory<Long>.create(vararg lengths: Int, filler: (idx: IntArray) -> Long)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -117,7 +120,7 @@ inline fun  NDArray<Long>.forEachIndexedN(f: (idx: IntArray, ele: Long) -> Unit)
 @koma.internal.JvmName("getRangesLong")
 operator fun  NDArray<Long>.get(vararg indices: IntRange): NDArray<Long> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<Long>(shape = *indices
+    return DefaultGenericNDArray<Long>(indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }
@@ -139,13 +142,13 @@ operator fun  NDArray<Long>.set(vararg indices: Int, value: NDArray<Long>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun  NDArray<Long>.get(vararg indices: Int) = getLong(*indices)
-operator fun  NDArray<Long>.set(vararg indices: Int, value: Long) = setLong(indices=*indices, value=value)
+operator fun  NDArray<Long>.set(vararg indices: Int, value: Long) = setLong(indices=*indices, v=value)
 
 
 @koma.internal.JvmName("divLong")

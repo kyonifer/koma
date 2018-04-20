@@ -9,35 +9,15 @@ import koma.extensions.fill
 import koma.ndarray.*
 
 class Default${dtype}NDArrayFactory: NumericalNDArrayFactory<${dtype}> {
-    override fun create(vararg lengths: Int,
-                        filler: (IntArray) -> ${dtype}): NDArray<${dtype}> {
-        return Default${dtype}NDArray(*lengths).also {
-            it.fill{filler(it)}
-        }
-    }
+    override fun alloc(lengths: IntArray) = Default${dtype}NDArray(lengths)
 
-    override fun zeros(vararg lengths: Int): NDArray<${dtype}> {
-        return Default${dtype}NDArray(*lengths).fill {
-            0.to${dtype}()
-        }
-    }
+    override fun zeros(vararg lengths: Int) = alloc(lengths).fill { 0${literalSuffix} }
 
-    override fun ones(vararg lengths: Int): NDArray<${dtype}> {
-        return Default${dtype}NDArray(*lengths).fill {
-            1.to${dtype}()
-        }
-    }
+    override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1${literalSuffix} }
 
-    override fun rand(vararg lengths: Int): NDArray<${dtype}> {
-        return Default${dtype}NDArray(*lengths).fill {
-            0.to${dtype}()
-        }
-    }
+    override fun rand(vararg lengths: Int) = alloc(lengths).fill { 0${literalSuffix} }
 
-    override fun randn(vararg lengths: Int): NDArray<${dtype}> {
-        return Default${dtype}NDArray(*lengths).fill {
-            koma.internal.getRng().nextDouble().to${dtype}()
-        }
+    override fun randn(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextDouble().to${dtype}()
     }
-
 }

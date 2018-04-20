@@ -13,19 +13,22 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.NumericalNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
 
 
 @koma.internal.JvmName("fillShort")
-inline fun  NDArray<Short>.fill(f: (idx: IntArray) -> Short): NDArray<Short> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+inline fun  NDArray<Short>.fill(f: (idx: IntArray) -> Short) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setShort(linear, f(nd))
 }
 
+
+@koma.internal.JvmName("createShort")
+inline fun  NumericalNDArrayFactory<Short>.create(vararg lengths: Int, filler: (idx: IntArray) -> Short)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -117,7 +120,7 @@ inline fun  NDArray<Short>.forEachIndexedN(f: (idx: IntArray, ele: Short) -> Uni
 @koma.internal.JvmName("getRangesShort")
 operator fun  NDArray<Short>.get(vararg indices: IntRange): NDArray<Short> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<Short>(shape = *indices
+    return DefaultGenericNDArray<Short>(indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }
@@ -139,13 +142,13 @@ operator fun  NDArray<Short>.set(vararg indices: Int, value: NDArray<Short>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun  NDArray<Short>.get(vararg indices: Int) = getShort(*indices)
-operator fun  NDArray<Short>.set(vararg indices: Int, value: Short) = setShort(indices=*indices, value=value)
+operator fun  NDArray<Short>.set(vararg indices: Int, value: Short) = setShort(indices=*indices, v=value)
 
 
 @koma.internal.JvmName("divShort")

@@ -1,5 +1,14 @@
 def ReifiedMatrices = ['T', 'Double', 'Float', 'Int']
 def ReifiedNDArrays = ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte']
+def NumericalConstantSuffixes = [
+    'T': ' as T',
+    'Double': '.0',
+    'Float': '.0f',
+    'Long': 'L',
+    'Int': '',
+    'Short': '.toShort()',
+    'Byte': '.toByte()'
+]
 
 buildscript {
     ext.kotlin_version = '1.2.31'
@@ -337,7 +346,7 @@ task syncPartialGen {
     }
 }
 
-def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
+def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
     // Generate matrix types
     dtypesMatrix.forEach { dtype ->
         if (dtype != 'T') {
@@ -406,6 +415,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                 include 'DefaultXNDArrayFactory.kt'
                 rename { "Default${dtypeName(dtype)}NDArrayFactory.kt"}
                 expand(dtype: dtype,
+                        literalSuffix: dtypeSuffixMap[dtype],
                         namespace: namespace)
             }
         }
@@ -419,6 +429,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                     genDec: genDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
+                    factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
                     inline: inline(dtype))
         }
     }
@@ -429,7 +440,7 @@ task codegen {
     doLast {
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
-                ReifiedMatrices, ReifiedNDArrays)
+                ReifiedMatrices, ReifiedNDArrays, NumericalConstantSuffixes)
     }
 }
 
@@ -503,12 +514,12 @@ def convertGetter(baseDtype, toDtype) {
 
 def convertSetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "    override fun set${toDtype}(i: Int, value: ${toDtype}) {\n" +
-               "       setGeneric(i, value as ${baseDtype})\n" +
+        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+               "       setGeneric(i, v as ${baseDtype})\n" +
                "    }\n"
     else
-        return "    override fun set${toDtype}(i: Int, value: ${toDtype}) {\n" +
-               "        storage[checkLinearIndex(i)] = value.to${baseDtype}()\n" +
+        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+               "        storage[checkLinearIndex(i)] = v.to${baseDtype}()\n" +
                "    }\n"
 }
 
@@ -618,7 +629,7 @@ def primitiveGetSet(types) {
         @KomaJsName("get${it}1D")
         fun get$it(i: Int): $it
         @KomaJsName("set${it}ND")
-        fun set$it(vararg indices: Int, value: $it) = set$it(safeIdxToLinear(indices), value)
+        fun set$it(vararg indices: Int, v: $it) = set$it(safeIdxToLinear(indices), v)
         @KomaJsName("set${it}1D")
         fun set$it(i: Int, v: $it)
     """.stripIndent() }.join("\n")
@@ -627,7 +638,7 @@ def primitiveGetSet(types) {
 def override1DPrimitiveGetSet(matrixTypes, ndTypes) {
     (ndTypes - matrixTypes).collect { """
         override fun get$it(i: Int): ${it} = getGeneric(i) as $it
-        override fun set$it(i: Int, value: $it) { setGeneric(i, value as T) }
+        override fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
     """.stripIndent() }.join("\n")
 }
 

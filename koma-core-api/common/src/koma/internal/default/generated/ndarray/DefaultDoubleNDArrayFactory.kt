@@ -9,35 +9,15 @@ import koma.extensions.fill
 import koma.ndarray.*
 
 class DefaultDoubleNDArrayFactory: NumericalNDArrayFactory<Double> {
-    override fun create(vararg lengths: Int,
-                        filler: (IntArray) -> Double): NDArray<Double> {
-        return DefaultDoubleNDArray(*lengths).also {
-            it.fill{filler(it)}
-        }
-    }
+    override fun alloc(lengths: IntArray) = DefaultDoubleNDArray(lengths)
 
-    override fun zeros(vararg lengths: Int): NDArray<Double> {
-        return DefaultDoubleNDArray(*lengths).fill {
-            0.toDouble()
-        }
-    }
+    override fun zeros(vararg lengths: Int) = alloc(lengths).fill { 0.0 }
 
-    override fun ones(vararg lengths: Int): NDArray<Double> {
-        return DefaultDoubleNDArray(*lengths).fill {
-            1.toDouble()
-        }
-    }
+    override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1.0 }
 
-    override fun rand(vararg lengths: Int): NDArray<Double> {
-        return DefaultDoubleNDArray(*lengths).fill {
-            0.toDouble()
-        }
-    }
+    override fun rand(vararg lengths: Int) = alloc(lengths).fill { 0.0 }
 
-    override fun randn(vararg lengths: Int): NDArray<Double> {
-        return DefaultDoubleNDArray(*lengths).fill {
-            koma.internal.getRng().nextDouble().toDouble()
-        }
+    override fun randn(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextDouble().toDouble()
     }
-
 }
