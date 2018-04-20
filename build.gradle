@@ -336,13 +336,10 @@ void syncGen(File target, String marker, String code) {
 
 task syncPartialGen {
     def ndarrayFile = file("koma-core-api/common/src/koma/ndarray/NDArray.kt")
-    def matrixFile = file("koma-core-api/common/src/koma/matrix/Matrix.kt")
-    inputs.files([matrixFile, ndarrayFile, file("build.gradle")])
-    outputs.files([matrixFile, ndarrayFile])
+    inputs.files([ndarrayFile, file("build.gradle")])
+    outputs.files([ndarrayFile])
     doLast {
         syncGen(ndarrayFile, "primitive get/set",  primitiveGetSet(ReifiedNDArrays))
-        syncGen(matrixFile, "1D overrides",
-                override1DPrimitiveGetSet(ReifiedMatrices, ReifiedNDArrays))
     }
 }
 
@@ -372,6 +369,8 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
         }
         copy {
             from 'templates'
+        syncGen(matrixFile, "1D overrides",
+                override1DPrimitiveGetSet(ReifiedMatrices, ReifiedNDArrays))
             into "koma-core-api/common/src/koma/extensions"
             include 'extensions_matrix.kt'
             rename { "extensions_matrix_${dtypeName(dtype)}.kt"}
@@ -627,18 +626,11 @@ def primitiveGetSet(types) {
         @KomaJsName("get${it}ND")
         fun get$it(vararg indices: Int) = get$it(safeIdxToLinear(indices))
         @KomaJsName("get${it}1D")
-        fun get$it(i: Int): $it
+        fun get$it(i: Int): $it = (getGeneric(i) as Number).to$it()
         @KomaJsName("set${it}ND")
         fun set$it(vararg indices: Int, v: $it) = set$it(safeIdxToLinear(indices), v)
         @KomaJsName("set${it}1D")
-        fun set$it(i: Int, v: $it)
-    """.stripIndent() }.join("\n")
-}
-
-def override1DPrimitiveGetSet(matrixTypes, ndTypes) {
-    (ndTypes - matrixTypes).collect { """
-        override fun get$it(i: Int): ${it} = getGeneric(i) as $it
-        override fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
+        fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
     """.stripIndent() }.join("\n")
 }
 

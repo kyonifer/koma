@@ -140,23 +140,6 @@ interface Matrix<T>: NDArray<T> {
     @KomaJsName("setGeneric")
     fun setGeneric(i: Int, j: Int, v: T)
 
-    //!{{ 1D overrides
-
-    // GENERATED CODE! See build.gradle
-
-    override fun getLong(i: Int): Long = getGeneric(i) as Long
-    override fun setLong(i: Int, v: Long) { setGeneric(i, v as T) }
-
-
-    override fun getShort(i: Int): Short = getGeneric(i) as Short
-    override fun setShort(i: Int, v: Short) { setGeneric(i, v as T) }
-
-
-    override fun getByte(i: Int): Byte = getGeneric(i) as Byte
-    override fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }
-
-    //!}}
-
     /**
      * Retrieves the data formatted as doubles in row-major order
      * This method is only for performance over potentially boxing get(Double)
