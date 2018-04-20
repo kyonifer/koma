@@ -7,6 +7,7 @@ import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
 import koma.internal.default.utils.safeIdxToLinear
 import koma.matrix.*
 import kotlin.reflect.KClass
+import koma.util.IndexIterator
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
 /**
@@ -101,36 +102,7 @@ interface NDArray<T> {
 
     // Iterator over the indices of this NDArray, simultaneously in array and linear form.
     // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
-
-    data class IndexIterator(var nd: IntArray, var linear: Int = 0): Iterator<IndexIterator> {
-        private var needsAdvance = false
-        private val shape = nd
-        private val lastIndex = nd.size - 1
-        override fun hasNext(): Boolean {
-            if (needsAdvance) {
-                ++linear
-                for (idx in lastIndex downTo 0)
-                    if (++nd[idx] >= shape[idx] && idx > 0)
-                        nd[idx] = 0
-                    else
-                        break
-                needsAdvance = false
-            }
-            return nd.size > 0 && nd[0] < shape[0]
-        }
-        override fun next() = apply {
-            if (!hasNext())
-                throw NoSuchElementException("Iterator exhausted")
-            needsAdvance = true
-        }
-        init { nd = IntArray(nd.size) { 0 } }
-    }
-
-    fun iterateIndices(): Iterable<IndexIterator> {
-        return object: Iterable<IndexIterator> {
-            override fun iterator() = IndexIterator(shape().toIntArray())
-        }
-    }
+    fun iterateIndices() = IndexIterator { shape().toIntArray() }
 
 
     // Primitive optimized getter/setters to avoid boxing. Not intended
