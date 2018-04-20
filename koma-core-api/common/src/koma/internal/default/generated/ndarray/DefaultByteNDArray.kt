@@ -45,6 +45,7 @@ open class DefaultByteNDArray(@KomaJsName("shape_private") vararg protected val 
         storage[nIdxToLinear(indices)] = value
     }
     // TODO: cache this
+    override val size get() = storage.size
     override fun shape(): List<Int> = shape.toList()
     override fun copy(): NDArray<Byte> = DefaultByteNDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage

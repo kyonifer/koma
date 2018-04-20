@@ -58,6 +58,7 @@ interface NDArray<T> {
     fun getLinear(index: Int): T
     fun setLinear(index: Int, value: T)
 
+    val size: Int get() = shape().reduce { a, b -> a * b }
     fun shape(): List<Int>
     fun copy(): NDArray<T>
 
@@ -67,7 +68,7 @@ interface NDArray<T> {
         return object: Iterable<T> {
             override fun iterator(): Iterator<T> = object: Iterator<T> {
                 private var cursor = 0
-                private val size = this@NDArray.shape().reduce{a,b->a*b}
+                private val size = this@NDArray.size
                 override fun next(): T {
                     cursor += 1
                     // TODO: Either make 1D access work like Matrix or fix this

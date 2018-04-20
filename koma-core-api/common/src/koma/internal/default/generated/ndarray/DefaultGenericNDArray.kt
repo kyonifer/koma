@@ -42,6 +42,7 @@ storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as 
         storage[nIdxToLinear(indices)] = value
     }
     // TODO: cache this
+    override val size get() = storage.size
     override fun shape(): List<Int> = shape.toList()
     override fun copy(): NDArray<T> = DefaultGenericNDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage

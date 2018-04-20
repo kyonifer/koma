@@ -86,7 +86,14 @@ class NDTests {
         arr[0, 0] = square2
         assertFails { arr[1, 1] = square2 }
     }
-    
+
+    @Test
+    fun testSize() {
+        assert(DefaultNDArray<Any?>(2, 3) { 0 }.size == 6)
+        assert(DefaultNDArray<Any?>(2, 3, 4) { 0 }.size == 24)
+        assert(DefaultNDArray<Any?>(4, 0, 7) { 0 }.size == 0)
+    }
+
     @Test
     fun testShape() {
         assert(DefaultNDArray<Any?>(3, 3) { idx -> idx[0] }.shape() == listOf(3, 3))
@@ -159,7 +166,7 @@ class NDTests {
         a.forEachIndexedN { _, ele -> sum2 += ele }
         
         assert(sum == sum2)
-        assert(count == a.shape().reduce{ l,r -> l*r })
+        assert(count == a.size)
     }
     @Test
     fun testToMatrixOrNull() {
