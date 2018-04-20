@@ -15,9 +15,11 @@ class DefaultFloatNDArrayFactory: NumericalNDArrayFactory<Float> {
 
     override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1.0f }
 
-    override fun rand(vararg lengths: Int) = alloc(lengths).fill { 0.0f }
+    override fun rand(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextDouble().toFloat()
+    }
 
     override fun randn(vararg lengths: Int) = alloc(lengths).fill {
-        koma.internal.getRng().nextDouble().toFloat()
+        koma.internal.getRng().nextGaussian().toFloat()
     }
 }

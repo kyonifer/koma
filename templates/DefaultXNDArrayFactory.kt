@@ -15,9 +15,11 @@ class Default${dtype}NDArrayFactory: NumericalNDArrayFactory<${dtype}> {
 
     override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1${literalSuffix} }
 
-    override fun rand(vararg lengths: Int) = alloc(lengths).fill { 0${literalSuffix} }
+    override fun rand(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextDouble().to${dtype}()
+    }
 
     override fun randn(vararg lengths: Int) = alloc(lengths).fill {
-        koma.internal.getRng().nextDouble().to${dtype}()
+        koma.internal.getRng().nextGaussian().to${dtype}()
     }
 }

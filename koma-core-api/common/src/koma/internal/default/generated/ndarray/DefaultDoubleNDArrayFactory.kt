@@ -15,9 +15,11 @@ class DefaultDoubleNDArrayFactory: NumericalNDArrayFactory<Double> {
 
     override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1.0 }
 
-    override fun rand(vararg lengths: Int) = alloc(lengths).fill { 0.0 }
+    override fun rand(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextDouble().toDouble()
+    }
 
     override fun randn(vararg lengths: Int) = alloc(lengths).fill {
-        koma.internal.getRng().nextDouble().toDouble()
+        koma.internal.getRng().nextGaussian().toDouble()
     }
 }
