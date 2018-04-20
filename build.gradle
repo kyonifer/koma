@@ -1,3 +1,6 @@
+def ReifiedMatrices = ['T', 'Double', 'Float', 'Int']
+def ReifiedNDArrays = ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte']
+
 buildscript {
     ext.kotlin_version = '1.2.31'
     ext.kotlin_native_version = '0.6.2'
@@ -312,6 +315,28 @@ task buildNative {
     dependsOn(":koma-core-cblas:build")
 }
 
+void syncGen(File target, String marker, String code) {
+    target.text = target.text.replaceAll(~"(([ \t]*)//!\\{\\{ $marker\n)[\\s\\S]*?([ \t]+//!}})") {
+        it[1] + (
+            "\n// GENERATED CODE! See build.gradle\n$code\n"
+                .replaceAll("\n", "\n${it[2]}")
+                .replaceAll(~"\n[ \t]+(?=\n|\\Z)", "\n")
+        ) + it[3]
+    }
+}
+
+task syncPartialGen {
+    def ndarrayFile = file("koma-core-api/common/src/koma/ndarray/NDArray.kt")
+    def matrixFile = file("koma-core-api/common/src/koma/matrix/Matrix.kt")
+    inputs.files([matrixFile, ndarrayFile, file("build.gradle")])
+    outputs.files([matrixFile, ndarrayFile])
+    doLast {
+        syncGen(ndarrayFile, "primitive get/set",  primitiveGetSet(ReifiedNDArrays))
+        syncGen(matrixFile, "1D overrides",
+                override1DPrimitiveGetSet(ReifiedMatrices, ReifiedNDArrays))
+    }
+}
+
 def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
     // Generate matrix types
     dtypesMatrix.forEach { dtype ->
@@ -400,11 +425,11 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
 }
 
 task codegen {
+    dependsOn('syncPartialGen')
     doLast {
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
-                ['T', 'Double', 'Float', 'Int'],
-                ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte'])
+                ReifiedMatrices, ReifiedNDArrays)
     }
 }
 
@@ -462,32 +487,29 @@ def dtypeName(dtype) {
 
 def convertGetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "    override fun get${toDtype}(vararg indices: Int): ${toDtype} {\n" +
-               "        val ele = getGeneric(*indices)\n" +
+        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
+               "        val ele = getGeneric(i)\n" +
                "        if (ele is ${toDtype})\n" +
                "            return ele\n" +
                "        else\n" +
                "            error(wrongType)\n" +
                "    }"
     else
-        return "    override fun get${toDtype}(vararg indices: Int): ${toDtype} {\n" +
-               "        checkIndices(indices)\n" +
-               "        val ele = storage[nIdxToLinear(indices)]\n" +
+        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
+               "        val ele = storage[checkLinearIndex(i)]\n" +
                "        return ele.to${toDtype}()\n" +
                "    }"
 }
 
 def convertSetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "    override fun set${toDtype}(vararg indices: Int, value: ${toDtype}) {\n" +
-               "        setGeneric(indices=*indices, value=value as ${baseDtype})\n" +
-               "    }"
+        return "    override fun set${toDtype}(i: Int, value: ${toDtype}) {\n" +
+               "       setGeneric(i, value as ${baseDtype})\n" +
+               "    }\n"
     else
-        return "    override fun set${toDtype}(vararg indices: Int, value: ${toDtype}) {\n" +
-               "        checkIndices(indices)\n" +
-               "        storage[nIdxToLinear(indices)] = value.to${baseDtype}()\n" +
-               "    }"
-
+        return "    override fun set${toDtype}(i: Int, value: ${toDtype}) {\n" +
+               "        storage[checkLinearIndex(i)] = value.to${baseDtype}()\n" +
+               "    }\n"
 }
 
 def floatersOnly(dtype) {
@@ -587,6 +609,26 @@ def inline(dtype) {
     else {
         return ""
     }
+}
+
+def primitiveGetSet(types) {
+    types.findAll { it != "T" }.collect { """
+        @KomaJsName("get${it}ND")
+        fun get$it(vararg indices: Int) = get$it(safeIdxToLinear(indices))
+        @KomaJsName("get${it}1D")
+        fun get$it(i: Int): $it
+        @KomaJsName("set${it}ND")
+        fun set$it(vararg indices: Int, value: $it) = set$it(safeIdxToLinear(indices), value)
+        @KomaJsName("set${it}1D")
+        fun set$it(i: Int, v: $it)
+    """.stripIndent() }.join("\n")
+}
+
+def override1DPrimitiveGetSet(matrixTypes, ndTypes) {
+    (ndTypes - matrixTypes).collect { """
+        override fun get$it(i: Int): ${it} = getGeneric(i) as $it
+        override fun set$it(i: Int, value: $it) { setGeneric(i, value as T) }
+    """.stripIndent() }.join("\n")
 }
 
 apply from: 'buildscripts/publishing.gradle'

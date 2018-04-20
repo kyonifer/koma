@@ -34,8 +34,8 @@ storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as 
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
     }
-    override fun getLinear(index: Int): T = storage[index]
-    override fun setLinear(index: Int, value: T) { storage[index] = value }
+    override fun getGeneric(i: Int): T = storage[i]
+    override fun setGeneric(i: Int, value: T) { storage[i] = value }
 
     override fun setGeneric(vararg indices: Int, value: T) {
         checkIndices(indices)
@@ -48,66 +48,72 @@ storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as 
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
-    override fun getDouble(vararg indices: Int): Double {
-        val ele = getGeneric(*indices)
+    override fun getDouble(i: Int): Double {
+        val ele = getGeneric(i)
         if (ele is Double)
             return ele
         else
             error(wrongType)
     }
-    override fun setDouble(vararg indices: Int, value: Double) {
-        setGeneric(indices=*indices, value=value as T)
+    override fun setDouble(i: Int, value: Double) {
+       setGeneric(i, value as T)
     }
-    override fun getByte(vararg indices: Int): Byte {
-        val ele = getGeneric(*indices)
+
+    override fun getByte(i: Int): Byte {
+        val ele = getGeneric(i)
         if (ele is Byte)
             return ele
         else
             error(wrongType)
     }
-    override fun setByte(vararg indices: Int, value: Byte) {
-        setGeneric(indices=*indices, value=value as T)
+    override fun setByte(i: Int, value: Byte) {
+       setGeneric(i, value as T)
     }
-    override fun getInt(vararg indices: Int): Int {
-        val ele = getGeneric(*indices)
+
+    override fun getInt(i: Int): Int {
+        val ele = getGeneric(i)
         if (ele is Int)
             return ele
         else
             error(wrongType)
     }
-    override fun setInt(vararg indices: Int, value: Int) {
-        setGeneric(indices=*indices, value=value as T)
+    override fun setInt(i: Int, value: Int) {
+       setGeneric(i, value as T)
     }
-    override fun getFloat(vararg indices: Int): Float {
-        val ele = getGeneric(*indices)
+
+    override fun getFloat(i: Int): Float {
+        val ele = getGeneric(i)
         if (ele is Float)
             return ele
         else
             error(wrongType)
     }
-    override fun setFloat(vararg indices: Int, value: Float) {
-        setGeneric(indices=*indices, value=value as T)
+    override fun setFloat(i: Int, value: Float) {
+       setGeneric(i, value as T)
     }
-    override fun getLong(vararg indices: Int): Long {
-        val ele = getGeneric(*indices)
+
+    override fun getLong(i: Int): Long {
+        val ele = getGeneric(i)
         if (ele is Long)
             return ele
         else
             error(wrongType)
     }
-    override fun setLong(vararg indices: Int, value: Long) {
-        setGeneric(indices=*indices, value=value as T)
+    override fun setLong(i: Int, value: Long) {
+       setGeneric(i, value as T)
     }
-    override fun getShort(vararg indices: Int): Short {
-        val ele = getGeneric(*indices)
+
+    override fun getShort(i: Int): Short {
+        val ele = getGeneric(i)
         if (ele is Short)
             return ele
         else
             error(wrongType)
     }
-    override fun setShort(vararg indices: Int, value: Short) {
-        setGeneric(indices=*indices, value=value as T)
+    override fun setShort(i: Int, value: Short) {
+       setGeneric(i, value as T)
     }
+
 
 
 }

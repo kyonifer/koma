@@ -39,7 +39,7 @@ fun <T> NDArray<T>.widthOfDims() = shape()
             removeAt(0)
         }
 
-fun <T> NDArray<T>.checkIndices(indices: IntArray) {
+fun <T> NDArray<T>.checkIndices(indices: IntArray) = indices.also {
     val shape = shape()
     if (indices.size != shape.size)
         throw IllegalArgumentException("Cannot index an array with shape ${shape.toList()} with " +
@@ -51,6 +51,23 @@ fun <T> NDArray<T>.checkIndices(indices: IntArray) {
     }
 }
 
+fun <T> NDArray<T>.safeIdxToLinear(indices: IntArray) = nIdxToLinear(checkIndices(indices))
+
+fun <T> NDArray<T>.checkLinearIndex(index: Int) = index.also {
+    if (index < 0)
+        throw IllegalArgumentException("Negative indices are not supported")
+    else size.let { n ->
+        if (index >= n) {
+            val an = when("$n"[0]) {
+                '1','8' -> "an"
+                else    -> "a"
+            }
+            throw IllegalArgumentException("Cannot index $an $n-element array with shape " +
+                                           "${shape().toList()} at linear position $index " +
+                                           "(out of bounds)")
+        }
+    }
+}
 
 /**
  * Similar to reduceRight, except the results of each stage are stored off into

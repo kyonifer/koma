@@ -119,18 +119,6 @@ interface Matrix<T>: NDArray<T> {
     fun getDouble(i: Int, j: Int): Double
     @KomaJsName("getFloat")
     fun getFloat(i: Int, j: Int): Float
-    @KomaJsName("getInt1D")
-    fun getInt(i: Int): Int
-    @KomaJsName("getDouble1D")
-    fun getDouble(i: Int): Double
-    @KomaJsName("getFloat1D")
-    fun getFloat(i: Int): Float
-    @KomaJsName("setInt1D")
-    fun setInt(i: Int, v: Int)
-    @KomaJsName("setDouble1D")
-    fun setDouble(i: Int, v: Double)
-    @KomaJsName("setFloat1D")
-    fun setFloat(i: Int, v: Float)
     @KomaJsName("setInt")
     fun setInt(i: Int, j: Int, v: Int)
     @KomaJsName("setDouble")
@@ -139,12 +127,25 @@ interface Matrix<T>: NDArray<T> {
     fun setFloat(i: Int, j: Int, v: Float)
     @KomaJsName("getGeneric")
     fun getGeneric(i: Int, j: Int): T
-    @KomaJsName("getGeneric1D")
-    fun getGeneric(i: Int): T
     @KomaJsName("setGeneric")
     fun setGeneric(i: Int, j: Int, v: T)
-    @KomaJsName("setGeneric1D")
-    fun setGeneric(i: Int, v: T)
+
+    //!{{ 1D overrides
+
+    // GENERATED CODE! See build.gradle
+
+    override fun getLong(i: Int): Long = getGeneric(i) as Long
+    override fun setLong(i: Int, value: Long) { setGeneric(i, value as T) }
+
+
+    override fun getShort(i: Int): Short = getGeneric(i) as Short
+    override fun setShort(i: Int, value: Short) { setGeneric(i, value as T) }
+
+
+    override fun getByte(i: Int): Byte = getGeneric(i) as Byte
+    override fun setByte(i: Int, value: Byte) { setGeneric(i, value as T) }
+
+    //!}}
 
     /**
      * Retrieves the data formatted as doubles in row-major order
