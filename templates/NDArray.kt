@@ -4,7 +4,7 @@ import koma.extensions.create
 import koma.extensions.fill
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
-import koma.internal.default.utils.safeIdxToLinear
+import koma.internal.default.utils.safeNIdxToLinear
 import koma.matrix.*
 import kotlin.reflect.KClass
 import koma.util.IndexIterator
@@ -76,11 +76,11 @@ interface NDArray<T> {
     // to be used directly, but instead are used by ext funcs in `koma.extensions`.
 
     @KomaJsName("getGenericND")
-    fun getGeneric(vararg indices: Int) = getGeneric(safeIdxToLinear(indices))
+    fun getGeneric(vararg indices: Int) = getGeneric(safeNIdxToLinear(indices))
     @KomaJsName("getGeneric1D")
     fun getGeneric(i: Int): T
     @KomaJsName("setGenericND")
-    fun setGeneric(vararg indices: Int, v: T) = setGeneric(safeIdxToLinear(indices), v)
+    fun setGeneric(vararg indices: Int, v: T) = setGeneric(safeNIdxToLinear(indices), v)
     @KomaJsName("setGeneric1D")
     fun setGeneric(i: Int, v: T)
 

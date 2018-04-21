@@ -51,7 +51,7 @@ fun <T> NDArray<T>.checkIndices(indices: IntArray) = indices.also {
     }
 }
 
-fun <T> NDArray<T>.safeIdxToLinear(indices: IntArray) = nIdxToLinear(checkIndices(indices))
+fun <T> NDArray<T>.safeNIdxToLinear(indices: IntArray) = nIdxToLinear(checkIndices(indices))
 
 fun <T> NDArray<T>.checkLinearIndex(index: Int) = index.also {
     if (index < 0)
