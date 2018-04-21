@@ -9,7 +9,7 @@ import koma.extensions.fill
 import koma.ndarray.*
 
 class DefaultLongNDArrayFactory: NumericalNDArrayFactory<Long> {
-    override fun alloc(lengths: IntArray) = DefaultLongNDArray(lengths)
+    override fun alloc(lengths: IntArray) = DefaultLongNDArray(shape = *lengths)
 
     override fun zeros(vararg lengths: Int) = alloc(lengths).fill { 0L }
 

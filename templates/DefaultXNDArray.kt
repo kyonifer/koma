@@ -17,11 +17,8 @@ import koma.internal.default.utils.*
  * @param shape A vararg specifying the size of each dimension, e.g. a 3D array with size 4x6x8 would pass in 4,6,8)
  * @param init A function that takes a location in the new array and returns its initial value.
  */
-open class Default${dtypeName}NDArray${genDec}(@KomaJsName("shape_private") protected val shape: IntArray,
+open class Default${dtypeName}NDArray${genDec}(@KomaJsName("shape_private") vararg protected val shape: Int,
                              init: ((IntArray)->${dtype})? = null): NDArray<${dtype}> {
-
-    constructor(shape0: Int, vararg restOfShape: Int, init: ((IntArray)->${dtype})? = null)
-        : this(intArrayOf(shape0) + restOfShape, init)
 
     /**
      * Underlying storage. PureKt backend uses a simple array.
@@ -47,7 +44,7 @@ ${initStorage}
     // TODO: cache this
     override val size get() = storage.size
     override fun shape(): List<Int> = shape.toList()
-    override fun copy(): NDArray<${dtype}> = Default${dtypeName}NDArray(shape, init = { this.getGeneric(*it) })
+    override fun copy(): NDArray<${dtype}> = Default${dtypeName}NDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"

@@ -120,7 +120,7 @@ inline fun  NDArray<Long>.forEachIndexedN(f: (idx: IntArray, ele: Long) -> Unit)
 @koma.internal.JvmName("getRangesLong")
 operator fun  NDArray<Long>.get(vararg indices: IntRange): NDArray<Long> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<Long>(indices
+    return DefaultGenericNDArray<Long>(shape = *indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }

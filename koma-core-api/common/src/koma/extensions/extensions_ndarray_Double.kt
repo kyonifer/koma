@@ -130,7 +130,7 @@ inline fun  NDArray<Double>.forEachIndexedN(f: (idx: IntArray, ele: Double) -> U
 @koma.internal.JvmName("getRangesDouble")
 operator fun  NDArray<Double>.get(vararg indices: IntRange): NDArray<Double> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<Double>(indices
+    return DefaultGenericNDArray<Double>(shape = *indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }

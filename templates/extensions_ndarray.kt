@@ -120,7 +120,7 @@ ${inline}fun $genDec NDArray<${dtype}>.forEachIndexedN(f: (idx: IntArray, ele: $
 @koma.internal.JvmName("getRanges${dtypeName}")
 operator fun $genDec NDArray<${dtype}>.get(vararg indices: IntRange): NDArray<${dtype}> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<${dtype}>(indices
+    return DefaultGenericNDArray<${dtype}>(shape = *indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }

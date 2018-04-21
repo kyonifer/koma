@@ -131,7 +131,7 @@ fun <T> NDArray<T>.forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit)
 @koma.internal.JvmName("getRangesGeneric")
 operator fun <T> NDArray<T>.get(vararg indices: IntRange): NDArray<T> {
     checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<T>(indices
+    return DefaultGenericNDArray<T>(shape = *indices
             .map { it.last - it.first + 1 }
             .toIntArray()) { newIdxs ->
         val offsets = indices.map { it.first }
