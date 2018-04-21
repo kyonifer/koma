@@ -57,6 +57,9 @@ interface NDArray<T> {
             set(value) { _byteFactory = value }
         private var _byteFactory: NumericalNDArrayFactory<Byte>? = null
 
+        fun <T> allocGeneric(dims: IntArray) =
+            DefaultGenericNDArrayFactory<T>().alloc(dims)
+
         fun <T> createGeneric(vararg dims: Int, filler: (IntArray) -> T) =
             DefaultGenericNDArrayFactory<T>().create(*dims, filler = filler)
 

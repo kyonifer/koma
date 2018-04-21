@@ -419,6 +419,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
                     factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
+                    factoryGetter: factoryGetter(dtype),
                     inline: inline(dtype))
         }
     }
@@ -609,6 +610,10 @@ def inline(dtype) {
     else {
         return ""
     }
+}
+
+def factoryGetter(dtype) {
+    dtype == "T" ? "NDArray.allocGeneric<T>" : "NDArray.${dtype.toLowerCase()}Factory.alloc"
 }
 
 String fixWhitespaceErrors(String input) {

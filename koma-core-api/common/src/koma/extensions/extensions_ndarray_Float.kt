@@ -35,6 +35,17 @@ inline fun  NDArray<Float>.fill(f: (idx: IntArray) -> Float) = apply {
         this.setFloat(linear, f(nd))
 }
 
+@koma.internal.JvmName("fillFloatBoth")
+inline fun  NDArray<Float>.fillBoth(f: (nd: IntArray, linear: Int) -> Float) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setFloat(linear, f(nd, linear))
+}
+
+@koma.internal.JvmName("fillFloatLinear")
+inline fun  NDArray<Float>.fillLinear(f: (idx: Int) -> Float) = apply {
+    for (idx in 0 until size)
+        this.setFloat(idx, f(idx))
+}
 
 @koma.internal.JvmName("createFloat")
 inline fun  NumericalNDArrayFactory<Float>.create(vararg lengths: Int, filler: (idx: IntArray) -> Float)
@@ -49,13 +60,8 @@ inline fun  NumericalNDArrayFactory<Float>.create(vararg lengths: Int, filler: (
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapFloat")
-inline fun  NDArray<Float>.map(f: (Float) -> Float): NDArray<Float> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(ele))
-    return out
-}
+inline fun  NDArray<Float>.map(f: (Float) -> Float)
+    = NDArray.floatFactory.alloc(shape().toIntArray()).fillLinear { f(this.getFloat(it)) }
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -67,13 +73,8 @@ inline fun  NDArray<Float>.map(f: (Float) -> Float): NDArray<Float> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapIndexedFloat")
-inline fun  NDArray<Float>.mapIndexed(f: (idx: Int, ele: Float) -> Float): NDArray<Float> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(idx, ele))
-    return out
-}
+inline fun  NDArray<Float>.mapIndexed(f: (idx: Int, ele: Float) -> Float)
+    = NDArray.floatFactory.alloc(shape().toIntArray()).fillLinear { f(it, this.getFloat(it)) }
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -82,8 +83,9 @@ inline fun  NDArray<Float>.mapIndexed(f: (idx: Int, ele: Float) -> Float): NDArr
  */
 @koma.internal.JvmName("forEachFloat")
 inline fun  NDArray<Float>.forEach(f: (ele: Float) -> Unit) {
-    for (ele in this.toIterable())
-        f(ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(getFloat(idx))
 }
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is a linear
@@ -95,11 +97,10 @@ inline fun  NDArray<Float>.forEach(f: (ele: Float) -> Unit) {
  */
 @koma.internal.JvmName("forEachIndexedFloat")
 inline fun  NDArray<Float>.forEachIndexed(f: (idx: Int, ele: Float) -> Unit) {
-    for ((idx, ele) in this.toIterable().withIndex())
-        f(idx, ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(idx, getFloat(idx))
 }
-
-// TODO: for both of these, batch compute [linearToNIdx] instead of computing for every ele
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -112,7 +113,7 @@ inline fun  NDArray<Float>.forEachIndexed(f: (idx: Int, ele: Float) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNFloat")
 inline fun  NDArray<Float>.mapIndexedN(f: (idx: IntArray, ele: Float) -> Float): NDArray<Float>
-        = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+    = NDArray.floatFactory.alloc(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getFloat(linear)) }
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full
@@ -123,8 +124,10 @@ inline fun  NDArray<Float>.mapIndexedN(f: (idx: IntArray, ele: Float) -> Float):
  *
  */
 @koma.internal.JvmName("forEachIndexedNFloat")
-inline fun  NDArray<Float>.forEachIndexedN(f: (idx: IntArray, ele: Float) -> Unit)
-        = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+inline fun  NDArray<Float>.forEachIndexedN(f: (idx: IntArray, ele: Float) -> Unit) {
+    for ((nd, linear) in iterateIndices())
+        f(nd, getFloat(linear))
+}
 
 
 @koma.internal.JvmName("getRangesFloat")
