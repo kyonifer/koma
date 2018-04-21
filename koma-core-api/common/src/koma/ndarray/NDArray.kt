@@ -29,32 +29,32 @@ interface NDArray<T> {
 
         var doubleFactory: NumericalNDArrayFactory<Double>
             get() = _doubleFactory ?: getDoubleNDArrayFactory().also { _doubleFactory = it }
-            set(value) { _doubleFactory = value}
+            set(value) { _doubleFactory = value }
         private var _doubleFactory: NumericalNDArrayFactory<Double>? = null
 
         var floatFactory: NumericalNDArrayFactory<Float>
             get() = _floatFactory ?: getFloatNDArrayFactory().also { _floatFactory = it }
-            set(value) { _floatFactory = value}
+            set(value) { _floatFactory = value }
         private var _floatFactory: NumericalNDArrayFactory<Float>? = null
 
         var longFactory: NumericalNDArrayFactory<Long>
             get() = _longFactory ?: getLongNDArrayFactory().also { _longFactory = it }
-            set(value) { _longFactory = value}
+            set(value) { _longFactory = value }
         private var _longFactory: NumericalNDArrayFactory<Long>? = null
 
         var intFactory: NumericalNDArrayFactory<Int>
             get() = _intFactory ?: getIntNDArrayFactory().also { _intFactory = it }
-            set(value) { _intFactory = value}
+            set(value) { _intFactory = value }
         private var _intFactory: NumericalNDArrayFactory<Int>? = null
 
         var shortFactory: NumericalNDArrayFactory<Short>
             get() = _shortFactory ?: getShortNDArrayFactory().also { _shortFactory = it }
-            set(value) { _shortFactory = value}
+            set(value) { _shortFactory = value }
         private var _shortFactory: NumericalNDArrayFactory<Short>? = null
 
         var byteFactory: NumericalNDArrayFactory<Byte>
             get() = _byteFactory ?: getByteNDArrayFactory().also { _byteFactory = it }
-            set(value) { _byteFactory = value}
+            set(value) { _byteFactory = value }
         private var _byteFactory: NumericalNDArrayFactory<Byte>? = null
 
         fun <T> createGeneric(vararg dims: Int, filler: (IntArray) -> T) =
@@ -117,11 +117,6 @@ interface NDArray<T> {
     @KomaJsName("setGeneric1D")
     fun setGeneric(i: Int, v: T)
 
-
-    //!{{ primitive get/set
-
-    // GENERATED CODE! See build.gradle
-
     @KomaJsName("getDoubleND")
     fun getDouble(vararg indices: Int) = getDouble(safeIdxToLinear(indices))
     @KomaJsName("getDouble1D")
@@ -180,6 +175,4 @@ interface NDArray<T> {
     fun setByte(vararg indices: Int, v: Byte) = setByte(safeIdxToLinear(indices), v)
     @KomaJsName("setByte1D")
     fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }
-
-    //!}}
 }

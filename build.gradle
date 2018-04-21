@@ -324,22 +324,14 @@ task buildNative {
     dependsOn(":koma-core-cblas:build")
 }
 
-void syncGen(File target, String marker, String code) {
-    target.text = target.text.replaceAll(~"(([ \t]*)//!\\{\\{ $marker\n)[\\s\\S]*?([ \t]+//!}})") {
-        it[1] + (
-            "\n// GENERATED CODE! See build.gradle\n$code\n"
-                .replaceAll("\n", "\n${it[2]}")
-                .replaceAll(~"\n[ \t]+(?=\n|\\Z)", "\n")
-        ) + it[3]
-    }
-}
-
-task syncPartialGen {
-    def ndarrayFile = file("koma-core-api/common/src/koma/ndarray/NDArray.kt")
-    inputs.files([ndarrayFile, file("build.gradle")])
-    outputs.files([ndarrayFile])
-    doLast {
-        syncGen(ndarrayFile, "primitive get/set",  primitiveGetSet(ReifiedNDArrays))
+void genNDArray(String dest, List<String> dtypesNDArray) {
+    copy {
+        from 'templates'
+        into "$dest"
+        include 'NDArray.kt'
+        expand(factories: fixWhitespaceErrors(factories(dtypesNDArray)),
+               primitiveGetSet: fixWhitespaceErrors(primitiveGetSet(dtypesNDArray)),
+               typeCheckClauses: fixWhitespaceErrors(typeCheckClauses(dtypesNDArray)))
     }
 }
 
@@ -369,8 +361,6 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
         }
         copy {
             from 'templates'
-        syncGen(matrixFile, "1D overrides",
-                override1DPrimitiveGetSet(ReifiedMatrices, ReifiedNDArrays))
             into "koma-core-api/common/src/koma/extensions"
             include 'extensions_matrix.kt'
             rename { "extensions_matrix_${dtypeName(dtype)}.kt"}
@@ -435,8 +425,8 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
 }
 
 task codegen {
-    dependsOn('syncPartialGen')
     doLast {
+        genNDArray("koma-core-api/common/src/koma/ndarray", ReifiedNDArrays)
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
                 ReifiedMatrices, ReifiedNDArrays, NumericalConstantSuffixes)
@@ -621,8 +611,14 @@ def inline(dtype) {
     }
 }
 
+String fixWhitespaceErrors(String input) {
+    return input.replaceAll(~"\n[ \t]+(?=\n)", "\n").trim()
+}
+
 def primitiveGetSet(types) {
-    types.findAll { it != "T" }.collect { """
+    def indent = "\n    "
+    types.findAll { it != "T" }.collect {
+        """
         @KomaJsName("get${it}ND")
         fun get$it(vararg indices: Int) = get$it(safeIdxToLinear(indices))
         @KomaJsName("get${it}1D")
@@ -631,7 +627,27 @@ def primitiveGetSet(types) {
         fun set$it(vararg indices: Int, v: $it) = set$it(safeIdxToLinear(indices), v)
         @KomaJsName("set${it}1D")
         fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
-    """.stripIndent() }.join("\n")
+        """.stripIndent().replaceAll("\n", indent)
+    }.join(indent)
+}
+
+def typeCheckClauses(types) {
+    types.findAll { it != "T" }.collect {
+        String.format("%-13s -> ${it.toLowerCase()}Factory.alloc(dims).fill { filler(it) as $it }",
+                      "$it::class")
+    }.join("\n                ")
+}
+
+def factories(types) {
+    types.findAll { it != "T" }.collect {
+        def fieldName = "${it.toLowerCase()}Factory"
+        """
+        var $fieldName: NumericalNDArrayFactory<$it>
+            get() = _$fieldName ?: get${it}NDArrayFactory().also { _$fieldName = it }
+            set(value) { _$fieldName = value }
+        private var _$fieldName: NumericalNDArrayFactory<$it>? = null
+        """
+    }.join("")
 }
 
 apply from: 'buildscripts/publishing.gradle'
