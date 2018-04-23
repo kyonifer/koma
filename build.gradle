@@ -475,12 +475,10 @@ def genDec(dtype) {
 
 def initStorage(dtype) {
     if (dtype != 'T')
-        return "        storage = if (init!=null) \n" +
-               "            ${dtype}Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) \n" +
-               "        else\n" +
-               "            ${dtype}Array(shape.reduce{ a, b-> a * b})"
+        return "        storage = ${dtype}Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) \n"
     else
-        return "storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as Any?}) as Array<T>"
+        return "        @Suppress(\"UNCHECKED_CAST\")\n" +
+               "        storage = Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it)) as Any?}) as Array<T>"
 }
 
 def dtypeName(dtype) {

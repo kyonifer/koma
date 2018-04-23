@@ -21,16 +21,13 @@ open class DefaultShortNDArray(@KomaJsName("shape_private") vararg protected val
                              init: ((IntArray)->Short)): NDArray<Short> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: ShortArray
 
     init {
-        @Suppress("UNCHECKED_CAST")
-        storage = if (init!=null) 
-            ShortArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
-        else
-            ShortArray(shape.reduce{ a, b-> a * b})
+        storage = ShortArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
+
     }
 
     override fun getGeneric(vararg indices: Int): Short {

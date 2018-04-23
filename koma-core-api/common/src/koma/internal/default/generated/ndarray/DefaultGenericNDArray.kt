@@ -21,13 +21,13 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
                              init: ((IntArray)->T)): NDArray<T> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: Array<T>
 
     init {
         @Suppress("UNCHECKED_CAST")
-storage = Array(shape.reduce{ a, b-> a * b}, {init?.invoke(linearToNIdx(it)) as Any?}) as Array<T>
+        storage = Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it)) as Any?}) as Array<T>
     }
 
     override fun getGeneric(vararg indices: Int): T {

@@ -21,12 +21,11 @@ open class Default${dtypeName}NDArray${genDec}(@KomaJsName("shape_private") vara
                              init: ((IntArray)->${dtype})): NDArray<${dtype}> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: ${storage}
 
     init {
-        @Suppress("UNCHECKED_CAST")
 ${initStorage}
     }
 
