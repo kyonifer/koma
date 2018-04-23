@@ -9,17 +9,17 @@ import koma.extensions.fill
 import koma.ndarray.*
 
 class DefaultFloatNDArrayFactory: NumericalNDArrayFactory<Float> {
-    override fun alloc(lengths: IntArray) = DefaultFloatNDArray(shape = *lengths)
+    override fun createGeneric(lengths: IntArray, filler: (IntArray)->Float) = DefaultFloatNDArray(*lengths, init=filler)
 
-    override fun zeros(vararg lengths: Int) = alloc(lengths).fill { 0.0f }
+    override fun zeros(vararg lengths: Int) = DefaultFloatNDArray(*lengths) { 0.0f }
 
-    override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1.0f }
+    override fun ones(vararg lengths: Int) = DefaultFloatNDArray(*lengths) { 1.0f }
 
-    override fun rand(vararg lengths: Int) = alloc(lengths).fill {
+    override fun rand(vararg lengths: Int) = DefaultFloatNDArray(*lengths) {
         koma.internal.getRng().nextDouble().toFloat()
     }
 
-    override fun randn(vararg lengths: Int) = alloc(lengths).fill {
+    override fun randn(vararg lengths: Int) = DefaultFloatNDArray(*lengths) {
         koma.internal.getRng().nextGaussian().toFloat()
     }
 }

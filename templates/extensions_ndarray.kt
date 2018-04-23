@@ -14,6 +14,7 @@ import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
 import koma.ndarray.${factoryPrefix}NDArrayFactory
+import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
 
@@ -39,8 +40,7 @@ ${inline}fun ${genDec} NDArray<${dtype}>.fillLinear(f: (idx: Int) -> ${dtype}) =
 
 @koma.internal.JvmName("create${dtypeName}")
 ${inline}fun ${genDec} ${factoryPrefix}NDArrayFactory<${dtype}>.create(vararg lengths: Int, filler: (idx: IntArray) -> ${dtype})
-    = alloc(lengths).fill(filler)
-
+$extensionCreate
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray.
@@ -51,7 +51,8 @@ ${inline}fun ${genDec} ${factoryPrefix}NDArrayFactory<${dtype}>.create(vararg le
  */
 @koma.internal.JvmName("map${dtypeName}")
 ${inline}fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype})
-    = ${factoryGetter}(shape().toIntArray()).fillLinear { f(this.get${dtypeName}(it)) }
+$extensionMap
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -64,7 +65,8 @@ ${inline}fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype})
  */
 @koma.internal.JvmName("mapIndexed${dtypeName}")
 ${inline}fun ${genDec} NDArray<${dtype}>.mapIndexed(f: (idx: Int, ele: ${dtype}) -> ${dtype})
-    = ${factoryGetter}(shape().toIntArray()).fillLinear { f(it, this.get${dtypeName}(it)) }
+$extensionMapIndexed
+
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -103,7 +105,7 @@ ${inline}fun $genDec NDArray<${dtype}>.forEachIndexed(f: (idx: Int, ele: ${dtype
  */
 @koma.internal.JvmName("mapIndexedN${dtypeName}")
 ${inline}fun $genDec NDArray<${dtype}>.mapIndexedN(f: (idx: IntArray, ele: ${dtype}) -> ${dtype}): NDArray<${dtype}>
-    = ${factoryGetter}(shape().toIntArray()).fillBoth { nd, linear -> f(nd, get${dtypeName}(linear)) }
+$extensionMapIndexedN
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full

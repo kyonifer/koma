@@ -57,21 +57,21 @@ interface NDArray<T> {
             set(value) { _byteFactory = value }
         private var _byteFactory: NumericalNDArrayFactory<Byte>? = null
 
-        fun <T> allocGeneric(dims: IntArray) =
-            DefaultGenericNDArrayFactory<T>().alloc(dims)
-
         fun <T> createGeneric(vararg dims: Int, filler: (IntArray) -> T) =
-            DefaultGenericNDArrayFactory<T>().create(*dims, filler = filler)
+            DefaultGenericNDArrayFactory<T>().createGeneric(*dims, filler = filler)
+
+        fun <T> createGenericNulls(vararg dims: Int) =
+                DefaultGenericNDArrayFactory<T?>().createGeneric(*dims, filler = {null})
 
         inline operator fun <reified T> invoke(vararg dims: Int,
                                                crossinline filler: (IntArray) -> T) =
             when(T::class) {
-                Double::class -> doubleFactory.alloc(dims).fill { filler(it) as Double }
-                Float::class  -> floatFactory.alloc(dims).fill { filler(it) as Float }
-                Long::class   -> longFactory.alloc(dims).fill { filler(it) as Long }
-                Int::class    -> intFactory.alloc(dims).fill { filler(it) as Int }
-                Short::class  -> shortFactory.alloc(dims).fill { filler(it) as Short }
-                Byte::class   -> byteFactory.alloc(dims).fill { filler(it) as Byte }
+                Double::class -> doubleFactory.zeros(*dims).fill { filler(it) as Double }
+                Float::class  -> floatFactory.zeros(*dims).fill { filler(it) as Float }
+                Long::class   -> longFactory.zeros(*dims).fill { filler(it) as Long }
+                Int::class    -> intFactory.zeros(*dims).fill { filler(it) as Int }
+                Short::class  -> shortFactory.zeros(*dims).fill { filler(it) as Short }
+                Byte::class   -> byteFactory.zeros(*dims).fill { filler(it) as Byte }
                 else          -> createGeneric(*dims) { filler(it) }
             }
     }

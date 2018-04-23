@@ -14,6 +14,7 @@ import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
 import koma.ndarray.GenericNDArrayFactory
+import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
 
@@ -50,7 +51,7 @@ fun <T> NDArray<T>.fillLinear(f: (idx: Int) -> T) = apply {
 
 @koma.internal.JvmName("createGeneric")
 fun <T> GenericNDArrayFactory<T>.create(vararg lengths: Int, filler: (idx: IntArray) -> T)
-    = alloc(lengths).fill(filler)
+    = NDArray.createGeneric<T>(*lengths, filler=filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -62,7 +63,9 @@ fun <T> GenericNDArrayFactory<T>.create(vararg lengths: Int, filler: (idx: IntAr
  */
 @koma.internal.JvmName("mapGeneric")
 fun <T> NDArray<T>.map(f: (T) -> T)
-    = NDArray.allocGeneric<T>(shape().toIntArray()).fillLinear { f(this.getGeneric(it)) }
+    = NDArray.createGeneric<T>(*shape().toIntArray(), filler = { f(this.getGeneric(*it)) })
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -75,7 +78,9 @@ fun <T> NDArray<T>.map(f: (T) -> T)
  */
 @koma.internal.JvmName("mapIndexedGeneric")
 fun <T> NDArray<T>.mapIndexed(f: (idx: Int, ele: T) -> T)
-    = NDArray.allocGeneric<T>(shape().toIntArray()).fillLinear { f(it, this.getGeneric(it)) }
+    = NDArray.createGeneric<T>(*shape().toIntArray(), filler= { idx-> f(nIdxToLinear(idx), this.getGeneric(*idx)) })
+
+
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -114,7 +119,8 @@ fun <T> NDArray<T>.forEachIndexed(f: (idx: Int, ele: T) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNGeneric")
 fun <T> NDArray<T>.mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T>
-    = NDArray.allocGeneric<T>(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getGeneric(linear)) }
+    = NDArray.createGeneric<T>(*shape().toIntArray(), filler = { idx -> f(idx, this.getGeneric(*idx)) })
+
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full

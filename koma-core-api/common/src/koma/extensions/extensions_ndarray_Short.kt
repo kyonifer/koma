@@ -14,6 +14,7 @@ import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
+import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
 
@@ -39,7 +40,7 @@ inline fun  NDArray<Short>.fillLinear(f: (idx: Int) -> Short) = apply {
 
 @koma.internal.JvmName("createShort")
 inline fun  NumericalNDArrayFactory<Short>.create(vararg lengths: Int, filler: (idx: IntArray) -> Short)
-    = alloc(lengths).fill(filler)
+    = NDArray.shortFactory.zeros(*lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -51,7 +52,9 @@ inline fun  NumericalNDArrayFactory<Short>.create(vararg lengths: Int, filler: (
  */
 @koma.internal.JvmName("mapShort")
 inline fun  NDArray<Short>.map(f: (Short) -> Short)
-    = NDArray.shortFactory.alloc(shape().toIntArray()).fillLinear { f(this.getShort(it)) }
+    = NDArray.shortFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getShort(it)) }
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -64,7 +67,9 @@ inline fun  NDArray<Short>.map(f: (Short) -> Short)
  */
 @koma.internal.JvmName("mapIndexedShort")
 inline fun  NDArray<Short>.mapIndexed(f: (idx: Int, ele: Short) -> Short)
-    = NDArray.shortFactory.alloc(shape().toIntArray()).fillLinear { f(it, this.getShort(it)) }
+    = NDArray.shortFactory.zeros(*shape().toIntArray()).fillLinear { f(it, this.getShort(it)) }
+
+
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -103,7 +108,8 @@ inline fun  NDArray<Short>.forEachIndexed(f: (idx: Int, ele: Short) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNShort")
 inline fun  NDArray<Short>.mapIndexedN(f: (idx: IntArray, ele: Short) -> Short): NDArray<Short>
-    = NDArray.shortFactory.alloc(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getShort(linear)) }
+    = NDArray.shortFactory.zeros(*shape().toIntArray()).fillBoth { nd, linear -> f(nd, getShort(linear)) }
+
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full

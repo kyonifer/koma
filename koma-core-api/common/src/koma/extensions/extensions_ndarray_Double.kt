@@ -14,6 +14,7 @@ import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
+import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
 
@@ -49,7 +50,7 @@ inline fun  NDArray<Double>.fillLinear(f: (idx: Int) -> Double) = apply {
 
 @koma.internal.JvmName("createDouble")
 inline fun  NumericalNDArrayFactory<Double>.create(vararg lengths: Int, filler: (idx: IntArray) -> Double)
-    = alloc(lengths).fill(filler)
+    = NDArray.doubleFactory.zeros(*lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -61,7 +62,9 @@ inline fun  NumericalNDArrayFactory<Double>.create(vararg lengths: Int, filler: 
  */
 @koma.internal.JvmName("mapDouble")
 inline fun  NDArray<Double>.map(f: (Double) -> Double)
-    = NDArray.doubleFactory.alloc(shape().toIntArray()).fillLinear { f(this.getDouble(it)) }
+    = NDArray.doubleFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getDouble(it)) }
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -74,7 +77,9 @@ inline fun  NDArray<Double>.map(f: (Double) -> Double)
  */
 @koma.internal.JvmName("mapIndexedDouble")
 inline fun  NDArray<Double>.mapIndexed(f: (idx: Int, ele: Double) -> Double)
-    = NDArray.doubleFactory.alloc(shape().toIntArray()).fillLinear { f(it, this.getDouble(it)) }
+    = NDArray.doubleFactory.zeros(*shape().toIntArray()).fillLinear { f(it, this.getDouble(it)) }
+
+
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -113,7 +118,8 @@ inline fun  NDArray<Double>.forEachIndexed(f: (idx: Int, ele: Double) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNDouble")
 inline fun  NDArray<Double>.mapIndexedN(f: (idx: IntArray, ele: Double) -> Double): NDArray<Double>
-    = NDArray.doubleFactory.alloc(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getDouble(linear)) }
+    = NDArray.doubleFactory.zeros(*shape().toIntArray()).fillBoth { nd, linear -> f(nd, getDouble(linear)) }
+
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full
