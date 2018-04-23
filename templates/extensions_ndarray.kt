@@ -121,6 +121,10 @@ ${inline}fun $genDec NDArray<${dtype}>.forEachIndexedN(f: (idx: IntArray, ele: $
         f(nd, get${dtypeName}(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional ${arrayClass} in row-major order.
+ */
+${reifiedInline}fun $reifiedDec NDArray<${dtype}>.to${arrayType}Array() = ${arrayClass}(size) { get${dtypeName}(it) }
 
 @koma.internal.JvmName("getRanges${dtypeName}")
 operator fun $genDec NDArray<${dtype}>.get(vararg indices: IntRange): NDArray<${dtype}> {

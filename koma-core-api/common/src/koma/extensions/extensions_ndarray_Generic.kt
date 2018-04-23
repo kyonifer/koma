@@ -136,6 +136,10 @@ fun <T> NDArray<T>.forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit) {
         f(nd, getGeneric(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional Array in row-major order.
+ */
+inline fun <reified T> NDArray<T>.toTypedArray() = Array(size) { getGeneric(it) }
 
 @koma.internal.JvmName("getRangesGeneric")
 operator fun <T> NDArray<T>.get(vararg indices: IntRange): NDArray<T> {

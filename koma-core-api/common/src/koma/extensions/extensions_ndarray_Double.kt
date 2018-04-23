@@ -135,6 +135,10 @@ inline fun  NDArray<Double>.forEachIndexedN(f: (idx: IntArray, ele: Double) -> U
         f(nd, getDouble(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional DoubleArray in row-major order.
+ */
+fun  NDArray<Double>.toDoubleArray() = DoubleArray(size) { getDouble(it) }
 
 @koma.internal.JvmName("getRangesDouble")
 operator fun  NDArray<Double>.get(vararg indices: IntRange): NDArray<Double> {

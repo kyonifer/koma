@@ -416,6 +416,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
             expand(dtype: dtype,
                     dtypeName: dtypeName(dtype),
                     genDec: genDec(dtype),
+                    reifiedDec: reifiedDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
                     factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
@@ -424,7 +425,10 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     extensionMap: extensionMap(dtype),
                     extensionCreate: extensionCreate(dtype),
                     extensionMapIndexed: extensionMapIndexed(dtype),
-                    extensionMapIndexedN: extensionMapIndexedN(dtype))
+                    extensionMapIndexedN: extensionMapIndexedN(dtype),
+                    reifiedInline: dtype == "T" ? "inline " : "",
+                    arrayType: dtype == "T" ? "Typed" : dtype,
+                    arrayClass: dtype == "T" ? "Array" : "${dtype}Array")
         }
     }
 }
@@ -471,6 +475,10 @@ def genDec(dtype) {
         return ""
     else
         return "<T>"
+}
+
+def reifiedDec(dtype) {
+    dtype == 'T' ? "<reified T>" : ""
 }
 
 def initStorage(dtype) {

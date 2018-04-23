@@ -125,6 +125,10 @@ inline fun  NDArray<Short>.forEachIndexedN(f: (idx: IntArray, ele: Short) -> Uni
         f(nd, getShort(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional ShortArray in row-major order.
+ */
+fun  NDArray<Short>.toShortArray() = ShortArray(size) { getShort(it) }
 
 @koma.internal.JvmName("getRangesShort")
 operator fun  NDArray<Short>.get(vararg indices: IntRange): NDArray<Short> {
