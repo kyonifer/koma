@@ -37,73 +37,68 @@ open class DefaultIntNDArray(@KomaJsName("shape_private") vararg protected val s
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
     }
-    override fun getLinear(index: Int): Int = storage[index]
-    override fun setLinear(index: Int, value: Int) { storage[index] = value }
+    override fun getGeneric(i: Int): Int = storage[i]
+    override fun setGeneric(i: Int, value: Int) { storage[i] = value }
 
     override fun setGeneric(vararg indices: Int, value: Int) {
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value
     }
     // TODO: cache this
+    override val size get() = storage.size
     override fun shape(): List<Int> = shape.toList()
     override fun copy(): NDArray<Int> = DefaultIntNDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
     private val wrongType = "Double methods not implemented for generic NDArray"
-    override fun getDouble(vararg indices: Int): Double {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
+    override fun getDouble(i: Int): Double {
+        val ele = storage[checkLinearIndex(i)]
         return ele.toDouble()
     }
-    override fun setDouble(vararg indices: Int, value: Double) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toInt()
+    override fun setDouble(i: Int, v: Double) {
+        storage[checkLinearIndex(i)] = v.toInt()
     }
-    override fun getByte(vararg indices: Int): Byte {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
+
+    override fun getByte(i: Int): Byte {
+        val ele = storage[checkLinearIndex(i)]
         return ele.toByte()
     }
-    override fun setByte(vararg indices: Int, value: Byte) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toInt()
+    override fun setByte(i: Int, v: Byte) {
+        storage[checkLinearIndex(i)] = v.toInt()
     }
-    override fun getInt(vararg indices: Int): Int {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
+
+    override fun getInt(i: Int): Int {
+        val ele = storage[checkLinearIndex(i)]
         return ele.toInt()
     }
-    override fun setInt(vararg indices: Int, value: Int) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toInt()
+    override fun setInt(i: Int, v: Int) {
+        storage[checkLinearIndex(i)] = v.toInt()
     }
-    override fun getFloat(vararg indices: Int): Float {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
+
+    override fun getFloat(i: Int): Float {
+        val ele = storage[checkLinearIndex(i)]
         return ele.toFloat()
     }
-    override fun setFloat(vararg indices: Int, value: Float) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toInt()
+    override fun setFloat(i: Int, v: Float) {
+        storage[checkLinearIndex(i)] = v.toInt()
     }
-    override fun getLong(vararg indices: Int): Long {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
+
+    override fun getLong(i: Int): Long {
+        val ele = storage[checkLinearIndex(i)]
         return ele.toLong()
     }
-    override fun setLong(vararg indices: Int, value: Long) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toInt()
+    override fun setLong(i: Int, v: Long) {
+        storage[checkLinearIndex(i)] = v.toInt()
     }
-    override fun getShort(vararg indices: Int): Short {
-        checkIndices(indices)
-        val ele = storage[nIdxToLinear(indices)]
+
+    override fun getShort(i: Int): Short {
+        val ele = storage[checkLinearIndex(i)]
         return ele.toShort()
     }
-    override fun setShort(vararg indices: Int, value: Short) {
-        checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value.toInt()
+    override fun setShort(i: Int, v: Short) {
+        storage[checkLinearIndex(i)] = v.toInt()
     }
+
 
 
 }

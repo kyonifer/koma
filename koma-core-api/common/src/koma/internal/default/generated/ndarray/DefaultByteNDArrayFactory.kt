@@ -9,35 +9,17 @@ import koma.extensions.fill
 import koma.ndarray.*
 
 class DefaultByteNDArrayFactory: NumericalNDArrayFactory<Byte> {
-    override fun create(vararg lengths: Int,
-                        filler: (IntArray) -> Byte): NDArray<Byte> {
-        return DefaultByteNDArray(*lengths).also {
-            it.fill{filler(it)}
-        }
+    override fun alloc(lengths: IntArray) = DefaultByteNDArray(shape = *lengths)
+
+    override fun zeros(vararg lengths: Int) = alloc(lengths).fill { 0.toByte() }
+
+    override fun ones(vararg lengths: Int) = alloc(lengths).fill { 1.toByte() }
+
+    override fun rand(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextDouble().toByte()
     }
 
-    override fun zeros(vararg lengths: Int): NDArray<Byte> {
-        return DefaultByteNDArray(*lengths).fill {
-            0.toByte()
-        }
+    override fun randn(vararg lengths: Int) = alloc(lengths).fill {
+        koma.internal.getRng().nextGaussian().toByte()
     }
-
-    override fun ones(vararg lengths: Int): NDArray<Byte> {
-        return DefaultByteNDArray(*lengths).fill {
-            1.toByte()
-        }
-    }
-
-    override fun rand(vararg lengths: Int): NDArray<Byte> {
-        return DefaultByteNDArray(*lengths).fill {
-            0.toByte()
-        }
-    }
-
-    override fun randn(vararg lengths: Int): NDArray<Byte> {
-        return DefaultByteNDArray(*lengths).fill {
-            koma.internal.getRng().nextDouble().toByte()
-        }
-    }
-
 }

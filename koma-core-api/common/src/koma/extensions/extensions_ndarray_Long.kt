@@ -13,19 +13,33 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.NumericalNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
 
 
 @koma.internal.JvmName("fillLong")
-inline fun  NDArray<Long>.fill(f: (idx: IntArray) -> Long): NDArray<Long> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+inline fun  NDArray<Long>.fill(f: (idx: IntArray) -> Long) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setLong(linear, f(nd))
 }
 
+@koma.internal.JvmName("fillLongBoth")
+inline fun  NDArray<Long>.fillBoth(f: (nd: IntArray, linear: Int) -> Long) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setLong(linear, f(nd, linear))
+}
+
+@koma.internal.JvmName("fillLongLinear")
+inline fun  NDArray<Long>.fillLinear(f: (idx: Int) -> Long) = apply {
+    for (idx in 0 until size)
+        this.setLong(idx, f(idx))
+}
+
+@koma.internal.JvmName("createLong")
+inline fun  NumericalNDArrayFactory<Long>.create(vararg lengths: Int, filler: (idx: IntArray) -> Long)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -36,13 +50,8 @@ inline fun  NDArray<Long>.fill(f: (idx: IntArray) -> Long): NDArray<Long> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapLong")
-inline fun  NDArray<Long>.map(f: (Long) -> Long): NDArray<Long> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(ele))
-    return out
-}
+inline fun  NDArray<Long>.map(f: (Long) -> Long)
+    = NDArray.longFactory.alloc(shape().toIntArray()).fillLinear { f(this.getLong(it)) }
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -54,13 +63,8 @@ inline fun  NDArray<Long>.map(f: (Long) -> Long): NDArray<Long> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapIndexedLong")
-inline fun  NDArray<Long>.mapIndexed(f: (idx: Int, ele: Long) -> Long): NDArray<Long> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(idx, ele))
-    return out
-}
+inline fun  NDArray<Long>.mapIndexed(f: (idx: Int, ele: Long) -> Long)
+    = NDArray.longFactory.alloc(shape().toIntArray()).fillLinear { f(it, this.getLong(it)) }
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -69,8 +73,9 @@ inline fun  NDArray<Long>.mapIndexed(f: (idx: Int, ele: Long) -> Long): NDArray<
  */
 @koma.internal.JvmName("forEachLong")
 inline fun  NDArray<Long>.forEach(f: (ele: Long) -> Unit) {
-    for (ele in this.toIterable())
-        f(ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(getLong(idx))
 }
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is a linear
@@ -82,11 +87,10 @@ inline fun  NDArray<Long>.forEach(f: (ele: Long) -> Unit) {
  */
 @koma.internal.JvmName("forEachIndexedLong")
 inline fun  NDArray<Long>.forEachIndexed(f: (idx: Int, ele: Long) -> Unit) {
-    for ((idx, ele) in this.toIterable().withIndex())
-        f(idx, ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(idx, getLong(idx))
 }
-
-// TODO: for both of these, batch compute [linearToNIdx] instead of computing for every ele
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -99,7 +103,7 @@ inline fun  NDArray<Long>.forEachIndexed(f: (idx: Int, ele: Long) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNLong")
 inline fun  NDArray<Long>.mapIndexedN(f: (idx: IntArray, ele: Long) -> Long): NDArray<Long>
-        = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+    = NDArray.longFactory.alloc(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getLong(linear)) }
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full
@@ -110,8 +114,10 @@ inline fun  NDArray<Long>.mapIndexedN(f: (idx: IntArray, ele: Long) -> Long): ND
  *
  */
 @koma.internal.JvmName("forEachIndexedNLong")
-inline fun  NDArray<Long>.forEachIndexedN(f: (idx: IntArray, ele: Long) -> Unit)
-        = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+inline fun  NDArray<Long>.forEachIndexedN(f: (idx: IntArray, ele: Long) -> Unit) {
+    for ((nd, linear) in iterateIndices())
+        f(nd, getLong(linear))
+}
 
 
 @koma.internal.JvmName("getRangesLong")
@@ -139,13 +145,13 @@ operator fun  NDArray<Long>.set(vararg indices: Int, value: NDArray<Long>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun  NDArray<Long>.get(vararg indices: Int) = getLong(*indices)
-operator fun  NDArray<Long>.set(vararg indices: Int, value: Long) = setLong(indices=*indices, value=value)
+operator fun  NDArray<Long>.set(vararg indices: Int, value: Long) = setLong(indices=*indices, v=value)
 
 
 @koma.internal.JvmName("divLong")

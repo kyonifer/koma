@@ -1,3 +1,15 @@
+def ReifiedMatrices = ['T', 'Double', 'Float', 'Int']
+def ReifiedNDArrays = ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte']
+def NumericalConstantSuffixes = [
+    'T': ' as T',
+    'Double': '.0',
+    'Float': '.0f',
+    'Long': 'L',
+    'Int': '',
+    'Short': '.toShort()',
+    'Byte': '.toByte()'
+]
+
 buildscript {
     ext.kotlin_version = '1.2.31'
     ext.kotlin_native_version = '0.6.2'
@@ -312,7 +324,18 @@ task buildNative {
     dependsOn(":koma-core-cblas:build")
 }
 
-def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
+void genNDArray(String dest, List<String> dtypesNDArray) {
+    copy {
+        from 'templates'
+        into "$dest"
+        include 'NDArray.kt'
+        expand(factories: fixWhitespaceErrors(factories(dtypesNDArray)),
+               primitiveGetSet: fixWhitespaceErrors(primitiveGetSet(dtypesNDArray)),
+               typeCheckClauses: fixWhitespaceErrors(typeCheckClauses(dtypesNDArray)))
+    }
+}
+
+def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
     // Generate matrix types
     dtypesMatrix.forEach { dtype ->
         if (dtype != 'T') {
@@ -381,6 +404,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                 include 'DefaultXNDArrayFactory.kt'
                 rename { "Default${dtypeName(dtype)}NDArrayFactory.kt"}
                 expand(dtype: dtype,
+                        literalSuffix: dtypeSuffixMap[dtype],
                         namespace: namespace)
             }
         }
@@ -394,6 +418,8 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
                     genDec: genDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
+                    factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
+                    factoryGetter: factoryGetter(dtype),
                     inline: inline(dtype))
         }
     }
@@ -401,10 +427,10 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray) {
 
 task codegen {
     doLast {
+        genNDArray("koma-core-api/common/src/koma/ndarray", ReifiedNDArrays)
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
-                ['T', 'Double', 'Float', 'Int'],
-                ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte'])
+                ReifiedMatrices, ReifiedNDArrays, NumericalConstantSuffixes)
     }
 }
 
@@ -462,32 +488,29 @@ def dtypeName(dtype) {
 
 def convertGetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "    override fun get${toDtype}(vararg indices: Int): ${toDtype} {\n" +
-               "        val ele = getGeneric(*indices)\n" +
+        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
+               "        val ele = getGeneric(i)\n" +
                "        if (ele is ${toDtype})\n" +
                "            return ele\n" +
                "        else\n" +
                "            error(wrongType)\n" +
                "    }"
     else
-        return "    override fun get${toDtype}(vararg indices: Int): ${toDtype} {\n" +
-               "        checkIndices(indices)\n" +
-               "        val ele = storage[nIdxToLinear(indices)]\n" +
+        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
+               "        val ele = storage[checkLinearIndex(i)]\n" +
                "        return ele.to${toDtype}()\n" +
                "    }"
 }
 
 def convertSetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
-        return "    override fun set${toDtype}(vararg indices: Int, value: ${toDtype}) {\n" +
-               "        setGeneric(indices=*indices, value=value as ${baseDtype})\n" +
-               "    }"
+        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+               "       setGeneric(i, v as ${baseDtype})\n" +
+               "    }\n"
     else
-        return "    override fun set${toDtype}(vararg indices: Int, value: ${toDtype}) {\n" +
-               "        checkIndices(indices)\n" +
-               "        storage[nIdxToLinear(indices)] = value.to${baseDtype}()\n" +
-               "    }"
-
+        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+               "        storage[checkLinearIndex(i)] = v.to${baseDtype}()\n" +
+               "    }\n"
 }
 
 def floatersOnly(dtype) {
@@ -587,6 +610,49 @@ def inline(dtype) {
     else {
         return ""
     }
+}
+
+def factoryGetter(dtype) {
+    dtype == "T" ? "NDArray.allocGeneric<T>" : "NDArray.${dtype.toLowerCase()}Factory.alloc"
+}
+
+String fixWhitespaceErrors(String input) {
+    return input.replaceAll(~"\n[ \t]+(?=\n)", "\n").trim()
+}
+
+def primitiveGetSet(types) {
+    def indent = "\n    "
+    types.findAll { it != "T" }.collect {
+        """
+        @KomaJsName("get${it}ND")
+        fun get$it(vararg indices: Int) = get$it(safeNIdxToLinear(indices))
+        @KomaJsName("get${it}1D")
+        fun get$it(i: Int): $it = (getGeneric(i) as Number).to$it()
+        @KomaJsName("set${it}ND")
+        fun set$it(vararg indices: Int, v: $it) = set$it(safeNIdxToLinear(indices), v)
+        @KomaJsName("set${it}1D")
+        fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
+        """.stripIndent().replaceAll("\n", indent)
+    }.join(indent)
+}
+
+def typeCheckClauses(types) {
+    types.findAll { it != "T" }.collect {
+        String.format("%-13s -> ${it.toLowerCase()}Factory.alloc(dims).fill { filler(it) as $it }",
+                      "$it::class")
+    }.join("\n                ")
+}
+
+def factories(types) {
+    types.findAll { it != "T" }.collect {
+        def fieldName = "${it.toLowerCase()}Factory"
+        """
+        var $fieldName: NumericalNDArrayFactory<$it>
+            get() = _$fieldName ?: get${it}NDArrayFactory().also { _$fieldName = it }
+            set(value) { _$fieldName = value }
+        private var _$fieldName: NumericalNDArrayFactory<$it>? = null
+        """
+    }.join("")
 }
 
 apply from: 'buildscripts/publishing.gradle'

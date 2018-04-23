@@ -13,19 +13,33 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.NumericalNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
 
 
 @koma.internal.JvmName("fillByte")
-inline fun  NDArray<Byte>.fill(f: (idx: IntArray) -> Byte): NDArray<Byte> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+inline fun  NDArray<Byte>.fill(f: (idx: IntArray) -> Byte) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setByte(linear, f(nd))
 }
 
+@koma.internal.JvmName("fillByteBoth")
+inline fun  NDArray<Byte>.fillBoth(f: (nd: IntArray, linear: Int) -> Byte) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setByte(linear, f(nd, linear))
+}
+
+@koma.internal.JvmName("fillByteLinear")
+inline fun  NDArray<Byte>.fillLinear(f: (idx: Int) -> Byte) = apply {
+    for (idx in 0 until size)
+        this.setByte(idx, f(idx))
+}
+
+@koma.internal.JvmName("createByte")
+inline fun  NumericalNDArrayFactory<Byte>.create(vararg lengths: Int, filler: (idx: IntArray) -> Byte)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -36,13 +50,8 @@ inline fun  NDArray<Byte>.fill(f: (idx: IntArray) -> Byte): NDArray<Byte> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapByte")
-inline fun  NDArray<Byte>.map(f: (Byte) -> Byte): NDArray<Byte> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(ele))
-    return out
-}
+inline fun  NDArray<Byte>.map(f: (Byte) -> Byte)
+    = NDArray.byteFactory.alloc(shape().toIntArray()).fillLinear { f(this.getByte(it)) }
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -54,13 +63,8 @@ inline fun  NDArray<Byte>.map(f: (Byte) -> Byte): NDArray<Byte> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapIndexedByte")
-inline fun  NDArray<Byte>.mapIndexed(f: (idx: Int, ele: Byte) -> Byte): NDArray<Byte> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(idx, ele))
-    return out
-}
+inline fun  NDArray<Byte>.mapIndexed(f: (idx: Int, ele: Byte) -> Byte)
+    = NDArray.byteFactory.alloc(shape().toIntArray()).fillLinear { f(it, this.getByte(it)) }
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -69,8 +73,9 @@ inline fun  NDArray<Byte>.mapIndexed(f: (idx: Int, ele: Byte) -> Byte): NDArray<
  */
 @koma.internal.JvmName("forEachByte")
 inline fun  NDArray<Byte>.forEach(f: (ele: Byte) -> Unit) {
-    for (ele in this.toIterable())
-        f(ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(getByte(idx))
 }
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is a linear
@@ -82,11 +87,10 @@ inline fun  NDArray<Byte>.forEach(f: (ele: Byte) -> Unit) {
  */
 @koma.internal.JvmName("forEachIndexedByte")
 inline fun  NDArray<Byte>.forEachIndexed(f: (idx: Int, ele: Byte) -> Unit) {
-    for ((idx, ele) in this.toIterable().withIndex())
-        f(idx, ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(idx, getByte(idx))
 }
-
-// TODO: for both of these, batch compute [linearToNIdx] instead of computing for every ele
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -99,7 +103,7 @@ inline fun  NDArray<Byte>.forEachIndexed(f: (idx: Int, ele: Byte) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNByte")
 inline fun  NDArray<Byte>.mapIndexedN(f: (idx: IntArray, ele: Byte) -> Byte): NDArray<Byte>
-        = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+    = NDArray.byteFactory.alloc(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getByte(linear)) }
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full
@@ -110,8 +114,10 @@ inline fun  NDArray<Byte>.mapIndexedN(f: (idx: IntArray, ele: Byte) -> Byte): ND
  *
  */
 @koma.internal.JvmName("forEachIndexedNByte")
-inline fun  NDArray<Byte>.forEachIndexedN(f: (idx: IntArray, ele: Byte) -> Unit)
-        = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+inline fun  NDArray<Byte>.forEachIndexedN(f: (idx: IntArray, ele: Byte) -> Unit) {
+    for ((nd, linear) in iterateIndices())
+        f(nd, getByte(linear))
+}
 
 
 @koma.internal.JvmName("getRangesByte")
@@ -139,13 +145,13 @@ operator fun  NDArray<Byte>.set(vararg indices: Int, value: NDArray<Byte>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun  NDArray<Byte>.get(vararg indices: Int) = getByte(*indices)
-operator fun  NDArray<Byte>.set(vararg indices: Int, value: Byte) = setByte(indices=*indices, value=value)
+operator fun  NDArray<Byte>.set(vararg indices: Int, value: Byte) = setByte(indices=*indices, v=value)
 
 
 @koma.internal.JvmName("divByte")

@@ -34,14 +34,15 @@ ${initStorage}
         checkIndices(indices)
         return storage[nIdxToLinear(indices)]
     }
-    override fun getLinear(index: Int): ${dtype} = storage[index]
-    override fun setLinear(index: Int, value: ${dtype}) { storage[index] = value }
+    override fun getGeneric(i: Int): ${dtype} = storage[i]
+    override fun setGeneric(i: Int, value: ${dtype}) { storage[i] = value }
 
     override fun setGeneric(vararg indices: Int, value: ${dtype}) {
         checkIndices(indices)
         storage[nIdxToLinear(indices)] = value
     }
     // TODO: cache this
+    override val size get() = storage.size
     override fun shape(): List<Int> = shape.toList()
     override fun copy(): NDArray<${dtype}> = Default${dtypeName}NDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage

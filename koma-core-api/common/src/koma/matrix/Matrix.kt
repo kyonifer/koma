@@ -65,6 +65,16 @@ interface Matrix<T>: NDArray<T> {
             set(value) { _intFactory = value}
         private var _intFactory: MatrixFactory<Matrix<Int>>? = null
 
+        @Suppress("UNCHECKED_CAST")
+        inline operator fun <reified T> invoke(rows: Int, cols: Int,
+                                               crossinline filler: (Int, Int) -> T): Matrix<T> =
+                when(T::class) {
+                    Double::class -> doubleFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Double } as Matrix<T>
+                    Float::class  -> floatFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Float } as Matrix<T>
+                    Int::class    -> intFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Int } as Matrix<T>
+                    else          -> error("Unsupported Matrix type ${T::class.simpleName}")
+                }
+
     }
     // Algebraic Operators
     @KomaJsName("divInt")
@@ -119,18 +129,6 @@ interface Matrix<T>: NDArray<T> {
     fun getDouble(i: Int, j: Int): Double
     @KomaJsName("getFloat")
     fun getFloat(i: Int, j: Int): Float
-    @KomaJsName("getInt1D")
-    fun getInt(i: Int): Int
-    @KomaJsName("getDouble1D")
-    fun getDouble(i: Int): Double
-    @KomaJsName("getFloat1D")
-    fun getFloat(i: Int): Float
-    @KomaJsName("setInt1D")
-    fun setInt(i: Int, v: Int)
-    @KomaJsName("setDouble1D")
-    fun setDouble(i: Int, v: Double)
-    @KomaJsName("setFloat1D")
-    fun setFloat(i: Int, v: Float)
     @KomaJsName("setInt")
     fun setInt(i: Int, j: Int, v: Int)
     @KomaJsName("setDouble")
@@ -139,12 +137,8 @@ interface Matrix<T>: NDArray<T> {
     fun setFloat(i: Int, j: Int, v: Float)
     @KomaJsName("getGeneric")
     fun getGeneric(i: Int, j: Int): T
-    @KomaJsName("getGeneric1D")
-    fun getGeneric(i: Int): T
     @KomaJsName("setGeneric")
     fun setGeneric(i: Int, j: Int, v: T)
-    @KomaJsName("setGeneric1D")
-    fun setGeneric(i: Int, v: T)
 
     /**
      * Retrieves the data formatted as doubles in row-major order
@@ -337,6 +331,7 @@ interface Matrix<T>: NDArray<T> {
 
     override fun getLinear(index: Int): T = getGeneric(index)
     override fun setLinear(index: Int, value: T) = setGeneric(index, value)
+    override val size get() = this.numRows() * this.numCols()
     override fun shape(): List<Int> = listOf(this.numRows(), this.numCols())
     override fun getBaseArray(): Any = this.getBaseMatrix()
 

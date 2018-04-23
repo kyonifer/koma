@@ -1,6 +1,9 @@
 package koma
 
 import koma.extensions.*
+import koma.matrix.Matrix
+import koma.matrix.ejml.EJMLMatrix
+import koma.matrix.ejml.EJMLMatrixFactory
 import koma.util.test.*
 import org.junit.Assert
 import org.junit.Test
@@ -164,5 +167,14 @@ class CreatorsTests {
             assertFalse { allclose(a,e) }
             assertFalse { allclose(b,f) }
         }
+    }
+    @Test
+    fun testMagicConstructor() {
+        Matrix.doubleFactory = EJMLMatrixFactory()
+
+        assert(Matrix(4, 4) { row, col -> row+col.toDouble() } is EJMLMatrix)
+        assert(Matrix(4, 4) { row, col -> row+col.toDouble() }[2, 3] == 5.0)
+        assert(Matrix(4, 4) { row, col -> row+col }[1, 1] == 2)
+        assertFails { Matrix<String>(4, 4) { row, col -> "" } }
     }
 }

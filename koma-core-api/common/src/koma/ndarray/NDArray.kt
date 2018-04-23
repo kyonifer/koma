@@ -1,8 +1,13 @@
 package koma.ndarray
 
+import koma.extensions.create
+import koma.extensions.fill
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
+import koma.internal.default.utils.safeNIdxToLinear
 import koma.matrix.*
+import kotlin.reflect.KClass
+import koma.util.IndexIterator
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
 /**
@@ -24,40 +29,59 @@ interface NDArray<T> {
 
         var doubleFactory: NumericalNDArrayFactory<Double>
             get() = _doubleFactory ?: getDoubleNDArrayFactory().also { _doubleFactory = it }
-            set(value) { _doubleFactory = value}
+            set(value) { _doubleFactory = value }
         private var _doubleFactory: NumericalNDArrayFactory<Double>? = null
 
         var floatFactory: NumericalNDArrayFactory<Float>
             get() = _floatFactory ?: getFloatNDArrayFactory().also { _floatFactory = it }
-            set(value) { _floatFactory = value}
+            set(value) { _floatFactory = value }
         private var _floatFactory: NumericalNDArrayFactory<Float>? = null
 
         var longFactory: NumericalNDArrayFactory<Long>
             get() = _longFactory ?: getLongNDArrayFactory().also { _longFactory = it }
-            set(value) { _longFactory = value}
+            set(value) { _longFactory = value }
         private var _longFactory: NumericalNDArrayFactory<Long>? = null
 
         var intFactory: NumericalNDArrayFactory<Int>
             get() = _intFactory ?: getIntNDArrayFactory().also { _intFactory = it }
-            set(value) { _intFactory = value}
+            set(value) { _intFactory = value }
         private var _intFactory: NumericalNDArrayFactory<Int>? = null
 
         var shortFactory: NumericalNDArrayFactory<Short>
             get() = _shortFactory ?: getShortNDArrayFactory().also { _shortFactory = it }
-            set(value) { _shortFactory = value}
+            set(value) { _shortFactory = value }
         private var _shortFactory: NumericalNDArrayFactory<Short>? = null
 
         var byteFactory: NumericalNDArrayFactory<Byte>
             get() = _byteFactory ?: getByteNDArrayFactory().also { _byteFactory = it }
-            set(value) { _byteFactory = value}
+            set(value) { _byteFactory = value }
         private var _byteFactory: NumericalNDArrayFactory<Byte>? = null
+
+        fun <T> allocGeneric(dims: IntArray) =
+            DefaultGenericNDArrayFactory<T>().alloc(dims)
 
         fun <T> createGeneric(vararg dims: Int, filler: (IntArray) -> T) =
             DefaultGenericNDArrayFactory<T>().create(*dims, filler = filler)
-    }
-    fun getLinear(index: Int): T
-    fun setLinear(index: Int, value: T)
 
+        inline operator fun <reified T> invoke(vararg dims: Int,
+                                               crossinline filler: (IntArray) -> T) =
+            when(T::class) {
+                Double::class -> doubleFactory.alloc(dims).fill { filler(it) as Double }
+                Float::class  -> floatFactory.alloc(dims).fill { filler(it) as Float }
+                Long::class   -> longFactory.alloc(dims).fill { filler(it) as Long }
+                Int::class    -> intFactory.alloc(dims).fill { filler(it) as Int }
+                Short::class  -> shortFactory.alloc(dims).fill { filler(it) as Short }
+                Byte::class   -> byteFactory.alloc(dims).fill { filler(it) as Byte }
+                else          -> createGeneric(*dims) { filler(it) }
+            }
+    }
+
+    @Deprecated("Use NDArray.getGeneric", ReplaceWith("getGeneric"))
+    fun getLinear(index: Int): T = getGeneric(index)
+    @Deprecated("Use NDArray.getGeneric", ReplaceWith("setGeneric"))
+    fun setLinear(index: Int, value: T) = setGeneric(index, v = value)
+
+    val size: Int get() = shape().reduce { a, b -> a * b }
     fun shape(): List<Int>
     fun copy(): NDArray<T>
 
@@ -67,7 +91,7 @@ interface NDArray<T> {
         return object: Iterable<T> {
             override fun iterator(): Iterator<T> = object: Iterator<T> {
                 private var cursor = 0
-                private val size = this@NDArray.shape().reduce{a,b->a*b}
+                private val size = this@NDArray.size
                 override fun next(): T {
                     cursor += 1
                     // TODO: Either make 1D access work like Matrix or fix this
@@ -79,22 +103,79 @@ interface NDArray<T> {
         }
     }
 
+    // Iterator over the indices of this NDArray, simultaneously in array and linear form.
+    // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
+    fun iterateIndices() = IndexIterator { shape().toIntArray() }
+
+
     // Primitive optimized getter/setters to avoid boxing. Not intended
     // to be used directly, but instead are used by ext funcs in `koma.extensions`.
 
-    fun getGeneric(vararg indices: Int): T
-    fun getByte(vararg indices: Int): Byte
-    fun getDouble(vararg indices: Int): Double
-    fun getFloat(vararg indices: Int): Float
-    fun getInt(vararg indices: Int): Int
-    fun getLong(vararg indices: Int): Long
-    fun getShort(vararg indices: Int): Short
+    @KomaJsName("getGenericND")
+    fun getGeneric(vararg indices: Int) = getGeneric(safeNIdxToLinear(indices))
+    @KomaJsName("getGeneric1D")
+    fun getGeneric(i: Int): T
+    @KomaJsName("setGenericND")
+    fun setGeneric(vararg indices: Int, v: T) = setGeneric(safeNIdxToLinear(indices), v)
+    @KomaJsName("setGeneric1D")
+    fun setGeneric(i: Int, v: T)
 
-    fun setGeneric(vararg indices: Int, value: T)
-    fun setByte(vararg indices: Int, value: Byte)
-    fun setDouble(vararg indices: Int, value: Double)
-    fun setFloat(vararg indices: Int, value: Float)
-    fun setInt(vararg indices: Int, value: Int)
-    fun setLong(vararg indices: Int, value: Long)
-    fun setShort(vararg indices: Int, value: Short)
+    @KomaJsName("getDoubleND")
+    fun getDouble(vararg indices: Int) = getDouble(safeNIdxToLinear(indices))
+    @KomaJsName("getDouble1D")
+    fun getDouble(i: Int): Double = (getGeneric(i) as Number).toDouble()
+    @KomaJsName("setDoubleND")
+    fun setDouble(vararg indices: Int, v: Double) = setDouble(safeNIdxToLinear(indices), v)
+    @KomaJsName("setDouble1D")
+    fun setDouble(i: Int, v: Double) { setGeneric(i, v as T) }
+
+
+    @KomaJsName("getFloatND")
+    fun getFloat(vararg indices: Int) = getFloat(safeNIdxToLinear(indices))
+    @KomaJsName("getFloat1D")
+    fun getFloat(i: Int): Float = (getGeneric(i) as Number).toFloat()
+    @KomaJsName("setFloatND")
+    fun setFloat(vararg indices: Int, v: Float) = setFloat(safeNIdxToLinear(indices), v)
+    @KomaJsName("setFloat1D")
+    fun setFloat(i: Int, v: Float) { setGeneric(i, v as T) }
+
+
+    @KomaJsName("getLongND")
+    fun getLong(vararg indices: Int) = getLong(safeNIdxToLinear(indices))
+    @KomaJsName("getLong1D")
+    fun getLong(i: Int): Long = (getGeneric(i) as Number).toLong()
+    @KomaJsName("setLongND")
+    fun setLong(vararg indices: Int, v: Long) = setLong(safeNIdxToLinear(indices), v)
+    @KomaJsName("setLong1D")
+    fun setLong(i: Int, v: Long) { setGeneric(i, v as T) }
+
+
+    @KomaJsName("getIntND")
+    fun getInt(vararg indices: Int) = getInt(safeNIdxToLinear(indices))
+    @KomaJsName("getInt1D")
+    fun getInt(i: Int): Int = (getGeneric(i) as Number).toInt()
+    @KomaJsName("setIntND")
+    fun setInt(vararg indices: Int, v: Int) = setInt(safeNIdxToLinear(indices), v)
+    @KomaJsName("setInt1D")
+    fun setInt(i: Int, v: Int) { setGeneric(i, v as T) }
+
+
+    @KomaJsName("getShortND")
+    fun getShort(vararg indices: Int) = getShort(safeNIdxToLinear(indices))
+    @KomaJsName("getShort1D")
+    fun getShort(i: Int): Short = (getGeneric(i) as Number).toShort()
+    @KomaJsName("setShortND")
+    fun setShort(vararg indices: Int, v: Short) = setShort(safeNIdxToLinear(indices), v)
+    @KomaJsName("setShort1D")
+    fun setShort(i: Int, v: Short) { setGeneric(i, v as T) }
+
+
+    @KomaJsName("getByteND")
+    fun getByte(vararg indices: Int) = getByte(safeNIdxToLinear(indices))
+    @KomaJsName("getByte1D")
+    fun getByte(i: Int): Byte = (getGeneric(i) as Number).toByte()
+    @KomaJsName("setByteND")
+    fun setByte(vararg indices: Int, v: Byte) = setByte(safeNIdxToLinear(indices), v)
+    @KomaJsName("setByte1D")
+    fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }
 }

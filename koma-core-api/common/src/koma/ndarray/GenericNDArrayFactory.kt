@@ -5,5 +5,12 @@ package koma.ndarray
  * Generic parameter is the type of the element.
  */
 interface GenericNDArrayFactory<T> {
-    fun create(vararg lengths: Int, filler: (IntArray)->T): NDArray<T>
+    /**
+     * Generate an ND container of the requested shape without initializing
+     * its contents.
+     *
+     * Depending on backend and platform, the resulting array may be,
+     * equivalent to zeros(*lengths), or may be initialized to memory garbage.
+     */
+    fun alloc(lengths: IntArray): NDArray<T>
 }

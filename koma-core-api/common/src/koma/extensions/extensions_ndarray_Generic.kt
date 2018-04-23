@@ -13,6 +13,7 @@ import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
+import koma.ndarray.GenericNDArrayFactory
 import koma.pow
 import koma.matrix.Matrix
 
@@ -30,13 +31,26 @@ fun <T> NDArray<T>.toMatrixOrNull(): Matrix<T>? {
 }
 
 @koma.internal.JvmName("fillGeneric")
-fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T): NDArray<T> {
-    this.forEachIndexedN { idx, ele ->
-        this.set(indices=*idx, value = f(idx))
-    }
-    return this
+fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setGeneric(linear, f(nd))
 }
 
+@koma.internal.JvmName("fillGenericBoth")
+fun <T> NDArray<T>.fillBoth(f: (nd: IntArray, linear: Int) -> T) = apply {
+    for ((nd, linear) in this.iterateIndices())
+        this.setGeneric(linear, f(nd, linear))
+}
+
+@koma.internal.JvmName("fillGenericLinear")
+fun <T> NDArray<T>.fillLinear(f: (idx: Int) -> T) = apply {
+    for (idx in 0 until size)
+        this.setGeneric(idx, f(idx))
+}
+
+@koma.internal.JvmName("createGeneric")
+fun <T> GenericNDArrayFactory<T>.create(vararg lengths: Int, filler: (idx: IntArray) -> T)
+    = alloc(lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -47,13 +61,8 @@ fun <T> NDArray<T>.fill(f: (idx: IntArray) -> T): NDArray<T> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapGeneric")
-fun <T> NDArray<T>.map(f: (T) -> T): NDArray<T> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(ele))
-    return out
-}
+fun <T> NDArray<T>.map(f: (T) -> T)
+    = NDArray.allocGeneric<T>(shape().toIntArray()).fillLinear { f(this.getGeneric(it)) }
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -65,13 +74,8 @@ fun <T> NDArray<T>.map(f: (T) -> T): NDArray<T> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapIndexedGeneric")
-fun <T> NDArray<T>.mapIndexed(f: (idx: Int, ele: T) -> T): NDArray<T> {
-    // TODO: Something better than copy here
-    val out = this.copy()
-    for ((idx, ele) in this.toIterable().withIndex())
-        out.setLinear(idx, f(idx, ele))
-    return out
-}
+fun <T> NDArray<T>.mapIndexed(f: (idx: Int, ele: T) -> T)
+    = NDArray.allocGeneric<T>(shape().toIntArray()).fillLinear { f(it, this.getGeneric(it)) }
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -80,8 +84,9 @@ fun <T> NDArray<T>.mapIndexed(f: (idx: Int, ele: T) -> T): NDArray<T> {
  */
 @koma.internal.JvmName("forEachGeneric")
 fun <T> NDArray<T>.forEach(f: (ele: T) -> Unit) {
-    for (ele in this.toIterable())
-        f(ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(getGeneric(idx))
 }
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is a linear
@@ -93,11 +98,10 @@ fun <T> NDArray<T>.forEach(f: (ele: T) -> Unit) {
  */
 @koma.internal.JvmName("forEachIndexedGeneric")
 fun <T> NDArray<T>.forEachIndexed(f: (idx: Int, ele: T) -> Unit) {
-    for ((idx, ele) in this.toIterable().withIndex())
-        f(idx, ele)
+    // TODO: Change this back to iteration once there are non-boxing iterators
+    for (idx in 0 until size)
+        f(idx, getGeneric(idx))
 }
-
-// TODO: for both of these, batch compute [linearToNIdx] instead of computing for every ele
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -110,7 +114,7 @@ fun <T> NDArray<T>.forEachIndexed(f: (idx: Int, ele: T) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNGeneric")
 fun <T> NDArray<T>.mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T>
-        = this.mapIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+    = NDArray.allocGeneric<T>(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getGeneric(linear)) }
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full
@@ -121,8 +125,10 @@ fun <T> NDArray<T>.mapIndexedN(f: (idx: IntArray, ele: T) -> T): NDArray<T>
  *
  */
 @koma.internal.JvmName("forEachIndexedNGeneric")
-fun <T> NDArray<T>.forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit)
-        = this.forEachIndexed { idx, ele -> f(linearToNIdx(idx), ele) }
+fun <T> NDArray<T>.forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit) {
+    for ((nd, linear) in iterateIndices())
+        f(nd, getGeneric(linear))
+}
 
 
 @koma.internal.JvmName("getRangesGeneric")
@@ -150,12 +156,12 @@ operator fun <T> NDArray<T>.set(vararg indices: Int, value: NDArray<T>) {
     val offset = indices.map { it }.toIntArray()
     value.forEachIndexedN { idx, ele ->
         val newIdx = offset.zip(idx).map { it.first + it.second }.toIntArray()
-        this.setGeneric(indices=*newIdx, value=ele)
+        this.setGeneric(indices=*newIdx, v=ele)
     }
 }
 
 
 operator fun <T> NDArray<T>.get(vararg indices: Int) = getGeneric(*indices)
-operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, value=value)
+operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, v=value)
 
 
