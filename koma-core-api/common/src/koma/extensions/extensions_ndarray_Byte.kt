@@ -14,6 +14,7 @@ import koma.internal.default.utils.linearToNIdx
 import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
+import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
 
@@ -39,7 +40,7 @@ inline fun  NDArray<Byte>.fillLinear(f: (idx: Int) -> Byte) = apply {
 
 @koma.internal.JvmName("createByte")
 inline fun  NumericalNDArrayFactory<Byte>.create(vararg lengths: Int, filler: (idx: IntArray) -> Byte)
-    = alloc(lengths).fill(filler)
+    = NDArray.byteFactory.zeros(*lengths).fill(filler)
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
@@ -51,7 +52,9 @@ inline fun  NumericalNDArrayFactory<Byte>.create(vararg lengths: Int, filler: (i
  */
 @koma.internal.JvmName("mapByte")
 inline fun  NDArray<Byte>.map(f: (Byte) -> Byte)
-    = NDArray.byteFactory.alloc(shape().toIntArray()).fillLinear { f(this.getByte(it)) }
+    = NDArray.byteFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getByte(it)) }
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage
@@ -64,7 +67,9 @@ inline fun  NDArray<Byte>.map(f: (Byte) -> Byte)
  */
 @koma.internal.JvmName("mapIndexedByte")
 inline fun  NDArray<Byte>.mapIndexed(f: (idx: Int, ele: Byte) -> Byte)
-    = NDArray.byteFactory.alloc(shape().toIntArray()).fillLinear { f(it, this.getByte(it)) }
+    = NDArray.byteFactory.zeros(*shape().toIntArray()).fillLinear { f(it, this.getByte(it)) }
+
+
 /**
  * Takes each element in a NDArray and passes them through f.
  *
@@ -103,7 +108,8 @@ inline fun  NDArray<Byte>.forEachIndexed(f: (idx: Int, ele: Byte) -> Unit) {
  */
 @koma.internal.JvmName("mapIndexedNByte")
 inline fun  NDArray<Byte>.mapIndexedN(f: (idx: IntArray, ele: Byte) -> Byte): NDArray<Byte>
-    = NDArray.byteFactory.alloc(shape().toIntArray()).fillBoth { nd, linear -> f(nd, getByte(linear)) }
+    = NDArray.byteFactory.zeros(*shape().toIntArray()).fillBoth { nd, linear -> f(nd, getByte(linear)) }
+
 
 /**
  * Takes each element in a NDArray and passes them through f. Index given to f is the full

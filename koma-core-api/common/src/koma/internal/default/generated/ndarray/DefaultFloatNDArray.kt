@@ -18,19 +18,16 @@ import koma.internal.default.utils.*
  * @param init A function that takes a location in the new array and returns its initial value.
  */
 open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Float)? = null): NDArray<Float> {
+                             init: ((IntArray)->Float)): NDArray<Float> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: FloatArray
 
     init {
-        @Suppress("UNCHECKED_CAST")
-        storage = if (init!=null) 
-            FloatArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
-        else
-            FloatArray(shape.reduce{ a, b-> a * b})
+        storage = FloatArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
+
     }
 
     override fun getGeneric(vararg indices: Int): Float {

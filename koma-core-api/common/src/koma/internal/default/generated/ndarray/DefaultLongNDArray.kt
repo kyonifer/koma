@@ -18,19 +18,16 @@ import koma.internal.default.utils.*
  * @param init A function that takes a location in the new array and returns its initial value.
  */
 open class DefaultLongNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Long)? = null): NDArray<Long> {
+                             init: ((IntArray)->Long)): NDArray<Long> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: LongArray
 
     init {
-        @Suppress("UNCHECKED_CAST")
-        storage = if (init!=null) 
-            LongArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
-        else
-            LongArray(shape.reduce{ a, b-> a * b})
+        storage = LongArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
+
     }
 
     override fun getGeneric(vararg indices: Int): Long {

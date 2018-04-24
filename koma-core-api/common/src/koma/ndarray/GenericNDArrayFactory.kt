@@ -12,5 +12,5 @@ interface GenericNDArrayFactory<T> {
      * Depending on backend and platform, the resulting array may be,
      * equivalent to zeros(*lengths), or may be initialized to memory garbage.
      */
-    fun alloc(lengths: IntArray): NDArray<T>
+    fun createGeneric(lengths: IntArray, filler: (IntArray)->T): NDArray<T>
 }

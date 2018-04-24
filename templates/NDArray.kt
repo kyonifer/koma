@@ -29,11 +29,11 @@ interface NDArray<T> {
 
         $factories
 
-        fun <T> allocGeneric(dims: IntArray) =
-            DefaultGenericNDArrayFactory<T>().alloc(dims)
-
         fun <T> createGeneric(vararg dims: Int, filler: (IntArray) -> T) =
-            DefaultGenericNDArrayFactory<T>().create(*dims, filler = filler)
+            DefaultGenericNDArrayFactory<T>().createGeneric(*dims, filler = filler)
+
+        fun <T> createGenericNulls(vararg dims: Int) =
+                DefaultGenericNDArrayFactory<T?>().createGeneric(*dims, filler = {null})
 
         inline operator fun <reified T> invoke(vararg dims: Int,
                                                crossinline filler: (IntArray) -> T) =

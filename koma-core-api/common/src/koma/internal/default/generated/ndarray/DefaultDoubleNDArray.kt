@@ -18,19 +18,16 @@ import koma.internal.default.utils.*
  * @param init A function that takes a location in the new array and returns its initial value.
  */
 open class DefaultDoubleNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Double)? = null): NDArray<Double> {
+                             init: ((IntArray)->Double)): NDArray<Double> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: DoubleArray
 
     init {
-        @Suppress("UNCHECKED_CAST")
-        storage = if (init!=null) 
-            DoubleArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
-        else
-            DoubleArray(shape.reduce{ a, b-> a * b})
+        storage = DoubleArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
+
     }
 
     override fun getGeneric(vararg indices: Int): Double {

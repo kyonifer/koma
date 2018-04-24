@@ -18,19 +18,16 @@ import koma.internal.default.utils.*
  * @param init A function that takes a location in the new array and returns its initial value.
  */
 open class DefaultByteNDArray(@KomaJsName("shape_private") vararg protected val shape: Int,
-                             init: ((IntArray)->Byte)? = null): NDArray<Byte> {
+                             init: ((IntArray)->Byte)): NDArray<Byte> {
 
     /**
-     * Underlying storage. PureKt backend uses a simple array.
+     * Underlying storage. Default backends uses a simple array.
      */
     private val storage: ByteArray
 
     init {
-        @Suppress("UNCHECKED_CAST")
-        storage = if (init!=null) 
-            ByteArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
-        else
-            ByteArray(shape.reduce{ a, b-> a * b})
+        storage = ByteArray(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) 
+
     }
 
     override fun getGeneric(vararg indices: Int): Byte {
