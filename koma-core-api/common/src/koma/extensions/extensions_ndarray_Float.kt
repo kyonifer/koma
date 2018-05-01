@@ -135,6 +135,10 @@ inline fun  NDArray<Float>.forEachIndexedN(f: (idx: IntArray, ele: Float) -> Uni
         f(nd, getFloat(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional FloatArray in row-major order.
+ */
+fun  NDArray<Float>.toFloatArray() = FloatArray(size) { getFloat(it) }
 
 @koma.internal.JvmName("getRangesFloat")
 operator fun  NDArray<Float>.get(vararg indices: IntRange): NDArray<Float> {

@@ -125,6 +125,10 @@ inline fun  NDArray<Byte>.forEachIndexedN(f: (idx: IntArray, ele: Byte) -> Unit)
         f(nd, getByte(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional ByteArray in row-major order.
+ */
+fun  NDArray<Byte>.toByteArray() = ByteArray(size) { getByte(it) }
 
 @koma.internal.JvmName("getRangesByte")
 operator fun  NDArray<Byte>.get(vararg indices: IntRange): NDArray<Byte> {

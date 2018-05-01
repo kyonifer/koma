@@ -103,6 +103,16 @@ interface NDArray<T> {
         }
     }
 
+    /**
+     * Converts this NDArray into a one-dimensional List in row-major order.
+     */
+    fun toList() = List(size) { getGeneric(it) }
+
+    /**
+     * Converts this NDArray into a one-dimensional MutableList in row-major order.
+     */
+    fun toMutableList() = MutableList(size) { getGeneric(it) }
+
     // Iterator over the indices of this NDArray, simultaneously in array and linear form.
     // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
     fun iterateIndices() = IndexIterator { shape().toIntArray() }

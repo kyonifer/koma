@@ -125,6 +125,10 @@ inline fun  NDArray<Long>.forEachIndexedN(f: (idx: IntArray, ele: Long) -> Unit)
         f(nd, getLong(linear))
 }
 
+/**
+ * Converts this NDArray into a one-dimensional LongArray in row-major order.
+ */
+fun  NDArray<Long>.toLongArray() = LongArray(size) { getLong(it) }
 
 @koma.internal.JvmName("getRangesLong")
 operator fun  NDArray<Long>.get(vararg indices: IntRange): NDArray<Long> {
