@@ -1,3 +1,3 @@
 headers=cblas.h
-compilerOpts = -I/usr/include/x86_64-linux-gnu -I/usr/include
-linkerOpts = -L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas -lblas
+compilerOpts = -I/usr/include/x86_64-linux-gnu -I/usr/include -IC:/msys64/mingw64/include/OpenBLAS 
+linkerOpts = -L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas -LC:/msys64/mingw64/lib -lopenblas
