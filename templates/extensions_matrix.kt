@@ -93,7 +93,7 @@ ${reifiedInline}fun ${reifiedDec} NDArray<${dtype}>.reshape(rows: Int, cols: Int
     if (rows * cols != size)
         throw IllegalArgumentException("\$size items cannot be reshaped to \$rows x \$cols")
     var idx = 0
-    return Matrix(rows, cols) { _, _ -> get${dtypeName}(idx++) }
+    return ${factoryPattern("rows, cols")} { _, _ -> get${dtypeName}(idx++) }
 }
 
 /**

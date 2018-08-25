@@ -57,7 +57,7 @@ ${reifiedInline}fun $reifiedDec NDArray<${dtype}>.reshape(vararg dims: Int): NDA
     if (dims.reduce { a, b -> a * b } != size)
         throw IllegalArgumentException("\$size items cannot be reshaped to \${dims.toList()}")
     var idx = 0
-    return NDArray(*dims) { _ -> get${dtypeName}(idx++) }
+    return ${factoryPattern("*dims")} { _ -> get${dtypeName}(idx++) }
 }
 
 

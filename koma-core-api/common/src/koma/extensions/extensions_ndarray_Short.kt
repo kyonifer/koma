@@ -58,7 +58,7 @@ fun  NDArray<Short>.reshape(vararg dims: Int): NDArray<Short> {
     if (dims.reduce { a, b -> a * b } != size)
         throw IllegalArgumentException("$size items cannot be reshaped to ${dims.toList()}")
     var idx = 0
-    return NDArray(*dims) { _ -> getShort(idx++) }
+    return NDArray.shortFactory.zeros(*dims).fill { _ -> getShort(idx++) }
 }
 
 

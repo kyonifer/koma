@@ -369,6 +369,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                    genDec: genDec(dtype),
                    reifiedDec: reifiedDec(dtype),
                    reifiedInline: dtype == "T" ? "inline " : "",
+                   factoryPattern: factoryPattern(dtype, "Matrix"),
                    floatersOnly: floatersOnly(dtype),
                    inline: inline(dtype))
         }
@@ -422,7 +423,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
                     factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
-                    factoryGetter: factoryGetter(dtype),
+                    factoryPattern: factoryPattern(dtype, "NDArray"),
                     inline: inline(dtype),
                     extensionMap: extensionMap(dtype),
                     extensionCreate: extensionCreate(dtype),
@@ -653,8 +654,13 @@ def inline(dtype) {
     }
 }
 
-def factoryGetter(dtype) {
-    dtype == "T" ? "NDArray.createGeneric<T>" : "NDArray.${dtype.toLowerCase()}Factory.zeros"
+def factoryPattern(dtype, klass) {
+    if (dtype == "T") {
+        if (klass == "NDArray")
+            return { "NDArray.createGeneric($it)" }
+        return { "${klass}($it)" }
+    } else
+        return { "${klass}.${dtype.toLowerCase()}Factory.zeros($it).fill" }
 }
 
 String fixWhitespaceErrors(String input) {

@@ -93,7 +93,7 @@ fun  NDArray<Float>.reshape(rows: Int, cols: Int): Matrix<Float> {
     if (rows * cols != size)
         throw IllegalArgumentException("$size items cannot be reshaped to $rows x $cols")
     var idx = 0
-    return Matrix(rows, cols) { _, _ -> getFloat(idx++) }
+    return Matrix.floatFactory.zeros(rows, cols).fill { _, _ -> getFloat(idx++) }
 }
 
 /**

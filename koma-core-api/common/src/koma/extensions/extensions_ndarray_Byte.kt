@@ -58,7 +58,7 @@ fun  NDArray<Byte>.reshape(vararg dims: Int): NDArray<Byte> {
     if (dims.reduce { a, b -> a * b } != size)
         throw IllegalArgumentException("$size items cannot be reshaped to ${dims.toList()}")
     var idx = 0
-    return NDArray(*dims) { _ -> getByte(idx++) }
+    return NDArray.byteFactory.zeros(*dims).fill { _ -> getByte(idx++) }
 }
 
 

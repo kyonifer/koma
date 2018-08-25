@@ -69,7 +69,7 @@ inline fun <reified T> NDArray<T>.reshape(vararg dims: Int): NDArray<T> {
     if (dims.reduce { a, b -> a * b } != size)
         throw IllegalArgumentException("$size items cannot be reshaped to ${dims.toList()}")
     var idx = 0
-    return NDArray(*dims) { _ -> getGeneric(idx++) }
+    return NDArray.createGeneric(*dims) { _ -> getGeneric(idx++) }
 }
 
 
