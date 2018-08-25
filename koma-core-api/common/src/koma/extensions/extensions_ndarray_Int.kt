@@ -52,6 +52,19 @@ inline fun  NDArray<Int>.fillLinear(f: (idx: Int) -> Int) = apply {
 inline fun  NumericalNDArrayFactory<Int>.create(vararg lengths: Int, filler: (idx: IntArray) -> Int)
     = NDArray.intFactory.zeros(*lengths).fill(filler)
 
+
+/**
+ * Returns an array with the same data, but shaped differently.
+ */
+@koma.internal.JvmName("reshapeInt")
+fun  NDArray<Int>.reshape(vararg newShape: Int): NDArray<Int> {
+    if (newShape.reduce { a, b -> a * b } != size)
+        throw IllegalArgumentException("NDArray with $size items cannot be reshaped to ${newShape.toList()}")
+    var idx = 0
+    return NDArray(*newShape) { _ -> getInt(idx++) }
+}
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray.

@@ -76,6 +76,18 @@ inline fun  Matrix<Double>.forEach(f: (Double) -> Unit) {
 }
 
 /**
+ * Returns a matrix with the same data, but shaped differently.
+ */
+@KomaJsName("reshapeDouble")
+@KomaJvmName("reshapeDouble")
+fun  Matrix<Double>.reshape(rows: Int, cols: Int): Matrix<Double> {
+    if (rows * cols != size)
+        throw IllegalArgumentException("Matrix with $size items cannot be reshaped to $rows x $cols")
+    var idx = 0
+    return Matrix(rows, cols) { _, _ -> getDouble(idx++) }
+}
+
+/**
  * Passes each element in row major order into a function along with its index location.
  *
  * @param f A function that takes in a row,col position and an element value

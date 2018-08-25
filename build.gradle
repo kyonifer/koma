@@ -367,6 +367,8 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
             expand(dtype: dtype,
                    dtypeName: dtypeName(dtype),
                    genDec: genDec(dtype),
+                   reifiedDec: reifiedDec(dtype),
+                   reifiedInline: dtype == "T" ? "inline " : "",
                    floatersOnly: floatersOnly(dtype),
                    inline: inline(dtype))
         }

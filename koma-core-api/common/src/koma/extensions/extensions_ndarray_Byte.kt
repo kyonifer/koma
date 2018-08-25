@@ -42,6 +42,19 @@ inline fun  NDArray<Byte>.fillLinear(f: (idx: Int) -> Byte) = apply {
 inline fun  NumericalNDArrayFactory<Byte>.create(vararg lengths: Int, filler: (idx: IntArray) -> Byte)
     = NDArray.byteFactory.zeros(*lengths).fill(filler)
 
+
+/**
+ * Returns an array with the same data, but shaped differently.
+ */
+@koma.internal.JvmName("reshapeByte")
+fun  NDArray<Byte>.reshape(vararg newShape: Int): NDArray<Byte> {
+    if (newShape.reduce { a, b -> a * b } != size)
+        throw IllegalArgumentException("NDArray with $size items cannot be reshaped to ${newShape.toList()}")
+    var idx = 0
+    return NDArray(*newShape) { _ -> getByte(idx++) }
+}
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray.

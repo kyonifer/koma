@@ -76,6 +76,18 @@ fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
 }
 
 /**
+ * Returns a matrix with the same data, but shaped differently.
+ */
+@KomaJsName("reshapeGeneric")
+@KomaJvmName("reshapeGeneric")
+inline fun <reified T> Matrix<T>.reshape(rows: Int, cols: Int): Matrix<T> {
+    if (rows * cols != size)
+        throw IllegalArgumentException("Matrix with $size items cannot be reshaped to $rows x $cols")
+    var idx = 0
+    return Matrix(rows, cols) { _, _ -> getGeneric(idx++) }
+}
+
+/**
  * Passes each element in row major order into a function along with its index location.
  *
  * @param f A function that takes in a row,col position and an element value
