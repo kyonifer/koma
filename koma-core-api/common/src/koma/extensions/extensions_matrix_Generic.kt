@@ -9,6 +9,7 @@
 package koma.extensions
 
 import koma.matrix.Matrix
+import koma.ndarray.NDArray
 import koma.internal.KomaJsName
 import koma.internal.KomaJvmName
 
@@ -80,7 +81,7 @@ fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
  */
 @KomaJsName("reshapeGeneric")
 @KomaJvmName("reshapeGeneric")
-inline fun <reified T> Matrix<T>.reshape(rows: Int, cols: Int): Matrix<T> {
+inline fun <reified T> NDArray<T>.reshape(rows: Int, cols: Int): Matrix<T> {
     if (rows * cols != size)
         throw IllegalArgumentException("Matrix with $size items cannot be reshaped to $rows x $cols")
     var idx = 0

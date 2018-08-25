@@ -1,8 +1,10 @@
 package koma
 
 import koma.extensions.*
+import koma.matrix.Matrix
 import koma.ndarray.*
 import koma.ndarray.default.*
+import koma.util.test.assertMatrixEquals
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -207,5 +209,15 @@ class NDTests {
 
         assertFails("cannot be reshaped") { a.reshape(7) }
         assertFails("cannot be reshaped") { a.reshape(9, 9, 9) }
+    }
+
+    @Test
+    fun testReshapeNDBecomesMatirx() {
+        var c = 0
+        val a = NDArray(2, 2, 3) { ++c }
+        c = 0
+        val e = Matrix(6, 2) { _, _ -> ++c }
+
+        assertMatrixEquals(e, a.reshape(6, 2))
     }
 }
