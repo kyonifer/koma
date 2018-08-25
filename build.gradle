@@ -660,7 +660,7 @@ def factoryPattern(dtype, klass) {
     if (dtype == "T") {
         if (klass == "NDArray")
             return { "NDArray.createGeneric($it)" }
-        return { "${klass}($it)" }
+        return { "getFactory().zeros($it).fill" }
     } else
         return { "${klass}.${dtype.toLowerCase()}Factory.zeros($it).fill" }
 }

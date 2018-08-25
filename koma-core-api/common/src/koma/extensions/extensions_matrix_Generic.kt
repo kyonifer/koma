@@ -93,7 +93,7 @@ inline fun <reified T> Matrix<T>.reshape(rows: Int, cols: Int): Matrix<T> {
     if (rows * cols != size)
         throw IllegalArgumentException("$size items cannot be reshaped to $rows x $cols")
     var idx = 0
-    return Matrix(rows, cols) { _, _ -> getGeneric(idx++) }
+    return getFactory().zeros(rows, cols).fill { _, _ -> getGeneric(idx++) }
 }
 
 /**
