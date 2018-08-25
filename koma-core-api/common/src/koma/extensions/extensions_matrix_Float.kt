@@ -77,13 +77,21 @@ inline fun  Matrix<Float>.forEach(f: (Float) -> Unit) {
 }
 
 /**
- * Returns a matrix with the same data, but shaped differently.
+ * Returns a new Matrix with the given shape, populated with the data in this array.
+ *
+ * @param rows The number of rows in the desired matrix
+ * @param cols The number of columns in the desired matrix
+ *
+ * @returns A copy of the elements in this array, shaped to the given number of rows and columns,
+ *          such that `this.toList() == this.reshape(rows, cols).toList()`
+ *
+ * @throws IllegalArgumentException when `rows * cols` does not equal [size]
  */
 @KomaJsName("reshapeFloat")
 @KomaJvmName("reshapeFloat")
 fun  NDArray<Float>.reshape(rows: Int, cols: Int): Matrix<Float> {
     if (rows * cols != size)
-        throw IllegalArgumentException("Matrix with $size items cannot be reshaped to $rows x $cols")
+        throw IllegalArgumentException("$size items cannot be reshaped to $rows x $cols")
     var idx = 0
     return Matrix(rows, cols) { _, _ -> getFloat(idx++) }
 }

@@ -77,13 +77,21 @@ fun <T> Matrix<T>.forEach(f: (T) -> Unit) {
 }
 
 /**
- * Returns a matrix with the same data, but shaped differently.
+ * Returns a new Matrix with the given shape, populated with the data in this array.
+ *
+ * @param rows The number of rows in the desired matrix
+ * @param cols The number of columns in the desired matrix
+ *
+ * @returns A copy of the elements in this array, shaped to the given number of rows and columns,
+ *          such that `this.toList() == this.reshape(rows, cols).toList()`
+ *
+ * @throws IllegalArgumentException when `rows * cols` does not equal [size]
  */
 @KomaJsName("reshapeGeneric")
 @KomaJvmName("reshapeGeneric")
 inline fun <reified T> NDArray<T>.reshape(rows: Int, cols: Int): Matrix<T> {
     if (rows * cols != size)
-        throw IllegalArgumentException("Matrix with $size items cannot be reshaped to $rows x $cols")
+        throw IllegalArgumentException("$size items cannot be reshaped to $rows x $cols")
     var idx = 0
     return Matrix(rows, cols) { _, _ -> getGeneric(idx++) }
 }

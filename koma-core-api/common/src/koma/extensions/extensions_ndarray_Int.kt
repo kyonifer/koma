@@ -54,14 +54,21 @@ inline fun  NumericalNDArrayFactory<Int>.create(vararg lengths: Int, filler: (id
 
 
 /**
- * Returns an array with the same data, but shaped differently.
+ * Returns a new NDArray with the given shape, populated with the data in this array.
+ *
+ * @param dims Desired dimensions of the output array.
+ *
+ * @returns A copy of the elements in this array, shaped to the given number of rows and columns,
+ *          such that `this.toList() == this.reshape(*dims).toList()`
+ *
+ * @throws IllegalArgumentException when the product of all of the given `dims` does not equal [size]
  */
 @koma.internal.JvmName("reshapeInt")
-fun  NDArray<Int>.reshape(vararg newShape: Int): NDArray<Int> {
-    if (newShape.reduce { a, b -> a * b } != size)
-        throw IllegalArgumentException("NDArray with $size items cannot be reshaped to ${newShape.toList()}")
+fun  NDArray<Int>.reshape(vararg dims: Int): NDArray<Int> {
+    if (dims.reduce { a, b -> a * b } != size)
+        throw IllegalArgumentException("$size items cannot be reshaped to ${dims.toList()}")
     var idx = 0
-    return NDArray(*newShape) { _ -> getInt(idx++) }
+    return NDArray(*dims) { _ -> getInt(idx++) }
 }
 
 

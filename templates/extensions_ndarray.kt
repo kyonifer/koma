@@ -43,14 +43,21 @@ ${inline}fun ${genDec} ${factoryPrefix}NDArrayFactory<${dtype}>.create(vararg le
 $extensionCreate
 
 /**
- * Returns an array with the same data, but shaped differently.
+ * Returns a new NDArray with the given shape, populated with the data in this array.
+ *
+ * @param dims Desired dimensions of the output array.
+ *
+ * @returns A copy of the elements in this array, shaped to the given number of rows and columns,
+ *          such that `this.toList() == this.reshape(*dims).toList()`
+ *
+ * @throws IllegalArgumentException when the product of all of the given `dims` does not equal [size]
  */
 @koma.internal.JvmName("reshape${dtypeName}")
-${reifiedInline}fun $reifiedDec NDArray<${dtype}>.reshape(vararg newShape: Int): NDArray<${dtype}> {
-    if (newShape.reduce { a, b -> a * b } != size)
-        throw IllegalArgumentException("NDArray with \$size items cannot be reshaped to \${newShape.toList()}")
+${reifiedInline}fun $reifiedDec NDArray<${dtype}>.reshape(vararg dims: Int): NDArray<${dtype}> {
+    if (dims.reduce { a, b -> a * b } != size)
+        throw IllegalArgumentException("\$size items cannot be reshaped to \${dims.toList()}")
     var idx = 0
-    return NDArray(*newShape) { _ -> get${dtypeName}(idx++) }
+    return NDArray(*dims) { _ -> get${dtypeName}(idx++) }
 }
 
 
