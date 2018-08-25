@@ -89,7 +89,7 @@ ${inline}fun ${genDec} Matrix<${dtype}>.forEach(f: (${dtype}) -> Unit) {
  */
 @KomaJsName("reshape${dtypeName}")
 @KomaJvmName("reshape${dtypeName}")
-${reifiedInline}fun ${reifiedDec} NDArray<${dtype}>.reshape(rows: Int, cols: Int): Matrix<${dtype}> {
+${reifiedInline}fun ${reifiedDec} ${reshapeReceiverType}<${dtype}>.reshape(rows: Int, cols: Int): Matrix<${dtype}> {
     if (rows * cols != size)
         throw IllegalArgumentException("\$size items cannot be reshaped to \$rows x \$cols")
     var idx = 0

@@ -302,6 +302,7 @@ project(':koma-tests') {
     }
     dependencies {
         testCompile "junit:junit:4.12"
+        testCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
         testCompile project(':koma-core-mtj')
@@ -369,6 +370,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                    genDec: genDec(dtype),
                    reifiedDec: reifiedDec(dtype),
                    reifiedInline: dtype == "T" ? "inline " : "",
+                   reshapeReceiverType: dtype == "T" ? "Matrix" : "NDArray",
                    factoryPattern: factoryPattern(dtype, "Matrix"),
                    floatersOnly: floatersOnly(dtype),
                    inline: inline(dtype))

@@ -220,4 +220,15 @@ class NDTests {
 
         assertMatrixEquals(e, a.reshape(6, 2))
     }
+
+    @Test
+    fun testReshapeNDDoesNotTryToMatrixNonNumerical() {
+        var c = 0
+        val a = NDArray(1, 4) { "${c++}" }
+        c = 0
+        val e = NDArray(2, 2) { "${c++}" }
+
+        assertEquals(e.shape(), e.reshape(2, 2).shape())
+        assertEquals(e.toList(), a.toList())
+    }
 }
