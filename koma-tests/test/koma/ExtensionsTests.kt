@@ -3,6 +3,7 @@ package koma
 import koma.extensions.*
 import koma.util.test.*
 import org.junit.Test
+import kotlin.test.assertFails
 
 //@formatter:off
 
@@ -338,4 +339,29 @@ class ExtensionsTests {
             assert(out[4] == "5.0")
         }
     }
+
+    @Test
+    fun testReshape() {
+        allBackends {
+            val a = mat[1,   2,  3 end
+                        4,   5,  6 end
+                        7,   8,  9 end
+                        10, 11, 12]
+            assertMatrixEquals(mat[ 1,  2 end
+                                    3,  4 end
+                                    5,  6 end
+                                    7,  8 end
+                                    9, 10 end
+                                   11, 12], a.reshape(6, 2))
+
+            assertFails("cannot be reshaped") {
+                a.reshape(6, 3)
+            }
+
+            assertFails("cannot be reshaped") {
+                a.reshape(2, 2)
+            }
+        }
+    }
+
 }

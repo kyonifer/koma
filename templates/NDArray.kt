@@ -35,12 +35,13 @@ interface NDArray<T> {
         fun <T> createGenericNulls(vararg dims: Int) =
                 DefaultGenericNDArrayFactory<T?>().createGeneric(*dims, filler = {null})
 
+        @Suppress("UNCHECKED_CAST")
         inline operator fun <reified T> invoke(vararg dims: Int,
                                                crossinline filler: (IntArray) -> T) =
             when(T::class) {
                 $typeCheckClauses
                 else          -> createGeneric(*dims) { filler(it) }
-            }
+            } as NDArray<T>
     }
 
     @Deprecated("Use NDArray.getGeneric", ReplaceWith("getGeneric"))

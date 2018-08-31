@@ -53,6 +53,26 @@ fun <T> NDArray<T>.fillLinear(f: (idx: Int) -> T) = apply {
 fun <T> GenericNDArrayFactory<T>.create(vararg lengths: Int, filler: (idx: IntArray) -> T)
     = NDArray.createGeneric<T>(*lengths, filler=filler)
 
+
+/**
+ * Returns a new NDArray with the given shape, populated with the data in this array.
+ *
+ * @param dims Desired dimensions of the output array.
+ *
+ * @returns A copy of the elements in this array, shaped to the given number of rows and columns,
+ *          such that `this.toList() == this.reshape(*dims).toList()`
+ *
+ * @throws IllegalArgumentException when the product of all of the given `dims` does not equal [size]
+ */
+@koma.internal.JvmName("reshapeGeneric")
+inline fun <reified T> NDArray<T>.reshape(vararg dims: Int): NDArray<T> {
+    if (dims.reduce { a, b -> a * b } != size)
+        throw IllegalArgumentException("$size items cannot be reshaped to ${dims.toList()}")
+    var idx = 0
+    return NDArray.createGeneric(*dims) { _ -> getGeneric(idx++) }
+}
+
+
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray.

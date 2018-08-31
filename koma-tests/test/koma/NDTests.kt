@@ -1,9 +1,12 @@
 package koma
 
 import koma.extensions.*
+import koma.matrix.Matrix
 import koma.ndarray.*
 import koma.ndarray.default.*
+import koma.util.test.assertMatrixEquals
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
@@ -191,5 +194,41 @@ class NDTests {
         assert(NDArray(1, 2, 3) { it.reduce { a, b -> a + b } } is DefaultIntNDArray)
         assert(NDArray(1, 2, 3) { it.reduce { a, b -> a + b } }[0, 1, 2] == 3)
         assert(NDArray(1, 2, 3) { "${it.toList()}" }[0, 1, 1] == listOf(0,1,1).toString())
+    }
+
+
+    @Test
+    fun testReshapeND() {
+        var c = 0
+        val a = NDArray(1, 2, 3, 4) { ++c }
+
+        c = 0
+        val e = NDArray(4, 6) { ++c }
+        assertEquals(e.shape(), a.reshape(4, 6).shape())
+        assertEquals(e.toList(), a.reshape(4, 6).toList())
+
+        assertFails("cannot be reshaped") { a.reshape(7) }
+        assertFails("cannot be reshaped") { a.reshape(9, 9, 9) }
+    }
+
+    @Test
+    fun testReshapeNDBecomesMatirx() {
+        var c = 0
+        val a = NDArray(2, 2, 3) { ++c }
+        c = 0
+        val e = Matrix(6, 2) { _, _ -> ++c }
+
+        assertMatrixEquals(e, a.reshape(6, 2))
+    }
+
+    @Test
+    fun testReshapeNDDoesNotTryToMatrixNonNumerical() {
+        var c = 0
+        val a = NDArray(1, 4) { "${c++}" }
+        c = 0
+        val e = NDArray(2, 2) { "${c++}" }
+
+        assertEquals(e.shape(), e.reshape(2, 2).shape())
+        assertEquals(e.toList(), a.toList())
     }
 }

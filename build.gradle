@@ -302,6 +302,7 @@ project(':koma-tests') {
     }
     dependencies {
         testCompile "junit:junit:4.12"
+        testCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
         testCompile project(':koma-core-mtj')
@@ -367,6 +368,10 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
             expand(dtype: dtype,
                    dtypeName: dtypeName(dtype),
                    genDec: genDec(dtype),
+                   reifiedDec: reifiedDec(dtype),
+                   reifiedInline: dtype == "T" ? "inline " : "",
+                   reshapeReceiverType: dtype == "T" ? "Matrix" : "NDArray",
+                   factoryPattern: factoryPattern(dtype, "Matrix"),
                    floatersOnly: floatersOnly(dtype),
                    inline: inline(dtype))
         }
@@ -420,7 +425,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
                     factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
-                    factoryGetter: factoryGetter(dtype),
+                    factoryPattern: factoryPattern(dtype, "NDArray"),
                     inline: inline(dtype),
                     extensionMap: extensionMap(dtype),
                     extensionCreate: extensionCreate(dtype),
@@ -651,8 +656,13 @@ def inline(dtype) {
     }
 }
 
-def factoryGetter(dtype) {
-    dtype == "T" ? "NDArray.createGeneric<T>" : "NDArray.${dtype.toLowerCase()}Factory.zeros"
+def factoryPattern(dtype, klass) {
+    if (dtype == "T") {
+        if (klass == "NDArray")
+            return { "NDArray.createGeneric($it)" }
+        return { "getFactory().zeros($it).fill" }
+    } else
+        return { "${klass}.${dtype.toLowerCase()}Factory.zeros($it).fill" }
 }
 
 String fixWhitespaceErrors(String input) {

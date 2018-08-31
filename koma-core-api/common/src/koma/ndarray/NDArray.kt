@@ -63,6 +63,7 @@ interface NDArray<T> {
         fun <T> createGenericNulls(vararg dims: Int) =
                 DefaultGenericNDArrayFactory<T?>().createGeneric(*dims, filler = {null})
 
+        @Suppress("UNCHECKED_CAST")
         inline operator fun <reified T> invoke(vararg dims: Int,
                                                crossinline filler: (IntArray) -> T) =
             when(T::class) {
@@ -73,7 +74,7 @@ interface NDArray<T> {
                 Short::class  -> shortFactory.zeros(*dims).fill { filler(it) as Short }
                 Byte::class   -> byteFactory.zeros(*dims).fill { filler(it) as Byte }
                 else          -> createGeneric(*dims) { filler(it) }
-            }
+            } as NDArray<T>
     }
 
     @Deprecated("Use NDArray.getGeneric", ReplaceWith("getGeneric"))
