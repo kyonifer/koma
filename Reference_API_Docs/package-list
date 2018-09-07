@@ -1,16 +1,16 @@
 $dokka.format:gfm
-$dokka.linkExtension:md
-$dokka.location:koma$end(kotlin.Double, kotlin.Double)koma/kotlin.-double/end.md
-$dokka.location:koma$end(kotlin.Double, kotlin.Int)koma/kotlin.-double/end.md
-$dokka.location:koma$end(kotlin.Int, kotlin.Double)koma/kotlin.-int/end.md
-$dokka.location:koma$end(kotlin.Int, kotlin.Int)koma/kotlin.-int/end.md
-$dokka.location:koma.extensions$minus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/minus.md
-$dokka.location:koma.extensions$minus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/minus.md
-$dokka.location:koma.extensions$plus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/plus.md
-$dokka.location:koma.extensions$plus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/plus.md
-$dokka.location:koma.extensions$times(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/times.md
-$dokka.location:koma.extensions$times(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/times.md
-$dokka.location:koma.ndarray.default$accumulateRight(kotlin.collections.List((koma.ndarray.default.accumulateRight.T)), kotlin.Function2((koma.ndarray.default.accumulateRight.T, , )))koma.ndarray.default/kotlin.collections.-list/accumulate-right.md
+$dokka.linkExtension:html
+$dokka.location:koma$end(kotlin.Double, kotlin.Double)koma/kotlin.-double/end.html
+$dokka.location:koma$end(kotlin.Double, kotlin.Int)koma/kotlin.-double/end.html
+$dokka.location:koma$end(kotlin.Int, kotlin.Double)koma/kotlin.-int/end.html
+$dokka.location:koma$end(kotlin.Int, kotlin.Int)koma/kotlin.-int/end.html
+$dokka.location:koma.extensions$minus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/minus.html
+$dokka.location:koma.extensions$minus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/minus.html
+$dokka.location:koma.extensions$plus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/plus.html
+$dokka.location:koma.extensions$plus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/plus.html
+$dokka.location:koma.extensions$times(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/times.html
+$dokka.location:koma.extensions$times(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/times.html
+$dokka.location:koma.ndarray.default$accumulateRight(kotlin.collections.List((koma.ndarray.default.accumulateRight.T)), kotlin.Function2((koma.ndarray.default.accumulateRight.T, , )))koma.ndarray.default/kotlin.collections.-list/accumulate-right.html
 koma
 koma.extensions
 koma.matrix
