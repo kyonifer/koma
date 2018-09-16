@@ -24,18 +24,14 @@ To build from source, use one of the following commands:
 
 ```
 # Java
-./gradlew build
+./gradlew buildJvm
 # Javascript
-./gradlew build -Ptarget=js
+./gradlew buildJs
 # Native (example executable, see examples/native/main.kt)
-./gradlew compileKonanKomaExample -Ptarget=native
-# Native (.dll/.h) (**requires building kotlin-native from master**)
-./gradlew compileKonanLibkoma -Ptarget=native -Pkonan.home=/path/to/kotlin-native/dist
-# Native (.klib)
-./gradlew compileKonanKoma -Ptarget=native
+./gradlew buildNative
 ```
 
-For more information see [building from source](http://koma.kyonifer.com/General_Usage_Guide/Advanced/Build_From_Source/index.html).
+Output artifacts are left in the `./build` folder. For more information see [building from source](http://koma.kyonifer.com/General_Usage_Guide/Advanced/Build_From_Source/index.html).
 
 ## Related Projects
 
