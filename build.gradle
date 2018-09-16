@@ -242,19 +242,6 @@ project(":koma-core-cblas") {
     dependencies {
         expectedBy project(":koma-core-api-common")
     }
-    build.doLast {
-        copy {
-            from "build/konan/bin/linux"
-            from "build/konan/libs/linux"
-            include "*.kexe"
-            include "*.klib"
-            include "*.h"
-            include "*.so"
-            include "*.dylib"
-            include "*.dll"
-            into getRootDir().toString() + "/build/native"
-        }
-    }
 }
 
 project(':koma-logging') {
@@ -324,8 +311,17 @@ task buildJvm {
     dependsOn(":koma-core-jblas:build")
     dependsOn(":koma-core-api-jvm:build")
 }
-task buildNative {
+task buildNative(type: Copy) {
     dependsOn(":koma-core-cblas:build")
+    from "koma-core/native-cblas/build/konan/bin"
+    from "koma-core/native-cblas/build/konan/libs"
+    include "**/*.kexe"
+    include "**/*.klib"
+    include "**/*.h"
+    include "**/*.so"
+    include "**/*.dylib"
+    include "**/*.dll"
+    into getRootDir().toString() + "/build/native"
 }
 
 dokka {
