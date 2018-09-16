@@ -31,7 +31,7 @@ To build from source, use one of the following commands:
 ./gradlew buildNative
 ```
 
-Output artifacts are left in the `./build` folder. For more information see [building from source](http://koma.kyonifer.com/General_Usage_Guide/Advanced/Build_From_Source/index.html).
+Output artifacts are left in the `./build` folder. For more information see [building from source](http://koma.kyonifer.com/General_Usage_Guide/Advanced/Build_From_Source.html).
 
 ## Related Projects
 
