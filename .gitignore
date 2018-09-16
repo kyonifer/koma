@@ -15,3 +15,4 @@ node_modules/*
 docs/site
 docs/markdown/Reference*
 */out/*
+docs/markdown/api/**

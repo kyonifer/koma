@@ -24,8 +24,11 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
     }
 }
+
+apply plugin: "org.jetbrains.dokka"
 
 project(':koma-core-api-common') {
     apply plugin: 'kotlin-platform-common'
@@ -323,6 +326,31 @@ task buildJvm {
 }
 task buildNative {
     dependsOn(":koma-core-cblas:build")
+}
+
+dokka {
+    dependsOn(":codegen")
+    outputFormat = "gfm"
+    outputDirectory = "docs/markdown"
+    moduleName = 'api'
+    kotlinTasks {
+        defaultKotlinTasks() + [
+                project("koma-core-api-jvm").compileKotlin,
+                project("koma-core-ejml").compileKotlin,
+                project("koma-core-mtj").compileKotlin,
+                project("koma-core-jblas").compileKotlin
+        ]
+    }
+    sourceDirs = files([
+            "koma-core/native-cblas/src"
+    ])
+
+    includes = ['core/Module.md']
+    jdkVersion = 8
+    doLast {
+        // Dokka uses moduleName for the final folder name, and mangles upper case letters
+        file("docs/markdown/api").renameTo(file("docs/markdown/Reference_API_Docs"))
+    }
 }
 
 void genNDArray(String dest, List<String> dtypesNDArray) {
