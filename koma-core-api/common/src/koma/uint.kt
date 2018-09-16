@@ -3,9 +3,7 @@
 
 package koma
 
-/**
- * An implementation of an unsigned byte. Still a WIP.
- */
+@Deprecated("Use kotlin's UInt inline classes")
 class UInt8 {
     constructor(init: Short) {
         value = init.toByte()
