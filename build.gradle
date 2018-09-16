@@ -12,7 +12,7 @@ def NumericalConstantSuffixes = [
 
 buildscript {
     ext.kotlin_version = '1.2.31'
-    ext.kotlin_native_version = '0.6.2'
+    ext.kotlin_native_version = '0.8.2'
     ext.project_version = '0.12'
 
     repositories {
