@@ -21,4 +21,4 @@ project(":koma-core-mtj").projectDir = file("koma-core/jvm-mtj")
 project(":koma-core-jblas").projectDir = file("koma-core/jvm-jblas")
 project(":koma-core-cblas").projectDir = file("koma-core/native-cblas")
 
-
+enableFeaturePreview('GRADLE_METADATA')
