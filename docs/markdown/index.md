@@ -33,19 +33,11 @@ Now add a dependency on the `koma-core` artifact:
 <!--names=JVM,JS-->
 ```Groovy
 dependencies{
-    // If we were writing a library we'd just want to link against the API, so the user
-    // can choose which backend to use in their application
-    compile group: "com.kyonifer", name:"koma-core-api-jvm", version:"0.12"
-    // Select the EJML backend so we can write an application
     compile group: "com.kyonifer", name:"koma-core-ejml", version: "0.12"
 }
 ```
 ```Groovy
 dependencies{
-    // If we were writing a library we'd just want to link against the API, so the user
-    // can choose which backend to use in their application
-    compile group: "com.kyonifer", name:"koma-core-api-js", version:"0.12"
-    // Select the EJML backend so we can write an application
     compile group: "com.kyonifer", name:"koma-core-js", version: "0.12"
 }
 ```
