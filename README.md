@@ -5,7 +5,7 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/kyonifer/koma/master.svg)](https://ci.appveyor.com/project/kyonifer/koma)
 ### Koma
 
-Koma is a scientific computing environment for Kotlin that emphasizes language/platform interop, performance, and flexibility.
+Koma is a scientific computing environment for Kotlin.
 
 ## Project goals:
 
