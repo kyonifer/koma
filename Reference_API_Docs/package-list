@@ -1,23 +1,117 @@
 $dokka.format:gfm
-$dokka.linkExtension:html
-$dokka.location:koma$end(kotlin.Double, kotlin.Double)koma/kotlin.-double/end.html
-$dokka.location:koma$end(kotlin.Double, kotlin.Int)koma/kotlin.-double/end.html
-$dokka.location:koma$end(kotlin.Int, kotlin.Double)koma/kotlin.-int/end.html
-$dokka.location:koma$end(kotlin.Int, kotlin.Int)koma/kotlin.-int/end.html
-$dokka.location:koma.extensions$minus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/minus.html
-$dokka.location:koma.extensions$minus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/minus.html
-$dokka.location:koma.extensions$plus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/plus.html
-$dokka.location:koma.extensions$plus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/plus.html
-$dokka.location:koma.extensions$times(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/times.html
-$dokka.location:koma.extensions$times(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/times.html
-$dokka.location:koma.ndarray.default$accumulateRight(kotlin.collections.List((koma.ndarray.default.accumulateRight.T)), kotlin.Function2((koma.ndarray.default.accumulateRight.T, , )))koma.ndarray.default/kotlin.collections.-list/accumulate-right.html
+$dokka.linkExtension:md
+$dokka.location:koma$end(kotlin.Double, kotlin.Double)koma/kotlin.-double/end.md
+$dokka.location:koma$end(kotlin.Double, kotlin.Int)koma/kotlin.-double/end.md
+$dokka.location:koma$end(kotlin.Int, kotlin.Double)koma/kotlin.-int/end.md
+$dokka.location:koma$end(kotlin.Int, kotlin.Int)koma/kotlin.-int/end.md
+$dokka.location:koma.extensions$minus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/minus.md
+$dokka.location:koma.extensions$minus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/minus.md
+$dokka.location:koma.extensions$plus(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/plus.md
+$dokka.location:koma.extensions$plus(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/plus.md
+$dokka.location:koma.extensions$times(kotlin.Double, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-double/times.md
+$dokka.location:koma.extensions$times(kotlin.Int, koma.matrix.Matrix((kotlin.Double)))koma.extensions/kotlin.-int/times.md
+$dokka.location:koma.internal.default.utils$accumulateRight(kotlin.collections.List((koma.internal.default.utils.accumulateRight.T)), kotlin.Function2((koma.internal.default.utils.accumulateRight.T, , )))koma.internal.default.utils/kotlin.collections.-list/accumulate-right.md
+$dokka.location:koma.matrix.ejml.backend$LU(org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/-l-u.md
+$dokka.location:koma.matrix.ejml.backend$QR(org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/-q-r.md
+$dokka.location:koma.matrix.ejml.backend$T#org.ejml.simple.SimpleMatrixkoma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/-t.md
+$dokka.location:koma.matrix.ejml.backend$chol(org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/chol.md
+$dokka.location:koma.matrix.ejml.backend$div(org.ejml.simple.SimpleMatrix, kotlin.Double)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/div.md
+$dokka.location:koma.matrix.ejml.backend$div(org.ejml.simple.SimpleMatrix, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/div.md
+$dokka.location:koma.matrix.ejml.backend$end(kotlin.Double, kotlin.Double)koma.matrix.ejml.backend/kotlin.-double/end.md
+$dokka.location:koma.matrix.ejml.backend$end(kotlin.Double, kotlin.Int)koma.matrix.ejml.backend/kotlin.-double/end.md
+$dokka.location:koma.matrix.ejml.backend$end(kotlin.Int, kotlin.Double)koma.matrix.ejml.backend/kotlin.-int/end.md
+$dokka.location:koma.matrix.ejml.backend$end(kotlin.Int, kotlin.Int)koma.matrix.ejml.backend/kotlin.-int/end.md
+$dokka.location:koma.matrix.ejml.backend$get(org.ejml.simple.SimpleMatrix, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/get.md
+$dokka.location:koma.matrix.ejml.backend$get(org.ejml.simple.SimpleMatrix, kotlin.Int, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/get.md
+$dokka.location:koma.matrix.ejml.backend$inv(org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/inv.md
+$dokka.location:koma.matrix.ejml.backend$map(org.ejml.simple.SimpleMatrix, kotlin.Function1((kotlin.Double, )))koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/map.md
+$dokka.location:koma.matrix.ejml.backend$plus(org.ejml.simple.SimpleMatrix, kotlin.Double)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/plus.md
+$dokka.location:koma.matrix.ejml.backend$plus(org.ejml.simple.SimpleMatrix, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/plus.md
+$dokka.location:koma.matrix.ejml.backend$rem(org.ejml.simple.SimpleMatrix, org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/rem.md
+$dokka.location:koma.matrix.ejml.backend$set(org.ejml.simple.SimpleMatrix, kotlin.Int, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/set.md
+$dokka.location:koma.matrix.ejml.backend$set(org.ejml.simple.SimpleMatrix, kotlin.Int, kotlin.Int, kotlin.Double)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/set.md
+$dokka.location:koma.matrix.ejml.backend$set(org.ejml.simple.SimpleMatrix, kotlin.Int, kotlin.Int, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/set.md
+$dokka.location:koma.matrix.ejml.backend$times(org.ejml.simple.SimpleMatrix, kotlin.Double)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/times.md
+$dokka.location:koma.matrix.ejml.backend$times(org.ejml.simple.SimpleMatrix, kotlin.Int)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/times.md
+$dokka.location:koma.matrix.ejml.backend$times(org.ejml.simple.SimpleMatrix, org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/times.md
+$dokka.location:koma.matrix.ejml.backend$unaryMinus(org.ejml.simple.SimpleMatrix)koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/unary-minus.md
+$dokka.location:koma.matrix.jblas.backend$LU(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/-l-u.md
+$dokka.location:koma.matrix.jblas.backend$QR(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/-q-r.md
+$dokka.location:koma.matrix.jblas.backend$T#org.jblas.DoubleMatrixkoma.matrix.jblas.backend/org.jblas.-double-matrix/-t.md
+$dokka.location:koma.matrix.jblas.backend$chol(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/chol.md
+$dokka.location:koma.matrix.jblas.backend$det(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/det.md
+$dokka.location:koma.matrix.jblas.backend$eigVals(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/eig-vals.md
+$dokka.location:koma.matrix.jblas.backend$eigVectors(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/eig-vectors.md
+$dokka.location:koma.matrix.jblas.backend$end(kotlin.Double, kotlin.Double)koma.matrix.jblas.backend/kotlin.-double/end.md
+$dokka.location:koma.matrix.jblas.backend$end(kotlin.Double, kotlin.Int)koma.matrix.jblas.backend/kotlin.-double/end.md
+$dokka.location:koma.matrix.jblas.backend$end(kotlin.Int, kotlin.Double)koma.matrix.jblas.backend/kotlin.-int/end.md
+$dokka.location:koma.matrix.jblas.backend$end(kotlin.Int, kotlin.Int)koma.matrix.jblas.backend/kotlin.-int/end.md
+$dokka.location:koma.matrix.jblas.backend$expm(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/expm.md
+$dokka.location:koma.matrix.jblas.backend$inv(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/inv.md
+$dokka.location:koma.matrix.jblas.backend$mapMat(org.jblas.DoubleMatrix, kotlin.Function1((kotlin.Double, )))koma.matrix.jblas.backend/org.jblas.-double-matrix/map-mat.md
+$dokka.location:koma.matrix.jblas.backend$minus(org.jblas.DoubleMatrix, org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/minus.md
+$dokka.location:koma.matrix.jblas.backend$plus(org.jblas.DoubleMatrix, org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/plus.md
+$dokka.location:koma.matrix.jblas.backend$plusElement(org.jblas.DoubleMatrix, kotlin.Double)koma.matrix.jblas.backend/org.jblas.-double-matrix/plus-element.md
+$dokka.location:koma.matrix.jblas.backend$plusElement(org.jblas.DoubleMatrix, kotlin.Int)koma.matrix.jblas.backend/org.jblas.-double-matrix/plus-element.md
+$dokka.location:koma.matrix.jblas.backend$powElement(org.jblas.DoubleMatrix, kotlin.Double)koma.matrix.jblas.backend/org.jblas.-double-matrix/pow-element.md
+$dokka.location:koma.matrix.jblas.backend$powElement(org.jblas.DoubleMatrix, kotlin.Int)koma.matrix.jblas.backend/org.jblas.-double-matrix/pow-element.md
+$dokka.location:koma.matrix.jblas.backend$rem(org.jblas.DoubleMatrix, org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/rem.md
+$dokka.location:koma.matrix.jblas.backend$repr(org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/repr.md
+$dokka.location:koma.matrix.jblas.backend$set(org.jblas.DoubleMatrix, kotlin.Int, kotlin.Double)koma.matrix.jblas.backend/org.jblas.-double-matrix/set.md
+$dokka.location:koma.matrix.jblas.backend$set(org.jblas.DoubleMatrix, kotlin.Int, kotlin.Int, kotlin.Double)koma.matrix.jblas.backend/org.jblas.-double-matrix/set.md
+$dokka.location:koma.matrix.jblas.backend$set(org.jblas.DoubleMatrix, kotlin.Int, kotlin.Int, kotlin.Int)koma.matrix.jblas.backend/org.jblas.-double-matrix/set.md
+$dokka.location:koma.matrix.jblas.backend$times(org.jblas.DoubleMatrix, org.jblas.DoubleMatrix)koma.matrix.jblas.backend/org.jblas.-double-matrix/times.md
+$dokka.location:koma.matrix.mtj.backend$LU(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/-l-u.md
+$dokka.location:koma.matrix.mtj.backend$QR(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/-q-r.md
+$dokka.location:koma.matrix.mtj.backend$T#no.uib.cipr.matrix.Matrixkoma.matrix.mtj.backend/no.uib.cipr.matrix.-matrix/-t.md
+$dokka.location:koma.matrix.mtj.backend$chol(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/chol.md
+$dokka.location:koma.matrix.mtj.backend$det(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/det.md
+$dokka.location:koma.matrix.mtj.backend$diag(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/diag.md
+$dokka.location:koma.matrix.mtj.backend$div(no.uib.cipr.matrix.DenseMatrix, kotlin.Double)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/div.md
+$dokka.location:koma.matrix.mtj.backend$div(no.uib.cipr.matrix.DenseMatrix, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/div.md
+$dokka.location:koma.matrix.mtj.backend$eig(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/eig.md
+$dokka.location:koma.matrix.mtj.backend$end(kotlin.Double, kotlin.Double)koma.matrix.mtj.backend/kotlin.-double/end.md
+$dokka.location:koma.matrix.mtj.backend$end(kotlin.Double, kotlin.Int)koma.matrix.mtj.backend/kotlin.-double/end.md
+$dokka.location:koma.matrix.mtj.backend$end(kotlin.Int, kotlin.Double)koma.matrix.mtj.backend/kotlin.-int/end.md
+$dokka.location:koma.matrix.mtj.backend$end(kotlin.Int, kotlin.Int)koma.matrix.mtj.backend/kotlin.-int/end.md
+$dokka.location:koma.matrix.mtj.backend$get(no.uib.cipr.matrix.DenseMatrix, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/get.md
+$dokka.location:koma.matrix.mtj.backend$inv(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/inv.md
+$dokka.location:koma.matrix.mtj.backend$mapMat(no.uib.cipr.matrix.DenseMatrix, kotlin.Function1((kotlin.Double, )))koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/map-mat.md
+$dokka.location:koma.matrix.mtj.backend$minus(no.uib.cipr.matrix.DenseMatrix, no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/minus.md
+$dokka.location:koma.matrix.mtj.backend$minusElement(no.uib.cipr.matrix.DenseMatrix, kotlin.Double)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/minus-element.md
+$dokka.location:koma.matrix.mtj.backend$minusElement(no.uib.cipr.matrix.DenseMatrix, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/minus-element.md
+$dokka.location:koma.matrix.mtj.backend$plusElement(no.uib.cipr.matrix.DenseMatrix, kotlin.Double)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/plus-element.md
+$dokka.location:koma.matrix.mtj.backend$plusElement(no.uib.cipr.matrix.DenseMatrix, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/plus-element.md
+$dokka.location:koma.matrix.mtj.backend$plusMatrix(no.uib.cipr.matrix.DenseMatrix, no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/plus-matrix.md
+$dokka.location:koma.matrix.mtj.backend$powElement(no.uib.cipr.matrix.DenseMatrix, kotlin.Double)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/pow-element.md
+$dokka.location:koma.matrix.mtj.backend$powElement(no.uib.cipr.matrix.DenseMatrix, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/pow-element.md
+$dokka.location:koma.matrix.mtj.backend$prod(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/prod.md
+$dokka.location:koma.matrix.mtj.backend$rem(no.uib.cipr.matrix.DenseMatrix, no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/rem.md
+$dokka.location:koma.matrix.mtj.backend$set(no.uib.cipr.matrix.DenseMatrix, kotlin.Int, kotlin.Double)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/set.md
+$dokka.location:koma.matrix.mtj.backend$set(no.uib.cipr.matrix.DenseMatrix, kotlin.Int, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/set.md
+$dokka.location:koma.matrix.mtj.backend$set(no.uib.cipr.matrix.DenseMatrix, kotlin.Int, kotlin.Int, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/set.md
+$dokka.location:koma.matrix.mtj.backend$svd(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/svd.md
+$dokka.location:koma.matrix.mtj.backend$times(no.uib.cipr.matrix.DenseMatrix, kotlin.Double)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/times.md
+$dokka.location:koma.matrix.mtj.backend$times(no.uib.cipr.matrix.DenseMatrix, kotlin.Int)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/times.md
+$dokka.location:koma.matrix.mtj.backend$times(no.uib.cipr.matrix.DenseMatrix, no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/times.md
+$dokka.location:koma.matrix.mtj.backend$unaryMinus(no.uib.cipr.matrix.DenseMatrix)koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/unary-minus.md
 koma
 koma.extensions
+koma.internal
+koma.internal.default.generated.matrix
+koma.internal.default.generated.ndarray
+koma.internal.default.utils
+koma.internal.ports
 koma.matrix
+koma.matrix.cblas
 koma.matrix.common
-koma.matrix.default
+koma.matrix.ejml
+koma.matrix.ejml.backend
+koma.matrix.jblas
+koma.matrix.jblas.backend
+koma.matrix.mtj
+koma.matrix.mtj.backend
 koma.ndarray
-koma.ndarray.common
 koma.ndarray.default
 koma.util
 koma.util.test

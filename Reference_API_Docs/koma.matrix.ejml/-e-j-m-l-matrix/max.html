@@ -1,0 +1,4819 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Max - Koma</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../../index.html">Koma</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="../../../index.html">Overview</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">General Usage Guide <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../../General_Usage_Guide/Matrices_&_Linear_Algebra.html">Matrices & Linear Algebra</a>
+</li>
+                                    
+<li >
+    <a href="../../../General_Usage_Guide/Modules.html">Modules</a>
+</li>
+                                    
+<li >
+    <a href="../../../General_Usage_Guide/N-Dimensional_Arrays.html">N-Dimensional Containers</a>
+</li>
+                                    
+<li >
+    <a href="../../../General_Usage_Guide/Plotting.html">Plotting</a>
+</li>
+                                    
+<li >
+    <a href="../../../General_Usage_Guide/Validation_DSL.html">Matrix Validation DSL</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Advanced</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../../General_Usage_Guide/Advanced/Build_From_Source.html">Building Koma from Source</a>
+</li>
+            
+<li >
+    <a href="../../../General_Usage_Guide/Advanced/Contributing.html">Contributing</a>
+</li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference API Docs <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../index.html">Index</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Alltypes</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../alltypes/index.html">Index</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma/-e.html"> e</a>
+</li>
+            
+<li >
+    <a href="../../koma/-l-o-n-g_-n-u-m-b-e-r.html"> l o n g  n u m b e r</a>
+</li>
+            
+<li >
+    <a href="../../koma/-p-i.html"> p i</a>
+</li>
+            
+<li >
+    <a href="../../koma/-s-c-i-e-n-t-i-f-i-c_-l-o-n-g_-n-u-m-b-e-r.html"> s c i e n t i f i c  l o n g  n u m b e r</a>
+</li>
+            
+<li >
+    <a href="../../koma/-s-c-i-e-n-t-i-f-i-c_-n-u-m-b-e-r.html"> s c i e n t i f i c  n u m b e r</a>
+</li>
+            
+<li >
+    <a href="../../koma/-s-c-i-e-n-t-i-f-i-c_-v-e-r-y_-l-o-n-g_-n-u-m-b-e-r.html"> s c i e n t i f i c  v e r y  l o n g  n u m b e r</a>
+</li>
+            
+<li >
+    <a href="../../koma/-s-h-o-r-t_-n-u-m-b-e-r.html"> s h o r t  n u m b e r</a>
+</li>
+            
+<li >
+    <a href="../../koma/-v-e-r-y_-l-o-n-g_-n-u-m-b-e-r.html"> v e r y  l o n g  n u m b e r</a>
+</li>
+            
+<li >
+    <a href="../../koma/abs.html">Abs</a>
+</li>
+            
+<li >
+    <a href="../../koma/acos.html">Acos</a>
+</li>
+            
+<li >
+    <a href="../../koma/all.html">All</a>
+</li>
+            
+<li >
+    <a href="../../koma/allclose.html">Allclose</a>
+</li>
+            
+<li >
+    <a href="../../koma/arange.html">Arange</a>
+</li>
+            
+<li >
+    <a href="../../koma/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma/asin.html">Asin</a>
+</li>
+            
+<li >
+    <a href="../../koma/atan.html">Atan</a>
+</li>
+            
+<li >
+    <a href="../../koma/atan2.html">Atan2</a>
+</li>
+            
+<li >
+    <a href="../../koma/ceil.html">Ceil</a>
+</li>
+            
+<li >
+    <a href="../../koma/cos.html">Cos</a>
+</li>
+            
+<li >
+    <a href="../../koma/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma/cross.html">Cross</a>
+</li>
+            
+<li >
+    <a href="../../koma/cumsum.html">Cumsum</a>
+</li>
+            
+<li >
+    <a href="../../koma/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma/dot.html">Dot</a>
+</li>
+            
+<li >
+    <a href="../../koma/double-factory.html">Double factory</a>
+</li>
+            
+<li >
+    <a href="../../koma/end.html">End</a>
+</li>
+            
+<li >
+    <a href="../../koma/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma/exp.html">Exp</a>
+</li>
+            
+<li >
+    <a href="../../koma/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma/factory.html">Factory</a>
+</li>
+            
+<li >
+    <a href="../../koma/fill.html">Fill</a>
+</li>
+            
+<li >
+    <a href="../../koma/float-factory.html">Float factory</a>
+</li>
+            
+<li >
+    <a href="../../koma/floor.html">Floor</a>
+</li>
+            
+<li >
+    <a href="../../koma/format.html">Format</a>
+</li>
+            
+<li >
+    <a href="../../koma/hstack.html">Hstack</a>
+</li>
+            
+<li >
+    <a href="../../koma/int-factory.html">Int factory</a>
+</li>
+            
+<li >
+    <a href="../../koma/ln.html">Ln</a>
+</li>
+            
+<li >
+    <a href="../../koma/log.html">Log</a>
+</li>
+            
+<li >
+    <a href="../../koma/logb.html">Logb</a>
+</li>
+            
+<li >
+    <a href="../../koma/mat-format.html">Mat format</a>
+</li>
+            
+<li >
+    <a href="../../koma/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma/pow.html">Pow</a>
+</li>
+            
+<li >
+    <a href="../../koma/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma/round.html">Round</a>
+</li>
+            
+<li >
+    <a href="../../koma/set-seed.html">Set seed</a>
+</li>
+            
+<li >
+    <a href="../../koma/sign.html">Sign</a>
+</li>
+            
+<li >
+    <a href="../../koma/sin.html">Sin</a>
+</li>
+            
+<li >
+    <a href="../../koma/skew.html">Skew</a>
+</li>
+            
+<li >
+    <a href="../../koma/sqrt.html">Sqrt</a>
+</li>
+            
+<li >
+    <a href="../../koma/tan.html">Tan</a>
+</li>
+            
+<li >
+    <a href="../../koma/validate-matrices.html">Validate matrices</a>
+</li>
+            
+<li >
+    <a href="../../koma/vstack.html">Vstack</a>
+</li>
+            
+<li >
+    <a href="../../koma/zeros.html">Zeros</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> u int8</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma/-u-int8/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/divide.html">Divide</a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/read.html">Read</a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma/-u-int8/value.html">Value</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. double</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma/kotlin.-double/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma/kotlin.-double/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. int</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma/kotlin.-int/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma/kotlin.-int/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Mat</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma/mat/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma/mat/get.html">Get</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.extensions</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.extensions/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/all-close.html">All close</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/all.html">All</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/any.html">Any</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/emul.html">Emul</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/fill-both.html">Fill both</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/fill-linear.html">Fill linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/fill.html">Fill</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/for-each-indexed-n.html">For each indexed n</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/for-each-indexed.html">For each indexed</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/for-each.html">For each</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/get.html">Get</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/map-indexed-n.html">Map indexed n</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/map-indexed.html">Map indexed</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/map.html">Map</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/pow.html">Pow</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/reshape.html">Reshape</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/set.html">Set</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-byte-array.html">To byte array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-double-array.html">To double array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-float-array.html">To float array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-int-array.html">To int array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-long-array.html">To long array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-matrix-or-null.html">To matrix or null</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-matrix.html">To matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-short-array.html">To short array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/to-typed-array.html">To typed array</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/unary-minus.html">Unary minus</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. double</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-double/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-double/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-double/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-double/times.html">Times</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. int</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-int/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-int/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-int/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.extensions/kotlin.-int/times.html">Times</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.internal</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-byte-n-d-array-factory.html">Get byte n d array factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-double-matrix-factory.html">Get double matrix factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-double-n-d-array-factory.html">Get double n d array factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-float-matrix-factory.html">Get float matrix factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-float-n-d-array-factory.html">Get float n d array factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-int-matrix-factory.html">Get int matrix factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-int-n-d-array-factory.html">Get int n d array factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-long-n-d-array-factory.html">Get long n d array factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-rng.html">Get rng</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/get-short-n-d-array-factory.html">Get short n d array factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/not-implemented.html">Not implemented</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> jvm multifile class</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/-jvm-multifile-class/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-jvm-multifile-class/-init-.html"> init </a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> jvm name</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/-jvm-name/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-jvm-name/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-jvm-name/name.html">Name</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> koma js name</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/-koma-js-name/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-js-name/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-js-name/name.html">Name</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> koma jvm multifile class</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/-koma-jvm-multifile-class/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-jvm-multifile-class/-init-.html"> init </a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> koma jvm name</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/-koma-jvm-name/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-jvm-name/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-jvm-name/name.html">Name</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> koma random</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal/-koma-random/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-random/next-double.html">Next double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-random/next-gaussian.html">Next gaussian</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal/-koma-random/set-seed.html">Set seed</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.internal.default.generated.matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default double matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/cols.html">Cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/rows.html">Rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/set-col.html">Set col</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/set-row.html">Set row</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/storage.html">Storage</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default double matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/arange.html">Arange</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-double-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default float matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/cols.html">Cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/rows.html">Rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/set-col.html">Set col</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/set-row.html">Set row</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/storage.html">Storage</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default float matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/arange.html">Arange</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-float-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default int matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/cols.html">Cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/rows.html">Rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/set-col.html">Set col</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/set-row.html">Set row</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/storage.html">Storage</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default int matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/arange.html">Arange</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.matrix/-default-int-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.internal.default.generated.ndarray</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default byte n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default byte n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-byte-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default double n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default double n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-double-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default float n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default float n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-float-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default generic n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default generic n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-generic-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default int n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default int n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-int-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default long n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default long n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-long-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default short n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array/size.html">Size</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> default short n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.generated.ndarray/-default-short-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.internal.default.utils</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.utils/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/check-indices.html">Check indices</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/check-linear-index.html">Check linear index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/linear-to-n-idx.html">Linear to n idx</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/n-idx-to-linear.html">N idx to linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/safe-n-idx-to-linear.html">Safe n idx to linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/width-of-dims.html">Width of dims</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin.collections. list</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.default.utils/kotlin.collections.-list/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.default.utils/kotlin.collections.-list/accumulate-right.html">Accumulate right</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.internal.ports</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.internal.ports/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.internal.ports/expm.html">Expm</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-type.html"> matrix type</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/double-factory.html">Double factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/float-factory.html">Float factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/int-factory.html">Int factory</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix/-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/as-col-vector.html">As col vector</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/as-row-vector.html">As row vector</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/cum-sum.html">Cum sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/double-factory.html">Double factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/filter-cols-indexed.html">Filter cols indexed</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/filter-cols.html">Filter cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/filter-rows-indexed.html">Filter rows indexed</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/filter-rows.html">Filter rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/float-factory.html">Float factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/for-each-col.html">For each col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/for-each-row.html">For each row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-linear.html">Get linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/int-factory.html">Int factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/invoke.html">Invoke</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/map-cols-to-list.html">Map cols to list</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/map-cols.html">Map cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/map-rows-to-list.html">Map rows to list</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/map-rows.html">Map rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/pow.html">Pow</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/repr.html">Repr</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/select-cols.html">Select cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/select-rows.html">Select rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-col.html">Set col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-linear.html">Set linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-row.html">Set row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/size.html">Size</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/to-iterable.html">To iterable</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/to2-d-array.html">To2 d array</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/unary-minus.html">Unary minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix/wrap-range.html">Wrap range</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/arange.html">Arange</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> matrix types</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix/-matrix-types/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-types/-double-type.html"> double type</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-types/-float-type.html"> float type</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix/-matrix-types/-int-type.html"> int type</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.cblas</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.cblas/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> c blas matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/finalize.html">Finalize</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix/trace.html">Trace</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> c blas matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.cblas/-c-blas-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.common</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.common/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> double factory base</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.common/-double-factory-base/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-factory-base/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-factory-base/arange.html">Arange</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-factory-base/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-factory-base/randn.html">Randn</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> double matrix base</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/set-col.html">Set col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/set-row.html">Set row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-double-matrix-base/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> matrix base</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.common/-matrix-base/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-matrix-base/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-matrix-base/cast-or-copy.html">Cast or copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-matrix-base/equals.html">Equals</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-matrix-base/hash-code.html">Hash code</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.common/-matrix-base/to-string.html">To string</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.ejml</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> e j m l matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="index.html">Index</a>
+</li>
+            
+<li >
+    <a href="-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="det.html">Det</a>
+</li>
+            
+<li >
+    <a href="diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="div.html">Div</a>
+</li>
+            
+<li >
+    <a href="element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="inv.html">Inv</a>
+</li>
+            
+<li class="active">
+    <a href="max.html">Max</a>
+</li>
+            
+<li >
+    <a href="mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="min.html">Min</a>
+</li>
+            
+<li >
+    <a href="minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="storage.html">Storage</a>
+</li>
+            
+<li >
+    <a href="times.html">Times</a>
+</li>
+            
+<li >
+    <a href="trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> e j m l matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../-e-j-m-l-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../-e-j-m-l-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../-e-j-m-l-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../-e-j-m-l-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../-e-j-m-l-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../-e-j-m-l-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.ejml.backend</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/zeros.html">Zeros</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Arr</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/arr/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/arr/get.html">Get</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. double</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/kotlin.-double/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/kotlin.-double/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. int</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/kotlin.-int/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/kotlin.-int/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Mat</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/mat/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/mat/get.html">Get</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Org.ejml.simple. simple matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/get.html">Get</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/map.html">Map</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/rem.html">Rem</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/set.html">Set</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.ejml.backend/org.ejml.simple.-simple-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.jblas</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> j blas matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/set-col.html">Set col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/set-row.html">Set row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/storage.html">Storage</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> j blas matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas/-j-blas-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.jblas.backend</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/zeros.html">Zeros</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Arr</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/arr/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/arr/get.html">Get</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. double</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/kotlin.-double/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/kotlin.-double/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. int</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/kotlin.-int/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/kotlin.-int/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Mat</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/mat/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/mat/get.html">Get</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Org.jblas. double matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/eig-vals.html">Eig vals</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/eig-vectors.html">Eig vectors</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/expm.html">Expm</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/map-mat.html">Map mat</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/plus-element.html">Plus element</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/pow-element.html">Pow element</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/rem.html">Rem</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/repr.html">Repr</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/set.html">Set</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.jblas.backend/org.jblas.-double-matrix/times.html">Times</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.mtj</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> m t j matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/-s-v-d.html"> s v d</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/-t.html"> t</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/arg-max.html">Arg max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/arg-min.html">Arg min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/element-sum.html">Element sum</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/element-times.html">Element times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/epow.html">Epow</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/get-base-matrix.html">Get base matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/get-col.html">Get col</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/get-double-data.html">Get double data</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/get-factory.html">Get factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/get-row.html">Get row</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/mean.html">Mean</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/norm-f.html">Norm f</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/norm-ind-p1.html">Norm ind p1</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/num-cols.html">Num cols</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/num-rows.html">Num rows</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/pinv.html">Pinv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/solve.html">Solve</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/storage.html">Storage</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/trace.html">Trace</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/transpose.html">Transpose</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> m t j matrix factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix-factory/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix-factory/create.html">Create</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix-factory/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj/-m-t-j-matrix-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.matrix.mtj.backend</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/eye.html">Eye</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/zeros.html">Zeros</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. double</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/kotlin.-double/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/kotlin.-double/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Kotlin. int</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/kotlin.-int/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/kotlin.-int/end.html">End</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">Mat</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/mat/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/mat/get.html">Get</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">No.uib.cipr.matrix. dense matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/-l-u.html"> l u</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/-q-r.html"> q r</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/chol.html">Chol</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/det.html">Det</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/diag.html">Diag</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/eig.html">Eig</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/get.html">Get</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/inv.html">Inv</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/map-mat.html">Map mat</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/minus-element.html">Minus element</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/plus-element.html">Plus element</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/plus-matrix.html">Plus matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/pow-element.html">Pow element</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/prod.html">Prod</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/rem.html">Rem</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/set.html">Set</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/svd.html">Svd</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-dense-matrix/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#">No.uib.cipr.matrix. matrix</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-matrix/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.matrix.mtj.backend/no.uib.cipr.matrix.-matrix/-t.html"> t</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.ndarray</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.ndarray/index.html">Index</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> generic n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.ndarray/-generic-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-generic-n-d-array-factory/create-generic.html">Create generic</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/byte-factory.html">Byte factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/copy.html">Copy</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/create-generic-nulls.html">Create generic nulls</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/create-generic.html">Create generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/double-factory.html">Double factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/float-factory.html">Float factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-base-array.html">Get base array</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-byte.html">Get byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-double.html">Get double</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-float.html">Get float</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-generic.html">Get generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-int.html">Get int</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-linear.html">Get linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-long.html">Get long</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/get-short.html">Get short</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/int-factory.html">Int factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/invoke.html">Invoke</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/iterate-indices.html">Iterate indices</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/long-factory.html">Long factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-byte.html">Set byte</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-double.html">Set double</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-float.html">Set float</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-generic.html">Set generic</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-int.html">Set int</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-linear.html">Set linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-long.html">Set long</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/set-short.html">Set short</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/shape.html">Shape</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/short-factory.html">Short factory</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/size.html">Size</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/to-iterable.html">To iterable</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/to-list.html">To list</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-n-d-array/to-mutable-list.html">To mutable list</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> numerical n d array</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/div.html">Div</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/minus.html">Minus</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/plus.html">Plus</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/pow.html">Pow</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/times.html">Times</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array/unary-minus.html">Unary minus</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> numerical n d array factory</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array-factory/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array-factory/ones.html">Ones</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array-factory/rand.html">Rand</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array-factory/randn.html">Randn</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray/-numerical-n-d-array-factory/zeros.html">Zeros</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.ndarray.default</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.ndarray.default/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray.default/-default-double-n-d-array.html"> default double n d array</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray.default/-default-float-n-d-array.html"> default float n d array</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray.default/-default-int-n-d-array.html"> default int n d array</a>
+</li>
+            
+<li >
+    <a href="../../koma.ndarray.default/-default-n-d-array.html"> default n d array</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.util</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.util/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.util/from-collection.html">From collection</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> index iterator</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.util/-index-iterator/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.util/-index-iterator/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.util/-index-iterator/has-next.html">Has next</a>
+</li>
+            
+<li >
+    <a href="../../koma.util/-index-iterator/invoke.html">Invoke</a>
+</li>
+            
+<li >
+    <a href="../../koma.util/-index-iterator/linear.html">Linear</a>
+</li>
+            
+<li >
+    <a href="../../koma.util/-index-iterator/nd.html">Nd</a>
+</li>
+            
+<li >
+    <a href="../../koma.util/-index-iterator/next.html">Next</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.util.test</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.util.test/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.test/all-backends.html">All backends</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.test/assert-matrix-equals.html">Assert matrix equals</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#">Koma.util.validation</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.util.validation/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/dim.html">Dim</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/max.html">Max</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/min.html">Min</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/symmetric.html">Symmetric</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/test-matrix.html">Test matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/transposable.html">Transposable</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/validate.html">Validate</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> validation context</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/-init-.html"> init </a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/add-validator.html">Add validator</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/current-matrix-name.html">Current matrix name</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/current-matrix.html">Current matrix</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/invoke.html">Invoke</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/matrices.html">Matrices</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/matrix-names.html">Matrix names</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/metadata-storage.html">Metadata storage</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/metadata.html">Metadata</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/validate.html">Validate</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validation-context/x.html">X</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#"> validator</a>
+    <ul class="dropdown-menu">
+            
+<li >
+    <a href="../../koma.util.validation/-validator/index.html">Index</a>
+</li>
+            
+<li >
+    <a href="../../koma.util.validation/-validator/perform-validation.html">Perform validation</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="inv.html">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="mean.html">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#max">max</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<p><a href="../../index.html">api</a> / <a href="../index.html">koma.matrix.ejml</a> / <a href="index.html">EJMLMatrix</a> / <a href="max.html">max</a></p>
+<h1 id="max">max</h1>
+<p><code>fun max():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><code>Double</code></a></p>
+<p>Overrides <a href="../../koma.matrix/-matrix/max.html">Matrix.max</a></p>
+<p>Overrides <a href="../../koma.matrix.common/-double-matrix-base/max.html">DoubleMatrixBase.max</a></p>
+<p>Maximum value contained in the matrix</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js" defer></script>
+        <script src="../../../tabbed_code.js" defer></script>
+        <script src="../../../clean_links.js" defer></script>
+        <script src="../../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
