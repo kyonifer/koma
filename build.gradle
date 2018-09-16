@@ -303,6 +303,10 @@ project(':koma-tests') {
 
 }
 
+task build {
+    dependsOn(":buildJvm", ":buildNative", ":buildJs")
+}
+
 task buildJs {
     dependsOn(":koma-core-js:build")
 }
