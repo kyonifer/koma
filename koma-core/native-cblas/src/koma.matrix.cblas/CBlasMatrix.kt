@@ -104,7 +104,7 @@ class CBlasMatrix(private val nRows: Int,
     override fun copy(): CBlasMatrix = getFactory().zeros(numRows(), numCols()).also{it.fill{row, col -> this[row, col]}}
     override fun diag() = TODO()
     override fun inv(): CBlasMatrix {
-        val pivLen = min(numRows(), numCols())
+        val pivLen = kotlin.math.min(numRows(), numCols())
         memScoped {
             val pivot = allocArray<IntVar>(pivLen)
             val out = rawLU(pivot)
@@ -146,7 +146,7 @@ class CBlasMatrix(private val nRows: Int,
     override fun solve(other: Matrix<Double>): CBlasMatrix {
         val Ac = this.copy()
         val Bc = castOrCopy(other.copy(), {it:CBlasMatrix->it}, getFactory())
-        val pivLen = min(this.numRows(), other.numCols())
+        val pivLen = kotlin.math.min(this.numRows(), other.numCols())
         memScoped {
             val pivot = allocArray<IntVar>(pivLen)
             // matrix_layout: Int, n: Int, nrhs: Int, a: CValuesRef<DoubleVar>?, lda: Int, ipiv: CValuesRef<IntVar>?, b: CValuesRef<DoubleVar>?, ldb: Int
@@ -187,7 +187,7 @@ class CBlasMatrix(private val nRows: Int,
     }
 
     override fun LU(): Triple<Matrix<Double>, Matrix<Double>, Matrix<Double>> {
-        val pivLen = min(numRows(), numCols())
+        val pivLen = kotlin.math.min(numRows(), numCols())
         memScoped {
             val pivot = allocArray<IntVar>(pivLen)
             val LU = rawLU(pivot)
