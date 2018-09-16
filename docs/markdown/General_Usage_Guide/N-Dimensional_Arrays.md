@@ -1,124 +1,166 @@
 # N-Dimensional Containers
 
-Koma has two N-D container interfaces, **NDArray** and **NumericalNDArray**.
+## Creating NDArrays
 
-### NDArray
-
-`NDArray` is designed to hold high dimensional data of arbitrary type. Because its not guaranteed
-to be 2D or numerical, it does not have facilities for doing any mathematics.
-
-The default implementation of `NDArray` is `koma.ndarray.default.DefaultNDArray`, available in core (and thus
-on every target platform). You can create a `DefaultNDArray` by giving it a vararg of index lengths and
-an init function:
+`NDArray` is designed to hold high dimensional data of arbitrary type. 
+Koma provides several functions for creating new `NDArray`s:
 
 ```kotlin
-// Construct a 5x3x4 NDArray, and populate it using the passed function
-val a: NDArray<Int> = DefaultNDArray(5, 3, 4) { idx -> idx[0] * 2 + idx[1] * 3 }
+// Creates a 3x4x5 container of type NDArray<String> filled with nulls
+NDArray.createGenericNulls<String>(3,4,5)
+// Creates a 3x4x5 container of type NDArray<String> filled with "hello"
+NDArray.createGeneric(3,4,5) { "hello" }
+// Creates a 1x2 container of type NDArray<String> where each element's value is "hi" concatenated with the sum of its indices 
+NDArray.createGeneric(1,2) { indices -> "hi ${indices.sum()}" }
+// Creates a 3x4x5 container of type NDArray<Float> with each element set to 4.5
+NDArray.createGeneric(3,4,5) { 4.5f }
+``` 
 
-assert(a[1,2,1] == 1*2 + 2*3)
-assert(a[3,1,3] == 3*2 + 1*3)
+As you can see, NDArray is capable of storing numerical and non-numerical data. However, storing numerical data the way
+that was shown in the last example is very inefficient as each element is boxed. You should therefore use the optimized
+factories if your NDArray is known to contain numerical primitives:
+
+```kotlin
+// Creates a 3x5x6 NDArray<Double> filled with zeros backed by a non-boxing Array<Double>
+NDArray.doubleFactory.zeros(3,5,6)
+// Creates a 3x5x6 NDArray<Float> filled with uniformly random numbers backed by a non-boxing Array<Float>
+NDArray.floatFactory.rand(3,5,6)
+// Creates a 1x2x3x4x5 NDArray<Double> filled with ones backed by a non-boxing Array<Int>
+NDArray.intFactory.ones(1,2,3,4,5)
+// Creates a 8x8 NDArray<Double> filled with normally distributed random numbers backed by a non-boxing Array<Double>
+NDArray.doubleFactory.randn(8,8)
 ```
 
-You can iterate over each of the elements with knowledge of their N-D index coordinates:
+## Iteration
+
+Each element in an `NDArray` has two indices: 
+
+- Its N-dimensional index, which is an array of N numbers specifying the its N-dimensional location in the array
+- Its linear index, which is a single number specifying its location in a flattened 1-dimensional version of the array
+  
+You can iterate over `NDArray`s with either index:
 
 ```kotlin
-val a: NDArray<Int> = DefaultNDArray(2,4) { idx -> idx[0] * 2 + idx[1] * 3 }
+val a: NDArray<Double> = NDArray.doubleFactory.randn(3,5,6)
 
+// Iterate without an index present
+a.forEach { println("Element is $it") }
+
+// Iterate with the linear index available
+a.forEachIndexed { idx, ele -> println("Element at $idx is $ele") }
+
+// Iterate with the N-dimensional index array available
 a.forEachIndexedN { indices, value ->
     println("Element at ${indices.joinToString(",")} is $value")
 }
 ```
 
-You can also map elements to another NDArray:
+You can also map elements to another NDArray with either the full N-D index or a linear index:
 
 ```kotlin
-val a: NDArray<Int> = DefaultNDArray(2,4) { idx -> idx[0] * 2 + idx[1] * 3 }
-
-val b = a.map { value -> value + 1 }
+val a: NDArray<Float> = NDArray.floatFactory.ones(3,5,6)
+// Adds one to all elements
+a.map { ele -> ele + 1.0f }
+// Adds the linear index to the element's value
+a.mapIndexed { idx, ele -> ele + idx }
+// Sums the element's N-dimensional index and sets the value to it
+a.mapIndexedN { idx, ele -> idx.sum().toFloat() }
 ```
 
-The full set of functionality can be seen [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/ndarray/NDArray.kt).
-For both `map` and `forEach`, `IndexedN` at the end of the function name indicates you'd like to receive
-a N dimensional index, and `Indexed` indicates you'd like a linear index:
-
-```kotlin
-val a: NDArray<Int> = DefaultNDArray(2,4) { idx -> idx[0] * 2 + idx[1] * 3 }
-
-// No index provided
-a.map { value -> value + 1 }
-a.forEach { value -> print(value + 1) }
-// Linear index of element provided
-a.mapIndexed { value, idx -> value+idx }
-a.forEachIndexed { value, idx -> print(value+idx) }
-// N-D index of element provided
-a.mapIndexedN { value, indices -> value + indices[0] }
-a.forEachIndexedN { value, indices -> print(value + indices[0]) }
-```
+The full set of functionality can be seen [here](https://github.com/kyonifer/koma/blob/master/koma-core-api/common/src/koma/extensions/extensions_ndarray_Double.kt).
+For `map` and `forEach`, `IndexedN` at the end of the function name indicates you'd like to receive
+a N dimensional index, and `Indexed` indicates you'd like a linear index.
 
 You can also convert an NDArray into an iterator (this will produce each element 
 in the same order as the linear index `forEach` would have):
 
 ```kotlin
-val a: NDArray<Int> = DefaultNDArray(2,4) { idx -> idx[0] * 2 + idx[1] * 3 }
+val a: NDArray<Float> = NDArray.floatFactory.ones(3,5,6)
 a.toIterable()
 ```
+## Array Shape
 
-And get the shape of the current container:
-
-```kotlin
-val a: NDArray<Int> = DefaultNDArray(2,4) { idx -> idx[0] * 2 + idx[1] * 3 }
-val dims: List<Int>  = a.shape()
-```
-
-### NumericalNDArray
-
-`NumericalNDArray` is a subtype of NDArray that guarantees its element type
-will be numerical. Because of this, we can now perform math operations
-on the array, and provide optimized (non-boxed) implementations for various primitives. The
-core provides Default**XX**NDArray and Default**XX**NDArrayFactory implementations,
-where **XX** is any of `Int`, `Double`, `Long`, or `Float`. For example, if we wanted
-to work in single precision we could write:
+You can easily request the shape of the current container:
 
 ```kotlin
-// Create a 3x4x5 array filled with the number 1, stored as floats
-val a = DefaultFloatNDArrayFactory().ones(3,4,5)
-
-// Create a 2x8 array filled with the number 1, stored as coubles
-val b = DefaultDoubleNDArrayFactory().randn(2, 8)
+val a: NDArray<Float> = NDArray.floatFactory.ones(3,5,6)
+a.shape() // arrayOf(3,5,6)
 ```
 
-Just like in the non-numerical case, we can instead initialize a `NumericalNDArray`
-by a init function:
+You can also reshape the current container:
+```kotlin
+val a: NDArray<Float> = NDArray.floatFactory.rand(3,5,6)
+val b = a.reshape(6,3,5)
+println(a.shape()) // arrayOf(3,5,6)
+println(b.shape()) // arrayOf(6,3,5)
+```
+
+However, you cannot reshape if the number of elements in the new shape doesn't match the original:
 
 ```kotlin
-val arr = DefaultFloatNDArray(3,5,4) { idx -> idx[0].toFloat() }
+val a: NDArray<Float> = NDArray.floatFactory.rand(3,5,6)
+a.reshape(6,6,6) // Error: Not enough elements in the original to populate this one
+
 ```
 
-Because we are now guaranteed numerical elements, arithmetic is available:
+Reshaping always maintains the linear index of elements, but reinterprets the N-dimensional index of each element
+to fit the new shape. Thus a linear iteration of a reshaped container will be exactly the same as the original 
+container:
 
 ```kotlin
-val arr = DefaultDoubleNDArray(3,5,4) { idx -> idx[0].toDouble() }
-// All operations are elementwise
-val out = arr + arr
-val out2 = arr - arr*4.0 - 1.5
+val a: NDArray<Float> = NDArray.floatFactory.rand(3,5,6)
+val b = a.reshape(6,3,5).toIterable().iterator()
+val c = a.reshape(1,6*3*5).toIterable().iterator()
+
+a.toIterable().forEach {
+    assert(it == b.next() && it == c.next())
+}
 ```
 
-The full list of operators available is [here](https://github.com/kyonifer/koma/blob/master/core/src/koma/ndarray/NumericalNDArray.kt).
-Note that linear algebra operations are not available as `NumericalNDArray` is not
-guaranteed to be 2D.
+## Numerical Operations
 
+If an NDArray's element type is numerical, numerical operations will be available to you. If you created
+your NDArray using the [optimized factories mentioned previously](N-Dimensional_Arrays.md#creating-ndarrays) these
+operations will also be non-boxing:
+
+```kotlin
+val a = NDArray.floatFactory.rand(3,5,6)
+val b = 3 * a + a * a
+```
+
+Note that linear algebra operations are not available as `NDArray` is not
+guaranteed to be 2D. If you know your container is 2D, you'll want to [convert it to a Matrix](N-Dimensional_Arrays.md#conversions-between-types).
 
 ### Conversions between types
 
-There are some conversions available between types. If a `NDArray`'s `T` value 
-is known in the current context to be numerical, it can be converted to a `NumericalNDArray`:
+As `NDArray` is a supertype of `Matrix`, any `Matrix` can be passed into a method expecting
+an `NDArray`. To convert `NDArray`s to `Matrix`, you may use the `toMatrix` extension function:
 
 ```kotlin
-val a: NDArray<Int> = DefaultNDArray(2,4) { idx -> idx[0] * 2 + idx[1] * 3 }
+val a = NDArray.floatFactory.rand(3,6)
+a.toMatrix()
+```
 
-// Because we know the element type is Int, 
-// the toNumerical extension function becomes available
-val b: NumericalNDArray<Int> = a.toNumerical()
+Note that `toMatrix` is only available if the element type is known (i.e. `NDArray`<Float> is okay, `NDArray`<T> is not) and
+will only be successful if the input `NDArray` has 1 or 2 dimensions. If you have a generic `NDArray` or are unsure how many
+dimensions the container has, you can use the `toMatrixOrNull` form:
+
+```kotlin
+// Returns null, too many dimensions
+println(NDArray.floatFactory.rand(3,5,6).toMatrixOrNull())
+// OK, 2 dimensions and numerical
+println(NDArray.doubleFactory.rand(3,6).toMatrixOrNull())
+// Returns null, String is not numeric
+println(NDArray.createGenericNulls<String>(3,4).toMatrixOrNull())
+// Returns null, String is not numeric
+println(NDArray.createGeneric(3,4){"hi"}.toMatrixOrNull())
+// OK, 2 dimensions and numerical
+println(NDArray.createGeneric(3,4){1.4}.toMatrixOrNull())
+
+// OK, toMatrixOrNull available for generic Matrices
+fun <T>foo(a: Matrix<T>) = a.toMatrixOrNull()
+// Error, "a" isn't known to be numeric
+fun <T>foo(a: Matrix<T>) = a.toMatrix()
 ```
 
 

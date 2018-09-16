@@ -1,6 +1,6 @@
 # Plotting
 
-Koma has limited plotting support via xchart. The basic functionality mimics that of
+Koma has limited plotting support via xchart (JVM only for now). The basic functionality mimics that of
 matplotlib and matlab:
 
 ```kotlin
