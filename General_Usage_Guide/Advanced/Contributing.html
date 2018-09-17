@@ -12,7 +12,7 @@
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4737,19 +4735,21 @@
 <h2 id="unit-tests">Unit Tests</h2>
 <p>Koma's unit tests are located <a href="https://github.com/kyonifer/koma/tree/master/koma-tests/test/koma">here</a>.
 You can verify that the project still builds successfully on all three targets by running</p>
-<pre><code>./gradlew build
-</code></pre>
+<div class="codehilite"><pre><span></span>./gradlew build
+</pre></div>
+
 
 <p>Unit tests on platforms other than the JVM aren't currently available.</p>
 <h2 id="building-docs">Building docs</h2>
 <p>To build the docs, you'll first need the python mkdocs and themes packages:</p>
-<pre><code>pip install mkdocs
+<div class="codehilite"><pre><span></span>pip install mkdocs
 pip install mkdocs-bootswatch
-</code></pre>
+</pre></div>
+
 
 <p>Then run the following in the Koma root folder:</p>
-<pre><code class="bash">./build_docs
-</code></pre></div>
+<div class="codehilite"><pre><span></span>./build_docs
+</pre></div></div>
         </div>
 
         <footer class="col-md-12">

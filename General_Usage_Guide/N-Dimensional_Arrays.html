@@ -12,7 +12,7 @@
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4738,28 +4736,30 @@
 <h2 id="creating-ndarrays">Creating NDArrays</h2>
 <p><code>NDArray</code> is designed to hold high dimensional data of arbitrary type. 
 Koma provides several functions for creating new <code>NDArray</code>s:</p>
-<pre><code class="kotlin">// Creates a 3x4x5 container of type NDArray&lt;String&gt; filled with nulls
-NDArray.createGenericNulls&lt;String&gt;(3,4,5)
-// Creates a 3x4x5 container of type NDArray&lt;String&gt; filled with &quot;hello&quot;
-NDArray.createGeneric(3,4,5) { &quot;hello&quot; }
-// Creates a 1x2 container of type NDArray&lt;String&gt; where each element's value is &quot;hi&quot; concatenated with the sum of its indices 
-NDArray.createGeneric(1,2) { indices -&gt; &quot;hi ${indices.sum()}&quot; }
-// Creates a 3x4x5 container of type NDArray&lt;Float&gt; with each element set to 4.5
-NDArray.createGeneric(3,4,5) { 4.5f }
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1">// Creates a 3x4x5 container of type NDArray&lt;String&gt; filled with nulls</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">createGenericNulls</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+<span class="c1">// Creates a 3x4x5 container of type NDArray&lt;String&gt; filled with &quot;hello&quot;</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">createGeneric</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">)</span> <span class="p">{</span> <span class="s">&quot;hello&quot;</span> <span class="p">}</span>
+<span class="c1">// Creates a 1x2 container of type NDArray&lt;String&gt; where each element&#39;s value is &quot;hi&quot; concatenated with the sum of its indices </span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">createGeneric</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span> <span class="n">indices</span> <span class="p">-&gt;</span> <span class="s">&quot;hi ${indices.sum()}&quot;</span> <span class="p">}</span>
+<span class="c1">// Creates a 3x4x5 container of type NDArray&lt;Float&gt; with each element set to 4.5</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">createGeneric</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">)</span> <span class="p">{</span> <span class="m">4.5f</span> <span class="p">}</span>
+</pre></div>
+
 
 <p>As you can see, NDArray is capable of storing numerical and non-numerical data. However, storing numerical data the way
 that was shown in the last example is very inefficient as each element is boxed. You should therefore use the optimized
 factories if your NDArray is known to contain numerical primitives:</p>
-<pre><code class="kotlin">// Creates a 3x5x6 NDArray&lt;Double&gt; filled with zeros backed by a non-boxing Array&lt;Double&gt;
-NDArray.doubleFactory.zeros(3,5,6)
-// Creates a 3x5x6 NDArray&lt;Float&gt; filled with uniformly random numbers backed by a non-boxing Array&lt;Float&gt;
-NDArray.floatFactory.rand(3,5,6)
-// Creates a 1x2x3x4x5 NDArray&lt;Double&gt; filled with ones backed by a non-boxing Array&lt;Int&gt;
-NDArray.intFactory.ones(1,2,3,4,5)
-// Creates a 8x8 NDArray&lt;Double&gt; filled with normally distributed random numbers backed by a non-boxing Array&lt;Double&gt;
-NDArray.doubleFactory.randn(8,8)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1">// Creates a 3x5x6 NDArray&lt;Double&gt; filled with zeros backed by a non-boxing Array&lt;Double&gt;</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">doubleFactory</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="c1">// Creates a 3x5x6 NDArray&lt;Float&gt; filled with uniformly random numbers backed by a non-boxing Array&lt;Float&gt;</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="c1">// Creates a 1x2x3x4x5 NDArray&lt;Double&gt; filled with ones backed by a non-boxing Array&lt;Int&gt;</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">intFactory</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+<span class="c1">// Creates a 8x8 NDArray&lt;Double&gt; filled with normally distributed random numbers backed by a non-boxing Array&lt;Double&gt;</span>
+<span class="n">NDArray</span><span class="p">.</span><span class="n">doubleFactory</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="m">8</span><span class="p">,</span><span class="m">8</span><span class="p">)</span>
+</pre></div>
+
 
 <h2 id="iteration">Iteration</h2>
 <p>Each element in an <code>NDArray</code> has two indices: </p>
@@ -4768,106 +4768,114 @@ NDArray.doubleFactory.randn(8,8)
 <li>Its linear index, which is a single number specifying its location in a flattened 1-dimensional version of the array</li>
 </ul>
 <p>You can iterate over <code>NDArray</code>s with either index:</p>
-<pre><code class="kotlin">val a: NDArray&lt;Double&gt; = NDArray.doubleFactory.randn(3,5,6)
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">doubleFactory</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
 
-// Iterate without an index present
-a.forEach { println(&quot;Element is $it&quot;) }
+<span class="c1">// Iterate without an index present</span>
+<span class="n">a</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;Element is $it&quot;</span><span class="p">)</span> <span class="p">}</span>
 
-// Iterate with the linear index available
-a.forEachIndexed { idx, ele -&gt; println(&quot;Element at $idx is $ele&quot;) }
+<span class="c1">// Iterate with the linear index available</span>
+<span class="n">a</span><span class="p">.</span><span class="n">forEachIndexed</span> <span class="p">{</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ele</span> <span class="p">-&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;Element at $idx is $ele&quot;</span><span class="p">)</span> <span class="p">}</span>
 
-// Iterate with the N-dimensional index array available
-a.forEachIndexedN { indices, value -&gt;
-    println(&quot;Element at ${indices.joinToString(&quot;,&quot;)} is $value&quot;)
-}
-</code></pre>
+<span class="c1">// Iterate with the N-dimensional index array available</span>
+<span class="n">a</span><span class="p">.</span><span class="n">forEachIndexedN</span> <span class="p">{</span> <span class="n">indices</span><span class="p">,</span> <span class="n">value</span> <span class="p">-&gt;</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Element at ${indices.joinToString(&quot;</span><span class="p">,</span><span class="s">&quot;)} is $value&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>You can also map elements to another NDArray with either the full N-D index or a linear index:</p>
-<pre><code class="kotlin">val a: NDArray&lt;Float&gt; = NDArray.floatFactory.ones(3,5,6)
-// Adds one to all elements
-a.map { ele -&gt; ele + 1.0f }
-// Adds the linear index to the element's value
-a.mapIndexed { idx, ele -&gt; ele + idx }
-// Sums the element's N-dimensional index and sets the value to it
-a.mapIndexedN { idx, ele -&gt; idx.sum().toFloat() }
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="c1">// Adds one to all elements</span>
+<span class="n">a</span><span class="p">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">ele</span> <span class="p">-&gt;</span> <span class="n">ele</span> <span class="p">+</span> <span class="m">1.0f</span> <span class="p">}</span>
+<span class="c1">// Adds the linear index to the element&#39;s value</span>
+<span class="n">a</span><span class="p">.</span><span class="n">mapIndexed</span> <span class="p">{</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ele</span> <span class="p">-&gt;</span> <span class="n">ele</span> <span class="p">+</span> <span class="n">idx</span> <span class="p">}</span>
+<span class="c1">// Sums the element&#39;s N-dimensional index and sets the value to it</span>
+<span class="n">a</span><span class="p">.</span><span class="n">mapIndexedN</span> <span class="p">{</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ele</span> <span class="p">-&gt;</span> <span class="n">idx</span><span class="p">.</span><span class="n">sum</span><span class="p">().</span><span class="n">toFloat</span><span class="p">()</span> <span class="p">}</span>
+</pre></div>
+
 
 <p>The full set of functionality can be seen <a href="https://github.com/kyonifer/koma/blob/master/koma-core-api/common/src/koma/extensions/extensions_ndarray_Double.kt">here</a>.
 For <code>map</code> and <code>forEach</code>, <code>IndexedN</code> at the end of the function name indicates you'd like to receive
 a N dimensional index, and <code>Indexed</code> indicates you'd like a linear index.</p>
 <p>You can also convert an NDArray into an iterator (this will produce each element 
 in the same order as the linear index <code>forEach</code> would have):</p>
-<pre><code class="kotlin">val a: NDArray&lt;Float&gt; = NDArray.floatFactory.ones(3,5,6)
-a.toIterable()
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">toIterable</span><span class="p">()</span>
+</pre></div>
+
 
 <h2 id="array-shape">Array Shape</h2>
 <p>You can easily request the shape of the current container:</p>
-<pre><code class="kotlin">val a: NDArray&lt;Float&gt; = NDArray.floatFactory.ones(3,5,6)
-a.shape() // arrayOf(3,5,6)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">shape</span><span class="p">()</span> <span class="c1">// arrayOf(3,5,6)</span>
+</pre></div>
+
 
 <p>You can also reshape the current container:</p>
-<pre><code class="kotlin">val a: NDArray&lt;Float&gt; = NDArray.floatFactory.rand(3,5,6)
-val b = a.reshape(6,3,5)
-println(a.shape()) // arrayOf(3,5,6)
-println(b.shape()) // arrayOf(6,3,5)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">b</span> <span class="p">=</span> <span class="n">a</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">shape</span><span class="p">())</span> <span class="c1">// arrayOf(3,5,6)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">shape</span><span class="p">())</span> <span class="c1">// arrayOf(6,3,5)</span>
+</pre></div>
+
 
 <p>However, you cannot reshape if the number of elements in the new shape doesn't match the original:</p>
-<pre><code class="kotlin">val a: NDArray&lt;Float&gt; = NDArray.floatFactory.rand(3,5,6)
-a.reshape(6,6,6) // Error: Not enough elements in the original to populate this one
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">6</span><span class="p">)</span> <span class="c1">// Error: Not enough elements in the original to populate this one</span>
+</pre></div>
 
-</code></pre>
 
 <p>Reshaping always maintains the linear index of elements, but reinterprets the N-dimensional index of each element
 to fit the new shape. Thus a linear iteration of a reshaped container will be exactly the same as the original 
 container:</p>
-<pre><code class="kotlin">val a: NDArray&lt;Float&gt; = NDArray.floatFactory.rand(3,5,6)
-val b = a.reshape(6,3,5).toIterable().iterator()
-val c = a.reshape(1,6*3*5).toIterable().iterator()
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">b</span> <span class="p">=</span> <span class="n">a</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">).</span><span class="n">toIterable</span><span class="p">().</span><span class="n">iterator</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">c</span> <span class="p">=</span> <span class="n">a</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">6</span><span class="p">*</span><span class="m">3</span><span class="p">*</span><span class="m">5</span><span class="p">).</span><span class="n">toIterable</span><span class="p">().</span><span class="n">iterator</span><span class="p">()</span>
 
-a.toIterable().forEach {
-    assert(it == b.next() &amp;&amp; it == c.next())
-}
-</code></pre>
+<span class="n">a</span><span class="p">.</span><span class="n">toIterable</span><span class="p">().</span><span class="n">forEach</span> <span class="p">{</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">it</span> <span class="p">==</span> <span class="n">b</span><span class="p">.</span><span class="n">next</span><span class="p">()</span> <span class="p">&amp;&amp;</span> <span class="n">it</span> <span class="p">==</span> <span class="n">c</span><span class="p">.</span><span class="n">next</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <h2 id="numerical-operations">Numerical Operations</h2>
 <p>If an NDArray's element type is numerical, numerical operations will be available to you. If you created
 your NDArray using the <a href="N-Dimensional_Arrays.html#creating-ndarrays">optimized factories mentioned previously</a> these
 operations will also be non-boxing:</p>
-<pre><code class="kotlin">val a = NDArray.floatFactory.rand(3,5,6)
-val b = 3 * a + a * a
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">b</span> <span class="p">=</span> <span class="m">3</span> <span class="p">*</span> <span class="n">a</span> <span class="p">+</span> <span class="n">a</span> <span class="p">*</span> <span class="n">a</span>
+</pre></div>
+
 
 <p>Note that linear algebra operations are not available as <code>NDArray</code> is not
 guaranteed to be 2D. If you know your container is 2D, you'll want to <a href="N-Dimensional_Arrays.html#conversions-between-types">convert it to a Matrix</a>.</p>
 <h3 id="conversions-between-types">Conversions between types</h3>
 <p>As <code>NDArray</code> is a supertype of <code>Matrix</code>, any <code>Matrix</code> can be passed into a method expecting
 an <code>NDArray</code>. To convert <code>NDArray</code>s to <code>Matrix</code>, you may use the <code>toMatrix</code> extension function:</p>
-<pre><code class="kotlin">val a = NDArray.floatFactory.rand(3,6)
-a.toMatrix()
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">6</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">toMatrix</span><span class="p">()</span>
+</pre></div>
+
 
 <p>Note that <code>toMatrix</code> is only available if the element type is known (i.e. <code>NDArray</code><Float> is okay, <code>NDArray</code><T> is not) and
 will only be successful if the input <code>NDArray</code> has 1 or 2 dimensions. If you have a generic <code>NDArray</code> or are unsure how many
 dimensions the container has, you can use the <code>toMatrixOrNull</code> form:</p>
-<pre><code class="kotlin">// Returns null, too many dimensions
-println(NDArray.floatFactory.rand(3,5,6).toMatrixOrNull())
-// OK, 2 dimensions and numerical
-println(NDArray.doubleFactory.rand(3,6).toMatrixOrNull())
-// Returns null, String is not numeric
-println(NDArray.createGenericNulls&lt;String&gt;(3,4).toMatrixOrNull())
-// Returns null, String is not numeric
-println(NDArray.createGeneric(3,4){&quot;hi&quot;}.toMatrixOrNull())
-// OK, 2 dimensions and numerical
-println(NDArray.createGeneric(3,4){1.4}.toMatrixOrNull())
+<div class="codehilite"><pre><span></span><span class="c1">// Returns null, too many dimensions</span>
+<span class="n">println</span><span class="p">(</span><span class="n">NDArray</span><span class="p">.</span><span class="n">floatFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">).</span><span class="n">toMatrixOrNull</span><span class="p">())</span>
+<span class="c1">// OK, 2 dimensions and numerical</span>
+<span class="n">println</span><span class="p">(</span><span class="n">NDArray</span><span class="p">.</span><span class="n">doubleFactory</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">6</span><span class="p">).</span><span class="n">toMatrixOrNull</span><span class="p">())</span>
+<span class="c1">// Returns null, String is not numeric</span>
+<span class="n">println</span><span class="p">(</span><span class="n">NDArray</span><span class="p">.</span><span class="n">createGenericNulls</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">).</span><span class="n">toMatrixOrNull</span><span class="p">())</span>
+<span class="c1">// Returns null, String is not numeric</span>
+<span class="n">println</span><span class="p">(</span><span class="n">NDArray</span><span class="p">.</span><span class="n">createGeneric</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">){</span><span class="s">&quot;hi&quot;</span><span class="p">}.</span><span class="n">toMatrixOrNull</span><span class="p">())</span>
+<span class="c1">// OK, 2 dimensions and numerical</span>
+<span class="n">println</span><span class="p">(</span><span class="n">NDArray</span><span class="p">.</span><span class="n">createGeneric</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">){</span><span class="m">1.4</span><span class="p">}.</span><span class="n">toMatrixOrNull</span><span class="p">())</span>
 
-// OK, toMatrixOrNull available for generic Matrices
-fun &lt;T&gt;foo(a: Matrix&lt;T&gt;) = a.toMatrixOrNull()
-// Error, &quot;a&quot; isn't known to be numeric
-fun &lt;T&gt;foo(a: Matrix&lt;T&gt;) = a.toMatrix()
-</code></pre></div>
+<span class="c1">// OK, toMatrixOrNull available for generic Matrices</span>
+<span class="k">fun</span> <span class="err">&lt;</span><span class="nf">T</span><span class="p">&gt;</span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">a</span><span class="p">.</span><span class="n">toMatrixOrNull</span><span class="p">()</span>
+<span class="c1">// Error, &quot;a&quot; isn&#39;t known to be numeric</span>
+<span class="k">fun</span> <span class="err">&lt;</span><span class="nf">T</span><span class="p">&gt;</span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">a</span><span class="p">.</span><span class="n">toMatrix</span><span class="p">()</span>
+</pre></div></div>
         </div>
 
         <footer class="col-md-12">

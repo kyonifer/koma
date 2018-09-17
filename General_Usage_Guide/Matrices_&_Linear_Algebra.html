@@ -12,7 +12,7 @@
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4739,143 +4737,144 @@ top-level convenience functions to make the experience more similar to other sci
 environments. All these functions reside in the <code>koma</code> namespace and use the underlying 
 object-oriented hierarchy internally.</p>
 <p>When working with matrices in Koma you'll almost always want to </p>
-<pre><code class="kotlin">import koma.extensions.*
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">import</span> <span class="nn">koma.extensions.*</span>
+</pre></div>
+
 
 <p>This namespace defines some extension functions which would ordinarily be defined on <code>Matrix</code> itself but can't be for performance reasons. Since there are only <code>Matrix</code> extension functions defined in <code>koma.extensions</code>, it should be safe to star import it without polluting your workspace. If you don't import <code>koma.extensions</code> you'll be missing a lot of functionality including basic things like getters and setters.</p>
 <h3 id="creating-matrices">Creating Matrices</h3>
 <p>Koma provides several functions for creating new matrices:</p>
-<pre><code class="kotlin">// x is a 3x3 identity matrix
-var x = eye(3)
+<div class="codehilite"><pre><span></span><span class="c1">// x is a 3x3 identity matrix</span>
+<span class="k">var</span> <span class="py">x</span> <span class="p">=</span> <span class="n">eye</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
 
-// x is a 3x3 matrix of zeros
-x = zeros(3,3)
+<span class="c1">// x is a 3x3 matrix of zeros</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">zeros</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
 
-// x is a 3x3 with Gaussian random noise, distribution 0,1
-x = randn(3,3)
+<span class="c1">// x is a 3x3 with Gaussian random noise, distribution 0,1</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
 
-// x is a 3x3 with uniform random noise
-x = rand(3,3)
+<span class="c1">// x is a 3x3 with uniform random noise</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">rand</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
 
-// x is a 4x5 matrix where the ith row and jth column has the value i+j*2
-x = fill(4,5) { row, col -&gt; row+col*2.0 }
+<span class="c1">// x is a 4x5 matrix where the ith row and jth column has the value i+j*2</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">fill</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">)</span> <span class="p">{</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="p">-&gt;</span> <span class="n">row</span><span class="p">+</span><span class="n">col</span><span class="p">*</span><span class="m">2.0</span> <span class="p">}</span>
 
-val someData = arrayOf(doubleArrayOf(1.0,2.0,3.0), doubleArrayOf(4.0,5.0,6.0))
-// x is a 2x3 matrix constructed from the data in a java array of arrays
-x = create(someData)
-</code></pre>
+<span class="k">val</span> <span class="py">someData</span> <span class="p">=</span> <span class="n">arrayOf</span><span class="p">(</span><span class="n">doubleArrayOf</span><span class="p">(</span><span class="m">1.0</span><span class="p">,</span><span class="m">2.0</span><span class="p">,</span><span class="m">3.0</span><span class="p">),</span> <span class="n">doubleArrayOf</span><span class="p">(</span><span class="m">4.0</span><span class="p">,</span><span class="m">5.0</span><span class="p">,</span><span class="m">6.0</span><span class="p">))</span>
+<span class="c1">// x is a 2x3 matrix constructed from the data in a java array of arrays</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">create</span><span class="p">(</span><span class="n">someData</span><span class="p">)</span>
+</pre></div>
+
 
 <p>See <a href="https://github.com/kyonifer/koma/blob/master/core/src/koma/creators.kt">here</a> for a complete list of
 available creators. There is also a DSL for matrix literals:</p>
-<pre><code class="kotlin">// a is a 2x3 matrix filled with the numbers passed in
-val a = mat[1,2,3.3 end
-            4,5,6]
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1">// a is a 2x3 matrix filled with the numbers passed in</span>
+<span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="n">mat</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3.3</span> <span class="n">end</span>
+            <span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">]</span>
+</pre></div>
+
 
 <h3 id="math-functions">Math Functions</h3>
 <p>Matrices have useful map functions that return matrices for chaining operations (see <a href="https://github.com/kyonifer/koma/blob/master/core/src/koma/extensions/extensionfuncs.kt">here</a> for a complete list).</p>
-<pre><code class="kotlin">    // Create a 3x3 identity and then add 0.1 to all elements
-    val x = eye(3) + 0.1
+<div class="codehilite"><pre><span></span><span class="c1">// Create a 3x3 identity and then add 0.1 to all elements</span>
+<span class="k">val</span> <span class="py">x</span> <span class="p">=</span> <span class="n">eye</span><span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">+</span> <span class="m">0.1</span>
 
-    // Map each element through a function that adds .01
-    val y = x.map { it + .01 }
+<span class="c1">// Map each element through a function that adds .01</span>
+<span class="k">val</span> <span class="py">y</span> <span class="p">=</span> <span class="n">x</span><span class="p">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">it</span> <span class="p">+</span> <span class="p">.</span><span class="m">01</span> <span class="p">}</span>
 
-    // Map each element through a function that adds or subtracts depending on the element index
-    val z = x.mapIndexed { row, col, ele -&gt; if (row &gt; col) ele + 1 else ele - 1 }
+<span class="c1">// Map each element through a function that adds or subtracts depending on the element index</span>
+<span class="k">val</span> <span class="py">z</span> <span class="p">=</span> <span class="n">x</span><span class="p">.</span><span class="n">mapIndexed</span> <span class="p">{</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">ele</span> <span class="p">-&gt;</span> <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="p">&gt;</span> <span class="n">col</span><span class="p">)</span> <span class="n">ele</span> <span class="p">+</span> <span class="m">1</span> <span class="k">else</span> <span class="n">ele</span> <span class="p">-</span> <span class="m">1</span> <span class="p">}</span>
 
-    // Are there any elements greater than 1?
-    val hasGreater = x.any { it &gt; 1 }
+<span class="c1">// Are there any elements greater than 1?</span>
+<span class="k">val</span> <span class="py">hasGreater</span> <span class="p">=</span> <span class="n">x</span><span class="p">.</span><span class="n">any</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&gt;</span> <span class="m">1</span> <span class="p">}</span>
 
-    // Are all elements greater than 1?
-    val allGreater = x.all { it &gt; 1 }
+<span class="c1">// Are all elements greater than 1?</span>
+<span class="k">val</span> <span class="py">allGreater</span> <span class="p">=</span> <span class="n">x</span><span class="p">.</span><span class="n">all</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&gt;</span> <span class="m">1</span> <span class="p">}</span>
 
-    // Print all the elements in row-order
-    x.forEach { println(it) }
+<span class="c1">// Print all the elements in row-order</span>
+<span class="n">x</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">println</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
 
-    // Print all the elements including their column number
-    x.forEachIndexed { row, col, ele -&gt; println(&quot;$col $it&quot;) }
+<span class="c1">// Print all the elements including their column number</span>
+<span class="n">x</span><span class="p">.</span><span class="n">forEachIndexed</span> <span class="p">{</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">ele</span> <span class="p">-&gt;</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;$col $it&quot;</span><span class="p">)</span> <span class="p">}</span>
 
-    // Apply a function to a row at a time and store the outputs in a contiguous matrix
-    val sins = x.mapRows { row -&gt; sin(row) }
+<span class="c1">// Apply a function to a row at a time and store the outputs in a contiguous matrix</span>
+<span class="k">val</span> <span class="py">sins</span> <span class="p">=</span> <span class="n">x</span><span class="p">.</span><span class="n">mapRows</span> <span class="p">{</span> <span class="n">row</span> <span class="p">-&gt;</span> <span class="n">sin</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="p">}</span>
 
-    // Print all elements greater than 1
-    x.each { if (it&gt;1) println(it) }
+<span class="c1">// Print all elements greater than 1</span>
+<span class="n">x</span><span class="p">.</span><span class="n">each</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="p">&gt;</span><span class="m">1</span><span class="p">)</span> <span class="n">println</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
+</pre></div>
 
-</code></pre>
 
 <p>We can also do some linear algebra:</p>
-<pre><code class="kotlin">
-    // Matrix literal syntax, see creators.kt for 
-    // convenience functions like zeros(5,5)
-    var A = mat[1,0,0 end
-                0,3,0 end
-                0,0,4]
+<div class="codehilite"><pre><span></span><span class="c1">// Matrix literal syntax, see creators.kt for </span>
+<span class="c1">// convenience functions like zeros(5,5)</span>
+<span class="k">var</span> <span class="py">A</span> <span class="p">=</span> <span class="n">mat</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span> <span class="n">end</span>
+            <span class="m">0</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">0</span> <span class="n">end</span>
+            <span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">4</span><span class="p">]</span>
 
-    // Calculate the matrix inverse
-    var Ainv = A.inv()
+<span class="c1">// Calculate the matrix inverse</span>
+<span class="k">var</span> <span class="py">Ainv</span> <span class="p">=</span> <span class="n">A</span><span class="p">.</span><span class="n">inv</span><span class="p">()</span>
 
-    var b = mat[2,2,4].T
+<span class="k">var</span> <span class="py">b</span> <span class="p">=</span> <span class="n">mat</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">4</span><span class="p">].</span><span class="n">T</span>
 
-    // Use overloaded operators:
+<span class="c1">// Use overloaded operators:</span>
 
-    // * is matrix multiplication 
-    var c = A*b + 1
+<span class="c1">// * is matrix multiplication </span>
+<span class="k">var</span> <span class="py">c</span> <span class="p">=</span> <span class="n">A</span><span class="p">*</span><span class="n">b</span> <span class="p">+</span> <span class="m">1</span>
 
-    // emul is element-wise multiplication
-    var d = (A emul A) + 1
+<span class="c1">// emul is element-wise multiplication</span>
+<span class="k">var</span> <span class="py">d</span> <span class="p">=</span> <span class="p">(</span><span class="n">A</span> <span class="n">emul</span> <span class="n">A</span><span class="p">)</span> <span class="p">+</span> <span class="m">1</span>
 
-    // Number of decimals to show
-    format(&quot;short&quot;)
+<span class="c1">// Number of decimals to show</span>
+<span class="n">format</span><span class="p">(</span><span class="s">&quot;short&quot;</span><span class="p">)</span>
 
-    println(c)
+<span class="n">println</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
 
-</code></pre>
 
 <p>Which produces:</p>
-<pre><code>Output:
+<div class="codehilite"><pre><span></span><span class="n">Output</span><span class="o">:</span>
 
-mat[ 3.00  end
-     7.00  end
-     17.00 ]
-</code></pre>
+<span class="n">mat</span><span class="o">[</span> <span class="mf">3.00</span>  <span class="n">end</span>
+     <span class="mf">7.00</span>  <span class="n">end</span>
+     <span class="mf">17.00</span> <span class="o">]</span>
+</pre></div>
+
 
 <p>Many special functions are supported (see <a href="https://github.com/kyonifer/koma/blob/master/core/src/koma/matrix/Matrix.kt">the matrix interface</a> for a complete list):</p>
-<pre><code class="kotlin">
-    val a = 2*eye(3)+.01 // eye is identity matrix
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="m">2</span><span class="p">*</span><span class="n">eye</span><span class="p">(</span><span class="m">3</span><span class="p">)+.</span><span class="m">01</span> <span class="c1">// eye is identity matrix</span>
 
-    a.chol()  // Cholesky decomposition
-    a.det()   // Determinant
-    a.diag()  // Diagonal vector
-    a.inv()   // Matrix inverse
-    a.norm()  // Matrix norm
+<span class="n">a</span><span class="p">.</span><span class="n">chol</span><span class="p">()</span>  <span class="c1">// Cholesky decomposition</span>
+<span class="n">a</span><span class="p">.</span><span class="n">det</span><span class="p">()</span>   <span class="c1">// Determinant</span>
+<span class="n">a</span><span class="p">.</span><span class="n">diag</span><span class="p">()</span>  <span class="c1">// Diagonal vector</span>
+<span class="n">a</span><span class="p">.</span><span class="n">inv</span><span class="p">()</span>   <span class="c1">// Matrix inverse</span>
+<span class="n">a</span><span class="p">.</span><span class="n">norm</span><span class="p">()</span>  <span class="c1">// Matrix norm</span>
+</pre></div>
 
-</code></pre>
 
 <p>Scalar functions can be applied elementwise to matrices (see <a href="https://github.com/kyonifer/koma/blob/master/core/src/koma/scalarfuncs.kt">here</a> for a complete list):</p>
-<pre><code class="kotlin">    val x = create(0..100)/5.0  // Matrix of 0, 1/5, 2/5, ...
-    val y = sin(x)              // Sin applied elementwise
-    plot(y)                     // Plot of sin function
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">x</span> <span class="p">=</span> <span class="n">create</span><span class="p">(</span><span class="m">0.</span><span class="p">.</span><span class="m">100</span><span class="p">)/</span><span class="m">5.0</span>  <span class="c1">// Matrix of 0, 1/5, 2/5, ...</span>
+<span class="k">val</span> <span class="py">y</span> <span class="p">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>              <span class="c1">// Sin applied elementwise</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>                     <span class="c1">// Plot of sin function</span>
+</pre></div>
+
 
 <p>Matrix indexing and slicing is supported (see <a href="https://github.com/kyonifer/koma/blob/master/core/src/koma/operators.kt">here</a> for a list of operators as well as the Matrix<T> type):</p>
-<pre><code class="kotlin">
-    val x = randn(5,5)
-    val y = x[0,0..4] // Grab the first row
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">x</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">y</span> <span class="p">=</span> <span class="n">x</span><span class="p">[</span><span class="m">0</span><span class="p">,</span><span class="m">0.</span><span class="p">.</span><span class="m">4</span><span class="p">]</span> <span class="c1">// Grab the first row</span>
 
-    x[0..2,0..3] = zeros(3,4) // Set the upper-left 3x4 sub-matrix of x to zero
+<span class="n">x</span><span class="p">[</span><span class="m">0.</span><span class="p">.</span><span class="m">2</span><span class="p">,</span><span class="m">0.</span><span class="p">.</span><span class="m">3</span><span class="p">]</span> <span class="p">=</span> <span class="n">zeros</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">)</span> <span class="c1">// Set the upper-left 3x4 sub-matrix of x to zero</span>
+</pre></div>
 
-</code></pre>
 
 <p>A Matrix is convertible to an Iterable:</p>
-<pre><code class="kotlin">    val x = randn(5,5).toIterable()
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">x</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="m">5</span><span class="p">).</span><span class="n">toIterable</span><span class="p">()</span>
 
-    // Adds all elements and returns sum
-    x.reduce { x, y -&gt; x+y }
+<span class="c1">// Adds all elements and returns sum</span>
+<span class="n">x</span><span class="p">.</span><span class="n">reduce</span> <span class="p">{</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">-&gt;</span> <span class="n">x</span><span class="p">+</span><span class="n">y</span> <span class="p">}</span>
 
-    // Returns list of all elements greater than 4
-    x.find { it &gt; 4 }
-
-</code></pre></div>
+<span class="c1">// Returns list of all elements greater than 4</span>
+<span class="n">x</span><span class="p">.</span><span class="n">find</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&gt;</span> <span class="m">4</span> <span class="p">}</span>
+</pre></div></div>
         </div>
 
         <footer class="col-md-12">

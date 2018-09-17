@@ -23,7 +23,7 @@ for (var i=0; i < eles.length; i++) {
 }
 function isCodeExample(ele) {
     // TODO: more reliable identification
-    return ele.localName == "pre" && ele.firstChild.localName == "code"
+    return ele.classList.contains("codehilite")
 }
 
 function harvestCustomLangNames(eles) {

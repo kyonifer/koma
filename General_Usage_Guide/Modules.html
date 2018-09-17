@@ -12,7 +12,7 @@
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4842,10 +4840,11 @@ blas and lapack libraries on your system.</p>
 <p>Once you've chosen which backend you want to use, you can enable it by adding it to your gradle dependencies.
 For example, if you would like to use the Matrix container based on MTJ, you can add the corresponding
 artifact listed above to your build.gradle dependencies:</p>
-<pre><code>dependencies {
+<div class="codehilite"><pre><span></span>dependencies {
     compile group: &quot;com.kyonifer&quot;, name:&quot;koma-core-mtj&quot;, version: $komaVersion
 }
-</code></pre>
+</pre></div>
+
 
 <p>Koma should now pick up the new backend and use it for the 
 <a href="Matrices_&amp;_Linear_Algebra.html">top-level functions</a> with no further action required. 
@@ -4855,29 +4854,31 @@ Continue to the next section if you are interested in forcing which backend is u
 you need to work with multiple libraries which require different matrix containers. </p>
 <p>To begin, list more than one backend in your build.gradle dependencies. For example,
 to have both EJML and MTJ available you might write:</p>
-<pre><code>dependencies {
+<div class="codehilite"><pre><span></span>dependencies {
     compile group: &quot;koma&quot;, name:&quot;koma-core-mtj&quot;, version: $komaVersion
     compile group: &quot;koma&quot;, name:&quot;koma-core-ejml&quot;, version: $komaVersion
 }
-</code></pre>
+</pre></div>
+
 
 <p>You can now change the backend being used by koma's <a href="Matrices_&amp;_Linear_Algebra.html">top-level functions</a> at
 any time by setting a property in the koma namespace. In Kotlin this looks
 like:</p>
-<pre><code class="kotlin">import koma.matrix.ejml.EJMLMatrixFactory
-import koma.matrix.mtj.MTJMatrixFactory
+<div class="codehilite"><pre><span></span><span class="k">import</span> <span class="nn">koma.matrix.ejml.EJMLMatrixFactory</span>
+<span class="k">import</span> <span class="nn">koma.matrix.mtj.MTJMatrixFactory</span>
 
-// Make subsequent function calls use the EJML backend
-koma.factory = EJMLMatrixFactory()
+<span class="c1">// Make subsequent function calls use the EJML backend</span>
+<span class="n">koma</span><span class="p">.</span><span class="n">factory</span> <span class="p">=</span> <span class="n">EJMLMatrixFactory</span><span class="p">()</span>
 
-val a = zeros(3,3) // An EJMLMatrix
+<span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="n">zeros</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">)</span> <span class="c1">// An EJMLMatrix</span>
 
-// Make subsequent function calls use the MTJ backend
-// (doesnt affect previous returns)
-koma.factory = MTJMatrixFactory()
+<span class="c1">// Make subsequent function calls use the MTJ backend</span>
+<span class="c1">// (doesnt affect previous returns)</span>
+<span class="n">koma</span><span class="p">.</span><span class="n">factory</span> <span class="p">=</span> <span class="n">MTJMatrixFactory</span><span class="p">()</span>
 
-val b = zeros(3,3) // Now returns an MTJMatrix
-</code></pre>
+<span class="k">val</span> <span class="py">b</span> <span class="p">=</span> <span class="n">zeros</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">)</span> <span class="c1">// Now returns an MTJMatrix</span>
+</pre></div>
+
 
 <p>This property can be set from Java and other languages via
 <code>koma.Options.setFactory(...)</code>. If not set, koma will default
@@ -4885,19 +4886,21 @@ to using MTJ, EJML, and then JBlas in that order.</p>
 <p>It is also possible to create any matrix type manually by using the
 corresponding factory. For example, even if <code>koma.factory</code> is set to
 MTJMatrixFactory, you could write</p>
-<pre><code class="kotlin">val eFac = EJMLMatrixFactory()
-val a = eFac.eye(3, 3)
-val b = eFac.ones(3, 3)
-println(a+b) // Uses EJML's addition algorithm, not MTJ's
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">eFac</span> <span class="p">=</span> <span class="n">EJMLMatrixFactory</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="n">eFac</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">b</span> <span class="p">=</span> <span class="n">eFac</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="n">a</span><span class="p">+</span><span class="n">b</span><span class="p">)</span> <span class="c1">// Uses EJML&#39;s addition algorithm, not MTJ&#39;s</span>
+</pre></div>
+
 
 <h2 id="interoperating-with-other-linear-algebra-libraries">Interoperating with Other Linear Algebra Libraries</h2>
 <p>Suppose you are using the EJML backend, and you need to use some code that is
 expecting to receive EJML's <code>SimpleMatrix</code> type. You can get ahold of the underlying
 <code>SimpleMatrix</code> by using the <code>storage</code> property:</p>
-<pre><code class="kotlin">val a = EJMLMatrixFactory().ones(3,3)
-somethingThatNeedsSimpleMatrices(a.storage)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span> <span class="p">=</span> <span class="n">EJMLMatrixFactory</span><span class="p">().</span><span class="n">ones</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+<span class="n">somethingThatNeedsSimpleMatrices</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">storage</span><span class="p">)</span>
+</pre></div>
+
 
 <p>This makes it easy to use libraries requiring different matrix
 containers simultaneously.</p></div>

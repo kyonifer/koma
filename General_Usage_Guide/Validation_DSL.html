@@ -12,7 +12,7 @@
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4736,23 +4734,24 @@
 
 <h1 id="matrix-validation-dsl">Matrix Validation DSL</h1>
 <p>Koma provides definitions for a domain-specific language that you can use to validate matrices used as inputs to your functions in a consistent way. The rules throw detailed, human-readable exceptions using an appropriate Java exception class based on rules that look like this:</p>
-<pre><code class="kotlin">import koma.*
-import koma.extensions.*
-import koma.util.validation.*
+<div class="codehilite"><pre><span></span><span class="k">import</span> <span class="nn">koma.*</span>
+<span class="k">import</span> <span class="nn">koma.extensions.*</span>
+<span class="k">import</span> <span class="nn">koma.util.validation.*</span>
 
-fun mFunction(foo: Matrix&lt;Double&gt;, bar: Matrix&lt;Double&gt;, baz: Matrix&lt;Double&gt;) {
-    validate {
-        foo(&quot;foo&quot;) {  1  x 'N'; transposable }
-        bar(&quot;bar&quot;) { 'N' x 'N'; symmetric }
-        baz(&quot;baz&quot;) { 'N' x  1 ; max = 5 }
-    }
+<span class="k">fun</span> <span class="nf">mFunction</span><span class="p">(</span><span class="n">foo</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;,</span> <span class="n">bar</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;,</span> <span class="n">baz</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">validate</span> <span class="p">{</span>
+        <span class="n">foo</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span> <span class="p">{</span>  <span class="m">1</span>  <span class="n">x</span> <span class="sc">&#39;N&#39;</span><span class="p">;</span> <span class="n">transposable</span> <span class="p">}</span>
+        <span class="n">bar</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="sc">&#39;N&#39;</span> <span class="n">x</span> <span class="sc">&#39;N&#39;</span><span class="p">;</span> <span class="n">symmetric</span> <span class="p">}</span>
+        <span class="n">baz</span><span class="p">(</span><span class="s">&quot;baz&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="sc">&#39;N&#39;</span> <span class="n">x</span>  <span class="m">1</span> <span class="p">;</span> <span class="n">max</span> <span class="p">=</span> <span class="m">5</span> <span class="p">}</span>
+    <span class="p">}</span>
 
-    /* Your code here */
-}
-</code></pre>
+    <span class="cm">/* Your code here */</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>Some of the exceptions the above code could generate include:</p>
-<pre><code class="text">java.lang.IndexOutOfBoundsException: Invalid matrix dimensions.
+<div class="codehilite"><pre><span></span>java.lang.IndexOutOfBoundsException: Invalid matrix dimensions.
 
 Matrix Required Actual 
 ====== ======== ====== 
@@ -4764,26 +4763,30 @@ baz must have the same number of rows as foo has columns
 baz must have the same number of rows as bar has rows
 baz must have the same number of rows as bar has columns
 baz must have exactly 1 columns (has 3)
-</code></pre>
+</pre></div>
+
 
 <p>or</p>
-<pre><code>java.lang.IndexOutOfBoundsException: bar must be symmetric, but has dimensions 1x2
-</code></pre>
+<div class="codehilite"><pre><span></span>java.lang.IndexOutOfBoundsException: bar must be symmetric, but has dimensions 1x2
+</pre></div>
+
 
 <p>or</p>
-<pre><code>java.lang.IllegalArgumentException: baz[0, 0] &gt; 5.0 (value was 15.0)
-</code></pre>
+<div class="codehilite"><pre><span></span>java.lang.IllegalArgumentException: baz[0, 0] &gt; 5.0 (value was 15.0)
+</pre></div>
+
 
 <h2 id="annotated-syntax">Annotated Syntax</h2>
-<pre><code class="kotlin">fun myFunction(foo: Matrix&lt;Double&gt;, bar: Matrix&lt;Double&gt;, baz: Matrix&lt;Double&gt;) {
-    validate { /*
-        vvv ------------------------------------ Matrix to examine.
-            vvvvv ------------------------------ Name to use in the exception.
-                    vvvvvvvvvvvvvvvvvvvvvvvv --- Rules to check the matrix */
-        foo(&quot;foo&quot;) { 1  x 'N'; transposable }
-    }
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nf">myFunction</span><span class="p">(</span><span class="n">foo</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;,</span> <span class="n">bar</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;,</span> <span class="n">baz</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">validate</span> <span class="p">{</span> <span class="cm">/*</span>
+<span class="cm">        vvv ------------------------------------ Matrix to examine.</span>
+<span class="cm">            vvvvv ------------------------------ Name to use in the exception.</span>
+<span class="cm">                    vvvvvvvvvvvvvvvvvvvvvvvv --- Rules to check the matrix */</span>
+        <span class="n">foo</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="m">1</span>  <span class="n">x</span> <span class="sc">&#39;N&#39;</span><span class="p">;</span> <span class="n">transposable</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <h2 id="rules">Rules</h2>
 <p>Rules are regular Kotlin statements, which can be separated either by semicolons or newlines. The rules block will be evaluated with an instance of <code>ValidaitonContext</code> as its receiver.</p>
@@ -4823,23 +4826,25 @@ baz must have exactly 1 columns (has 3)
 </table>
 <h2 id="shorthand-for-a-single-matrix">Shorthand for a single Matrix</h2>
 <p>If you've written a function that only has a single Matrix argument, you can use this shorthand syntax instead of a full validate block.</p>
-<pre><code class="kotlin">fun myFunction(foo: Matrix&lt;Double&gt;) {
-    foo.validate(&quot;foo&quot;) { 1 x 3; transposable }
+<div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nf">myFunction</span><span class="p">(</span><span class="n">foo</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">foo</span><span class="p">.</span><span class="n">validate</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="m">1</span> <span class="n">x</span> <span class="m">3</span><span class="p">;</span> <span class="n">transposable</span> <span class="p">}</span>
 
-    /* Your code here */
-}
-</code></pre>
+    <span class="cm">/* Your code here */</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <h3 id="a-cautionary-example">A Cautionary Example</h3>
 <p>If you have more than one matrix, you should avoid the shorthand syntax because dimensions variables will not "stick" as you might expect. For example:</p>
-<pre><code class="kotlin">fun myFunction(foo: Matrix&lt;Double&gt;, bar: Matrix&lt;Double&gt;) {
-    foo.validate(&quot;foo&quot;) {  1  x 'N'; transposable }
-    bar.validate(&quot;bar&quot;) { 'N' x 'N' } // &lt;-- WILL NOT WORK
+<div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nf">myFunction</span><span class="p">(</span><span class="n">foo</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;,</span> <span class="n">bar</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">&lt;</span><span class="n">Double</span><span class="p">&gt;)</span> <span class="p">{</span>
+    <span class="n">foo</span><span class="p">.</span><span class="n">validate</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span> <span class="p">{</span>  <span class="m">1</span>  <span class="n">x</span> <span class="sc">&#39;N&#39;</span><span class="p">;</span> <span class="n">transposable</span> <span class="p">}</span>
+    <span class="n">bar</span><span class="p">.</span><span class="n">validate</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="sc">&#39;N&#39;</span> <span class="n">x</span> <span class="sc">&#39;N&#39;</span> <span class="p">}</span> <span class="c1">// &lt;-- WILL NOT WORK</span>
 
 
-    /* Your code here */
-}
-</code></pre>
+    <span class="cm">/* Your code here */</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>In that example, it will validate that <code>bar</code> is square, but not that its dimensions correspond with the number of columns in <code>foo</code> as you might expect. This is because each validate block allocates a separate <code>ValidationContext</code> that performs some of its validations at the end of the block.</p>
 <h2 id="how-it-works">How it works</h2>

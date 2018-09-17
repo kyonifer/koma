@@ -12,7 +12,7 @@
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4733,23 +4731,24 @@
 <h1 id="plotting">Plotting</h1>
 <p>Koma has limited plotting support via xchart (JVM only for now). The basic functionality mimics that of
 matplotlib and matlab:</p>
-<pre><code class="kotlin">// Create some normal random noise
-var a = randn(100,2)
-var b = cumsum(a)
+<div class="codehilite"><pre><span></span><span class="c1">// Create some normal random noise</span>
+<span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+<span class="k">var</span> <span class="py">b</span> <span class="p">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-figure(1)
-// Second parameter is color
-plot(a, 'b', &quot;First Run&quot;)
-plot(a+1, 'y', &quot;First Run Offset&quot;)
-xlabel(&quot;Time (s)&quot;)
-ylabel(&quot;Magnitude&quot;)
-title(&quot;White Noise&quot;)
-</code></pre>
+<span class="n">figure</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<span class="c1">// Second parameter is color</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="sc">&#39;b&#39;</span><span class="p">,</span> <span class="s">&quot;First Run&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">+</span><span class="m">1</span><span class="p">,</span> <span class="sc">&#39;y&#39;</span><span class="p">,</span> <span class="s">&quot;First Run Offset&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Magnitude&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;White Noise&quot;</span><span class="p">)</span>
+</pre></div>
+
 
 <p>An imshow command is also available for 2D plotting:</p>
-<pre><code class="kotlin">imshow(randn(100,100))
-imshow(randn(100,100), BufferedImage.TYPE_BYTE_INDEXED)
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">imshow</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">100</span><span class="p">))</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">100</span><span class="p">),</span> <span class="n">BufferedImage</span><span class="p">.</span><span class="n">TYPE_BYTE_INDEXED</span><span class="p">)</span>
+</pre></div></div>
         </div>
 
         <footer class="col-md-12">

@@ -12,7 +12,7 @@
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="../../code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body>
@@ -4742,44 +4740,51 @@
 </ul>
 <h2 id="building">Building</h2>
 <p>Grab a copy of the latest Koma code and enter the checked out directory:</p>
-<pre><code>git clone https://github.com/kyonifer/koma.git
+<div class="codehilite"><pre><span></span>git clone https://github.com/kyonifer/koma.git
 cd koma
-</code></pre>
+</pre></div>
+
 
 <p>Now run the gradle build command, passing in a parameter specifying which platform you
 are building for:</p>
 <!--names=JVM,JS,Native-->
 
-<pre><code class="bash"># Produces .jars for all koma artifacts in ./build/jvm
+<div class="codehilite"><pre><span></span><span class="c1"># Produces .jars for all koma artifacts in ./build/jvm</span>
 ./gradlew buildJvm
-</code></pre>
+</pre></div>
 
-<pre><code class="bash"># Outputs commonjs modules in ./node_modules/
+
+<div class="codehilite"><pre><span></span><span class="c1"># Outputs commonjs modules in ./node_modules/</span>
 ./gradlew buildJs
-</code></pre>
+</pre></div>
 
-<pre><code class="bash"># Outputs the following into ./build/native/&lt;your_platform&gt;:
-#   - komaKlib.klib, a bundle which can be used by other Kotlin/native projects
-#   - libkoma.so/.dll/.dylib, a native library that can be used by native applications
-#   - libkoma_api.h, a C header file which can be used to link against libkoma
-#   - komaExample.kexe, a native executable that can be run directly and embeds Koma 
+
+<div class="codehilite"><pre><span></span><span class="c1"># Outputs the following into ./build/native/&lt;your_platform&gt;:</span>
+<span class="c1">#   - komaKlib.klib, a bundle which can be used by other Kotlin/native projects</span>
+<span class="c1">#   - libkoma.so/.dll/.dylib, a native library that can be used by native applications</span>
+<span class="c1">#   - libkoma_api.h, a C header file which can be used to link against libkoma</span>
+<span class="c1">#   - komaExample.kexe, a native executable that can be run directly and embeds Koma </span>
 ./gradlew buildNative
-</code></pre>
+</pre></div>
+
 
 <p>To verify success, run some test code:</p>
 <!--names=JVM,JS,Native-->
 
-<pre><code class="bash"># Runs the unit tests
-./gradlew clean test
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="c1"># Runs the unit tests</span>
+./gradlew clean <span class="nb">test</span>
+</pre></div>
 
-<pre><code class="bash"># Runs a toy example assuming node is installed
+
+<div class="codehilite"><pre><span></span><span class="c1"># Runs a toy example assuming node is installed</span>
 node examples/js/example.js
-</code></pre>
+</pre></div>
 
-<pre><code class="bash"># Runs the previously built example executable
+
+<div class="codehilite"><pre><span></span><span class="c1"># Runs the previously built example executable</span>
 ./build/native/&lt;your_platform&gt;/komaExample.kexe
-</code></pre>
+</pre></div>
+
 
 <h2 id="note-about-ides">Note About IDEs</h2>
 <p>Koma JS and JVM can be imported into the Intellij IDEA IDE. Koma Native can

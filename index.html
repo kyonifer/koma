@@ -12,7 +12,7 @@
         <link href="css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/purebasic.min.css">
+        <link href="code_styles.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -20,9 +20,7 @@
         <![endif]-->
 
         <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
+        <script src="js/bootstrap-3.0.3.min.js" defer></script> 
     </head>
 
     <body class="homepage">
@@ -4748,79 +4746,76 @@ or <a href="General_Usage_Guide/N-Dimensional_Arrays.html">N-D arrays</a> sectio
 <h3 id="quickstart-using-from-kotlinjvm-or-kotlinjs">Quickstart (Using from Kotlin/JVM or Kotlin/JS)</h3>
 <p>Koma is hosted on bintray. First add the koma repository to your repo list. If
 using gradle:</p>
-<pre><code class="groovy">repositories { 
-    maven { 
-        url &quot;http://dl.bintray.com/kyonifer/maven&quot; 
-        jcenter()
-    }
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">repositories</span> <span class="o">{</span> 
+    <span class="n">maven</span> <span class="o">{</span> 
+        <span class="n">url</span> <span class="s2">&quot;http://dl.bintray.com/kyonifer/maven&quot;</span> 
+        <span class="n">jcenter</span><span class="o">()</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
 
 <p>Now add a dependency on the <code>koma-core</code> artifact:</p>
 <!--names=JVM,JS-->
 
-<pre><code class="Groovy">dependencies{
-    // If we were writing a library we'd just want to link against the API, so the user
-    // can choose which backend to use in their application
-    compile group: &quot;com.kyonifer&quot;, name:&quot;koma-core-api-jvm&quot;, version:&quot;0.12&quot;
-    // Select the EJML backend so we can write an application
-    compile group: &quot;com.kyonifer&quot;, name:&quot;koma-core-ejml&quot;, version: &quot;0.12&quot;
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">dependencies</span><span class="o">{</span>
+    <span class="n">compile</span> <span class="nl">group:</span> <span class="s2">&quot;com.kyonifer&quot;</span><span class="o">,</span> <span class="nl">name:</span><span class="s2">&quot;koma-core-ejml&quot;</span><span class="o">,</span> <span class="nl">version:</span> <span class="s2">&quot;0.12&quot;</span>
+<span class="o">}</span>
+</pre></div>
 
-<pre><code class="Groovy">dependencies{
-    // If we were writing a library we'd just want to link against the API, so the user
-    // can choose which backend to use in their application
-    compile group: &quot;com.kyonifer&quot;, name:&quot;koma-core-api-js&quot;, version:&quot;0.12&quot;
-    // Select the EJML backend so we can write an application
-    compile group: &quot;com.kyonifer&quot;, name:&quot;koma-core-js&quot;, version: &quot;0.12&quot;
-}
-</code></pre>
+
+<div class="codehilite"><pre><span></span><span class="n">dependencies</span><span class="o">{</span>
+    <span class="n">compile</span> <span class="nl">group:</span> <span class="s2">&quot;com.kyonifer&quot;</span><span class="o">,</span> <span class="nl">name:</span><span class="s2">&quot;koma-core-js&quot;</span><span class="o">,</span> <span class="nl">version:</span> <span class="s2">&quot;0.12&quot;</span>
+<span class="o">}</span>
+</pre></div>
+
 
 <p>And we're ready to go. Do a quick test:</p>
 <!--names=JVM,JS-->
 
-<pre><code class="kotlin">import koma.*
-import koma.extensions.*
+<div class="codehilite"><pre><span></span><span class="k">import</span> <span class="nn">koma.*</span>
+<span class="k">import</span> <span class="nn">koma.extensions.*</span>
 
-fun main(args: Array&lt;String&gt;)
-{
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span>
+<span class="p">{</span>
 
-    // Create some normal random noise
-    var a = randn(100,2)
-    var b = cumsum(a)
+    <span class="c1">// Create some normal random noise</span>
+    <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+    <span class="k">var</span> <span class="py">b</span> <span class="p">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-    figure(1)
-    // Second parameter is color
-    plot(a, 'b', &quot;First Run&quot;)
-    plot(a+1, 'y', &quot;First Run Offset&quot;)
-    xlabel(&quot;Time (s)&quot;)
-    ylabel(&quot;Magnitude&quot;)
-    title(&quot;White Noise&quot;)
+    <span class="n">figure</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+    <span class="c1">// Second parameter is color</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="sc">&#39;b&#39;</span><span class="p">,</span> <span class="s">&quot;First Run&quot;</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">+</span><span class="m">1</span><span class="p">,</span> <span class="sc">&#39;y&#39;</span><span class="p">,</span> <span class="s">&quot;First Run Offset&quot;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (s)&quot;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Magnitude&quot;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&quot;White Noise&quot;</span><span class="p">)</span>
 
-    figure(2)
-    plot(b, 'g') // green
-    xlabel(&quot;Velocity (lightweeks/minute)&quot;)
-    ylabel(&quot;Intelligence&quot;)
-    title(&quot;Random Walk&quot;)
+    <span class="n">figure</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="sc">&#39;g&#39;</span><span class="p">)</span> <span class="c1">// green</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Velocity (lightweeks/minute)&quot;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Intelligence&quot;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk&quot;</span><span class="p">)</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</pre></div>
 
-<pre><code class="kotlin">import koma.*
-import koma.extensions.*
 
-fun main(args: Array&lt;String&gt;)
-{
+<div class="codehilite"><pre><span></span><span class="k">import</span> <span class="nn">koma.*</span>
+<span class="k">import</span> <span class="nn">koma.extensions.*</span>
 
-    // Create some normal random noise
-    var a = randn(100,2)
-    var b = cumsum(a)
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span>
+<span class="p">{</span>
 
-    // On js, koma doesn't have built-in plotting, so we'll just print the value
-    println(b[99,0])
-}
-</code></pre>
+    <span class="c1">// Create some normal random noise</span>
+    <span class="k">var</span> <span class="py">a</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+    <span class="k">var</span> <span class="py">b</span> <span class="p">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="c1">// On js, koma doesn&#39;t have built-in plotting, so we&#39;ll just print the value</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="m">99</span><span class="p">,</span><span class="m">0</span><span class="p">])</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>On the JVM you should see:</p>
 <p><img alt="" src="https://raw.githubusercontent.com/kyonifer/koma/imgs/plotting.png" /></p>
@@ -4830,8 +4825,9 @@ After doing so, you should see CommonJs modules for Koma in the <code>./node_mod
 You can then use these modules from an installation of Node.js. For example, to run 
 the toy example main function defined at <a href="https://github.com/kyonifer/koma/blob/master/examples/js/example.js">examples/js/example.js</a>
 you would run the following in the Koma root folder:</p>
-<pre><code>node examples/js/example.js
-</code></pre>
+<div class="codehilite"><pre><span></span>node examples/js/example.js
+</pre></div>
+
 
 <h3 id="quickstart-native">Quickstart (Native)</h3>
 <p>You can use Koma in a native executable without either a JS or JVM runtime available. 
@@ -4840,8 +4836,9 @@ This will produce an executable called <code>build/native/komaExample.kexe</code
 includes the Koma library as well as the toy example main function 
 defined at <a href="https://github.com/kyonifer/koma/blob/master/examples/native/main.kt">examples/native/main.kt</a>.</p>
 <p>You can run the executable directly, without any js or java runtime dependency:</p>
-<pre><code>./build/konan/bin/linux/komaExample.kexe
-</code></pre>
+<div class="codehilite"><pre><span></span>./build/konan/bin/linux/komaExample.kexe
+</pre></div>
+
 
 <p>You can edit the binary by making modifications to <code>examples/native/main.kt</code> in the source tree.
 See the build from source section above for instructions on building shared or static libraries
@@ -4930,5 +4927,5 @@ which can be used from an application.</p></div>
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2018-09-16 23:04:49
+Build Date UTC : 2018-09-17 00:30:43
 -->
