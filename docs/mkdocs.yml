@@ -1,7 +1,13 @@
 site_name: Koma
-theme: cosmo
+theme:
+    name: cosmo
+    highlightjs: false
 docs_dir: markdown
 extra_javascript: 
     - tabbed_code.js
     - clean_links.js
 use_directory_urls: false
+markdown_extensions:
+    - codehilite
+extra_css:
+    - code_styles.css
