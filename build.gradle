@@ -13,7 +13,7 @@ def NumericalConstantSuffixes = [
 buildscript {
     ext.kotlin_version = '1.2.70'
     ext.kotlin_gradle_plugin_version = '1.2.60'
-    ext.kotlin_native_version = '0.8.2'
+    ext.kotlin_native_version = '0.9.1'
     ext.project_version = '0.12'
 
     repositories {
@@ -196,47 +196,23 @@ project(":koma-core-js") {
 }
 
 project(":koma-core-cblas") {
-    apply plugin: 'konan'
-    konanArtifacts {
-        interop('cblas') {
-            // TODO: `headers` here, but search the include path for a blas header,
-            // removing the hardcoded one in the defFile
-            defFile('cblas.def')
-        }
-        interop('lapacke') {
-            defFile('lapacke.def')
-        }
-        dynamic('koma') {
-            enableMultiplatform true
-            srcFiles fileTree('src')
-            srcFiles fileTree('srcgen')
-            // Because k/native doesnt support ServiceLoaders, reflection, etc., we have to build
-            // the API and the artifact together here.
-            srcFiles fileTree('../../koma-core-api/native/src')
-            linkerOpts "-S"
-            enableOptimizations(true)
-            libraries {
-                artifact 'cblas'
-                artifact 'lapacke'
-            }
-        }
-        library('komaKlib') {
-            enableMultiplatform true
-            srcFiles fileTree('src')
-            srcFiles fileTree('srcgen')
-            srcFiles fileTree('../../koma-core-api/native/src')
-            linkerOpts "-S"
-            enableOptimizations(true)
-            libraries {
-                artifact 'cblas'
-                artifact 'lapacke'
-            }
-        }
-        program('komaExample') {
+    apply plugin: 'kotlin-platform-native'
 
-            libraries {
-                artifact 'komaKlib'
-                srcFiles '../../examples/native/main.kt'
+    sourceSets.main.kotlin {
+        srcDirs += ['src', 'srcgen', '../../koma-core-api/native/src']
+        // TODO: Can k/n DSL only insert this into outputKind=EXECUTABLE?
+        srcDirs += '../../examples/native'
+    }
+    components.main {
+    baseName.set("koma")
+        targets = ['linux_x64','mingw_x64', 'macos_x64']
+        outputKinds = [EXECUTABLE, KLIBRARY, DYNAMIC, STATIC]
+        dependencies {
+            cinterop('cblas') {
+                defFile("cblas.def")
+            }
+            cinterop('lapacke') {
+                defFile('lapacke.def')
             }
         }
     }
@@ -318,8 +294,7 @@ task buildJvm {
 }
 task buildNative(type: Copy) {
     dependsOn(":koma-core-cblas:build")
-    from "koma-core/native-cblas/build/konan/bin"
-    from "koma-core/native-cblas/build/konan/libs"
+    from "koma-core/native-cblas/build/"
     include "**/*.kexe"
     include "**/*.klib"
     include "**/*.h"

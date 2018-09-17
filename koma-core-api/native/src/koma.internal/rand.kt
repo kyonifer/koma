@@ -6,11 +6,11 @@ import platform.posix.*
 actual internal val rng = object: KomaRandom {
 
     init {
-        srand(time(null).toInt())
+        srand(time(null).toUInt())
     }
     override fun setSeed(seed: Long) {
         // TODO: Cast might be bad news for randomness
-        srand(seed.toInt())
+        srand(seed.toUInt())
     }
     private var spare: Double? = null
     // TODO: Implement ziggurat
