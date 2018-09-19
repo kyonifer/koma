@@ -1,39 +1,58 @@
 
 def published = ['koma-core-ejml', 'koma-core-mtj', 'koma-core-jblas',
                  'koma-core-api-common', 'koma-core-api-js', 'koma-core-api-jvm',
-                 'koma-core-js', 'koma-logging', 'koma-plotting']
+                 'koma-core-js', 'koma-logging', 'koma-plotting',
+                 'koma-core-cblas']
 
 configure(subprojects.findAll { published.contains(it.name) }) {
     apply plugin: 'com.jfrog.bintray'
+
+    version = koma_version
+    group = koma_group
+
     bintray {
         override = true
         user = System.getenv('BINTRAY_USER')
         key = System.getenv("BINTRAY_KEY")
-        publications = ['MyPublication']
+        if (project.name.contains("cblas")) {
+
+            bintrayUpload.doFirst {
+                publications = project.publishing.publications.findAll { !it.name.contains('-test') }.collect {
+                    println("Uploading artifact '$it.groupId:$it.artifactId:$it.version' from publication '$it.name'")
+                    it.name
+                }
+            }
+        } else {
+            publications = ['MyPublication']
+        }
         pkg {
             repo = 'maven'
             name = project.name
             licenses = ['Apache-2.0']
             vcsUrl = 'https://github.com/kyonifer/koma.git'
             version {
-                name=project_version
+                name=koma_version
             }
         }
+    }
+    apply plugin: 'maven-publish'
+
+
+    if (it.name.contains("cblas")) {
+        return
     }
     task sourceJar ( type: Jar ) {
         classifier = 'sources'
         from sourceSets.main.allSource
     }
-
-    apply plugin: 'maven-publish'
     publishing {
         publications {
             MyPublication(MavenPublication) {
                 from components.java
                 artifact sourceJar
-                groupId 'com.kyonifer'
+                groupId koma_group
                 artifactId project.name
-                version project_version
+                version koma_version
             }
         }
     }

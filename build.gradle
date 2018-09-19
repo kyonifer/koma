@@ -10,11 +10,9 @@ def NumericalConstantSuffixes = [
     'Byte': '.toByte()'
 ]
 
+def releaseMode = project.hasProperty("release")
+
 buildscript {
-    ext.kotlin_version = '1.2.70'
-    ext.kotlin_gradle_plugin_version = '1.2.60'
-    ext.kotlin_native_version = '0.9.1'
-    ext.project_version = '0.12'
 
     repositories {
         mavenCentral()
@@ -22,10 +20,10 @@ buildscript {
         maven { url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_gradle_plugin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_plugin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
 }
 
@@ -204,15 +202,26 @@ project(":koma-core-cblas") {
         srcDirs += '../../examples/native'
     }
     components.main {
-    baseName.set("koma")
-        targets = ['linux_x64','mingw_x64', 'macos_x64']
-        outputKinds = [EXECUTABLE, KLIBRARY, DYNAMIC, STATIC]
+        if (releaseMode) {
+            outputKinds = [KLIBRARY]
+            targets = ["linux_x64", "raspberrypi"]
+        } else {
+            baseName.set("koma")
+            outputKinds = [EXECUTABLE, KLIBRARY, DYNAMIC, STATIC]
+        }
         dependencies {
             cinterop('cblas') {
                 defFile("cblas.def")
             }
             cinterop('lapacke') {
                 defFile('lapacke.def')
+            }
+        }
+        pom {
+            withXml {
+                def root = asNode()
+                root.appendNode('name', 'Koma')
+                root.appendNode('description', 'A library for multiplatform scientific computing.')
             }
         }
     }
