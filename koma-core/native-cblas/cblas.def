@@ -1,3 +1,1 @@
 headers=cblas.h
-compilerOpts = -I/usr/local/opt/openblas/include
-linkerOpts = -L/usr/local/opt/openblas/lib -lblas

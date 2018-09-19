@@ -202,9 +202,9 @@ project(":koma-core-cblas") {
         srcDirs += '../../examples/native'
     }
     components.main {
+        targets = ["linux_x64", "raspberrypi", "macos_x64"]
         if (releaseMode) {
             outputKinds = [KLIBRARY]
-            targets = ["linux_x64", "raspberrypi"]
         } else {
             baseName.set("koma")
             outputKinds = [EXECUTABLE, KLIBRARY, DYNAMIC, STATIC]
@@ -212,9 +212,35 @@ project(":koma-core-cblas") {
         dependencies {
             cinterop('cblas') {
                 defFile("cblas.def")
+                for (targetName in ["raspberrypi", "linux"]) {
+                    target(targetName) {
+                        compilerOpts '-I/usr/include/x86_64-linux-gnu -I/usr/include'
+                        linkerOpts '-L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas'
+                    }
+                }
+                target('macos') {
+                    compilerOpts '-I/usr/local/opt/openblas/include'
+                    linkerOpts '-L/usr/local/opt/openblas/lib'
+                }
+                allTargets {
+                    linkerOpts '-lblas'
+                }
             }
             cinterop('lapacke') {
-                defFile('lapacke.def')
+                defFile("lapacke.def")
+                for (targetName in ["raspberrypi", "linux"]) {
+                    target(targetName) {
+                        compilerOpts '-I/usr/include/x86_64-linux-gnu -I/usr/include'
+                        linkerOpts '-L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/lapack'
+                    }
+                }
+                target('macos') {
+                    compilerOpts '-I/usr/local/opt/lapack/include'
+                    linkerOpts '-L/usr/local/opt/lapack/lib -llapacke'
+                }
+                allTargets {
+                    linkerOpts '-llapacke'
+                }
             }
         }
         pom {
