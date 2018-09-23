@@ -10,7 +10,6 @@ def NumericalConstantSuffixes = [
     'Byte': '.toByte()'
 ]
 
-def releaseMode = project.hasProperty("release")
 
 buildscript {
 
@@ -202,20 +201,31 @@ project(":koma-core-cblas") {
         srcDirs += '../../examples/native'
     }
     components.main {
-        targets = ["linux_x64", "raspberrypi", "macos_x64"]
+        // Output artifacts with FQNs to differentiate them on maven, include embedded target
+        def releaseMode = project.hasProperty("release")
+        def unixTargets = ["linux", "raspberrypi"]
+
         if (releaseMode) {
+            targets = unixTargets
             outputKinds = [KLIBRARY]
         } else {
             baseName.set("koma")
             outputKinds = [EXECUTABLE, KLIBRARY, DYNAMIC, STATIC]
         }
         dependencies {
+
+
+            // TODO: This is the suggested way to do OS specific flags, but it is currently
+            // broken for many outputKinds (test executable, dynamic...) on konan 0.9.
+            /*
+            def unixIncludes = '-I/usr/include/x86_64-linux-gnu -I/usr/include'
+            def unixLocs = "-L/usr/lib -L/usr/lib/x86_64-linux-gnu"
             cinterop('cblas') {
                 defFile("cblas.def")
-                for (targetName in ["raspberrypi", "linux"]) {
+                for (targetName in unixTargets) {
                     target(targetName) {
-                        compilerOpts '-I/usr/include/x86_64-linux-gnu -I/usr/include'
-                        linkerOpts '-L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas'
+                        compilerOpts unixIncludes
+                        linkerOpts unixLocs + '-L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas'
                     }
                 }
                 target('macos') {
@@ -228,18 +238,36 @@ project(":koma-core-cblas") {
             }
             cinterop('lapacke') {
                 defFile("lapacke.def")
-                for (targetName in ["raspberrypi", "linux"]) {
+                for (targetName in unixTargets) {
                     target(targetName) {
-                        compilerOpts '-I/usr/include/x86_64-linux-gnu -I/usr/include'
-                        linkerOpts '-L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/lapack'
+                        compilerOpts unixIncludes
+                        linkerOpts unixLocs + '-L/usr/lib/x86_64-linux-gnu/lapack'
                     }
                 }
                 target('macos') {
                     compilerOpts '-I/usr/local/opt/lapack/include'
-                    linkerOpts '-L/usr/local/opt/lapack/lib -llapacke'
+                    linkerOpts '-L/usr/local/opt/lapack/lib'
                 }
                 allTargets {
                     linkerOpts '-llapacke'
+                }
+
+            }
+            */
+            // Instead we'll do it by hand...
+            def os = org.gradle.internal.os.OperatingSystem.current()
+            cinterop("cblas") {
+                if(os.isMacOsX()) {
+                    defFile("defs_macos/cblas.def")
+                } else if (os.isLinux()) {
+                    defFile("defs_linux/cblas.def")
+                }
+            }
+            cinterop("lapacke") {
+                if(os.isMacOsX()) {
+                    defFile("defs_macos/lapacke.def")
+                } else if (os.isLinux()) {
+                    defFile("defs_linux/lapacke.def")
                 }
             }
         }
@@ -328,11 +356,12 @@ task buildJvm {
     dependsOn(":koma-core-api-jvm:build")
 }
 task buildNative(type: Copy) {
-    dependsOn(":koma-core-cblas:build")
+    dependsOn(":koma-core-cblas:assemble")
     from "koma-core/native-cblas/build/"
     include "**/*.kexe"
     include "**/*.klib"
     include "**/*.h"
+    include "**/*.a"
     include "**/*.so"
     include "**/*.dylib"
     include "**/*.dll"
