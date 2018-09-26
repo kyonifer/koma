@@ -68,9 +68,20 @@ fun <T, N: Number> Iterable<T>.toMatrix(vararg selectors: (T) -> N): Matrix<kotl
 }
 
 /**
- * Convert a `Iterable<T>` to a single column `Matrix<Double>`
+ * Convert an `Iterable<T>` to a single column `Matrix<Double>`
  */
-fun <T, N: Number> Iterable<T>.toVector(selector: (T) -> N): Matrix<kotlin.Double> {
+fun <T, N: Number> Iterable<T>.toRowVector(selector: (T) -> N): Matrix<kotlin.Double> {
+
+    val items = toList()
+
+    return koma.fill(1, items.size) { _, col -> selector(items[col]).toDouble() }
+}
+
+
+/**
+ * Convert an `Iterable<T>` to a single column `Matrix<Double>`
+ */
+fun <T, N: Number> Iterable<T>.toColVector(selector: (T) -> N): Matrix<kotlin.Double> {
 
     val items = toList()
 
@@ -89,36 +100,41 @@ fun <T, N: Number> Sequence<T>.toMatrix(vararg selectors: (T) -> N): Matrix<kotl
  *
  * For example, one can write
  * ```
- * var a = matrixOf[1,2,3 end
- *                  4,5,6]
+ * val a = matrixOf(1,2,3 end
+ *                  4,5,6)
  * ```
  *
  * to get a 2x3 [Matrix<Double>] with the given values. `end` is a helper object that indicates the end of a row
- * to this object. Note that one currently cannot use this function to generate a column vector:
- *
- * ```// ERROR:```
- *
- * ```matrixOf[1 end 2 end 3]```
- *
- * Instead do this:
- *
- * ```// Define a column vector by transposing a row-vector```
- *
- * ```matrixOf[1, 2, 3].T```
+ * to this object.
  */
 fun matrixOf(vararg ts: Any): Matrix<Double> = koma.mat.get(*ts)
 
 
 @Suppress("ReplaceGetOrSet")
 /**
- * A helper function that allows for quick construction of a vector implemented as a Matrix.
+ * A helper function that allows for quick construction of a vertical vector implemented as a Matrix.
  *
  * For example, one can write
  * ```
- * var a = vectorOf[1,2,3]
+ * val a = colVectorOf(1,2,3)
  * ```
  */
-fun vectorOf(vararg ts: Any): Matrix<Double>  {
+fun colVectorOf(vararg ts: Any): Matrix<Double>  {
     if (ts.any { it is Pair<*,*> }) throw Exception("There can only be one row in a vector!")
     return koma.mat.get(*ts).T
+}
+
+
+@Suppress("ReplaceGetOrSet")
+/**
+ * A helper function that allows for quick construction of a horizontal vector implemented as a Matrix.
+ *
+ * For example, one can write
+ * ```
+ * val a = rowVectorOf(1,2,3)
+ * ```
+ */
+fun rowVectorOf(vararg ts: Any): Matrix<Double>  {
+    if (ts.any { it is Pair<*,*> }) throw Exception("There can only be one column in a vector!")
+    return koma.mat.get(*ts)
 }
