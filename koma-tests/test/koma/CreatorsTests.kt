@@ -140,7 +140,62 @@ class CreatorsTests {
             assertFalse { (b-c).any { it == 0.0 } }
         }
     }
+    @Test
+    fun testToMatrix() {
+        allBackends {
+            val a = (0..9)
+                    .toMatrix(
+                            {it},
+                            {it * 100}
+                    )
 
+            (0..9).forEach {
+                        assertEquals(a[it,0], it.toDouble())
+                        assertEquals(a[it,1], it.toDouble() * 100.0)
+                    }
+        }
+    }
+
+    @Test
+    fun testToVector() {
+        allBackends {
+            val a = (0..9)
+                    .toVector { it }
+
+            (0..9).forEach {
+                assertEquals(a[it,0], it.toDouble())
+            }
+        }
+    }
+
+    @Test
+    fun testMatrixOf() {
+        val a = matrixOf(0, 1, 2 end 3, 4, 5)
+
+        (0..2).forEach { c ->
+            (0..1).forEach { r ->
+                assertEquals(a[r,c], c.toDouble() + (r.toDouble()*3.0))
+            }
+        }
+    }
+
+    @Test
+    fun testVectorOfPass() {
+        val v = vectorOf(1,2,3)
+        (0..2).forEach {
+            assertEquals(v[0,1], it.toDouble())
+        }
+    }
+
+    @Test
+    fun testVectorFail() {
+        try {
+            vectorOf(1, 2 end 3, 4)
+        } catch (e: Exception) {
+            return
+        }
+        throw Exception("testVectorFail() didn't fail")
+    }
     @Test
     fun testSeed() {
         allBackends {
