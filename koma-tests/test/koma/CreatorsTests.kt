@@ -140,6 +140,87 @@ class CreatorsTests {
             assertFalse { (b-c).any { it == 0.0 } }
         }
     }
+    @Test
+    fun testToMatrix() {
+        allBackends {
+            val a = (0..9)
+                    .toMatrix(
+                            {it},
+                            {it * 100}
+                    )
+
+            (0..9).forEach {
+                        assertEquals(a[it,0], it.toDouble())
+                        assertEquals(a[it,1], it.toDouble() * 100.0)
+                    }
+        }
+    }
+
+    @Test
+    fun testToColVector() {
+        allBackends {
+            val a = (0..9).toColVector { it }
+
+            (0..9).forEach {
+                assertEquals(a[it,0], it.toDouble())
+            }
+        }
+    }
+
+    @Test
+    fun testToRowVector() {
+        allBackends {
+            val a = (0..9).toRowVector { it }
+
+            (0..9).forEach {
+                assertEquals(a[0,it], it.toDouble())
+            }
+        }
+    }
+
+
+    @Test
+    fun testMatrixOf() {
+        val a = matrixOf(0, 1, 2 end 3, 4, 5)
+
+        (0..2).forEach { c ->
+            (0..1).forEach { r ->
+                assertEquals(a[r,c], c.toDouble() + (r.toDouble()*3.0))
+            }
+        }
+    }
+
+    @Test
+    fun testVectorColPass() {
+        val v = colVectorOf(0,1,2)
+        (0..2).forEach {
+            assertEquals(v[it,0], it.toDouble())
+        }
+    }
+
+    @Test
+    fun testVectorColFail() {
+        assertFails {
+            colVectorOf(1, 2 end 3, 4)
+        }
+    }
+
+
+    @Test
+    fun testVectorRowPass() {
+        val v = rowVectorOf(0,1,2)
+        (0..2).forEach {
+            assertEquals(v[0,it], it.toDouble())
+        }
+    }
+
+    @Test
+    fun testVectorRowFail() {
+        assertFails {
+            rowVectorOf(1, 2 end 3, 4)
+
+        }
+    }
 
     @Test
     fun testSeed() {
