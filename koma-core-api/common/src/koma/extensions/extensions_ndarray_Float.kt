@@ -84,7 +84,6 @@ fun  NDArray<Float>.reshape(vararg dims: Int): NDArray<Float> {
 inline fun <reified R> NDArray<Float>.map(crossinline f: (Float) -> R)
     = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.getFloat(it)) } )
 
-
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage

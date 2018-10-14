@@ -74,7 +74,6 @@ fun  NDArray<Long>.reshape(vararg dims: Int): NDArray<Long> {
 inline fun <reified R> NDArray<Long>.map(crossinline f: (Long) -> R)
     = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.getLong(it)) } )
 
-
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an
  * output NDArray. Index given to f is a linear index, depending on the underlying storage

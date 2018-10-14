@@ -492,13 +492,11 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     genDec: genDec(dtype),
                     reifiedDec: reifiedDec(dtype),
                     mapDec: mapDec(dtype),
-                    mapCrossinline: mapCrossinline(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
                     factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
                     factoryPattern: factoryPattern(dtype, "NDArray"),
                     inline: inline(dtype),
-                    extensionMap: extensionMap(dtype),
                     extensionCreate: extensionCreate(dtype),
                     extensionMapIndexed: extensionMapIndexed(dtype),
                     extensionMapIndexedN: extensionMapIndexedN(dtype),
@@ -558,11 +556,7 @@ def reifiedDec(dtype) {
 }
 
 def mapDec(dtype) {
-    dtype == 'T' ? "<T, R>" : "<reified R>"
-}
-
-def mapCrossinline(dtype) {
-    dtype == 'T' ? "" : "crossinline"
+    dtype == 'T' ? "<T, reified R>" : "<reified R>"
 }
 
 def initStorage(dtype) {
@@ -674,13 +668,6 @@ def extensionCreate(dtype) {
         return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*lengths).fill(filler)\n"
     } else {
         return "    = NDArray.createGeneric<T>(*lengths, filler=filler)\n"
-    }
-}
-def extensionMap(dtype) {
-    if (dtype != "T") {
-        return "    = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.get${dtype}(it)) } )\n"
-    } else {
-        return "    = NDArray.createGeneric(*shape().toIntArray(), filler = { f(this.getGeneric(*it)) })\n"
     }
 }
 def extensionMapIndexed(dtype) {
