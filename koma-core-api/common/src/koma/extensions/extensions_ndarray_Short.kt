@@ -71,8 +71,8 @@ fun  NDArray<Short>.reshape(vararg dims: Int): NDArray<Short> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapShort")
-inline fun  NDArray<Short>.map(f: (Short) -> Short)
-    = NDArray.shortFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getShort(it)) }
+inline fun <reified R> NDArray<Short>.map(crossinline f: (Short) -> R)
+    = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.getShort(it)) } )
 
 
 /**

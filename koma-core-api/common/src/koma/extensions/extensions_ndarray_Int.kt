@@ -81,8 +81,8 @@ fun  NDArray<Int>.reshape(vararg dims: Int): NDArray<Int> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapInt")
-inline fun  NDArray<Int>.map(f: (Int) -> Int)
-    = NDArray.intFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getInt(it)) }
+inline fun <reified R> NDArray<Int>.map(crossinline f: (Int) -> R)
+    = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.getInt(it)) } )
 
 
 /**

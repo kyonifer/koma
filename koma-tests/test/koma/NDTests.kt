@@ -231,4 +231,18 @@ class NDTests {
         assertEquals(e.shape(), e.reshape(2, 2).shape())
         assertEquals(e.toList(), a.toList())
     }
+    
+    @Test
+    fun testMapBetweenTypes() {
+        val ints = NDArray.createLinear(2, 2, filler = { intArrayOf(5, 10, 0, 3)[it]})
+        val doubles = NDArray.createLinear(2, 2, filler = { doubleArrayOf(5.0, 10.0, 0.0, 3.0)[it]})
+        val strings = NDArray.createLinear(2, 2, filler = { arrayOf("5", "10", "0", "3")[it]})
+        val doublesFromInts = ints.map { it.toDouble() }
+        val stringsFromInts = ints.map { it.toString() }
+        val intsFromStrings = strings.map { it.toInt() }
+
+        assertEquals(doubles.toList(), doublesFromInts.toList())
+        assertEquals(strings.toList(), stringsFromInts.toList())
+        assertEquals(ints.toList(), intsFromStrings.toList())
+    }
 }

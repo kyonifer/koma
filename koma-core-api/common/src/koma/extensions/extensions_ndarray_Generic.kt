@@ -82,8 +82,8 @@ inline fun <reified T> NDArray<T>.reshape(vararg dims: Int): NDArray<T> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapGeneric")
-fun <T> NDArray<T>.map(f: (T) -> T)
-    = NDArray.createGeneric<T>(*shape().toIntArray(), filler = { f(this.getGeneric(*it)) })
+fun <T, R> NDArray<T>.map( f: (T) -> R)
+    = NDArray.createGeneric(*shape().toIntArray(), filler = { f(this.getGeneric(*it)) })
 
 
 /**

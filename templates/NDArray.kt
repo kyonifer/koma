@@ -2,6 +2,7 @@ package koma.ndarray
 
 import koma.extensions.create
 import koma.extensions.fill
+import koma.extensions.fillLinear
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
 import koma.internal.default.utils.safeNIdxToLinear
@@ -41,6 +42,14 @@ interface NDArray<T> {
             when(T::class) {
                 $typeCheckClauses
                 else          -> createGeneric(*dims) { filler(it) }
+            } as NDArray<T>
+
+        @Suppress("UNCHECKED_CAST")
+        inline fun <reified T> createLinear(vararg dims: Int,
+                                            crossinline filler: (Int) -> T) =
+            when(T::class) {
+                $typeCheckClausesLinear
+                else          -> createGenericNulls<T>(*dims).fillLinear { filler(it) }
             } as NDArray<T>
     }
 

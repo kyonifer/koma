@@ -71,8 +71,8 @@ fun  NDArray<Byte>.reshape(vararg dims: Int): NDArray<Byte> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapByte")
-inline fun  NDArray<Byte>.map(f: (Byte) -> Byte)
-    = NDArray.byteFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getByte(it)) }
+inline fun <reified R> NDArray<Byte>.map(crossinline f: (Byte) -> R)
+    = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.getByte(it)) } )
 
 
 /**

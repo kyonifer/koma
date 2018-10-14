@@ -70,7 +70,7 @@ ${reifiedInline}fun $reifiedDec NDArray<${dtype}>.reshape(vararg dims: Int): NDA
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("map${dtypeName}")
-${inline}fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype})
+${inline}fun ${mapDec} NDArray<${dtype}>.map(${mapCrossinline} f: (${dtype}) -> R)
 $extensionMap
 
 /**
