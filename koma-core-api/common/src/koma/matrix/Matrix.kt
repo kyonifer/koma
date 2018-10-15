@@ -329,8 +329,6 @@ interface Matrix<T>: NDArray<T> {
     override fun setLong(vararg indices: Int, value: Long)
             = error("Matrices do not support Long values")
 
-    override fun getLinear(index: Int): T = getGeneric(index)
-    override fun setLinear(index: Int, value: T) = setGeneric(index, value)
     override val size get() = this.numRows() * this.numCols()
     override fun shape(): List<Int> = listOf(this.numRows(), this.numCols())
     override fun getBaseArray(): Any = this.getBaseMatrix()

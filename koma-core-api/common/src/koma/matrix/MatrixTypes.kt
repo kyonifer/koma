@@ -5,9 +5,9 @@ package koma.matrix
  * (e.g. creators.kt which return Matrix<T> for a requested T).
  */
 object MatrixTypes {
-    val DoubleType: MatrixType<Double> = {koma.factory}
-    val IntType: MatrixType<Int> = {koma.intFactory }
-    val FloatType: MatrixType<Float> = {koma.floatFactory} 
+    val DoubleType: MatrixType<Double> = {Matrix.doubleFactory}
+    val IntType: MatrixType<Int> = {Matrix.intFactory }
+    val FloatType: MatrixType<Float> = {Matrix.floatFactory}
 }
 
 typealias MatrixType<T> = ()->MatrixFactory<Matrix<T>>

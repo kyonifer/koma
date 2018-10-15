@@ -111,7 +111,7 @@ interface NDArray<T> {
                     cursor += 1
                     // TODO: Either make 1D access work like Matrix or fix this
                     // to not use the largest dimension.
-                    return this@NDArray.getLinear(cursor - 1)
+                    return this@NDArray.getGeneric(cursor - 1)
                 }
                 override fun hasNext() = cursor < size
             }

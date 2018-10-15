@@ -11,7 +11,6 @@ package koma.extensions
 import koma.internal.default.generated.ndarray.DefaultGenericNDArray
 import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
-import koma.matrix.doubleFactory
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
 import koma.internal.default.utils.nIdxToLinear

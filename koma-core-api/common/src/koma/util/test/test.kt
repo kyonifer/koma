@@ -40,7 +40,7 @@ fun allBackends(f: () -> Unit) {
     if (facs.isEmpty())
         throw IllegalStateException("Asked to test all backends, but no backends found.")
     for (fac in facs) {
-        koma.factory = fac
+        Matrix.doubleFactory = fac
         f()
     }
 
