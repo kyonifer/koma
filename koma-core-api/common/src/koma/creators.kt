@@ -134,25 +134,6 @@ fun <T> rand(rows: Int,
         = dtype().rand(rows, cols)
 
 /**
- * Creates an matrix filled with unit normal random numbers, using the given seed for the RNG.
- * Subsequent calls with the same seed will produce identical numbers.
- */
-@KomaJsName("randSeed")
-@Deprecated("Call setSeed and randn separately")
-fun rand(rows: Int, cols: Int, seed: Long): Matrix<Double> = rand(rows,
-        cols,
-        seed,
-        dtype= MatrixTypes.DoubleType)
-@Deprecated("Call setSeed and randn separately")
-fun <T> rand(rows: Int,
-             cols: Int,
-             seed: Long,
-             dtype: MatrixType<T>): Matrix<T> {
-    setSeed(seed)
-    return dtype().rand(rows, cols)
-}
-
-/**
  * Creates an matrix filled with unit normal random numbers
  */
 @KomaJsName("randn")
@@ -163,25 +144,6 @@ fun <T> randn(rows: Int,
               cols: Int,
               dtype: MatrixType<T>): Matrix<T>
         = dtype().randn(rows, cols)
-
-/**
- * Creates an matrix filled with unit normal random numbers, using the given seed for the RNG.
- * Subsequent calls with the same seed will produce identical numbers.
- */
-@KomaJsName("randnSeed")
-@Deprecated("Call setSeed and randn separately")
-fun randn(rows: Int, cols: Int, seed: Long): Matrix<Double> = randn(rows,
-        cols,
-        seed,
-        dtype= MatrixTypes.DoubleType)
-@Deprecated("Call setSeed and randn separately")
-fun <T> randn(rows: Int,
-              cols: Int,
-              seed: Long,
-              dtype: MatrixType<T>): Matrix<T> {
-    setSeed(seed)
-    return dtype().randn(rows, cols)
-}
 
 /**
  * Creates an vector filled in by the given range information. The filled values will start at [start] and

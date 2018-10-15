@@ -198,16 +198,10 @@ fun min(num1: Double, num2: Int) = if (num2 > num1) num1 else num2.toDouble()
  */
 fun ln(arr: Double) = kotlin.math.ln(arr)
 
-@Deprecated("Please use ln() instead", ReplaceWith("ln(arr)"))
-fun log(arr: Double) = ln(arr)
-
 /**
  * A convenience function performing the log operation via the [kotlin.math] equivalent call.
  */
 fun ln(arr: Int) = ln(arr.toDouble())
-
-@Deprecated("Use ln()", ReplaceWith("ln(arr)"))
-fun log(arr: Int) = ln(arr)
 
 /**
  * A convenience function performing the logb operation via the [kotlin.math] equivalent call.

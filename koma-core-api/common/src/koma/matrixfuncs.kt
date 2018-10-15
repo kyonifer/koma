@@ -198,9 +198,6 @@ fun floor(arr: Matrix<Double>) = arr.map { kotlin.math.floor(it).toDouble() }
  */
 fun ln(arr: Matrix<Double>) = arr.map { ln(it) }
 
-@Deprecated("Use ln()", ReplaceWith("ln(arr)"))
-fun log(arr: Matrix<Double>) = ln(arr)
-
 /**
  * Returns a matrix of the log-base-b of each element in the input matrix
  *
