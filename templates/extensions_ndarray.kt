@@ -159,7 +159,6 @@ operator fun $genDec NDArray<${dtype}>.get(vararg indices: IntRange): NDArray<${
 
 @koma.internal.JvmName("set${dtypeName}")
 operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: NDArray<${dtype}>) {
-    val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
     val outOfBounds = lastIndex.withIndex().any { it.value > shape()[it.index] }
     if (outOfBounds)

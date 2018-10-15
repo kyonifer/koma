@@ -35,11 +35,11 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
         return storage[nIdxToLinear(indices)]
     }
     override fun getGeneric(i: Int): T = storage[i]
-    override fun setGeneric(i: Int, value: T) { storage[i] = value }
+    override fun setGeneric(i: Int, v: T) { storage[i] = v }
 
-    override fun setGeneric(vararg indices: Int, value: T) {
+    override fun setGeneric(vararg indices: Int, v: T) {
         checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value
+        storage[nIdxToLinear(indices)] = v
     }
     // TODO: cache this
     override val size get() = storage.size
@@ -56,6 +56,7 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
             error(wrongType)
     }
     override fun setDouble(i: Int, v: Double) {
+       @Suppress("UNCHECKED_CAST")
        setGeneric(i, v as T)
     }
 
@@ -67,6 +68,7 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
             error(wrongType)
     }
     override fun setByte(i: Int, v: Byte) {
+       @Suppress("UNCHECKED_CAST")
        setGeneric(i, v as T)
     }
 
@@ -78,6 +80,7 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
             error(wrongType)
     }
     override fun setInt(i: Int, v: Int) {
+       @Suppress("UNCHECKED_CAST")
        setGeneric(i, v as T)
     }
 
@@ -89,6 +92,7 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
             error(wrongType)
     }
     override fun setFloat(i: Int, v: Float) {
+       @Suppress("UNCHECKED_CAST")
        setGeneric(i, v as T)
     }
 
@@ -100,6 +104,7 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
             error(wrongType)
     }
     override fun setLong(i: Int, v: Long) {
+       @Suppress("UNCHECKED_CAST")
        setGeneric(i, v as T)
     }
 
@@ -111,6 +116,7 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
             error(wrongType)
     }
     override fun setShort(i: Int, v: Short) {
+       @Suppress("UNCHECKED_CAST")
        setGeneric(i, v as T)
     }
 

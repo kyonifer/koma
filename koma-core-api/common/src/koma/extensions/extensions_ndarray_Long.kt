@@ -162,7 +162,6 @@ operator fun  NDArray<Long>.get(vararg indices: IntRange): NDArray<Long> {
 
 @koma.internal.JvmName("setLong")
 operator fun  NDArray<Long>.set(vararg indices: Int, value: NDArray<Long>) {
-    val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
     val outOfBounds = lastIndex.withIndex().any { it.value > shape()[it.index] }
     if (outOfBounds)

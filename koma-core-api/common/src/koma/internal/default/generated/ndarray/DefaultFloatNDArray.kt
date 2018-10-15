@@ -35,11 +35,11 @@ open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val
         return storage[nIdxToLinear(indices)]
     }
     override fun getGeneric(i: Int): Float = storage[i]
-    override fun setGeneric(i: Int, value: Float) { storage[i] = value }
+    override fun setGeneric(i: Int, v: Float) { storage[i] = v }
 
-    override fun setGeneric(vararg indices: Int, value: Float) {
+    override fun setGeneric(vararg indices: Int, v: Float) {
         checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value
+        storage[nIdxToLinear(indices)] = v
     }
     // TODO: cache this
     override val size get() = storage.size

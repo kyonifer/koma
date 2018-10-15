@@ -601,6 +601,7 @@ def convertGetter(baseDtype, toDtype) {
 def convertSetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
         return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+               "       @Suppress(\"UNCHECKED_CAST\")\n" + 
                "       setGeneric(i, v as ${baseDtype})\n" +
                "    }\n"
     else
@@ -754,6 +755,7 @@ def primitiveGetSet(types) {
         @KomaJsName("set${it}ND")
         fun set$it(vararg indices: Int, v: $it) = set$it(safeNIdxToLinear(indices), v)
         @KomaJsName("set${it}1D")
+        @Suppress("UNCHECKED_CAST")
         fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
         """.stripIndent().replaceAll("\n", indent)
     }.join(indent)

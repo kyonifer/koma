@@ -152,6 +152,7 @@ interface NDArray<T> {
     @KomaJsName("setDoubleND")
     fun setDouble(vararg indices: Int, v: Double) = setDouble(safeNIdxToLinear(indices), v)
     @KomaJsName("setDouble1D")
+    @Suppress("UNCHECKED_CAST")
     fun setDouble(i: Int, v: Double) { setGeneric(i, v as T) }
 
 
@@ -162,6 +163,7 @@ interface NDArray<T> {
     @KomaJsName("setFloatND")
     fun setFloat(vararg indices: Int, v: Float) = setFloat(safeNIdxToLinear(indices), v)
     @KomaJsName("setFloat1D")
+    @Suppress("UNCHECKED_CAST")
     fun setFloat(i: Int, v: Float) { setGeneric(i, v as T) }
 
 
@@ -172,6 +174,7 @@ interface NDArray<T> {
     @KomaJsName("setLongND")
     fun setLong(vararg indices: Int, v: Long) = setLong(safeNIdxToLinear(indices), v)
     @KomaJsName("setLong1D")
+    @Suppress("UNCHECKED_CAST")
     fun setLong(i: Int, v: Long) { setGeneric(i, v as T) }
 
 
@@ -182,6 +185,7 @@ interface NDArray<T> {
     @KomaJsName("setIntND")
     fun setInt(vararg indices: Int, v: Int) = setInt(safeNIdxToLinear(indices), v)
     @KomaJsName("setInt1D")
+    @Suppress("UNCHECKED_CAST")
     fun setInt(i: Int, v: Int) { setGeneric(i, v as T) }
 
 
@@ -192,6 +196,7 @@ interface NDArray<T> {
     @KomaJsName("setShortND")
     fun setShort(vararg indices: Int, v: Short) = setShort(safeNIdxToLinear(indices), v)
     @KomaJsName("setShort1D")
+    @Suppress("UNCHECKED_CAST")
     fun setShort(i: Int, v: Short) { setGeneric(i, v as T) }
 
 
@@ -202,5 +207,6 @@ interface NDArray<T> {
     @KomaJsName("setByteND")
     fun setByte(vararg indices: Int, v: Byte) = setByte(safeNIdxToLinear(indices), v)
     @KomaJsName("setByte1D")
+    @Suppress("UNCHECKED_CAST")
     fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }
 }

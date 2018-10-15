@@ -34,11 +34,11 @@ ${initStorage}
         return storage[nIdxToLinear(indices)]
     }
     override fun getGeneric(i: Int): ${dtype} = storage[i]
-    override fun setGeneric(i: Int, value: ${dtype}) { storage[i] = value }
+    override fun setGeneric(i: Int, v: ${dtype}) { storage[i] = v }
 
-    override fun setGeneric(vararg indices: Int, value: ${dtype}) {
+    override fun setGeneric(vararg indices: Int, v: ${dtype}) {
         checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value
+        storage[nIdxToLinear(indices)] = v
     }
     // TODO: cache this
     override val size get() = storage.size

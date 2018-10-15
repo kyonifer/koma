@@ -181,7 +181,7 @@ private object ManualLogbackGenerator {
             } catch(je: JoranException) {
                 Util.report("Failed to auto configure default logger context", je)
             }
-            var logger = context.getLogger(this.javaClass)
+            context.getLogger(this.javaClass)
             if (!StatusUtil.contextHasStatusListener(context)) {
                 StatusPrinter.printInCaseOfErrorsOrWarnings(context)
             }

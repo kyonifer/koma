@@ -162,7 +162,6 @@ operator fun  NDArray<Byte>.get(vararg indices: IntRange): NDArray<Byte> {
 
 @koma.internal.JvmName("setByte")
 operator fun  NDArray<Byte>.set(vararg indices: Int, value: NDArray<Byte>) {
-    val shape = shape()
     val lastIndex = indices.mapIndexed { i, range -> range + value.shape()[i] }
     val outOfBounds = lastIndex.withIndex().any { it.value > shape()[it.index] }
     if (outOfBounds)

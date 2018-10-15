@@ -72,7 +72,7 @@ interface Matrix<T>: NDArray<T> {
                     Double::class -> doubleFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Double } as Matrix<T>
                     Float::class  -> floatFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Float } as Matrix<T>
                     Int::class    -> intFactory.zeros(rows, cols).fill { r, c -> filler(r, c) as Int } as Matrix<T>
-                    else          -> error("Unsupported Matrix type ${T::class.simpleName}")
+                    else          -> error("Unsupported Matrix type ${T::class}")
                 }
 
     }
@@ -298,35 +298,35 @@ interface Matrix<T>: NDArray<T> {
     override fun getLong(vararg indices: Int): Long
             = error("Matrices do not support Long values")
 
-    override fun setGeneric(vararg indices: Int, value: T)
+    override fun setGeneric(vararg indices: Int, v: T)
             = when(indices.size) {
-        1 -> { this.setGeneric(indices[0], value) }
-        2 -> { this.setGeneric(indices[0], indices[1], value) }
+        1 -> { this.setGeneric(indices[0], v) }
+        2 -> { this.setGeneric(indices[0], indices[1], v) }
         else -> { dimMismatch(indices.size) }
     }
-    override fun setDouble(vararg indices: Int, value: Double)
+    override fun setDouble(vararg indices: Int, v: Double)
             = when(indices.size) {
-        1 -> { this.setDouble(indices[0], value) }
-        2 -> { this.setDouble(indices[0], indices[1], value) }
+        1 -> { this.setDouble(indices[0], v) }
+        2 -> { this.setDouble(indices[0], indices[1], v) }
         else -> { dimMismatch(indices.size) }
     }
-    override fun setFloat(vararg indices: Int, value: Float)
+    override fun setFloat(vararg indices: Int, v: Float)
             = when(indices.size) {
-        1 -> { this.setFloat(indices[0], value) }
-        2 -> { this.setFloat(indices[0], indices[1], value) }
+        1 -> { this.setFloat(indices[0], v) }
+        2 -> { this.setFloat(indices[0], indices[1], v) }
         else -> { dimMismatch(indices.size) }
     }
-    override fun setInt(vararg indices: Int, value: Int)
+    override fun setInt(vararg indices: Int, v: Int)
             = when(indices.size) {
-        1 -> { this.setInt(indices[0], value) }
-        2 -> { this.setInt(indices[0], indices[1], value) }
+        1 -> { this.setInt(indices[0], v) }
+        2 -> { this.setInt(indices[0], indices[1], v) }
         else -> { dimMismatch(indices.size) }
     }
-    override fun setShort(vararg indices: Int, value: Short)
+    override fun setShort(vararg indices: Int, v: Short)
             = error("Matrices do not support Short values")
-    override fun setByte(vararg indices: Int, value: Byte)
+    override fun setByte(vararg indices: Int, v: Byte)
             = error("Matrices do not support Byte values")
-    override fun setLong(vararg indices: Int, value: Long)
+    override fun setLong(vararg indices: Int, v: Long)
             = error("Matrices do not support Long values")
 
     override val size get() = this.numRows() * this.numCols()
@@ -579,7 +579,7 @@ interface Matrix<T>: NDArray<T> {
      * @param f A function which takes a row and returns true if that row should be
      * be included in the output matrix.
      */
-    fun filterRows(f: (row: Matrix<T>) -> Boolean) = filterRowsIndexed { n, row -> f(row) }
+    fun filterRows(f: (row: Matrix<T>) -> Boolean) = filterRowsIndexed { _, row -> f(row) }
 
     /**
      * Builds a new matrix with a subset of the columns of this matrix, using only the
@@ -601,7 +601,7 @@ interface Matrix<T>: NDArray<T> {
      * @param f A function which takes a column and returns true if that column should
      * be included in the output matrix.
      */
-    fun filterCols(f: (col: Matrix<T>) -> Boolean) = filterColsIndexed { n, col -> f(col) }
+    fun filterCols(f: (col: Matrix<T>) -> Boolean) = filterColsIndexed { _, col -> f(col) }
 }
 
 

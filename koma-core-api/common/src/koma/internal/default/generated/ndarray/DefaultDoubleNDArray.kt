@@ -35,11 +35,11 @@ open class DefaultDoubleNDArray(@KomaJsName("shape_private") vararg protected va
         return storage[nIdxToLinear(indices)]
     }
     override fun getGeneric(i: Int): Double = storage[i]
-    override fun setGeneric(i: Int, value: Double) { storage[i] = value }
+    override fun setGeneric(i: Int, v: Double) { storage[i] = v }
 
-    override fun setGeneric(vararg indices: Int, value: Double) {
+    override fun setGeneric(vararg indices: Int, v: Double) {
         checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value
+        storage[nIdxToLinear(indices)] = v
     }
     // TODO: cache this
     override val size get() = storage.size

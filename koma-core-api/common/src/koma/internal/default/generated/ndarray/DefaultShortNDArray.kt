@@ -35,11 +35,11 @@ open class DefaultShortNDArray(@KomaJsName("shape_private") vararg protected val
         return storage[nIdxToLinear(indices)]
     }
     override fun getGeneric(i: Int): Short = storage[i]
-    override fun setGeneric(i: Int, value: Short) { storage[i] = value }
+    override fun setGeneric(i: Int, v: Short) { storage[i] = v }
 
-    override fun setGeneric(vararg indices: Int, value: Short) {
+    override fun setGeneric(vararg indices: Int, v: Short) {
         checkIndices(indices)
-        storage[nIdxToLinear(indices)] = value
+        storage[nIdxToLinear(indices)] = v
     }
     // TODO: cache this
     override val size get() = storage.size
