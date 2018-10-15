@@ -298,6 +298,12 @@ project(':koma-logging') {
         compile "org.slf4j:slf4j-api:1.7.21"
         compile "ch.qos.logback:logback-classic:1.1.7"
     }
+    assemble.doLast {
+        copy {
+            from 'build/libs'
+            into getRootDir().toString() + "/build/jvm"
+        }
+    }
 }
 
 
@@ -354,6 +360,8 @@ task buildJvm {
     dependsOn(":koma-core-ejml:build")
     dependsOn(":koma-core-jblas:build")
     dependsOn(":koma-core-api-jvm:build")
+    dependsOn(":koma-plotting:build")
+    dependsOn(":koma-logging:build")
 }
 task buildNative(type: Copy) {
     dependsOn(":koma-core-cblas:assemble")
