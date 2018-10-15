@@ -71,9 +71,8 @@ fun  NDArray<Long>.reshape(vararg dims: Int): NDArray<Long> {
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("mapLong")
-inline fun  NDArray<Long>.map(f: (Long) -> Long)
-    = NDArray.longFactory.zeros(*shape().toIntArray()).fillLinear { f(this.getLong(it)) }
-
+inline fun <reified R> NDArray<Long>.map(crossinline f: (Long) -> R)
+    = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.getLong(it)) } )
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an

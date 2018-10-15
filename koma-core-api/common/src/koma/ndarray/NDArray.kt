@@ -2,6 +2,7 @@ package koma.ndarray
 
 import koma.extensions.create
 import koma.extensions.fill
+import koma.extensions.fillLinear
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
 import koma.internal.default.utils.safeNIdxToLinear
@@ -74,6 +75,19 @@ interface NDArray<T> {
                 Short::class  -> shortFactory.zeros(*dims).fill { filler(it) as Short }
                 Byte::class   -> byteFactory.zeros(*dims).fill { filler(it) as Byte }
                 else          -> createGeneric(*dims) { filler(it) }
+            } as NDArray<T>
+
+        @Suppress("UNCHECKED_CAST")
+        inline fun <reified T> createLinear(vararg dims: Int,
+                                            crossinline filler: (Int) -> T) =
+            when(T::class) {
+                Double::class -> doubleFactory.zeros(*dims).fillLinear { filler(it) as Double }
+                Float::class  -> floatFactory.zeros(*dims).fillLinear { filler(it) as Float }
+                Long::class   -> longFactory.zeros(*dims).fillLinear { filler(it) as Long }
+                Int::class    -> intFactory.zeros(*dims).fillLinear { filler(it) as Int }
+                Short::class  -> shortFactory.zeros(*dims).fillLinear { filler(it) as Short }
+                Byte::class   -> byteFactory.zeros(*dims).fillLinear { filler(it) as Byte }
+                else          -> createGenericNulls<T>(*dims).fillLinear { filler(it) }
             } as NDArray<T>
     }
 

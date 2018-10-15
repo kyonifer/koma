@@ -70,8 +70,8 @@ ${reifiedInline}fun $reifiedDec NDArray<${dtype}>.reshape(vararg dims: Int): NDA
  * @return the new NDArray after each element is mapped through f
  */
 @koma.internal.JvmName("map${dtypeName}")
-${inline}fun ${genDec} NDArray<${dtype}>.map(f: (${dtype}) -> ${dtype})
-$extensionMap
+inline fun ${mapDec} NDArray<${dtype}>.map(crossinline f: (${dtype}) -> R)
+    = NDArray.createLinear(*shape().toIntArray(), filler={ f(this.get${dtypeName}(it)) } )
 
 /**
  * Takes each element in a NDArray, passes them through f, and puts the output of f into an

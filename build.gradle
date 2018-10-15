@@ -400,7 +400,8 @@ void genNDArray(String dest, List<String> dtypesNDArray) {
         include 'NDArray.kt'
         expand(factories: fixWhitespaceErrors(factories(dtypesNDArray)),
                primitiveGetSet: fixWhitespaceErrors(primitiveGetSet(dtypesNDArray)),
-               typeCheckClauses: fixWhitespaceErrors(typeCheckClauses(dtypesNDArray)))
+               typeCheckClauses: fixWhitespaceErrors(typeCheckClauses(dtypesNDArray)),
+               typeCheckClausesLinear: fixWhitespaceErrors(typeCheckClausesLinear(dtypesNDArray)))
     }
 }
 
@@ -490,12 +491,12 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     dtypeName: dtypeName(dtype),
                     genDec: genDec(dtype),
                     reifiedDec: reifiedDec(dtype),
+                    mapDec: mapDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
                     factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
                     factoryPattern: factoryPattern(dtype, "NDArray"),
                     inline: inline(dtype),
-                    extensionMap: extensionMap(dtype),
                     extensionCreate: extensionCreate(dtype),
                     extensionMapIndexed: extensionMapIndexed(dtype),
                     extensionMapIndexedN: extensionMapIndexedN(dtype),
@@ -552,6 +553,10 @@ def genDec(dtype) {
 
 def reifiedDec(dtype) {
     dtype == 'T' ? "<reified T>" : ""
+}
+
+def mapDec(dtype) {
+    dtype == 'T' ? "<T, reified R>" : "<reified R>"
 }
 
 def initStorage(dtype) {
@@ -665,13 +670,6 @@ def extensionCreate(dtype) {
         return "    = NDArray.createGeneric<T>(*lengths, filler=filler)\n"
     }
 }
-def extensionMap(dtype) {
-    if (dtype != "T") {
-        return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*shape().toIntArray()).fillLinear { f(this.get${dtype}(it)) }\n"
-    } else {
-        return "    = NDArray.createGeneric<T>(*shape().toIntArray(), filler = { f(this.getGeneric(*it)) })\n"
-    }
-}
 def extensionMapIndexed(dtype) {
     if (dtype != "T") {
         return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*shape().toIntArray()).fillLinear { f(it, this.get${dtype}(it)) }\n"
@@ -756,6 +754,13 @@ def primitiveGetSet(types) {
 def typeCheckClauses(types) {
     types.findAll { it != "T" }.collect {
         String.format("%-13s -> ${it.toLowerCase()}Factory.zeros(*dims).fill { filler(it) as $it }",
+                      "$it::class")
+    }.join("\n                ")
+}
+
+def typeCheckClausesLinear(types) {
+    types.findAll { it != "T" }.collect {
+        String.format("%-13s -> ${it.toLowerCase()}Factory.zeros(*dims).fillLinear { filler(it) as $it }",
                       "$it::class")
     }.join("\n                ")
 }
