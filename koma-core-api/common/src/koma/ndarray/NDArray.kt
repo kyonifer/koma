@@ -8,7 +8,6 @@ package koma.ndarray
 import koma.extensions.create
 import koma.extensions.fill
 import koma.extensions.fillLinear
-import koma.extensions.matrixOf
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
 import koma.internal.default.utils.safeNIdxToLinear

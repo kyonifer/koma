@@ -181,13 +181,20 @@ class CreatorsTests {
 
     @Test
     fun testMatrixOf() {
-        val a = matrixOf(0, 1, 2 end 3, 4, 5)
+        val a = matrixOf(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, rows=2, cols=3)
 
         (0..2).forEach { c ->
             (0..1).forEach { r ->
                 assertEquals(a[r,c], c.toDouble() + (r.toDouble()*3.0))
             }
         }
+
+        val b = matrixOf(0.0, 1.0, 2.0, 3.0, 4.0, 5.0)
+        assertEquals(b[3,0], 3.0)
+
+        val c = matrixOf(1,2,3,4)
+
+        assertEquals(c[1,0], 2)
     }
 
     @Test

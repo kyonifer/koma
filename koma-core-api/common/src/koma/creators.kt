@@ -173,17 +173,22 @@ inline fun <reified T> ndArrayOf(vararg elements: T, shape: IntArray? = null): N
 @Suppress("ReplaceGetOrSet")
 /**
  * A helper function that allows for quick construction of matrix literals.
+ * Values are read in row-major order.
+ *
+ * @param rows The number of rows in the constructed matrix
+ * @param cols The number of columns in the constructed matrix
  *
  * For example, one can write
  * ```
- * val a = matrixOf(1,2,3 end
- *                  4,5,6)
+ * val a = matrixOf(1,2,3,4,5,6, rows=2, cols=3) # yields a 2x3 where the first row is [1,2,3]
+ * val b = matrixOf(1,2,3,4,5,6) # yields a 6x1 with the top element `1` and the bottom element `6`
  * ```
  *
- * to get a 2x3 [Matrix<Double>] with the given values. `end` is a helper object that indicates the end of a row
- * to this object.
  */
-fun matrixOf(vararg ts: Any): Matrix<Double> = koma.mat.get(*ts)
+inline fun <reified T> matrixOf(vararg ts: T,
+             rows: Int = ts.size,
+             cols: Int = 1): Matrix<T> =
+        Matrix(rows, cols) { row, col -> ts[col + cols * row]}
 
 
 @Suppress("ReplaceGetOrSet")
