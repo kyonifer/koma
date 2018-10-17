@@ -234,9 +234,9 @@ class NDTests {
     
     @Test
     fun testMapBetweenTypes() {
-        val ints = NDArray.createLinear(2, 2, filler = { intArrayOf(5, 10, 0, 3)[it]})
-        val doubles = NDArray.createLinear(2, 2, filler = { doubleArrayOf(5.0, 10.0, 0.0, 3.0)[it]})
-        val strings = NDArray.createLinear(2, 2, filler = { arrayOf("5", "10", "0", "3")[it]})
+        val ints = ndArrayOf(5, 10, 0, 3, shape=intArrayOf(2, 2))
+        val doubles = ndArrayOf(5.0, 10.0, 0.0, 3.0, shape=intArrayOf(2, 2))
+        val strings = ndArrayOf("5", "10", "0", "3", shape=intArrayOf(2, 2))
         val doublesFromInts = ints.map { it.toDouble() }
         val stringsFromInts = ints.map { it.toString() }
         val intsFromStrings = strings.map { it.toInt() }

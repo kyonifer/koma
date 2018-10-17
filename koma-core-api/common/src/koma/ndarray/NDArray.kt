@@ -210,3 +210,10 @@ interface NDArray<T> {
     @Suppress("UNCHECKED_CAST")
     fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }
 }
+
+/**
+ * Create a new NDArray from a series of elements.  By default this creates a 1D array.  To create a multidimensional
+ * array, list the elements in flattened order and include the shape argument.
+ */
+inline fun <reified T> ndArrayOf(vararg elements: T, shape: IntArray? = null): NDArray<T> =
+    NDArray.createLinear(dims= *shape ?: intArrayOf(elements.size), filler = { elements[it] })
