@@ -8,6 +8,8 @@ import koma.internal.KomaJsName
 import koma.matrix.Matrix
 import koma.matrix.MatrixTypes
 import koma.matrix.MatrixType
+import koma.ndarray.NDArray
+
 /**
  * This file defines a set of functions to create new matrices. Follows
  * numpy conventions as closely as possible. For example, a 3x3 zero
@@ -159,6 +161,59 @@ fun <T> arange(start: Double,
                step: Double,
                dtype: MatrixType<T>): Matrix<T>
         = dtype().arange(start, stop, step)
+
+
+/**
+ * Create a new NDArray from a series of elements.  By default this creates a 1D array.  To create a multidimensional
+ * array, list the elements in flattened order and include the shape argument.
+ */
+inline fun <reified T> ndArrayOf(vararg elements: T, shape: IntArray? = null): NDArray<T> =
+        NDArray.createLinear(dims= *shape ?: intArrayOf(elements.size), filler = { elements[it] })
+
+@Suppress("ReplaceGetOrSet")
+/**
+ * A helper function that allows for quick construction of matrix literals.
+ *
+ * For example, one can write
+ * ```
+ * val a = matrixOf(1,2,3 end
+ *                  4,5,6)
+ * ```
+ *
+ * to get a 2x3 [Matrix<Double>] with the given values. `end` is a helper object that indicates the end of a row
+ * to this object.
+ */
+fun matrixOf(vararg ts: Any): Matrix<Double> = koma.mat.get(*ts)
+
+
+@Suppress("ReplaceGetOrSet")
+/**
+ * A helper function that allows for quick construction of a vertical vector implemented as a Matrix.
+ *
+ * For example, one can write
+ * ```
+ * val a = colVectorOf(1,2,3)
+ * ```
+ */
+fun colVectorOf(vararg ts: Any): Matrix<Double>  {
+    if (ts.any { it is Pair<*,*> }) throw Exception("There can only be one row in a vector!")
+    return koma.mat.get(*ts).T
+}
+
+
+@Suppress("ReplaceGetOrSet")
+/**
+ * A helper function that allows for quick construction of a horizontal vector implemented as a Matrix.
+ *
+ * For example, one can write
+ * ```
+ * val a = rowVectorOf(1,2,3)
+ * ```
+ */
+fun rowVectorOf(vararg ts: Any): Matrix<Double>  {
+    if (ts.any { it is Pair<*,*> }) throw Exception("There can only be one column in a vector!")
+    return koma.mat.get(*ts)
+}
 
 // TODO: Get these versions working
 //fun linspace(...) = factory.linspace(lower, upper, num)
