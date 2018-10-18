@@ -121,6 +121,41 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
     }
 
 
+    override fun toString(): String {
+        if (size == 0)
+            return "[]"
+        val s = StringBuilder()
+        val index = IntArray(shape.size)
+        val lastAxis = shape.size-1
+        val width = shape[lastAxis]
+        var printBracketsFrom = 0
+        while (index[0] < shape[0]) {
+            for (i in 0..lastAxis)
+                s.append(if (i >= printBracketsFrom) '[' else ' ')
+            for (i in 0 until width) {
+                index[lastAxis] = i
+                s.append(getGeneric(*index))
+                if (i < width-1)
+                    s.append(", ")
+            }
+            for (i in lastAxis downTo 0) {
+                index[i] += 1
+                if (index[i] == shape[i]) {
+                    s.append(']')
+                    printBracketsFrom = i
+                    if (i > 0)
+                        index[i] = 0
+                    else
+                        break
+                }
+                else
+                    break
+            }
+            if (index[0] < shape[0])
+                s.append('\n')
+        }
+        return s.toString()
+    }
 
 }
 
