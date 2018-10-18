@@ -2,6 +2,7 @@ package koma
 
 import koma.extensions.map
 import koma.internal.KomaJvmName
+import koma.internal.default.utils.*
 import koma.ndarray.NDArray
 
 /**
@@ -343,4 +344,100 @@ fun tanh(arr: NDArray<Float>): NDArray<Float> {
 @KomaJvmName("tanhDouble")
 fun tanh(arr: NDArray<Double>): NDArray<Double> {
     return arr.map { kotlin.math.tanh(it) }
+}
+
+/**
+ * Compute the sum of all elements in an NDArray.
+ */
+@KomaJvmName("sumFloatArray")
+fun sum(arr: NDArray<Float>): Double {
+    return sumFloats(arr.size, { arr.getFloat(it) })
+}
+
+/**
+ * Compute the sum of all elements in an NDArray.
+ */
+@KomaJvmName("sumDoubleArray")
+fun sum(arr: NDArray<Double>): Double {
+    return sumDoubles(arr.size, { arr.getDouble(it) })
+}
+
+/**
+ * Compute the sum of all elements in an NDArray.
+ */
+@KomaJvmName("sumByteArray")
+fun sum(arr: NDArray<Byte>): Long {
+    return sumBytes(arr.size, { arr.getByte(it) })
+}
+
+/**
+ * Compute the sum of all elements in an NDArray.
+ */
+@KomaJvmName("sumShortArray")
+fun sum(arr: NDArray<Short>): Long {
+    return sumShorts(arr.size, { arr.getShort(it) })
+}
+
+/**
+ * Compute the sum of all elements in an NDArray.
+ */
+@KomaJvmName("sumIntArray")
+fun sum(arr: NDArray<Int>): Long {
+    return sumInts(arr.size, { arr.getInt(it) })
+}
+
+/**
+ * Compute the sum of all elements in an NDArray.
+ */
+@KomaJvmName("sumLongArray")
+fun sum(arr: NDArray<Long>): Long {
+    return sumLongs(arr.size, { arr.getLong(it) })
+}
+
+/**
+ * Compute the mean of all elements in an NDArray.
+ */
+@KomaJvmName("meanFloatArray")
+fun mean(arr: NDArray<Float>): Double {
+    return sumFloats(arr.size, { arr.getFloat(it) })/arr.size
+}
+
+/**
+ * Compute the mean of all elements in an NDArray.
+ */
+@KomaJvmName("meanDoubleArray")
+fun mean(arr: NDArray<Double>): Double {
+    return sumDoubles(arr.size, { arr.getDouble(it) })/arr.size
+}
+
+/**
+ * Compute the mean of all elements in an NDArray.
+ */
+@KomaJvmName("meanByteArray")
+fun mean(arr: NDArray<Byte>): Double {
+    return sumBytes(arr.size, { arr.getByte(it) }).toDouble()/arr.size
+}
+
+/**
+ * Compute the mean of all elements in an NDArray.
+ */
+@KomaJvmName("meanShortArray")
+fun mean(arr: NDArray<Short>): Double {
+    return sumShorts(arr.size, { arr.getShort(it) }).toDouble()/arr.size
+}
+
+/**
+ * Compute the mean of all elements in an NDArray.
+ */
+@KomaJvmName("meanIntArray")
+fun mean(arr: NDArray<Int>): Double {
+    return sumInts(arr.size, { arr.getInt(it) }).toDouble()/arr.size
+}
+
+/**
+ * Compute the mean of all elements in an NDArray.
+ */
+@KomaJvmName("meanLongArray")
+fun mean(arr: NDArray<Long>): Double {
+    return sumLongs(arr.size, { arr.getLong(it) }).toDouble()/arr.size
 }

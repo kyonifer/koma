@@ -1,6 +1,7 @@
 package koma
 
 import koma.extensions.get
+import koma.extensions.set
 import koma.internal.getRng
 import koma.ndarray.NDArray
 import org.junit.Test
@@ -61,5 +62,41 @@ class ArrayFuncsTests {
         testDouble({ tan(it) }, { kotlin.math.tan(it) })
         testFloat({ tanh(it) }, { kotlin.math.tanh(it) })
         testDouble({ tanh(it) }, { kotlin.math.tanh(it) })
+    }
+    
+    @Test
+    fun testSum() {
+        val bytes = NDArray.createLinear(100, filler = { (it+1).toByte() })
+        assert(sum(bytes) == 5050L)
+        val shorts = NDArray.createLinear(100, filler = { (it+1).toShort() })
+        assert(sum(shorts) == 5050L)
+        val ints = NDArray.createLinear(100, filler = { it+1 })
+        assert(sum(ints) == 5050L)
+        val longs = NDArray.createLinear(100, filler = { (it+1).toLong() })
+        assert(sum(longs) == 5050L)
+        val floats = NDArray(1001, filler = { PI.toFloat() })
+        floats[500] = (10000*PI).toFloat()
+        val expectedFloatSum = 11000*PI.toFloat()
+        assert(kotlin.math.abs(sum(floats)-expectedFloatSum)/expectedFloatSum < 1e-7)
+        val doubles = NDArray(1001, filler = { PI })
+        doubles[500] = 10000*PI
+        val expectedDoubleSum = 11000*PI
+        assert(kotlin.math.abs(sum(doubles)-expectedDoubleSum)/expectedDoubleSum < 1e-15)
+    }
+    
+    @Test
+    fun testMean() {
+        val bytes = NDArray.createLinear(100, filler = { (it+1).toByte() })
+        assert(mean(bytes) == 50.50)
+        val shorts = NDArray.createLinear(100, filler = { (it+1).toShort() })
+        assert(mean(shorts) == 50.50)
+        val ints = NDArray.createLinear(100, filler = { it+1 })
+        assert(mean(ints) == 50.50)
+        val longs = NDArray.createLinear(100, filler = { (it+1).toLong() })
+        assert(mean(longs) == 50.50)
+        val floats = NDArray.createLinear(100, filler = { (it+1).toFloat() })
+        assert(mean(floats) == 50.50)
+        val doubles = NDArray.createLinear(100, filler = { (it+1).toDouble() })
+        assert(mean(doubles) == 50.50)
     }
 }
