@@ -280,17 +280,3 @@ operator fun Matrix<Float>.set(i: Int, v: Int) = this.setFloat(i, v.toFloat())
 @KomaJvmName("set2DFloatFromInt")
 @KomaJsName("set2DFloatFromInt")
 operator fun Matrix<Float>.set(i: Int, j: Int, v: Int) = this.setFloat(i, j, v.toFloat())
-
-@KomaJvmName("allCloseFloat")
-fun Matrix<Float>.allClose(other: Matrix<Float>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {
-    if(other.numRows() != numRows() || other.numCols() != numCols())
-        return false
-    for(row in 0 until this.numRows()) {
-        for (col in 0 until this.numCols()) {
-            val err = kotlin.math.abs(this[row, col] - other[row, col])
-            if (err > atol + rtol * kotlin.math.abs(this[row, col]))
-                return false
-        }
-    }
-    return true
-}

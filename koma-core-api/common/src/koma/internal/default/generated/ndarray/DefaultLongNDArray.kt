@@ -133,5 +133,17 @@ open class DefaultLongNDArray(@KomaJsName("shape_private") vararg protected val 
         return s.toString()
     }
 
+    override fun argMin() =
+            argMinLong(size, { getLong(it) })
+
+    override fun argMax() =
+            argMaxLong(size, { getLong(it) })
+
+    override fun min() =
+            getLong(argMinLong(size, { getLong(it) }))
+
+    override fun max() =
+            getLong(argMaxLong(size, { getLong(it) }))
+
 }
 

@@ -157,5 +157,17 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
         return s.toString()
     }
 
+    override fun argMin() =
+            argMinGeneric(size, { getGeneric(it) })
+
+    override fun argMax() =
+            argMaxGeneric(size, { getGeneric(it) })
+
+    override fun min() =
+            getGeneric(argMinGeneric(size, { getGeneric(it) }))
+
+    override fun max() =
+            getGeneric(argMaxGeneric(size, { getGeneric(it) }))
+
 }
 

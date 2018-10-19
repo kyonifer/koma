@@ -210,28 +210,10 @@ interface Matrix<T>: NDArray<T> {
     fun elementSum(): T
     fun diag(): Matrix<T>
     /**
-     * Maximum value contained in the matrix
-     */
-    fun max(): T // add dimension: Int?
-    /**
      * Mean (average) of all the elements in the matrix.
      */
     fun mean(): T
-    /**
-     * Minimum value contained in the matrix
-     */
-    fun min(): T
     
-    /**
-     * Row major 1D index.
-     */
-    fun argMax(): Int
-    
-    /**
-     * Row major 1D index.
-     */
-    fun argMin(): Int
-
     /**
      * The matrix trace.
      */

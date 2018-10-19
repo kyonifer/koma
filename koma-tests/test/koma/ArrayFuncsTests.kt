@@ -9,6 +9,19 @@ import org.junit.Test
 class ArrayFuncsTests {
     
     @Test
+    fun testAllClose() {
+        assert(allclose(ndArrayOf(1, 2, 3), ndArrayOf(1.0, 2.0, 3.0)))
+        assert(!allclose(ndArrayOf(1, 2, 3, 4), ndArrayOf(1.0, 2.0, 3.0)))
+        assert(!allclose(ndArrayOf(1, 2, 3), ndArrayOf(1.0, 2.0, 3.0, 4.0)))
+        assert(allclose(ndArrayOf(1, 2, 3), ndArrayOf(1.0, 2.0, 3.0+1e-6)))
+        assert(!allclose(ndArrayOf(1, 2, 3), ndArrayOf(1.0, 2.0, 3.0+1e-4)))
+        assert(allclose(ndArrayOf(1.0e6, 2.0e6, 3.0e6), ndArrayOf(1.0e6, 2.0e6, 3.0e6)))
+        assert(allclose(ndArrayOf(1.0e6, 2.0e6, 3.0e6), ndArrayOf(1.0e6, 2.0e6+1.0, 3.0e6)))
+        assert(!allclose(ndArrayOf(1.0e6, 2.0e6, 3.0e6), ndArrayOf(1.0e6, 2.0e6+1.0, 3.0e6), rtol=0.0))
+        assert(allclose(ndArrayOf(1.0e6, 2.0e6, 3.0e6), ndArrayOf(1.0e6, 2.0e6+1.0, 3.0e6), rtol=0.0, atol=1.1))
+    }
+    
+    @Test
     fun testStandardFunctions() {
         fun testFloat(arrayFn: (NDArray<Float>) -> NDArray<Float>, elemFn: (Float) -> Float, minVal: Float=0f, maxVal: Float=1f) {
             val x = NDArray(10, filler = { minVal + (maxVal-minVal)*getRng().nextDouble().toFloat() })
@@ -98,5 +111,125 @@ class ArrayFuncsTests {
         assert(mean(floats) == 50.50)
         val doubles = NDArray.createLinear(100, filler = { (it+1).toDouble() })
         assert(mean(doubles) == 50.50)
+    }
+
+    @Test
+    fun testArgMin() {
+        val bytes = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toByte() })
+        val minByte = argMin(bytes)
+        for (i in bytes.toIterable())
+            assert(i >= bytes.getByte(minByte))
+        val shorts = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toShort() })
+        val minShort = argMin(shorts)
+        for (i in shorts.toIterable())
+            assert(i >= shorts.getShort(minShort))
+        val ints = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toInt() })
+        val minInt = argMin(ints)
+        for (i in ints.toIterable())
+            assert(i >= ints.getInt(minInt))
+        val longs = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toLong() })
+        val minLong = argMin(longs)
+        for (i in longs.toIterable())
+            assert(i >= longs.getLong(minLong))
+        val floats = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toFloat() })
+        val minFloat = argMin(floats)
+        for (i in floats.toIterable())
+            assert(i >= floats.getFloat(minFloat))
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val minDouble = argMin(doubles)
+        for (i in doubles.toIterable())
+            assert(i >= doubles.getDouble(minDouble))
+        val strings = ndArrayOf("abc", "ab", "def", "ghi", shape=intArrayOf(2, 2))
+        assert(argMin(strings) == 1)
+    }
+
+    @Test
+    fun testArgMax() {
+        val bytes = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toByte() })
+        val maxByte = argMax(bytes)
+        for (i in bytes.toIterable())
+            assert(i <= bytes.getByte(maxByte))
+        val shorts = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toShort() })
+        val maxShort = argMax(shorts)
+        for (i in shorts.toIterable())
+            assert(i <= shorts.getShort(maxShort))
+        val ints = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toInt() })
+        val maxInt = argMax(ints)
+        for (i in ints.toIterable())
+            assert(i <= ints.getInt(maxInt))
+        val longs = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toLong() })
+        val maxLong = argMax(longs)
+        for (i in longs.toIterable())
+            assert(i <= longs.getLong(maxLong))
+        val floats = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toFloat() })
+        val maxFloat = argMax(floats)
+        for (i in floats.toIterable())
+            assert(i <= floats.getFloat(maxFloat))
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val maxDouble = argMax(doubles)
+        for (i in doubles.toIterable())
+            assert(i <= doubles.getDouble(maxDouble))
+        val strings = ndArrayOf("abc", "ab", "def", "ghi", shape=intArrayOf(2, 2))
+        assert(argMax(strings) == 3)
+    }
+
+    @Test
+    fun testMin() {
+        val bytes = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toByte() })
+        val minByte = min(bytes)
+        for (i in bytes.toIterable())
+            assert(i >= minByte)
+        val shorts = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toShort() })
+        val minShort = min(shorts)
+        for (i in shorts.toIterable())
+            assert(i >= minShort)
+        val ints = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toInt() })
+        val minInt = min(ints)
+        for (i in ints.toIterable())
+            assert(i >= minInt)
+        val longs = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toLong() })
+        val minLong = min(longs)
+        for (i in longs.toIterable())
+            assert(i >= minLong)
+        val floats = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toFloat() })
+        val minFloat = min(floats)
+        for (i in floats.toIterable())
+            assert(i >= minFloat)
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val minDouble = min(doubles)
+        for (i in doubles.toIterable())
+            assert(i >= minDouble)
+        val strings = ndArrayOf("abc", "ab", "def", "ghi", shape=intArrayOf(2, 2))
+        assert(min(strings) == "ab")
+    }
+
+    @Test
+    fun testMax() {
+        val bytes = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toByte() })
+        val maxByte = max(bytes)
+        for (i in bytes.toIterable())
+            assert(i <= maxByte)
+        val shorts = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toShort() })
+        val maxShort = max(shorts)
+        for (i in shorts.toIterable())
+            assert(i <= maxShort)
+        val ints = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toInt() })
+        val maxInt = max(ints)
+        for (i in ints.toIterable())
+            assert(i <= maxInt)
+        val longs = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toLong() })
+        val maxLong = max(longs)
+        for (i in longs.toIterable())
+            assert(i <= maxLong)
+        val floats = NDArray(5, 5, filler = { (getRng().nextGaussian()*100).toFloat() })
+        val maxFloat = max(floats)
+        for (i in floats.toIterable())
+            assert(i <= maxFloat)
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val maxDouble = max(doubles)
+        for (i in doubles.toIterable())
+            assert(i <= maxDouble)
+        val strings = ndArrayOf("abc", "ab", "def", "ghi", shape=intArrayOf(2, 2))
+        assert(max(strings) == "ghi")
     }
 }

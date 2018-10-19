@@ -128,6 +128,53 @@ interface NDArray<T> {
      */
     fun toMutableList() = MutableList(size) { getGeneric(it) }
 
+    /**
+     * Determine whether every element of one NDArray is sufficiently close to the corresponding element
+     * of another array.  Two elements are considered close if
+     *
+     * abs(ele1 - ele2) < (atol + rtol * abs(ele1))
+     *
+     * @param other   the array to compare this one to
+     * @param rtol    the maximum relative (i.e. fractional) difference to allow between elements
+     * @param atol    the maximum absolute difference to allow between elements
+     */
+    fun <R> allClose(other: NDArray<R>, rtol: Double=1e-05, atol: Double=1e-08): Boolean {
+        if (!(shape().toIntArray() contentEquals other.shape().toIntArray()))
+            return false
+        for (i in 0 until size) {
+            val a = getDouble(i)
+            val b = other.getDouble(i)
+            val diff = kotlin.math.abs(a - b)
+            if (diff > atol + rtol*kotlin.math.abs(a))
+                return false
+        }
+        return true
+    }
+
+    /**
+     * Find the linear index of the minimum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     */
+    fun argMin(): Int
+
+    /**
+     * Find the linear index of the maximum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     */
+    fun argMax(): Int
+
+    /**
+     * Find the value of the minimum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     */
+    fun min(): T
+
+    /**
+     * Find the value of the maximum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     */
+    fun max(): T
+
     // Iterator over the indices of this NDArray, simultaneously in array and linear form.
     // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
     fun iterateIndices() = IndexIterator { shape().toIntArray() }

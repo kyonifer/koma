@@ -11,6 +11,20 @@ import koma.ndarray.NDArray
  */
 
 /**
+ * Determine whether every element of one NDArray is sufficiently close to the corresponding element
+ * of another array.  Two elements are considered close if
+ *
+ * abs(ele1 - ele2) < (atol + rtol * abs(ele1))
+ *
+ * @param arr1    the first array to compare
+ * @param arr2    the second array to compare
+ * @param rtol    the maximum relative (i.e. fractional) difference to allow between elements
+ * @param atol    the maximum absolute difference to allow between elements
+ */
+fun <T, R> allclose(arr1: NDArray<T>, arr2: NDArray<R>, rtol: Double=1e-05, atol: Double=1e-08): Boolean =
+        arr1.allClose(arr2, rtol, atol)
+
+/**
  * Compute abs() of each element of an NDArray and return the result in a new array of the same shape.
  */
 @KomaJvmName("absFloat")
@@ -440,4 +454,36 @@ fun mean(arr: NDArray<Int>): Double {
 @KomaJvmName("meanLongArray")
 fun mean(arr: NDArray<Long>): Double {
     return sumLongs(arr.size, { arr.getLong(it) }).toDouble()/arr.size
+}
+
+/**
+ * Find the linear index of the minimum element in an NDArray.
+ * If the array contains non-comparable values, this throws an exception.
+ */
+fun <T> argMin(arr: NDArray<T>): Int {
+    return arr.argMin()
+}
+
+/**
+ * Find the linear index of the maximum element in an NDArray.
+ * If the array contains non-comparable values, this throws an exception.
+ */
+fun <T> argMax(arr: NDArray<T>): Int {
+    return arr.argMax()
+}
+
+/**
+ * Find the value of the minimum element in an NDArray.
+ * If the array contains non-comparable values, this throws an exception.
+ */
+fun <T> min(arr: NDArray<T>): T {
+    return arr.min()
+}
+
+/**
+ * Find the value of the maximum element in an NDArray.
+ * If the array contains non-comparable values, this throws an exception.
+ */
+fun <T> max(arr: NDArray<T>): T {
+    return arr.max()
 }

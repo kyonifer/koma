@@ -280,17 +280,3 @@ operator fun Matrix<Double>.set(i: Int, v: Int) = this.setDouble(i, v.toDouble()
 @KomaJvmName("set2DDoubleFromInt")
 @KomaJsName("set2DDoubleFromInt")
 operator fun Matrix<Double>.set(i: Int, j: Int, v: Int) = this.setDouble(i, j, v.toDouble())
-
-@KomaJvmName("allCloseDouble")
-fun Matrix<Double>.allClose(other: Matrix<Double>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {
-    if(other.numRows() != numRows() || other.numCols() != numCols())
-        return false
-    for(row in 0 until this.numRows()) {
-        for (col in 0 until this.numCols()) {
-            val err = kotlin.math.abs(this[row, col] - other[row, col])
-            if (err > atol + rtol * kotlin.math.abs(this[row, col]))
-                return false
-        }
-    }
-    return true
-}

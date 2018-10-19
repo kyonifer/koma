@@ -3,7 +3,6 @@
 
 package koma
 
-import koma.extensions.allClose
 import koma.extensions.get
 import koma.extensions.map
 import koma.extensions.set
@@ -15,25 +14,6 @@ import koma.matrix.Matrix
  * Matrices. These definitions follow numpy as close as possible, and allow
  * one to do things like cos(randn(5,5))
  */
-
-/**
- * Returns true if all elements are close to equal, as defined by
- * two tolerance values. The matrices are considered equal if
- *
- * abs(ele1 - ele2) < (atol + rtol * abs(ele1))
- *
- * is true elementwise for all elements ele1 in [arr1]
- * and all elements ele2 in [arr2].
- *
- * @param arr1 The first matrix to compare
- * @param arr2 The second matrix to compare
- * @param rtol The relative tolerance value
- * @param atol The absolute tolerance value
- */
-fun allclose(arr1: Matrix<Double>,
-             arr2: Matrix<Double>,
-             rtol: Double = 1e-05,
-             atol: Double = 1e-08) = arr1.allClose(arr2, rtol=rtol, atol=atol)
 
 /**
  * Returns a matrix of the arccos of each element in the input matrix.

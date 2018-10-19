@@ -133,5 +133,17 @@ open class DefaultFloatNDArray(@KomaJsName("shape_private") vararg protected val
         return s.toString()
     }
 
+    override fun argMin() =
+            argMinFloat(size, { getFloat(it) })
+
+    override fun argMax() =
+            argMaxFloat(size, { getFloat(it) })
+
+    override fun min() =
+            getFloat(argMinFloat(size, { getFloat(it) }))
+
+    override fun max() =
+            getFloat(argMaxFloat(size, { getFloat(it) }))
+
 }
 
