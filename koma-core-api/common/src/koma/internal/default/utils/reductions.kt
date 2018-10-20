@@ -1,5 +1,8 @@
 package koma.internal.default.utils
 
+import koma.extensions.get
+import koma.ndarray.NDArray
+
 /**
  * This file defines functions that take a sequence of values as input and compute a single value from them.
  * These are used to implement various functions on arrays, but are mostly not designed to be called directly.
@@ -211,6 +214,7 @@ inline fun argMinDouble(length: Int, get: (Int) -> Double): Int {
  * @param length   the number of values in the sequence
  * @param get      a function to retrieve a value by index
  */
+@Suppress("UNCHECKED_CAST")
 inline fun <T> argMinGeneric(length: Int, get: (Int) -> T): Int {
     var index = 0
     var value = get(0)
@@ -359,4 +363,40 @@ inline fun <T> argMaxGeneric(length: Int, get: (Int) -> T): Int {
         }
     }
     return index
+}
+
+/**
+ * Compute a reduction over one axis of an array, returning the result in a new array.
+ *
+ * @param array     the array to reduce
+ * @param f         the reduction function that takes a sequence of values and returns a single value
+ * @param axis      the axis to compute the reduction over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+inline fun <T, reified R> reduceArrayAxis(array: NDArray<T>, crossinline f: (Int, (Int)->T) -> R, axis: Int, keepdims: Boolean): NDArray<R> {
+    val shape = array.shape()
+    if (axis < 0 || axis >= shape.size)
+        throw IllegalArgumentException("Illegal axis: ${axis}")
+    val reallyKeepDims = if (shape.size == 1) true else keepdims
+    val newShape =
+        if (reallyKeepDims)
+            IntArray(shape.size, { if (it == axis) 1 else shape[it] })
+        else
+            IntArray(shape.size-1, { shape[if (it < axis) it else it+1] })
+    val index = IntArray(shape.size)
+    val newArray = NDArray(*newShape) { newIndex: IntArray ->
+        if (reallyKeepDims)
+            for (i in 0 until index.size)
+                index[i] = newIndex[i]
+        else
+            for (i in 0 until newIndex.size)
+                index[if (i < axis) i else i+1] = newIndex[i]
+        f(shape[axis]) {
+            index[axis] = it
+            array.get(*index)
+        }
+    }
+    return newArray
 }

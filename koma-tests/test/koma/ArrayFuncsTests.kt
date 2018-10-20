@@ -1,7 +1,6 @@
 package koma
 
-import koma.extensions.get
-import koma.extensions.set
+import koma.extensions.*
 import koma.internal.getRng
 import koma.ndarray.NDArray
 import org.junit.Test
@@ -231,5 +230,145 @@ class ArrayFuncsTests {
             assert(i <= maxDouble)
         val strings = ndArrayOf("abc", "ab", "def", "ghi", shape=intArrayOf(2, 2))
         assert(max(strings) == "ghi")
+    }
+
+    @Test
+    fun testSumAxis() {
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val a1 = sum(doubles, 0, true)
+        val a2 = sum(doubles, 1, true)
+        val a3 = sum(doubles, 0, false)
+        val a4 = sum(doubles, 1, false)
+        assert(a1.shape().toIntArray() contentEquals intArrayOf(1, 5))
+        assert(a2.shape().toIntArray() contentEquals intArrayOf(5, 1))
+        assert(a3.shape().toIntArray() contentEquals intArrayOf(5))
+        assert(a4.shape().toIntArray() contentEquals intArrayOf(5))
+        for (i in 0..4) {
+            assert(a1[0,i] == a3[i])
+            assert(a2[i,0] == a4[i])
+            val sum1 = doubles[0,i]+doubles[1,i]+doubles[2,i]+doubles[3,i]+doubles[4,i]
+            val sum2 = doubles[i,0]+doubles[i,1]+doubles[i,2]+doubles[i,3]+doubles[i,4]
+            assert(kotlin.math.abs((a3[i]-sum1)/sum1) < 1e-15)
+            assert(kotlin.math.abs((a4[i]-sum2)/sum2) < 1e-15)
+        }
+    }
+
+    @Test
+    fun testMeanAxis() {
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val a1 = mean(doubles, 0, true)
+        val a2 = mean(doubles, 1, true)
+        val a3 = mean(doubles, 0, false)
+        val a4 = mean(doubles, 1, false)
+        assert(a1.shape().toIntArray() contentEquals intArrayOf(1, 5))
+        assert(a2.shape().toIntArray() contentEquals intArrayOf(5, 1))
+        assert(a3.shape().toIntArray() contentEquals intArrayOf(5))
+        assert(a4.shape().toIntArray() contentEquals intArrayOf(5))
+        for (i in 0..4) {
+            assert(a1[0,i] == a3[i])
+            assert(a2[i,0] == a4[i])
+            val mean1 = (doubles[0,i]+doubles[1,i]+doubles[2,i]+doubles[3,i]+doubles[4,i])/5
+            val mean2 = (doubles[i,0]+doubles[i,1]+doubles[i,2]+doubles[i,3]+doubles[i,4])/5
+            assert(kotlin.math.abs((a3[i]-mean1)/mean1) < 1e-15)
+            assert(kotlin.math.abs((a4[i]-mean2)/mean2) < 1e-15)
+        }
+    }
+
+    @Test
+    fun testArgMinAxis() {
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val a1 = argMin(doubles, 0, true)
+        val a2 = argMin(doubles, 1, true)
+        val a3 = argMin(doubles, 0, false)
+        val a4 = argMin(doubles, 1, false)
+        assert(a1.shape().toIntArray() contentEquals intArrayOf(1, 5))
+        assert(a2.shape().toIntArray() contentEquals intArrayOf(5, 1))
+        assert(a3.shape().toIntArray() contentEquals intArrayOf(5))
+        assert(a4.shape().toIntArray() contentEquals intArrayOf(5))
+        for (i in 0..4) {
+            assert(a1[0,i] == a3[i])
+            assert(a2[i,0] == a4[i])
+            for (j in 0..4) {
+                assert(doubles[i,j] >= doubles[a3[j],j])
+                assert(doubles[i,j] >= doubles[i,a4[i]])
+            }
+        }
+    }
+
+    @Test
+    fun testArgMaxAxis() {
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val a1 = argMax(doubles, 0, true)
+        val a2 = argMax(doubles, 1, true)
+        val a3 = argMax(doubles, 0, false)
+        val a4 = argMax(doubles, 1, false)
+        assert(a1.shape().toIntArray() contentEquals intArrayOf(1, 5))
+        assert(a2.shape().toIntArray() contentEquals intArrayOf(5, 1))
+        assert(a3.shape().toIntArray() contentEquals intArrayOf(5))
+        assert(a4.shape().toIntArray() contentEquals intArrayOf(5))
+        for (i in 0..4) {
+            assert(a1[0,i] == a3[i])
+            assert(a2[i,0] == a4[i])
+            for (j in 0..4) {
+                assert(doubles[i,j] <= doubles[a3[j],j])
+                assert(doubles[i,j] <= doubles[i,a4[i]])
+            }
+        }
+    }
+
+    @Test
+    fun testMinAxis() {
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val a1 = min(doubles, 0, true)
+        val a2 = min(doubles, 1, true)
+        val a3 = min(doubles, 0, false)
+        val a4 = min(doubles, 1, false)
+        assert(a1.shape().toIntArray() contentEquals intArrayOf(1, 5))
+        assert(a2.shape().toIntArray() contentEquals intArrayOf(5, 1))
+        assert(a3.shape().toIntArray() contentEquals intArrayOf(5))
+        assert(a4.shape().toIntArray() contentEquals intArrayOf(5))
+        for (i in 0..4) {
+            assert(a1[0,i] == a3[i])
+            assert(a2[i,0] == a4[i])
+            for (j in 0..4) {
+                assert(doubles[i,j] >= a3[j])
+                assert(doubles[i,j] >= a4[i])
+            }
+        }
+    }
+
+    @Test
+    fun testMaxAxis() {
+        val doubles = NDArray(5, 5, filler = { getRng().nextGaussian()*100 })
+        val a1 = max(doubles, 0, true)
+        val a2 = max(doubles, 1, true)
+        val a3 = max(doubles, 0, false)
+        val a4 = max(doubles, 1, false)
+        assert(a1.shape().toIntArray() contentEquals intArrayOf(1, 5))
+        assert(a2.shape().toIntArray() contentEquals intArrayOf(5, 1))
+        assert(a3.shape().toIntArray() contentEquals intArrayOf(5))
+        assert(a4.shape().toIntArray() contentEquals intArrayOf(5))
+        for (i in 0..4) {
+            assert(a1[0,i] == a3[i])
+            assert(a2[i,0] == a4[i])
+            for (j in 0..4) {
+                assert(doubles[i,j] <= a3[j])
+                assert(doubles[i,j] <= a4[i])
+            }
+        }
+    }
+    
+    @Test
+    fun testAxisReductionShapes() {
+        val array = ndArrayOf(1, 2, 3, 4, 5, 6, 7, 8, shape= intArrayOf(2, 2, 2))
+        assert(min(array, 0, true).shape().toIntArray() contentEquals intArrayOf(1, 2, 2))
+        assert(min(array, 1, true).shape().toIntArray() contentEquals intArrayOf(2, 1, 2))
+        assert(min(array, 2, true).shape().toIntArray() contentEquals intArrayOf(2, 2, 1))
+        assert(min(array, 0, false).shape().toIntArray() contentEquals intArrayOf(2, 2))
+        assert(min(array, 1, false).shape().toIntArray() contentEquals intArrayOf(2, 2))
+        assert(min(array, 2, false).shape().toIntArray() contentEquals intArrayOf(2, 2))
+        val array2 = ndArrayOf(1, 2, 3, 4, 5)
+        assert(min(array2, 0, true).shape().toIntArray() contentEquals intArrayOf(1))
+        assert(min(array2, 0, false).shape().toIntArray() contentEquals intArrayOf(1))
     }
 }

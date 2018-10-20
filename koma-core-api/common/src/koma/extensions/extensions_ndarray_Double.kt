@@ -11,6 +11,9 @@ package koma.extensions
 import koma.internal.default.generated.ndarray.DefaultGenericNDArray
 import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
+import koma.internal.default.utils.reduceArrayAxis
+import koma.internal.default.utils.argMinDouble
+import koma.internal.default.utils.argMaxDouble
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
 import koma.internal.default.utils.nIdxToLinear
@@ -186,6 +189,57 @@ operator fun  NDArray<Double>.set(vararg indices: Int, value: NDArray<Double>) {
     }
 }
 
+/**
+ * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ * 
+ * @param axis      the axis to compute the minimum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("argMinAxisDouble")
+fun  NDArray<Double>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> argMinDouble(length, get) }, axis, keepdims)
+
+/**
+ * Find the minimum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ *
+ * @param axis      the axis to compute the minimum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("minAxisDouble")
+inline fun  NDArray<Double>.min(axis: Int, keepdims: Boolean): NDArray<Double> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> get(argMinDouble(length, get)) }, axis, keepdims)
+
+/**
+ * Find the linear index of the maximum element along one axis of this array,  returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ * 
+ * @param axis      the axis to compute the maximum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("argMaxAxisDouble")
+fun  NDArray<Double>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> argMaxDouble(length, get) }, axis, keepdims)
+
+/**
+ * Find the maximum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ *
+ * @param axis      the axis to compute the maximum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("maxAxisDouble")
+inline fun  NDArray<Double>.max(axis: Int, keepdims: Boolean): NDArray<Double> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> get(argMaxDouble(length, get)) }, axis, keepdims)
 
 operator fun  NDArray<Double>.get(vararg indices: Int) = getDouble(*indices)
 operator fun  NDArray<Double>.set(vararg indices: Int, value: Double) = setDouble(indices=*indices, v=value)
