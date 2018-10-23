@@ -217,7 +217,7 @@ fun cumsum(arr: Matrix<Double>) = arr.cumSum()
  * @return The maximum value
  *
  */
-fun max(arr: Matrix<Double>) = arr.max()
+fun max(arr: Matrix<Double>) = arr.maxInternal()
 
 /**
  * Returns the mean element in the input matrix
@@ -237,7 +237,7 @@ fun mean(arr: Matrix<Double>) = arr.mean()
  * @return The maximum value
  *
  */
-fun min(arr: Matrix<Double>) = arr.min()
+fun min(arr: Matrix<Double>) = arr.minInternal()
 
 /**
  * Returns the index of the max element in the input matrix
@@ -247,7 +247,7 @@ fun min(arr: Matrix<Double>) = arr.min()
  * @return The maximum value
  *
  */
-fun argMax(arr: Matrix<Double>) = arr.argMax()
+fun argMax(arr: Matrix<Double>) = arr.argMaxInternal()
 
 /**
  * Returns the index of the min element in the input matrix
@@ -257,7 +257,7 @@ fun argMax(arr: Matrix<Double>) = arr.argMax()
  * @return The maximum value
  *
  */
-fun argMin(arr: Matrix<Double>) = arr.argMin()
+fun argMin(arr: Matrix<Double>) = arr.argMinInternal()
 
 /**
  * Calculates the matrix exponential of the input matrix. Note that this is

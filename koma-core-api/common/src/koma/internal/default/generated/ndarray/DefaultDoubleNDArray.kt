@@ -133,16 +133,16 @@ open class DefaultDoubleNDArray(@KomaJsName("shape_private") vararg protected va
         return s.toString()
     }
 
-    override fun argMin() =
+    override fun argMinInternal() =
             argMinDouble(size, { getDouble(it) })
 
-    override fun argMax() =
+    override fun argMaxInternal() =
             argMaxDouble(size, { getDouble(it) })
 
-    override fun min() =
+    override fun minInternal() =
             getDouble(argMinDouble(size, { getDouble(it) }))
 
-    override fun max() =
+    override fun maxInternal() =
             getDouble(argMaxDouble(size, { getDouble(it) }))
 
 }

@@ -186,11 +186,11 @@ class DefaultFloatMatrix (val rows: Int,
             .zeros(numRows(),1)
             .fill{ row, _ -> this[row,row] }
 
-    override fun max(): Float = this[argMax()]
+    override fun maxInternal(): Float = this[argMax()]
     override fun mean(): Float = elementSum()/(numRows()*numCols())
-    override fun min(): Float = this[argMin()]
+    override fun minInternal(): Float = this[argMin()]
 
-    override fun argMax(): Int {
+    override fun argMaxInternal(): Int {
         var highest= Float.MIN_VALUE
         var highestIdx = -1
         for (i in 0 until numRows()*numCols())
@@ -201,7 +201,7 @@ class DefaultFloatMatrix (val rows: Int,
         return highestIdx
     }
 
-    override fun argMin(): Int {
+    override fun argMinInternal(): Int {
         var lowest = Float.MAX_VALUE
         var lowestIdx = -1
         for (i in 0 until numRows()*numCols())

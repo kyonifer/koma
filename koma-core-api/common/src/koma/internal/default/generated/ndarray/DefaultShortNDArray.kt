@@ -133,16 +133,16 @@ open class DefaultShortNDArray(@KomaJsName("shape_private") vararg protected val
         return s.toString()
     }
 
-    override fun argMin() =
+    override fun argMinInternal() =
             argMinShort(size, { getShort(it) })
 
-    override fun argMax() =
+    override fun argMaxInternal() =
             argMaxShort(size, { getShort(it) })
 
-    override fun min() =
+    override fun minInternal() =
             getShort(argMinShort(size, { getShort(it) }))
 
-    override fun max() =
+    override fun maxInternal() =
             getShort(argMaxShort(size, { getShort(it) }))
 
 }

@@ -248,8 +248,8 @@ class ArrayFuncsTests {
             assert(a2[i,0] == a4[i])
             val sum1 = doubles[0,i]+doubles[1,i]+doubles[2,i]+doubles[3,i]+doubles[4,i]
             val sum2 = doubles[i,0]+doubles[i,1]+doubles[i,2]+doubles[i,3]+doubles[i,4]
-            assert(kotlin.math.abs((a3[i]-sum1)/sum1) < 1e-15)
-            assert(kotlin.math.abs((a4[i]-sum2)/sum2) < 1e-15)
+            assert(kotlin.math.abs((a3[i]-sum1)/sum1) < 1e-14)
+            assert(kotlin.math.abs((a4[i]-sum2)/sum2) < 1e-14)
         }
     }
 
@@ -269,8 +269,8 @@ class ArrayFuncsTests {
             assert(a2[i,0] == a4[i])
             val mean1 = (doubles[0,i]+doubles[1,i]+doubles[2,i]+doubles[3,i]+doubles[4,i])/5
             val mean2 = (doubles[i,0]+doubles[i,1]+doubles[i,2]+doubles[i,3]+doubles[i,4])/5
-            assert(kotlin.math.abs((a3[i]-mean1)/mean1) < 1e-15)
-            assert(kotlin.math.abs((a4[i]-mean2)/mean2) < 1e-15)
+            assert(kotlin.math.abs((a3[i]-mean1)/mean1) < 1e-14)
+            assert(kotlin.math.abs((a4[i]-mean2)/mean2) < 1e-14)
         }
     }
 

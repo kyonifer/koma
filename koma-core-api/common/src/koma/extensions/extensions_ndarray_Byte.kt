@@ -180,6 +180,12 @@ operator fun  NDArray<Byte>.set(vararg indices: Int, value: NDArray<Byte>) {
 }
 
 /**
+ * Find the linear index of the minimum element in this array.
+ */
+@koma.internal.JvmName("argMinByte")
+fun  NDArray<Byte>.argMin(): Int = argMinInternal()
+
+/**
  * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
@@ -191,6 +197,12 @@ operator fun  NDArray<Byte>.set(vararg indices: Int, value: NDArray<Byte>) {
 @koma.internal.JvmName("argMinAxisByte")
 fun  NDArray<Byte>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Byte -> argMinByte(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the minimum element in this array.
+ */
+@koma.internal.JvmName("minByte")
+fun  NDArray<Byte>.min(): Byte = minInternal()
 
 /**
  * Find the minimum element along one axis of this array, returning the result in a new array.
@@ -206,7 +218,13 @@ inline fun  NDArray<Byte>.min(axis: Int, keepdims: Boolean): NDArray<Byte> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Byte -> get(argMinByte(length, get)) }, axis, keepdims)
 
 /**
- * Find the linear index of the maximum element along one axis of this array,  returning the result in a new array.
+ * Find the linear index of the maximum element in this array.
+ */
+@koma.internal.JvmName("argMaxByte")
+fun  NDArray<Byte>.argMax(): Int = argMaxInternal()
+
+/**
+ * Find the linear index of the maximum element along one axis of this array, returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
  * @param axis      the axis to compute the maximum over
@@ -217,6 +235,12 @@ inline fun  NDArray<Byte>.min(axis: Int, keepdims: Boolean): NDArray<Byte> =
 @koma.internal.JvmName("argMaxAxisByte")
 fun  NDArray<Byte>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Byte -> argMaxByte(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the maximum element in this array.
+ */
+@koma.internal.JvmName("maxByte")
+fun  NDArray<Byte>.max(): Byte = maxInternal()
 
 /**
  * Find the maximum element along one axis of this array, returning the result in a new array.

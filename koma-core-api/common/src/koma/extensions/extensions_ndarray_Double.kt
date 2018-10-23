@@ -190,6 +190,12 @@ operator fun  NDArray<Double>.set(vararg indices: Int, value: NDArray<Double>) {
 }
 
 /**
+ * Find the linear index of the minimum element in this array.
+ */
+@koma.internal.JvmName("argMinDouble")
+fun  NDArray<Double>.argMin(): Int = argMinInternal()
+
+/**
  * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
@@ -201,6 +207,12 @@ operator fun  NDArray<Double>.set(vararg indices: Int, value: NDArray<Double>) {
 @koma.internal.JvmName("argMinAxisDouble")
 fun  NDArray<Double>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> argMinDouble(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the minimum element in this array.
+ */
+@koma.internal.JvmName("minDouble")
+fun  NDArray<Double>.min(): Double = minInternal()
 
 /**
  * Find the minimum element along one axis of this array, returning the result in a new array.
@@ -216,7 +228,13 @@ inline fun  NDArray<Double>.min(axis: Int, keepdims: Boolean): NDArray<Double> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> get(argMinDouble(length, get)) }, axis, keepdims)
 
 /**
- * Find the linear index of the maximum element along one axis of this array,  returning the result in a new array.
+ * Find the linear index of the maximum element in this array.
+ */
+@koma.internal.JvmName("argMaxDouble")
+fun  NDArray<Double>.argMax(): Int = argMaxInternal()
+
+/**
+ * Find the linear index of the maximum element along one axis of this array, returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
  * @param axis      the axis to compute the maximum over
@@ -227,6 +245,12 @@ inline fun  NDArray<Double>.min(axis: Int, keepdims: Boolean): NDArray<Double> =
 @koma.internal.JvmName("argMaxAxisDouble")
 fun  NDArray<Double>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Double -> argMaxDouble(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the maximum element in this array.
+ */
+@koma.internal.JvmName("maxDouble")
+fun  NDArray<Double>.max(): Double = maxInternal()
 
 /**
  * Find the maximum element along one axis of this array, returning the result in a new array.

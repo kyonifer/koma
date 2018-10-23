@@ -180,6 +180,12 @@ operator fun  NDArray<Long>.set(vararg indices: Int, value: NDArray<Long>) {
 }
 
 /**
+ * Find the linear index of the minimum element in this array.
+ */
+@koma.internal.JvmName("argMinLong")
+fun  NDArray<Long>.argMin(): Int = argMinInternal()
+
+/**
  * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
@@ -191,6 +197,12 @@ operator fun  NDArray<Long>.set(vararg indices: Int, value: NDArray<Long>) {
 @koma.internal.JvmName("argMinAxisLong")
 fun  NDArray<Long>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Long -> argMinLong(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the minimum element in this array.
+ */
+@koma.internal.JvmName("minLong")
+fun  NDArray<Long>.min(): Long = minInternal()
 
 /**
  * Find the minimum element along one axis of this array, returning the result in a new array.
@@ -206,7 +218,13 @@ inline fun  NDArray<Long>.min(axis: Int, keepdims: Boolean): NDArray<Long> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Long -> get(argMinLong(length, get)) }, axis, keepdims)
 
 /**
- * Find the linear index of the maximum element along one axis of this array,  returning the result in a new array.
+ * Find the linear index of the maximum element in this array.
+ */
+@koma.internal.JvmName("argMaxLong")
+fun  NDArray<Long>.argMax(): Int = argMaxInternal()
+
+/**
+ * Find the linear index of the maximum element along one axis of this array, returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
  * @param axis      the axis to compute the maximum over
@@ -217,6 +235,12 @@ inline fun  NDArray<Long>.min(axis: Int, keepdims: Boolean): NDArray<Long> =
 @koma.internal.JvmName("argMaxAxisLong")
 fun  NDArray<Long>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> Long -> argMaxLong(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the maximum element in this array.
+ */
+@koma.internal.JvmName("maxLong")
+fun  NDArray<Long>.max(): Long = maxInternal()
 
 /**
  * Find the maximum element along one axis of this array, returning the result in a new array.

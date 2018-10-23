@@ -133,16 +133,16 @@ open class DefaultByteNDArray(@KomaJsName("shape_private") vararg protected val 
         return s.toString()
     }
 
-    override fun argMin() =
+    override fun argMinInternal() =
             argMinByte(size, { getByte(it) })
 
-    override fun argMax() =
+    override fun argMaxInternal() =
             argMaxByte(size, { getByte(it) })
 
-    override fun min() =
+    override fun minInternal() =
             getByte(argMinByte(size, { getByte(it) }))
 
-    override fun max() =
+    override fun maxInternal() =
             getByte(argMaxByte(size, { getByte(it) }))
 
 }

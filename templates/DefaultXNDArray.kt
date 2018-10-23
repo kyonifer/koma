@@ -96,16 +96,16 @@ ${setShort}
         return s.toString()
     }
 
-    override fun argMin() =
+    override fun argMinInternal() =
             argMin${dtypeName}(size, { get${dtypeName}(it) })
 
-    override fun argMax() =
+    override fun argMaxInternal() =
             argMax${dtypeName}(size, { get${dtypeName}(it) })
 
-    override fun min() =
+    override fun minInternal() =
             get${dtypeName}(argMin${dtypeName}(size, { get${dtypeName}(it) }))
 
-    override fun max() =
+    override fun maxInternal() =
             get${dtypeName}(argMax${dtypeName}(size, { get${dtypeName}(it) }))
 
 }

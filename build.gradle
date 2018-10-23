@@ -499,6 +499,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     dtypeName: dtypeName(dtype),
                     genDec: genDec(dtype),
                     reifiedDec: reifiedDec(dtype),
+                    comparableDec: comparableDec(dtype),
                     mapDec: mapDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
@@ -563,6 +564,10 @@ def reifiedDec(dtype) {
     dtype == 'T' ? "<reified T>" : ""
 }
 
+def comparableDec(dtype) {
+    dtype == 'T' ? "<T: Comparable<T>>" : ""
+}
+
 def mapDec(dtype) {
     dtype == 'T' ? "<T, reified R>" : "<reified R>"
 }
@@ -586,8 +591,8 @@ def convertGetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
         return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
                "        val ele = getGeneric(i)\n" +
-               "        if (ele is ${toDtype})\n" +
-               "            return ele\n" +
+               "        if (ele is Number)\n" +
+               "            return ele.to${toDtype}()\n" +
                "        else\n" +
                "            error(wrongType)\n" +
                "    }"

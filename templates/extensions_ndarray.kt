@@ -177,6 +177,12 @@ operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: NDArray<$
 }
 
 /**
+ * Find the linear index of the minimum element in this array.
+ */
+@koma.internal.JvmName("argMin${dtypeName}")
+fun $comparableDec NDArray<${dtype}>.argMin(): Int = argMinInternal()
+
+/**
  * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
@@ -188,6 +194,12 @@ operator fun $genDec NDArray<${dtype}>.set(vararg indices: Int, value: NDArray<$
 @koma.internal.JvmName("argMinAxis${dtypeName}")
 fun $genDec NDArray<${dtype}>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> ${dtype} -> argMin${dtypeName}(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the minimum element in this array.
+ */
+@koma.internal.JvmName("min${dtypeName}")
+fun $comparableDec NDArray<${dtype}>.min(): ${dtype} = minInternal()
 
 /**
  * Find the minimum element along one axis of this array, returning the result in a new array.
@@ -203,6 +215,12 @@ inline fun $reifiedDec NDArray<${dtype}>.min(axis: Int, keepdims: Boolean): NDAr
     reduceArrayAxis(this, { length: Int, get: (Int) -> ${dtype} -> get(argMin${dtypeName}(length, get)) }, axis, keepdims)
 
 /**
+ * Find the linear index of the maximum element in this array.
+ */
+@koma.internal.JvmName("argMax${dtypeName}")
+fun $comparableDec NDArray<${dtype}>.argMax(): Int = argMaxInternal()
+
+/**
  * Find the linear index of the maximum element along one axis of this array, returning the result in a new array.
  * If the array contains non-comparable values, this throws an exception.
  * 
@@ -214,6 +232,12 @@ inline fun $reifiedDec NDArray<${dtype}>.min(axis: Int, keepdims: Boolean): NDAr
 @koma.internal.JvmName("argMaxAxis${dtypeName}")
 fun $genDec NDArray<${dtype}>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
     reduceArrayAxis(this, { length: Int, get: (Int) -> ${dtype} -> argMax${dtypeName}(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the maximum element in this array.
+ */
+@koma.internal.JvmName("max${dtypeName}")
+fun $comparableDec NDArray<${dtype}>.max(): ${dtype} = maxInternal()
 
 /**
  * Find the maximum element along one axis of this array, returning the result in a new array.

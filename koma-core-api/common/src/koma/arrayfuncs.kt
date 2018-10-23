@@ -21,7 +21,7 @@ import koma.ndarray.NDArray
  * @param rtol    the maximum relative (i.e. fractional) difference to allow between elements
  * @param atol    the maximum absolute difference to allow between elements
  */
-fun <T, R> allclose(arr1: NDArray<T>, arr2: NDArray<R>, rtol: Double=1e-05, atol: Double=1e-08) =
+fun <T: Number, R: Number> allclose(arr1: NDArray<T>, arr2: NDArray<R>, rtol: Double=1e-05, atol: Double=1e-08) =
     arr1.allClose(arr2, rtol, atol)
 
 /**
@@ -560,14 +560,12 @@ fun mean(arr: NDArray<Long>, axis: Int, keepdims: Boolean=false) =
 
 /**
  * Find the linear index of the minimum element in an NDArray.
- * If the array contains non-comparable values, this throws an exception.
  */
-fun <T> argMin(arr: NDArray<T>): Int =
-    arr.argMin()
+fun <T: Comparable<T>> argMin(arr: NDArray<T>): Int =
+    arr.argMinInternal()
 
 /**
  * Find the linear index of the minimum element along one axis of an array, returning the result in a new array.
- * If the array contains non-comparable values, this throws an exception.
  *
  * @param array     the array to compute the minimum over
  * @param axis      the axis to compute the minimum over
@@ -575,20 +573,18 @@ fun <T> argMin(arr: NDArray<T>): Int =
  *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
  *                  than the original one.
  */
-fun <T> argMin(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
+fun <T: Comparable<T>> argMin(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
         array.argMin(axis, keepdims)
 
 
 /**
  * Find the linear index of the maximum element in an NDArray.
- * If the array contains non-comparable values, this throws an exception.
  */
-fun <T> argMax(arr: NDArray<T>): Int =
-    arr.argMax()
+fun <T: Comparable<T>> argMax(arr: NDArray<T>): Int =
+    arr.argMaxInternal()
 
 /**
  * Find the linear index of the maximum element along one axis of an array, returning the result in a new array.
- * If the array contains non-comparable values, this throws an exception.
  *
  * @param array     the array to compute the maximum over
  * @param axis      the axis to compute the maximum over
@@ -596,19 +592,17 @@ fun <T> argMax(arr: NDArray<T>): Int =
  *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
  *                  than the original one.
  */
-fun <T> argMax(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
+fun <T: Comparable<T>> argMax(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
         array.argMax(axis, keepdims)
 
 /**
  * Find the value of the minimum element in an NDArray.
- * If the array contains non-comparable values, this throws an exception.
  */
-fun <T> min(arr: NDArray<T>): T =
-    arr.min()
+fun <T: Comparable<T>> min(arr: NDArray<T>): T =
+    arr.minInternal()
 
 /**
  * Find the minimum element along one axis of an array, returning the result in a new array.
- * If the array contains non-comparable values, this throws an exception.
  *
  * @param array     the array to compute the minimum over
  * @param axis      the axis to compute the minimum over
@@ -616,19 +610,17 @@ fun <T> min(arr: NDArray<T>): T =
  *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
  *                  than the original one.
  */
-inline fun <reified T> min(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
+inline fun <reified T: Comparable<T>> min(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
         array.min(axis, keepdims)
 
 /**
  * Find the value of the maximum element in an NDArray.
- * If the array contains non-comparable values, this throws an exception.
  */
-fun <T> max(arr: NDArray<T>): T =
-    arr.max()
+fun <T: Comparable<T>> max(arr: NDArray<T>): T =
+    arr.maxInternal()
 
 /**
  * Find the maximum element along one axis of an array, returning the result in a new array.
- * If the array contains non-comparable values, this throws an exception.
  *
  * @param array     the array to compute the maximum over
  * @param axis      the axis to compute the maximum over
@@ -636,5 +628,5 @@ fun <T> max(arr: NDArray<T>): T =
  *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
  *                  than the original one.
  */
-inline fun <reified T> max(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
+inline fun <reified T: Comparable<T>> max(array: NDArray<T>, axis: Int, keepdims: Boolean=false) =
         array.max(axis, keepdims)

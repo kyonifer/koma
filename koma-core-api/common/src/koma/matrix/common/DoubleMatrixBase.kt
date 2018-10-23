@@ -60,7 +60,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         return out 
     } 
 
-    override fun max(): Double {
+    override fun maxInternal(): Double {
         var max = Double.NEGATIVE_INFINITY
         this.forEach { ele ->
             if (ele > max) {
@@ -70,7 +70,7 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         return max
     }
     override fun mean() = elementSum() / (numCols() * numRows())
-    override fun min(): Double {
+    override fun minInternal(): Double {
         var min = Double.POSITIVE_INFINITY
         this.forEach { ele ->
             if (ele < min) {
@@ -79,14 +79,14 @@ abstract class DoubleMatrixBase : MatrixBase<Double>() {
         }
         return min
     }
-    override fun argMax(): Int { 
+    override fun argMaxInternal(): Int { 
         var max = 0 
         for (i in 0 until this.numCols() * this.numRows())
             if (this[i] > this[max]) 
                 max = i 
         return max 
     }
-    override fun argMin(): Int { 
+    override fun argMinInternal(): Int { 
         var min = 0 
         for (i in 0 until this.numCols() * this.numRows())
             if (this[i] < this[min]) 
