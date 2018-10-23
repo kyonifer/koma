@@ -11,6 +11,9 @@ package koma.extensions
 import koma.internal.default.generated.ndarray.DefaultGenericNDArray
 import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
+import koma.internal.default.utils.reduceArrayAxis
+import koma.internal.default.utils.argMinGeneric
+import koma.internal.default.utils.argMaxGeneric
 import koma.ndarray.NDArray
 import koma.ndarray.GenericNDArrayFactory
 import koma.internal.default.utils.nIdxToLinear
@@ -187,6 +190,81 @@ operator fun <T> NDArray<T>.set(vararg indices: Int, value: NDArray<T>) {
     }
 }
 
+/**
+ * Find the linear index of the minimum element in this array.
+ */
+@koma.internal.JvmName("argMinGeneric")
+fun <T: Comparable<T>> NDArray<T>.argMin(): Int = argMinInternal()
+
+/**
+ * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ * 
+ * @param axis      the axis to compute the minimum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("argMinAxisGeneric")
+fun <T> NDArray<T>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> T -> argMinGeneric(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the minimum element in this array.
+ */
+@koma.internal.JvmName("minGeneric")
+fun <T: Comparable<T>> NDArray<T>.min(): T = minInternal()
+
+/**
+ * Find the minimum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ *
+ * @param axis      the axis to compute the minimum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("minAxisGeneric")
+inline fun <reified T> NDArray<T>.min(axis: Int, keepdims: Boolean): NDArray<T> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> T -> get(argMinGeneric(length, get)) }, axis, keepdims)
+
+/**
+ * Find the linear index of the maximum element in this array.
+ */
+@koma.internal.JvmName("argMaxGeneric")
+fun <T: Comparable<T>> NDArray<T>.argMax(): Int = argMaxInternal()
+
+/**
+ * Find the linear index of the maximum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ * 
+ * @param axis      the axis to compute the maximum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("argMaxAxisGeneric")
+fun <T> NDArray<T>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> T -> argMaxGeneric(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the maximum element in this array.
+ */
+@koma.internal.JvmName("maxGeneric")
+fun <T: Comparable<T>> NDArray<T>.max(): T = maxInternal()
+
+/**
+ * Find the maximum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ *
+ * @param axis      the axis to compute the maximum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("maxAxisGeneric")
+inline fun <reified T> NDArray<T>.max(axis: Int, keepdims: Boolean): NDArray<T> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> T -> get(argMaxGeneric(length, get)) }, axis, keepdims)
 
 operator fun <T> NDArray<T>.get(vararg indices: Int) = getGeneric(*indices)
 operator fun <T> NDArray<T>.set(vararg indices: Int, value: T) = setGeneric(indices=*indices, v=value)

@@ -11,6 +11,9 @@ package koma.extensions
 import koma.internal.default.generated.ndarray.DefaultGenericNDArray
 import koma.internal.default.utils.checkIndices
 import koma.internal.default.utils.linearToNIdx
+import koma.internal.default.utils.reduceArrayAxis
+import koma.internal.default.utils.argMinFloat
+import koma.internal.default.utils.argMaxFloat
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
 import koma.internal.default.utils.nIdxToLinear
@@ -186,6 +189,81 @@ operator fun  NDArray<Float>.set(vararg indices: Int, value: NDArray<Float>) {
     }
 }
 
+/**
+ * Find the linear index of the minimum element in this array.
+ */
+@koma.internal.JvmName("argMinFloat")
+fun  NDArray<Float>.argMin(): Int = argMinInternal()
+
+/**
+ * Find the linear index of the minimum element along one axis of this array,  returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ * 
+ * @param axis      the axis to compute the minimum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("argMinAxisFloat")
+fun  NDArray<Float>.argMin(axis: Int, keepdims: Boolean): NDArray<Int> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Float -> argMinFloat(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the minimum element in this array.
+ */
+@koma.internal.JvmName("minFloat")
+fun  NDArray<Float>.min(): Float = minInternal()
+
+/**
+ * Find the minimum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ *
+ * @param axis      the axis to compute the minimum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("minAxisFloat")
+inline fun  NDArray<Float>.min(axis: Int, keepdims: Boolean): NDArray<Float> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Float -> get(argMinFloat(length, get)) }, axis, keepdims)
+
+/**
+ * Find the linear index of the maximum element in this array.
+ */
+@koma.internal.JvmName("argMaxFloat")
+fun  NDArray<Float>.argMax(): Int = argMaxInternal()
+
+/**
+ * Find the linear index of the maximum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ * 
+ * @param axis      the axis to compute the maximum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("argMaxAxisFloat")
+fun  NDArray<Float>.argMax(axis: Int, keepdims: Boolean): NDArray<Int> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Float -> argMaxFloat(length, get) }, axis, keepdims)
+
+/**
+ * Find the value of the maximum element in this array.
+ */
+@koma.internal.JvmName("maxFloat")
+fun  NDArray<Float>.max(): Float = maxInternal()
+
+/**
+ * Find the maximum element along one axis of this array, returning the result in a new array.
+ * If the array contains non-comparable values, this throws an exception.
+ *
+ * @param axis      the axis to compute the maximum over
+ * @param keepdims  if true, the output array has the same number of dimensions as the original one,
+ *                  with [axis] having size 1.  If false, the output array has one fewer dimensions
+ *                  than the original one.
+ */
+@koma.internal.JvmName("maxAxisFloat")
+inline fun  NDArray<Float>.max(axis: Int, keepdims: Boolean): NDArray<Float> =
+    reduceArrayAxis(this, { length: Int, get: (Int) -> Float -> get(argMaxFloat(length, get)) }, axis, keepdims)
 
 operator fun  NDArray<Float>.get(vararg indices: Int) = getFloat(*indices)
 operator fun  NDArray<Float>.set(vararg indices: Int, value: Float) = setFloat(indices=*indices, v=value)

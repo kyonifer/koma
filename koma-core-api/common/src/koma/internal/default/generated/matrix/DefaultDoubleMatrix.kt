@@ -186,11 +186,11 @@ class DefaultDoubleMatrix (val rows: Int,
             .zeros(numRows(),1)
             .fill{ row, _ -> this[row,row] }
 
-    override fun max(): Double = this[argMax()]
+    override fun maxInternal(): Double = this[argMax()]
     override fun mean(): Double = elementSum()/(numRows()*numCols())
-    override fun min(): Double = this[argMin()]
+    override fun minInternal(): Double = this[argMin()]
 
-    override fun argMax(): Int {
+    override fun argMaxInternal(): Int {
         var highest= Double.MIN_VALUE
         var highestIdx = -1
         for (i in 0 until numRows()*numCols())
@@ -201,7 +201,7 @@ class DefaultDoubleMatrix (val rows: Int,
         return highestIdx
     }
 
-    override fun argMin(): Int {
+    override fun argMinInternal(): Int {
         var lowest = Double.MAX_VALUE
         var lowestIdx = -1
         for (i in 0 until numRows()*numCols())

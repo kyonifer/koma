@@ -180,11 +180,11 @@ class Default${dtype}Matrix (val rows: Int,
             .zeros(numRows(),1)
             .fill{ row, _ -> this[row,row] }
 
-    override fun max(): ${dtype} = this[argMax()]
+    override fun maxInternal(): ${dtype} = this[argMax()]
     override fun mean(): ${dtype} = elementSum()/(numRows()*numCols())
-    override fun min(): ${dtype} = this[argMin()]
+    override fun minInternal(): ${dtype} = this[argMin()]
 
-    override fun argMax(): Int {
+    override fun argMaxInternal(): Int {
         var highest= ${dtype}.MIN_VALUE
         var highestIdx = -1
         for (i in 0 until numRows()*numCols())
@@ -195,7 +195,7 @@ class Default${dtype}Matrix (val rows: Int,
         return highestIdx
     }
 
-    override fun argMin(): Int {
+    override fun argMinInternal(): Int {
         var lowest = ${dtype}.MAX_VALUE
         var lowestIdx = -1
         for (i in 0 until numRows()*numCols())

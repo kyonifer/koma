@@ -50,8 +50,8 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
     private val wrongType = "Double methods not implemented for generic NDArray"
     override fun getDouble(i: Int): Double {
         val ele = getGeneric(i)
-        if (ele is Double)
-            return ele
+        if (ele is Number)
+            return ele.toDouble()
         else
             error(wrongType)
     }
@@ -62,8 +62,8 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
 
     override fun getByte(i: Int): Byte {
         val ele = getGeneric(i)
-        if (ele is Byte)
-            return ele
+        if (ele is Number)
+            return ele.toByte()
         else
             error(wrongType)
     }
@@ -74,8 +74,8 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
 
     override fun getInt(i: Int): Int {
         val ele = getGeneric(i)
-        if (ele is Int)
-            return ele
+        if (ele is Number)
+            return ele.toInt()
         else
             error(wrongType)
     }
@@ -86,8 +86,8 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
 
     override fun getFloat(i: Int): Float {
         val ele = getGeneric(i)
-        if (ele is Float)
-            return ele
+        if (ele is Number)
+            return ele.toFloat()
         else
             error(wrongType)
     }
@@ -98,8 +98,8 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
 
     override fun getLong(i: Int): Long {
         val ele = getGeneric(i)
-        if (ele is Long)
-            return ele
+        if (ele is Number)
+            return ele.toLong()
         else
             error(wrongType)
     }
@@ -110,8 +110,8 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
 
     override fun getShort(i: Int): Short {
         val ele = getGeneric(i)
-        if (ele is Short)
-            return ele
+        if (ele is Number)
+            return ele.toShort()
         else
             error(wrongType)
     }
@@ -121,6 +121,53 @@ open class DefaultGenericNDArray<T>(@KomaJsName("shape_private") vararg protecte
     }
 
 
+    override fun toString(): String {
+        if (size == 0)
+            return "[]"
+        val s = StringBuilder()
+        val index = IntArray(shape.size)
+        val lastAxis = shape.size-1
+        val width = shape[lastAxis]
+        var printBracketsFrom = 0
+        while (index[0] < shape[0]) {
+            for (i in 0..lastAxis)
+                s.append(if (i >= printBracketsFrom) '[' else ' ')
+            for (i in 0 until width) {
+                index[lastAxis] = i
+                s.append(getGeneric(*index))
+                if (i < width-1)
+                    s.append(", ")
+            }
+            for (i in lastAxis downTo 0) {
+                index[i] += 1
+                if (index[i] == shape[i]) {
+                    s.append(']')
+                    printBracketsFrom = i
+                    if (i > 0)
+                        index[i] = 0
+                    else
+                        break
+                }
+                else
+                    break
+            }
+            if (index[0] < shape[0])
+                s.append('\n')
+        }
+        return s.toString()
+    }
+
+    override fun argMinInternal() =
+            argMinGeneric(size, { getGeneric(it) })
+
+    override fun argMaxInternal() =
+            argMaxGeneric(size, { getGeneric(it) })
+
+    override fun minInternal() =
+            getGeneric(argMinGeneric(size, { getGeneric(it) }))
+
+    override fun maxInternal() =
+            getGeneric(argMaxGeneric(size, { getGeneric(it) }))
 
 }
 

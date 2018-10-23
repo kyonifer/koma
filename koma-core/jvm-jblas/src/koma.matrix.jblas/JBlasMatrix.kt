@@ -111,11 +111,11 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
 
     override fun elementSum() = this.storage.sum()
     override fun diag() = JBlasMatrix(this.storage.diag())
-    override fun max() = this.storage.max()
+    override fun maxInternal() = this.storage.max()
     override fun mean() = this.storage.mean()
-    override fun min() = this.storage.min()
-    override fun argMax() = colToRowMajor(this.storage.argmax())
-    override fun argMin() = this.storage.argmin()
+    override fun minInternal() = this.storage.min()
+    override fun argMaxInternal() = colToRowMajor(this.storage.argmax())
+    override fun argMinInternal() = this.storage.argmin()
 
     override fun trace(): Double {
         throw UnsupportedOperationException()

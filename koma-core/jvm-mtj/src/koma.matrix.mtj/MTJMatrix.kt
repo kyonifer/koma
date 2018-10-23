@@ -22,10 +22,10 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
         return MTJMatrix(this.storage.diag())
     }
 
-    override fun max() = storage.maxBy { it.get() }!!.get()
+    override fun maxInternal() = storage.maxBy { it.get() }!!.get()
     override fun mean() = elementSum() / (numCols() * numRows())
-    override fun min() = storage.minBy { it.get() }!!.get()
-    override fun argMax(): Int {
+    override fun minInternal() = storage.minBy { it.get() }!!.get()
+    override fun argMaxInternal(): Int {
         var max = 0
         for (i in 0..this.numCols() * this.numRows() - 1)
             if (this[i] > this[max])
@@ -33,7 +33,7 @@ class MTJMatrix(var storage: DenseMatrix) : Matrix<Double>, DoubleMatrixBase() {
         return max
     }
 
-    override fun argMin(): Int {
+    override fun argMinInternal(): Int {
         var min = 0
         for (i in 0..this.numCols() * this.numRows() - 1)
             if (this[i] < this[min])

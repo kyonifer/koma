@@ -90,6 +90,34 @@ interface NDArray<T> {
      */
     fun toMutableList() = MutableList(size) { getGeneric(it) }
 
+    /**
+     * Find the linear index of the minimum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     * This is intended for internal use.  Call argMin() instead.
+     */
+    fun argMinInternal(): Int
+
+    /**
+     * Find the linear index of the maximum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     * This is intended for internal use.  Call argMax() instead.
+     */
+    fun argMaxInternal(): Int
+
+    /**
+     * Find the value of the minimum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     * This is intended for internal use.  Call min() instead.
+     */
+    fun minInternal(): T
+
+    /**
+     * Find the value of the maximum element in this array.
+     * If the array contains non-comparable values, this throws an exception.
+     * This is intended for internal use.  Call max() instead.
+     */
+    fun maxInternal(): T
+
     // Iterator over the indices of this NDArray, simultaneously in array and linear form.
     // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
     fun iterateIndices() = IndexIterator { shape().toIntArray() }

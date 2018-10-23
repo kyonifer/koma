@@ -180,11 +180,11 @@ class DefaultIntMatrix (val rows: Int,
             .zeros(numRows(),1)
             .fill{ row, _ -> this[row,row] }
 
-    override fun max(): Int = this[argMax()]
+    override fun maxInternal(): Int = this[argMax()]
     override fun mean(): Int = elementSum()/(numRows()*numCols())
-    override fun min(): Int = this[argMin()]
+    override fun minInternal(): Int = this[argMin()]
 
-    override fun argMax(): Int {
+    override fun argMaxInternal(): Int {
         var highest= Int.MIN_VALUE
         var highestIdx = -1
         for (i in 0 until numRows()*numCols())
@@ -195,7 +195,7 @@ class DefaultIntMatrix (val rows: Int,
         return highestIdx
     }
 
-    override fun argMin(): Int {
+    override fun argMinInternal(): Int {
         var lowest = Int.MAX_VALUE
         var lowestIdx = -1
         for (i in 0 until numRows()*numCols())

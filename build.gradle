@@ -499,6 +499,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
                     dtypeName: dtypeName(dtype),
                     genDec: genDec(dtype),
                     reifiedDec: reifiedDec(dtype),
+                    comparableDec: comparableDec(dtype),
                     mapDec: mapDec(dtype),
                     toMatrix: toMatrix(dtype, dtypesMatrix),
                     operators: operators(dtype),
@@ -563,6 +564,10 @@ def reifiedDec(dtype) {
     dtype == 'T' ? "<reified T>" : ""
 }
 
+def comparableDec(dtype) {
+    dtype == 'T' ? "<T: Comparable<T>>" : ""
+}
+
 def mapDec(dtype) {
     dtype == 'T' ? "<T, reified R>" : "<reified R>"
 }
@@ -586,8 +591,8 @@ def convertGetter(baseDtype, toDtype) {
     if(baseDtype == 'T')
         return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
                "        val ele = getGeneric(i)\n" +
-               "        if (ele is ${toDtype})\n" +
-               "            return ele\n" +
+               "        if (ele is Number)\n" +
+               "            return ele.to${toDtype}()\n" +
                "        else\n" +
                "            error(wrongType)\n" +
                "    }"
@@ -618,21 +623,7 @@ def floatersOnly(dtype) {
                 "operator fun Matrix<${dtype}>.set(i: Int, v: Int) = this.set${dtype}(i, v.to${dtype}())\n" +
                 "@KomaJvmName(\"set2D${dtype}FromInt\")\n" +
                 "@KomaJsName(\"set2D${dtype}FromInt\")\n" +
-                "operator fun Matrix<${dtype}>.set(i: Int, j: Int, v: Int) = this.set${dtype}(i, j, v.to${dtype}())\n" +
-                "\n" +
-                "@KomaJvmName(\"allClose${dtype}\")\n" +
-                "fun Matrix<${dtype}>.allClose(other: Matrix<${dtype}>, rtol:Double=1e-05, atol:Double=1e-08): Boolean {\n" +
-                "    if(other.numRows() != numRows() || other.numCols() != numCols())\n" +
-                "        return false\n" +
-                "    for(row in 0 until this.numRows()) {\n" +
-                "        for (col in 0 until this.numCols()) {\n" +
-                "            val err = kotlin.math.abs(this[row, col] - other[row, col])\n" +
-                "            if (err > atol + rtol * kotlin.math.abs(this[row, col]))\n" +
-                "                return false\n" +
-                "        }\n" +
-                "    }\n" +
-                "    return true\n" +
-                "}"
+                "operator fun Matrix<${dtype}>.set(i: Int, j: Int, v: Int) = this.set${dtype}(i, j, v.to${dtype}())\n"
     }
     else {
         return ""

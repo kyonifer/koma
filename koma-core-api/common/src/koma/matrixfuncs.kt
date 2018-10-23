@@ -3,7 +3,6 @@
 
 package koma
 
-import koma.extensions.allClose
 import koma.extensions.get
 import koma.extensions.map
 import koma.extensions.set
@@ -15,25 +14,6 @@ import koma.matrix.Matrix
  * Matrices. These definitions follow numpy as close as possible, and allow
  * one to do things like cos(randn(5,5))
  */
-
-/**
- * Returns true if all elements are close to equal, as defined by
- * two tolerance values. The matrices are considered equal if
- *
- * abs(ele1 - ele2) < (atol + rtol * abs(ele1))
- *
- * is true elementwise for all elements ele1 in [arr1]
- * and all elements ele2 in [arr2].
- *
- * @param arr1 The first matrix to compare
- * @param arr2 The second matrix to compare
- * @param rtol The relative tolerance value
- * @param atol The absolute tolerance value
- */
-fun allclose(arr1: Matrix<Double>,
-             arr2: Matrix<Double>,
-             rtol: Double = 1e-05,
-             atol: Double = 1e-08) = arr1.allClose(arr2, rtol=rtol, atol=atol)
 
 /**
  * Returns a matrix of the arccos of each element in the input matrix.
@@ -237,7 +217,7 @@ fun cumsum(arr: Matrix<Double>) = arr.cumSum()
  * @return The maximum value
  *
  */
-fun max(arr: Matrix<Double>) = arr.max()
+fun max(arr: Matrix<Double>) = arr.maxInternal()
 
 /**
  * Returns the mean element in the input matrix
@@ -257,7 +237,7 @@ fun mean(arr: Matrix<Double>) = arr.mean()
  * @return The maximum value
  *
  */
-fun min(arr: Matrix<Double>) = arr.min()
+fun min(arr: Matrix<Double>) = arr.minInternal()
 
 /**
  * Returns the index of the max element in the input matrix
@@ -267,7 +247,7 @@ fun min(arr: Matrix<Double>) = arr.min()
  * @return The maximum value
  *
  */
-fun argMax(arr: Matrix<Double>) = arr.argMax()
+fun argMax(arr: Matrix<Double>) = arr.argMaxInternal()
 
 /**
  * Returns the index of the min element in the input matrix
@@ -277,7 +257,7 @@ fun argMax(arr: Matrix<Double>) = arr.argMax()
  * @return The maximum value
  *
  */
-fun argMin(arr: Matrix<Double>) = arr.argMin()
+fun argMin(arr: Matrix<Double>) = arr.argMinInternal()
 
 /**
  * Calculates the matrix exponential of the input matrix. Note that this is
