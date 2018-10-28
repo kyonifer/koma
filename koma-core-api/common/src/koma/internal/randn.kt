@@ -188,7 +188,7 @@ class KomaRandom {
     internal fun nextLongUnsafe(bound: Long): Long {
         val threshold = -bound % bound
         while (true) {
-            val r = nextIntUnsafe()
+            val r = nextLongUnsafe()
             if (r >= threshold)
                 return r % bound;
         }
