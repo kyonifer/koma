@@ -1,7 +1,30 @@
 /**
- * This file implements random number generation using a PCG-XSH-RR generation.  Some elements of this file are based
+ * This file implements random number generation using a PCG-XSH-RR generator.  Some elements of this file are based
  * on the pcg-c-basic library (https://github.com/imneme/pcg-c-basic), which is also distributed under the Apache 2.0
- * license.
+ * license.  More specifically, the file these elements are modelled after contains the following notice:
+ *
+ * ------------------------------------------------------------------------------------
+ * PCG Random Number Generation for C.
+ *
+ * Copyright 2014 Melissa O'Neill <oneill@pcg-random.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For additional information about the PCG random number generation scheme,
+ * including its license and other licensing options, visit
+ *
+ *       http://www.pcg-random.org
+ * ------------------------------------------------------------------------------------
  */
 
 package koma.internal
@@ -60,7 +83,7 @@ class KomaRandom {
      * Reset the position of the generator within its random sequence based on a seed value.
      */
     fun setSeed(seed: Long) {
-        synchronized(this) {
+        syncNotNative(this) {
             state1 = 0
             state2 = 0
             nextLongUnsafe()
@@ -74,8 +97,8 @@ class KomaRandom {
      * Get a uniformly distributed Int between Int.MIN_VALUE and Int.MAX_VALUE inclusive.
      */
     fun nextInt(): Int {
-        synchronized(this) {
-            return nextIntUnsafe()
+        return syncNotNative(this) {
+            nextIntUnsafe()
         }
     }
 
@@ -83,8 +106,8 @@ class KomaRandom {
      * Get a uniformly distributed Int between 0 (inclusive) and [bound] (exclusive).
      */
     fun nextInt(bound: Int): Int {
-        synchronized(this) {
-            return nextIntUnsafe(bound)
+        return syncNotNative(this) {
+            nextIntUnsafe(bound)
         }
     }
 
@@ -92,8 +115,8 @@ class KomaRandom {
      * Get a uniformly distributed Long between Long.MIN_VALUE and Long.MAX_VALUE inclusive.
      */
     fun nextLong(): Long {
-        synchronized(this) {
-            return nextLongUnsafe()
+        return syncNotNative(this) {
+            nextLongUnsafe()
         }
     }
 
@@ -101,8 +124,8 @@ class KomaRandom {
      * Get a uniformly distributed Long between 0 (inclusive) and [bound] (exclusive).
      */
     fun nextLong(bound: Long): Long {
-        synchronized(this) {
-            return nextLongUnsafe(bound)
+        return syncNotNative(this) {
+            nextLongUnsafe(bound)
         }
     }
 
@@ -110,8 +133,8 @@ class KomaRandom {
      * Get a uniformly distributed Float between 0 (inclusive) and 1 (exclusive).
      */
     fun nextFloat(): Float {
-        synchronized(this) {
-            return nextFloatUnsafe()
+        return syncNotNative(this) {
+            nextFloatUnsafe()
         }
     }
 
@@ -119,8 +142,8 @@ class KomaRandom {
      * Get a uniformly distributed Double between 0 (inclusive) and 1 (exclusive).
      */
     fun nextDouble(): Double {
-        synchronized(this) {
-            return nextDoubleUnsafe()
+        return syncNotNative(this) {
+            nextDoubleUnsafe()
         }
     }
 
@@ -128,8 +151,8 @@ class KomaRandom {
      * Get a normally distributed Double with min 0 and standard deviation 1.
      */
     fun nextGaussian(): Double {
-        synchronized(this) {
-            return nextGaussianUnsafe()
+        return syncNotNative(this) {
+            nextGaussianUnsafe()
         }
     }
 

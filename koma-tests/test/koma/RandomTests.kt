@@ -16,6 +16,53 @@ class RandomTests {
         for (i in 0 until 10)
             assert(rng.nextInt() == expected[i])
     }
+    
+    @Test
+    fun testLongs() {
+        // Compare to values previously generated for a particular seed and stream ID.
+
+        val rng = KomaRandom(100, 1000)
+        val expected = longArrayOf(3333302975963041506, 8685275004344070544, -8162949300458964968,
+                                   -2084443369583231353, -6229690527369952819, -3250596073505103205,
+                                   -77126618518130106, 6469229806394645525, -2164034534786899443, 8714269971029877502)
+        for (i in 0 until 10)
+            assert(rng.nextLong() == expected[i])
+    }
+    
+    @Test
+    fun testFloats() {
+        // Compare to values previously generated for a particular seed and stream ID.
+
+        val rng = KomaRandom(100, 1000)
+        val expected = floatArrayOf(0.38683403f, 0.57229525f, 0.26023436f, 0.59989536f, 0.7480393f,
+                                    0.9470655f, 0.7675773f, 0.7676637f, 0.37636387f, 0.32847416f)
+        for (i in 0 until 10)
+            assert(rng.nextFloat() == expected[i])
+    }
+    
+    @Test
+    fun testDouble() {
+        // Compare to values previously generated for a particular seed and stream ID.
+
+        val rng = KomaRandom(100, 1000)
+        val expected = doubleArrayOf(0.18069871640457624, 0.4708297014171945, 0.5574856317276681,
+                                     0.8870020985137427, 0.6622877998156564, 0.8237848337616458,
+                                     0.9958189576323091, 0.35069765052005264, 0.8826874528025193, 0.4724015217107893)
+        for (i in 0 until 10)
+            assert(rng.nextDouble() == expected[i])
+    }
+    
+    @Test
+    fun testGaussian() {
+        // Compare to values previously generated for a particular seed and stream ID.
+
+        val rng = KomaRandom(100, 1000)
+        val expected = doubleArrayOf(-1.327613921037247, -0.12128637267996473, 0.14553092648387286,
+                                     0.9797365403362278, 0.5089036835226709, 1.0153276756308627,
+                                     1.0265002688562428, -0.07402867581999663, -1.0995530663915685, -0.31456674010572827)
+        for (i in 0 until 10)
+            assert(rng.nextGaussian() == expected[i])
+    }
 
     @Test
     fun testIntDistribution() {
