@@ -9,6 +9,8 @@ import koma.*
 import koma.matrix.*
 import koma.extensions.*
 import koma.internal.notImplemented
+import koma.internal.getRng
+import koma.internal.syncNotNative
 
 class DefaultIntMatrixFactory: MatrixFactory<Matrix<Int>> {
     override fun zeros(rows: Int, cols: Int) 
@@ -46,14 +48,24 @@ class DefaultIntMatrixFactory: MatrixFactory<Matrix<Int>> {
             .fill {row,col->if (row==col) 1.toInt() else 0.toInt() }
 
 
-    override fun rand(rows: Int, cols: Int): Matrix<Int>
-            = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.getRng().nextDouble().toInt()}
+    override fun rand(rows: Int, cols: Int): Matrix<Int> {
+        val array = zeros(rows, cols)
+        val rng = getRng()
+        syncNotNative(rng) {
+            array.fill { _, _ -> rng.nextDoubleUnsafe().toInt() }
+        }
+        return array;
+    }
 
 
-    override fun randn(rows: Int, cols: Int): Matrix<Int>
-            = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.getRng().nextGaussian().toInt()}
+    override fun randn(rows: Int, cols: Int): Matrix<Int> {
+        val array = zeros(rows, cols)
+        val rng = getRng()
+        syncNotNative(rng) {
+            array.fill { _, _ -> rng.nextGaussianUnsafe().toInt() }
+        }
+        return array;
+    }
 
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<Int> {
