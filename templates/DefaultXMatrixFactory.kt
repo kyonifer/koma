@@ -9,6 +9,8 @@ import koma.*
 import koma.matrix.*
 import koma.extensions.*
 import koma.internal.notImplemented
+import koma.internal.getRng
+import koma.internal.syncNotNative
 
 class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
     override fun zeros(rows: Int, cols: Int) 
@@ -46,14 +48,24 @@ class Default${dtype}MatrixFactory: MatrixFactory<Matrix<${dtype}>> {
             .fill {row,col->if (row==col) 1.to${dtype}() else 0.to${dtype}() }
 
 
-    override fun rand(rows: Int, cols: Int): Matrix<${dtype}>
-            = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.getRng().nextDouble().to${dtype}()}
+    override fun rand(rows: Int, cols: Int): Matrix<${dtype}> {
+        val array = zeros(rows, cols)
+        val rng = getRng()
+        syncNotNative(rng) {
+            array.fill { _, _ -> rng.nextDoubleUnsafe().to${ dtype }() }
+        }
+        return array;
+    }
 
 
-    override fun randn(rows: Int, cols: Int): Matrix<${dtype}>
-            = zeros(rows, cols)
-            .fill { _, _ -> koma.internal.getRng().nextGaussian().to${dtype}()}
+    override fun randn(rows: Int, cols: Int): Matrix<${dtype}> {
+        val array = zeros(rows, cols)
+        val rng = getRng()
+        syncNotNative(rng) {
+            array.fill { _, _ -> rng.nextGaussianUnsafe().to${ dtype }() }
+        }
+        return array;
+    }
 
 
     override fun arange(start: Double, stop: Double, increment: Double): Matrix<${dtype}> {

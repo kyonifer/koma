@@ -3,7 +3,6 @@ package koma.matrix.cblas
 import koma.matrix.common.DoubleFactoryBase
 import koma.extensions.*
 import koma.util.fromCollection
-import koma.internal.rng
 
 class CBlasMatrixFactory: DoubleFactoryBase<CBlasMatrix>() {
 

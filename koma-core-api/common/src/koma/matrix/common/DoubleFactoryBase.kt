@@ -1,8 +1,9 @@
 package koma.matrix.common
 
 import koma.extensions.*
-import koma.internal.rng
+import koma.internal.getRng
 import koma.internal.signum
+import koma.internal.syncNotNative
 import koma.matrix.Matrix
 import koma.matrix.MatrixFactory
 import koma.round
@@ -35,14 +36,20 @@ abstract class DoubleFactoryBase<T: Matrix<Double>> : MatrixFactory<T> {
     }
 
     override fun rand(rows: Int, cols: Int) = zeros(rows, cols).also {
-        it.fill { _, _ ->
-            rng.nextDouble()
+        val rng = getRng()
+        syncNotNative(rng) {
+            it.fill { _, _ ->
+                rng.nextDoubleUnsafe()
+            }
         }
     }
 
     override fun randn(rows: Int, cols: Int) = zeros(rows, cols).also {
-        it.fill { _, _ ->
-            rng.nextGaussian()
+        val rng = getRng()
+        syncNotNative(rng) {
+            it.fill { _, _ ->
+                rng.nextGaussianUnsafe()
+            }
         }
     }
 }

@@ -5,8 +5,9 @@
 
 package koma.internal.default.generated.ndarray
 
-import koma.extensions.fill
 import koma.ndarray.*
+import koma.internal.getRng
+import koma.internal.syncNotNative
 
 class DefaultLongNDArrayFactory: NumericalNDArrayFactory<Long> {
     override fun createGeneric(lengths: IntArray, filler: (IntArray)->Long) = DefaultLongNDArray(*lengths, init=filler)
@@ -15,11 +16,21 @@ class DefaultLongNDArrayFactory: NumericalNDArrayFactory<Long> {
 
     override fun ones(vararg lengths: Int) = DefaultLongNDArray(*lengths) { 1L }
 
-    override fun rand(vararg lengths: Int) = DefaultLongNDArray(*lengths) {
-        koma.internal.getRng().nextDouble().toLong()
+    override fun rand(vararg lengths: Int): NDArray<Long> {
+        val rng = getRng()
+        return syncNotNative(rng) {
+            DefaultLongNDArray(*lengths) {
+               rng.nextDoubleUnsafe().toLong()
+            }
+        }
     }
 
-    override fun randn(vararg lengths: Int) = DefaultLongNDArray(*lengths) {
-        koma.internal.getRng().nextGaussian().toLong()
+    override fun randn(vararg lengths: Int): NDArray<Long> {
+        val rng = getRng()
+        return syncNotNative(rng) {
+            DefaultLongNDArray(*lengths) {
+                rng.nextGaussianUnsafe().toLong()
+            }
+        }
     }
 }
