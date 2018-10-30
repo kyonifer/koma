@@ -90,6 +90,7 @@ class KomaRandom {
             state1 += seed
             state2 += seed
             nextLongUnsafe()
+            gaussianIsValid = false
         }
     }
 
