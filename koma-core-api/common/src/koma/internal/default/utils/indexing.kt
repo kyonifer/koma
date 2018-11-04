@@ -81,3 +81,13 @@ fun <T> List<T>.accumulateRight(f: (T, T) -> T)
         accum.add(0, f(ele, accum.first()))
     accum
 }
+
+/**
+ * Given an index into an array, wrap negative values to be relative to the upper limit.
+ */
+fun wrapIndex(index: Int, size: Int): Int {
+    val i = if (index < 0) size + index else index
+    if (i < 0 || i >= size)
+        throw IllegalArgumentException("Illegal index $index for a dimension of width $size")
+    return i
+}

@@ -665,9 +665,9 @@ def toMatrix(dtype, dtypesMatrix) {
 
 def extensionCreate(dtype) {
     if (dtype != "T") {
-        return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*lengths).fill(filler)\n"
+        return "NDArray.${dtype.toLowerCase()}Factory.zeros(*lengths).fill(filler)\n"
     } else {
-        return "    = NDArray.createGeneric<T>(*lengths, filler=filler)\n"
+        return "NDArray.createGeneric<T>(*lengths, filler=filler)\n"
     }
 }
 def extensionMapIndexed(dtype) {
