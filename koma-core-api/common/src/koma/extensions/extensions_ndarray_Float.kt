@@ -53,7 +53,6 @@ inline fun  NDArray<Float>.fillLinear(f: (idx: Int) -> Float) = apply {
 inline fun  NumericalNDArrayFactory<Float>.create(vararg lengths: Int, filler: (idx: IntArray) -> Float)
     = NDArray.floatFactory.zeros(*lengths).fill(filler)
 
-
 /**
  * Returns a new NDArray with the given shape, populated with the data in this array.
  *
@@ -160,8 +159,7 @@ inline fun  NDArray<Float>.forEachIndexedN(f: (idx: IntArray, ele: Float) -> Uni
  */
 fun  NDArray<Float>.toFloatArray() = FloatArray(size) { getFloat(it) }
 
-@koma.internal.JvmName("getSliceFloat")
-operator fun  NDArray<Float>.get(vararg indices: Any): NDArray<Float> {
+fun <T> NDArray<T>.getSliceFloat(vararg indices: Any): NDArray<Float> {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -198,11 +196,9 @@ operator fun  NDArray<Float>.get(vararg indices: Any): NDArray<Float> {
         getFloat(*inputIndex)
     }
     return NDArray.floatFactory.zeros(*lengths).fill(filler)
-
 }
 
-@koma.internal.JvmName("setSliceFloat")
-operator fun  NDArray<Float>.set(vararg indices: Any, value: Float) {
+fun <T> NDArray<T>.setSliceFloat(vararg indices: Any, value: Float) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -231,8 +227,7 @@ operator fun  NDArray<Float>.set(vararg indices: Any, value: Float) {
     }
 }
 
-@koma.internal.JvmName("setSliceToArrayFloat")
-operator fun  NDArray<Float>.set(vararg indices: Any, value: NDArray<Float>) {
+fun <T> NDArray<T>.setSliceFloat(vararg indices: Any, value: NDArray<Float>) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()

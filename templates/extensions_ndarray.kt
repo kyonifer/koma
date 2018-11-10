@@ -147,8 +147,7 @@ ${inline}fun $genDec NDArray<${dtype}>.forEachIndexedN(f: (idx: IntArray, ele: $
  */
 ${reifiedInline}fun $reifiedDec NDArray<${dtype}>.to${arrayType}Array() = ${arrayClass}(size) { get${dtypeName}(it) }
 
-@koma.internal.JvmName("getSlice${dtypeName}")
-operator fun $genDec NDArray<${dtype}>.get(vararg indices: Any): NDArray<${dtype}> {
+fun <T> NDArray<T>.getSlice${dtypeName}(vararg indices: Any): NDArray<${dtype}> {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified \${indices.size} indices for an array with \${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -187,8 +186,7 @@ operator fun $genDec NDArray<${dtype}>.get(vararg indices: Any): NDArray<${dtype
     return $extensionCreate
 }
 
-@koma.internal.JvmName("setSlice${dtypeName}")
-operator fun $genDec NDArray<${dtype}>.set(vararg indices: Any, value: ${dtype}) {
+fun <T> NDArray<T>.setSlice${dtypeName}(vararg indices: Any, value: ${dtype}) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified \${indices.size} indices for an array with \${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -217,8 +215,7 @@ operator fun $genDec NDArray<${dtype}>.set(vararg indices: Any, value: ${dtype})
     }
 }
 
-@koma.internal.JvmName("setSliceToArray${dtypeName}")
-operator fun $genDec NDArray<${dtype}>.set(vararg indices: Any, value: NDArray<${dtype}>) {
+fun <T> NDArray<T>.setSlice${dtypeName}(vararg indices: Any, value: NDArray<${dtype}>) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified \${indices.size} indices for an array with \${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()

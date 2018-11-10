@@ -54,7 +54,6 @@ fun <T> NDArray<T>.fillLinear(f: (idx: Int) -> T) = apply {
 fun <T> GenericNDArrayFactory<T>.create(vararg lengths: Int, filler: (idx: IntArray) -> T)
     = NDArray.createGeneric<T>(*lengths, filler=filler)
 
-
 /**
  * Returns a new NDArray with the given shape, populated with the data in this array.
  *
@@ -161,8 +160,7 @@ fun <T> NDArray<T>.forEachIndexedN(f: (idx: IntArray, ele: T) -> Unit) {
  */
 inline fun <reified T> NDArray<T>.toTypedArray() = Array(size) { getGeneric(it) }
 
-@koma.internal.JvmName("getSliceGeneric")
-operator fun <T> NDArray<T>.get(vararg indices: Any): NDArray<T> {
+fun <T> NDArray<T>.getSliceGeneric(vararg indices: Any): NDArray<T> {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -199,11 +197,9 @@ operator fun <T> NDArray<T>.get(vararg indices: Any): NDArray<T> {
         getGeneric(*inputIndex)
     }
     return NDArray.createGeneric<T>(*lengths, filler=filler)
-
 }
 
-@koma.internal.JvmName("setSliceGeneric")
-operator fun <T> NDArray<T>.set(vararg indices: Any, value: T) {
+fun <T> NDArray<T>.setSliceGeneric(vararg indices: Any, value: T) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -232,8 +228,7 @@ operator fun <T> NDArray<T>.set(vararg indices: Any, value: T) {
     }
 }
 
-@koma.internal.JvmName("setSliceToArrayGeneric")
-operator fun <T> NDArray<T>.set(vararg indices: Any, value: NDArray<T>) {
+fun <T> NDArray<T>.setSliceGeneric(vararg indices: Any, value: NDArray<T>) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()

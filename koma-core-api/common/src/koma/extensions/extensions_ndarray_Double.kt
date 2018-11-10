@@ -53,7 +53,6 @@ inline fun  NDArray<Double>.fillLinear(f: (idx: Int) -> Double) = apply {
 inline fun  NumericalNDArrayFactory<Double>.create(vararg lengths: Int, filler: (idx: IntArray) -> Double)
     = NDArray.doubleFactory.zeros(*lengths).fill(filler)
 
-
 /**
  * Returns a new NDArray with the given shape, populated with the data in this array.
  *
@@ -160,8 +159,7 @@ inline fun  NDArray<Double>.forEachIndexedN(f: (idx: IntArray, ele: Double) -> U
  */
 fun  NDArray<Double>.toDoubleArray() = DoubleArray(size) { getDouble(it) }
 
-@koma.internal.JvmName("getSliceDouble")
-operator fun  NDArray<Double>.get(vararg indices: Any): NDArray<Double> {
+fun <T> NDArray<T>.getSliceDouble(vararg indices: Any): NDArray<Double> {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -198,11 +196,9 @@ operator fun  NDArray<Double>.get(vararg indices: Any): NDArray<Double> {
         getDouble(*inputIndex)
     }
     return NDArray.doubleFactory.zeros(*lengths).fill(filler)
-
 }
 
-@koma.internal.JvmName("setSliceDouble")
-operator fun  NDArray<Double>.set(vararg indices: Any, value: Double) {
+fun <T> NDArray<T>.setSliceDouble(vararg indices: Any, value: Double) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -231,8 +227,7 @@ operator fun  NDArray<Double>.set(vararg indices: Any, value: Double) {
     }
 }
 
-@koma.internal.JvmName("setSliceToArrayDouble")
-operator fun  NDArray<Double>.set(vararg indices: Any, value: NDArray<Double>) {
+fun <T> NDArray<T>.setSliceDouble(vararg indices: Any, value: NDArray<Double>) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()

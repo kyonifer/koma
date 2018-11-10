@@ -43,7 +43,6 @@ inline fun  NDArray<Byte>.fillLinear(f: (idx: Int) -> Byte) = apply {
 inline fun  NumericalNDArrayFactory<Byte>.create(vararg lengths: Int, filler: (idx: IntArray) -> Byte)
     = NDArray.byteFactory.zeros(*lengths).fill(filler)
 
-
 /**
  * Returns a new NDArray with the given shape, populated with the data in this array.
  *
@@ -150,8 +149,7 @@ inline fun  NDArray<Byte>.forEachIndexedN(f: (idx: IntArray, ele: Byte) -> Unit)
  */
 fun  NDArray<Byte>.toByteArray() = ByteArray(size) { getByte(it) }
 
-@koma.internal.JvmName("getSliceByte")
-operator fun  NDArray<Byte>.get(vararg indices: Any): NDArray<Byte> {
+fun <T> NDArray<T>.getSliceByte(vararg indices: Any): NDArray<Byte> {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -188,11 +186,9 @@ operator fun  NDArray<Byte>.get(vararg indices: Any): NDArray<Byte> {
         getByte(*inputIndex)
     }
     return NDArray.byteFactory.zeros(*lengths).fill(filler)
-
 }
 
-@koma.internal.JvmName("setSliceByte")
-operator fun  NDArray<Byte>.set(vararg indices: Any, value: Byte) {
+fun <T> NDArray<T>.setSliceByte(vararg indices: Any, value: Byte) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
@@ -221,8 +217,7 @@ operator fun  NDArray<Byte>.set(vararg indices: Any, value: Byte) {
     }
 }
 
-@koma.internal.JvmName("setSliceToArrayByte")
-operator fun  NDArray<Byte>.set(vararg indices: Any, value: NDArray<Byte>) {
+fun <T> NDArray<T>.setSliceByte(vararg indices: Any, value: NDArray<Byte>) {
     if (indices.size != shape().size)
         throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
     val indexArrays = mutableListOf<IntArray>()
