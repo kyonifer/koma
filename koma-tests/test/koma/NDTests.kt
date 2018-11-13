@@ -245,4 +245,48 @@ class NDTests {
         assertEquals(strings.toList(), stringsFromInts.toList())
         assertEquals(ints.toList(), intsFromStrings.toList())
     }
+
+    @Test
+    fun testGetSlice() {
+        var c = 0
+        val a = NDArray(3, 3, 3) { ++c }
+        val b = a[0..1, 0, listOf(0, -1)]
+        assert(b.shape().toIntArray() contentEquals intArrayOf(2, 2))
+        assert(b[0,0] == a[0,0,0])
+        assert(b[0,1] == a[0,0,2])
+        assert(b[1,0] == a[1,0,0])
+        assert(b[1,1] == a[1,0,2])
+    }
+
+    @Test
+    fun testSetSlice() {
+        var c = 0
+        val a = NDArray(3, 3, 3) { ++c }
+        val b = a.copy()
+        b[0..1, 0, listOf(0, -1)] = -1
+        for (i in 0..2)
+            for (j in 0..2)
+                for (k in 0..2) {
+                    if ((i == 0 || i == 1) && (j == 0) && (k == 0 || k == 2))
+                        assert(b[i,j,k] == -1)
+                    else
+                        assert(b[i,j,k] == a[i,j,k])
+                }
+    }
+
+    @Test
+    fun testSetSliceToArray() {
+        var c = 0
+        val a = NDArray(3, 3, 3) { ++c }
+        val b = a.copy()
+        b[0..1, 0, listOf(0, -1)] = ndArrayOf(-1, -2, -3, -4, shape=intArrayOf(2, 2))
+        val d = a.copy()
+        assert(a.allClose(d))
+        assert(!b.allClose(d))
+        d[0,0,0] = -1
+        d[0,0,2] = -2
+        d[1,0,0] = -3
+        d[1,0,2] = -4
+        assert(b.allClose(d))
+    }
 }

@@ -8,17 +8,16 @@
 
 package koma.extensions
 
-import koma.internal.default.generated.ndarray.DefaultGenericNDArray
-import koma.internal.default.utils.checkIndices
-import koma.internal.default.utils.linearToNIdx
 import koma.internal.default.utils.reduceArrayAxis
 import koma.internal.default.utils.argMinDouble
 import koma.internal.default.utils.argMaxDouble
+import koma.internal.default.utils.wrapIndex
 import koma.ndarray.NDArray
 import koma.ndarray.NumericalNDArrayFactory
 import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
+import koma.util.IndexIterator
 
 @koma.internal.JvmName("toMatrixDouble")
 fun NDArray<Double>.toMatrix(): Matrix<Double> {
@@ -53,7 +52,6 @@ inline fun  NDArray<Double>.fillLinear(f: (idx: Int) -> Double) = apply {
 @koma.internal.JvmName("createDouble")
 inline fun  NumericalNDArrayFactory<Double>.create(vararg lengths: Int, filler: (idx: IntArray) -> Double)
     = NDArray.doubleFactory.zeros(*lengths).fill(filler)
-
 
 /**
  * Returns a new NDArray with the given shape, populated with the data in this array.
@@ -161,15 +159,107 @@ inline fun  NDArray<Double>.forEachIndexedN(f: (idx: IntArray, ele: Double) -> U
  */
 fun  NDArray<Double>.toDoubleArray() = DoubleArray(size) { getDouble(it) }
 
-@koma.internal.JvmName("getRangesDouble")
-operator fun  NDArray<Double>.get(vararg indices: IntRange): NDArray<Double> {
-    checkIndices(indices.map { it.last }.toIntArray())
-    return DefaultGenericNDArray<Double>(shape = *indices
-            .map { it.last - it.first + 1 }
-            .toIntArray()) { newIdxs ->
-        val offsets = indices.map { it.first }
-        val oldIdxs = newIdxs.zip(offsets).map { it.first + it.second }
-        this.getGeneric(*oldIdxs.toIntArray())
+fun <T> NDArray<T>.getSliceDouble(vararg indices: Any): NDArray<Double> {
+    if (indices.size != shape().size)
+        throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
+    val indexArrays = mutableListOf<IntArray>()
+    val outputShape = mutableListOf<Int>()
+    val outputDims = mutableListOf<Int>()
+    val inputIndex = kotlin.IntArray(indices.size)
+
+    // Convert the inputs to arrays of integer indices.
+
+    for (i in 0 until indices.size) {
+        val index = indices[i]
+        val size = shape()[i]
+        if (index is Int) {
+            inputIndex[i] = index
+            indexArrays.add(kotlin.intArrayOf(wrapIndex(index, size)))
+        }
+        else if (index is Iterable<*>) {
+            outputDims.add(i)
+            indexArrays.add(index.map { wrapIndex(it as Int, size) }.toIntArray())
+            outputShape.add(indexArrays.last().size)
+        }
+        else
+            throw IllegalArgumentException("All indices must be Int or Iterable<Int>")
+    }
+    if (outputShape.size == 0)
+        throw IllegalArgumentException("A slice must have at least one dimension")
+
+    // Create the output array.
+
+    val lengths = outputShape.toIntArray()
+    val filler = { index: IntArray ->
+        for (i in 0 until outputDims.size)
+            inputIndex[outputDims[i]] = indexArrays[outputDims[i]][index[i]]
+        getDouble(*inputIndex)
+    }
+    return NDArray.doubleFactory.zeros(*lengths).fill(filler)
+}
+
+fun <T> NDArray<T>.setSliceDouble(vararg indices: Any, value: Double) {
+    if (indices.size != shape().size)
+        throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
+    val indexArrays = mutableListOf<IntArray>()
+
+    // Convert the inputs to arrays of integer indices.
+
+    for (i in 0 until indices.size) {
+        val index = indices[i]
+        val size = shape()[i]
+        if (index is Int)
+            indexArrays.add(kotlin.intArrayOf(wrapIndex(index, size)))
+        else if (index is Iterable<*>)
+            indexArrays.add(index.map { wrapIndex(it as Int, size) }.toIntArray())
+        else
+            throw IllegalArgumentException("All indices must be Int or Iterable<Int>")
+    }
+
+    // Set the elements.
+
+    val lengths = IntArray(indices.size, { indexArrays[it].size })
+    val element = IntArray(lengths.size)
+    for ((nd, linear) in IndexIterator(lengths)) {
+        for (i in 0 until element.size)
+            element[i] = indexArrays[i][nd[i]]
+        setDouble(*element, v=value)
+    }
+}
+
+fun <T> NDArray<T>.setSliceDouble(vararg indices: Any, value: NDArray<Double>) {
+    if (indices.size != shape().size)
+        throw IllegalArgumentException("Specified ${indices.size} indices for an array with ${shape().size} dimensions")
+    val indexArrays = mutableListOf<IntArray>()
+
+    // Convert the inputs to arrays of integer indices.
+
+    for (i in 0 until indices.size) {
+        val index = indices[i]
+        val size = shape()[i]
+        if (index is Int)
+            indexArrays.add(kotlin.intArrayOf(wrapIndex(index, size)))
+        else if (index is Iterable<*>)
+            indexArrays.add(index.map { wrapIndex(it as Int, size) }.toIntArray())
+        else
+            throw IllegalArgumentException("All indices must be Int or Iterable<Int>")
+    }
+
+    // Make sure the shapes match, after eliminating dimensions of size 1.
+
+    val lengths = IntArray(indices.size, { indexArrays[it].size })
+    val outputDims = lengths.filter { it != 1 }
+    val inputDims = value.shape().filter { it != 1}
+    if (!(outputDims.toIntArray() contentEquals inputDims.toIntArray()))
+        throw IllegalArgumentException("Cannot assign a value of shape ${inputDims.toList()} to a slice of shape ${outputDims.toList()}")
+
+    // Set the elements.
+
+    val element = IntArray(lengths.size)
+    for ((nd, linear) in IndexIterator(lengths)) {
+        for (i in 0 until element.size)
+            element[i] = indexArrays[i][nd[i]]
+        setDouble(*element, v=value.getDouble(linear))
     }
 }
 
