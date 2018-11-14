@@ -740,11 +740,11 @@ def primitiveGetSet(types) {
     types.findAll { it != "T" }.collect {
         """
         @KomaJsName("get${it}ND")
-        fun get$it(vararg indices: Int) = get$it(safeNIdxToLinear(indices))
+        fun get$it(vararg indices: Int) = get$it(nIdxToLinear(indices))
         @KomaJsName("get${it}1D")
         fun get$it(i: Int): $it = (getGeneric(i) as Number).to$it()
         @KomaJsName("set${it}ND")
-        fun set$it(vararg indices: Int, v: $it) = set$it(safeNIdxToLinear(indices), v)
+        fun set$it(vararg indices: Int, v: $it) = set$it(nIdxToLinear(indices), v)
         @KomaJsName("set${it}1D")
         @Suppress("UNCHECKED_CAST")
         fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }

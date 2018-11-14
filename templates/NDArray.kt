@@ -5,14 +5,11 @@
 
 package koma.ndarray
 
-import koma.extensions.create
 import koma.extensions.fill
 import koma.extensions.fillLinear
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
-import koma.internal.default.utils.safeNIdxToLinear
 import koma.matrix.*
-import kotlin.reflect.KClass
 import koma.util.IndexIterator
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
@@ -122,16 +119,25 @@ interface NDArray<T> {
     // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
     fun iterateIndices() = IndexIterator { shape().toIntArray() }
 
+    /**
+     * Convert an N-dimensional index to a 1D index.  This is primarily for internal use.
+     */
+    fun nIdxToLinear(indices: IntArray): Int = throw NotImplementedError()
+
+    /**
+     * Convert a 1D index to an N-dimensional index.  This is primarily for internal use.
+     */
+    fun linearToNIdx(linear:Int): IntArray = throw NotImplementedError()
 
     // Primitive optimized getter/setters to avoid boxing. Not intended
     // to be used directly, but instead are used by ext funcs in `koma.extensions`.
 
     @KomaJsName("getGenericND")
-    fun getGeneric(vararg indices: Int) = getGeneric(safeNIdxToLinear(indices))
+    fun getGeneric(vararg indices: Int) = getGeneric(nIdxToLinear(indices))
     @KomaJsName("getGeneric1D")
     fun getGeneric(i: Int): T
     @KomaJsName("setGenericND")
-    fun setGeneric(vararg indices: Int, v: T) = setGeneric(safeNIdxToLinear(indices), v)
+    fun setGeneric(vararg indices: Int, v: T) = setGeneric(nIdxToLinear(indices), v)
     @KomaJsName("setGeneric1D")
     fun setGeneric(i: Int, v: T)
 

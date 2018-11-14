@@ -2,42 +2,12 @@ package koma.internal.default.utils
 
 import koma.ndarray.NDArray
 
-/**
- * Given a ND index into this array, find the corresponding 1D index in the raw underlying
- * 1D storage array.
- */
-fun <T> NDArray<T>.nIdxToLinear(indices: IntArray): Int {
-    var out = 0
-    val widthOfDims = widthOfDims()
-
-    indices.forEachIndexed { i, idxArr ->
-        out += idxArr * widthOfDims[i]
-    }
-    return out
-}
-
-/**
- * Given the 1D index of an element in the underlying storage, find the corresponding
- * ND index. Inverse of [nIdxToLinear].
- */
-fun <T> NDArray<T>.linearToNIdx(linear:Int): IntArray {
-    // TODO: optimize this
-    val widthOfDims = widthOfDims()
-    var remaining = linear
-    val out = IntArray(shape().size, {it})
-    out.map { idx ->
-        out[idx] = remaining / widthOfDims[idx]
-        remaining -= out[idx] * widthOfDims[idx]
-    }
-    return out
-}
-fun <T> NDArray<T>.widthOfDims() = shape()
-        .toList()
+fun widthOfDims(shape: List<Int>) = shape
         .accumulateRight { left, right -> left * right }
         .apply {
             add(1)
             removeAt(0)
-        }
+        }.toIntArray()
 
 fun <T> NDArray<T>.checkIndices(indices: IntArray) = indices.also {
     val shape = shape()
@@ -50,8 +20,6 @@ fun <T> NDArray<T>.checkIndices(indices: IntArray) = indices.also {
                     "${indices.toList()} (out of bounds)")
     }
 }
-
-fun <T> NDArray<T>.safeNIdxToLinear(indices: IntArray) = nIdxToLinear(checkIndices(indices))
 
 fun <T> NDArray<T>.checkLinearIndex(index: Int) = index.also {
     if (index < 0)
