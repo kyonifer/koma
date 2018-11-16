@@ -1,0 +1,391 @@
+
+def ReifiedMatrices = ['T', 'Double', 'Float', 'Int']
+def ReifiedNDArrays = ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte']
+def NumericalConstantSuffixes = [
+        'T': ' as T',
+        'Double': '.0',
+        'Float': '.0f',
+        'Long': 'L',
+        'Int': '',
+        'Short': '.toShort()',
+        'Byte': '.toByte()'
+]
+
+
+
+void genNDArray(String dest, List<String> dtypesNDArray) {
+    copy {
+        from 'templates'
+        into "$dest"
+        include 'NDArray.kt'
+        expand(factories: fixWhitespaceErrors(factories(dtypesNDArray)),
+                primitiveGetSet: fixWhitespaceErrors(primitiveGetSet(dtypesNDArray)),
+                typeCheckClauses: fixWhitespaceErrors(typeCheckClauses(dtypesNDArray)),
+                typeCheckClausesLinear: fixWhitespaceErrors(typeCheckClausesLinear(dtypesNDArray)))
+    }
+}
+
+def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
+    // Generate matrix types
+    dtypesMatrix.forEach { dtype ->
+        if (dtype != 'T') {
+            copy {
+                from 'templates'
+                into "$project/matrix"
+                include 'DefaultXMatrix.kt'
+                rename { "Default${dtype}Matrix.kt" }
+
+                expand(div: getDiv(dtype),
+                        epow: getEPow(dtype),
+                        dtype: dtype,
+                        namespace: namespace)
+            }
+            copy {
+                from 'templates'
+                into "$project/matrix"
+                include 'DefaultXMatrixFactory.kt'
+                rename { "Default${dtype}MatrixFactory.kt" }
+                expand(dtype: dtype,
+                        namespace: namespace)
+            }
+        }
+        copy {
+            from 'templates'
+            into "koma-core-api/common/src/koma/extensions"
+            include 'extensions_matrix.kt'
+            rename { "extensions_matrix_${dtypeName(dtype)}.kt"}
+            expand(dtype: dtype,
+                    dtypeName: dtypeName(dtype),
+                    genDec: genDec(dtype),
+                    reifiedDec: reifiedDec(dtype),
+                    reifiedInline: dtype == "T" ? "inline " : "",
+                    reshapeReceiverType: dtype == "T" ? "Matrix" : "NDArray",
+                    factoryPattern: factoryPattern(dtype, "Matrix"),
+                    floatersOnly: floatersOnly(dtype),
+                    inline: inline(dtype))
+        }
+    }
+    // Generate ndarray types
+    dtypesNDArray.forEach { dtype ->
+        copy {
+            from 'templates'
+            into "$project/ndarray"
+            include 'DefaultXNDArray.kt'
+            rename { "Default${dtypeName(dtype)}NDArray.kt"}
+            expand(dtype: dtype,
+                    namespace: namespace,
+                    storage: getStorage(dtype),
+                    genDec: genDec(dtype),
+                    initStorage: initStorage(dtype),
+                    dtypeName: dtypeName(dtype),
+                    getDouble: convertGetter(dtype, "Double"),
+                    setDouble: convertSetter(dtype, "Double"),
+                    getByte: convertGetter(dtype, "Byte"),
+                    setByte: convertSetter(dtype, "Byte"),
+                    getInt: convertGetter(dtype, "Int"),
+                    setInt: convertSetter(dtype, "Int"),
+                    getFloat: convertGetter(dtype, "Float"),
+                    setFloat: convertSetter(dtype, "Float"),
+                    getLong: convertGetter(dtype, "Long"),
+                    setLong: convertSetter(dtype, "Long"),
+                    getShort: convertGetter(dtype, "Short"),
+                    setShort: convertSetter(dtype, "Short"))
+        }
+        if (dtype != "T") {
+            copy {
+                from 'templates'
+                into "$project/ndarray"
+                include 'DefaultXNDArrayFactory.kt'
+                rename { "Default${dtypeName(dtype)}NDArrayFactory.kt"}
+                expand(dtype: dtype,
+                        literalSuffix: dtypeSuffixMap[dtype],
+                        namespace: namespace)
+            }
+        }
+        copy {
+            from 'templates'
+            into "koma-core-api/common/src/koma/extensions"
+            include 'extensions_ndarray.kt'
+            rename { "extensions_ndarray_${dtypeName(dtype)}.kt"}
+            expand(dtype: dtype,
+                    dtypeName: dtypeName(dtype),
+                    genDec: genDec(dtype),
+                    reifiedDec: reifiedDec(dtype),
+                    comparableDec: comparableDec(dtype),
+                    mapDec: mapDec(dtype),
+                    toMatrix: toMatrix(dtype, dtypesMatrix),
+                    operators: operators(dtype),
+                    factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
+                    factoryPattern: factoryPattern(dtype, "NDArray"),
+                    inline: inline(dtype),
+                    extensionCreate: extensionCreate(dtype),
+                    extensionMapIndexed: extensionMapIndexed(dtype),
+                    extensionMapIndexedN: extensionMapIndexedN(dtype),
+                    reifiedInline: dtype == "T" ? "inline " : "",
+                    arrayType: dtype == "T" ? "Typed" : dtype,
+                    arrayClass: dtype == "T" ? "Array" : "${dtype}Array")
+        }
+    }
+}
+
+task codegen {
+    doLast {
+        genNDArray("koma-core-api/common/src/koma/ndarray", ReifiedNDArrays)
+        genCode("koma-core-api/common/src/koma/internal/default/generated",
+                "koma.internal.default.generated",
+                ReifiedMatrices, ReifiedNDArrays, NumericalConstantSuffixes)
+    }
+}
+
+def getDiv(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun div(other: ${dtype}): Matrix<${dtype}>
+            = this.mapIndexed { _, _, ele -> ele/other}
+"""
+    else
+        return ""
+}
+def getEPow(dtype) {
+    if (dtype != 'Int')
+        return """
+    override fun epow(other: ${dtype}): Matrix<${dtype}> 
+            = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
+"""
+    else
+        return ""
+
+}
+
+
+def getStorage(dtype) {
+    if (dtype != 'T')
+        return "${dtype}Array"
+    else
+        return "Array<T>"
+}
+
+def genDec(dtype) {
+    if (dtype != 'T')
+        return ""
+    else
+        return "<T>"
+}
+
+def reifiedDec(dtype) {
+    dtype == 'T' ? "<reified T>" : ""
+}
+
+def comparableDec(dtype) {
+    dtype == 'T' ? "<T: Comparable<T>>" : ""
+}
+
+def mapDec(dtype) {
+    dtype == 'T' ? "<T, reified R>" : "<reified R>"
+}
+
+def initStorage(dtype) {
+    if (dtype != 'T')
+        return "        storage = ${dtype}Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) \n"
+    else
+        return "        @Suppress(\"UNCHECKED_CAST\")\n" +
+                "        storage = Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it)) as Any?}) as Array<T>"
+}
+
+def dtypeName(dtype) {
+    if (dtype != 'T')
+        return dtype
+    else
+        return "Generic"
+}
+
+def convertGetter(baseDtype, toDtype) {
+    if(baseDtype == 'T')
+        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
+                "        val ele = getGeneric(i)\n" +
+                "        if (ele is Number)\n" +
+                "            return ele.to${toDtype}()\n" +
+                "        else\n" +
+                "            error(wrongType)\n" +
+                "    }"
+    else
+        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
+                "        val ele = storage[checkLinearIndex(i)]\n" +
+                "        return ele.to${toDtype}()\n" +
+                "    }"
+}
+
+def convertSetter(baseDtype, toDtype) {
+    if(baseDtype == 'T')
+        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+                "       @Suppress(\"UNCHECKED_CAST\")\n" +
+                "       setGeneric(i, v as ${baseDtype})\n" +
+                "    }\n"
+    else
+        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
+                "        storage[checkLinearIndex(i)] = v.to${baseDtype}()\n" +
+                "    }\n"
+}
+
+def floatersOnly(dtype) {
+    if(dtype == "Double" || dtype == "Float") {
+        return "\n" +
+                "@KomaJvmName(\"set1D${dtype}FromInt\")\n" +
+                "@KomaJsName(\"set1D${dtype}FromInt\")\n" +
+                "operator fun Matrix<${dtype}>.set(i: Int, v: Int) = this.set${dtype}(i, v.to${dtype}())\n" +
+                "@KomaJvmName(\"set2D${dtype}FromInt\")\n" +
+                "@KomaJsName(\"set2D${dtype}FromInt\")\n" +
+                "operator fun Matrix<${dtype}>.set(i: Int, j: Int, v: Int) = this.set${dtype}(i, j, v.to${dtype}())\n"
+    }
+    else {
+        return ""
+    }
+}
+
+def toMatrix(dtype, dtypesMatrix) {
+    if (dtype in dtypesMatrix && dtype != "T") {
+        return "@koma.internal.JvmName(\"toMatrix${dtype}\")\n" +
+                "fun NDArray<${dtype}>.toMatrix(): Matrix<${dtype}> {\n" +
+                "    if (this is Matrix)\n" +
+                "        return this\n" +
+                "    val dims = this.shape()\n" +
+                "    return when (dims.size) {\n" +
+                "        1 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], 1).fill { row, _ -> this[row] } }\n" +
+                "        2 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], dims[1]).fill { row, col -> this[row, col] } }\n" +
+                "        else -> error(\"Cannot convert NDArray with \${dims.size} dimensions to matrix (must be 1 or 2)\")\n" +
+                "    }\n" +
+                "}"
+    }
+    else if (dtype == "T") {
+        return "@Suppress(\"UNCHECKED_CAST\")\n" +
+                "@koma.internal.JvmName(\"toMatrixGeneric\")\n" +
+                "fun <T> NDArray<T>.toMatrixOrNull(): Matrix<T>? {\n" +
+                "    \n" +
+                "    val ele = this.toIterable().iterator().next()\n" +
+                "    return when (ele) {\n" +
+                dtypesMatrix
+                        .findAll{it != "T"}
+                        .collect{"        is ${it} -> { try{(this as NDArray<${it}>).toMatrix() as Matrix<T>}catch(e:Exception){null}}\n"}.join() +
+                "        else -> { null }\n" +
+                "    }\n" +
+                "}"
+    }
+    else {
+        return ""
+    }
+}
+
+def extensionCreate(dtype) {
+    if (dtype != "T") {
+        return "NDArray.${dtype.toLowerCase()}Factory.zeros(*lengths).fill(filler)"
+    } else {
+        return "NDArray.createGeneric<T>(*lengths, filler=filler)"
+    }
+}
+def extensionMapIndexed(dtype) {
+    if (dtype != "T") {
+        return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*shape().toIntArray()).fillLinear { f(it, this.get${dtype}(it)) }\n"
+    } else {
+        return "    = NDArray.createGeneric<T>(*shape().toIntArray(), filler= { idx-> f(nIdxToLinear(idx), this.getGeneric(*idx)) })\n"
+    }
+}
+def extensionMapIndexedN(dtype) {
+    if (dtype != "T") {
+        return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*shape().toIntArray()).fillBoth { nd, linear -> f(nd, get${dtype}(linear)) }\n"
+    } else {
+        return "    = NDArray.createGeneric<T>(*shape().toIntArray(), filler = { idx -> f(idx, this.getGeneric(*idx)) })\n"
+    }
+}
+
+def operators(dtype) {
+    if (dtype != "T") {
+        return "\n" +
+                "@koma.internal.JvmName(\"div${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.div(other: ${dtype}) = map { (it/other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"timesArr${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.times(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"times${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.times(other: ${dtype}) = map { (it * other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"unaryMinus${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.unaryMinus() = map { (-it).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"minus${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.minus(other: ${dtype}) = map { (it - other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"minusArr${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.minus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"plus${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.plus(other: ${dtype}) = map { (it + other).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"plusArr${dtype}\")\n" +
+                "operator fun NDArray<${dtype}>.plus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).to${dtype}() }\n" +
+                "@koma.internal.JvmName(\"pow${dtype}\")\n" +
+                "infix fun NDArray<${dtype}>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).to${dtype}() }\n" +
+                ""
+    }
+    else {
+        return ""
+    }
+}
+
+def inline(dtype) {
+    if (dtype != "T") {
+        return "inline "
+    }
+    else {
+        return ""
+    }
+}
+
+def factoryPattern(dtype, klass) {
+    if (dtype == "T") {
+        if (klass == "NDArray")
+            return { "NDArray.createGeneric($it)" }
+        return { "getFactory().zeros($it).fill" }
+    } else
+        return { "${klass}.${dtype.toLowerCase()}Factory.zeros($it).fill" }
+}
+
+String fixWhitespaceErrors(String input) {
+    return input.replaceAll(~"\n[ \t]+(?=\n)", "\n").trim()
+}
+
+def primitiveGetSet(types) {
+    def indent = "\n    "
+    types.findAll { it != "T" }.collect {
+        """
+        @KomaJsName("get${it}ND")
+        fun get$it(vararg indices: Int) = get$it(nIdxToLinear(indices))
+        @KomaJsName("get${it}1D")
+        fun get$it(i: Int): $it = (getGeneric(i) as Number).to$it()
+        @KomaJsName("set${it}ND")
+        fun set$it(vararg indices: Int, v: $it) = set$it(nIdxToLinear(indices), v)
+        @KomaJsName("set${it}1D")
+        @Suppress("UNCHECKED_CAST")
+        fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
+        """.stripIndent().replaceAll("\n", indent)
+    }.join(indent)
+}
+
+def typeCheckClauses(types) {
+    types.findAll { it != "T" }.collect {
+        String.format("%-13s -> ${it.toLowerCase()}Factory.zeros(*dims).fill { filler(it) as $it }",
+                "$it::class")
+    }.join("\n                ")
+}
+
+def typeCheckClausesLinear(types) {
+    types.findAll { it != "T" }.collect {
+        String.format("%-13s -> ${it.toLowerCase()}Factory.zeros(*dims).fillLinear { filler(it) as $it }",
+                "$it::class")
+    }.join("\n                ")
+}
+
+def factories(types) {
+    types.findAll { it != "T" }.collect {
+        def fieldName = "${it.toLowerCase()}Factory"
+        """
+        var $fieldName: NumericalNDArrayFactory<$it>
+            get() = _$fieldName ?: get${it}NDArrayFactory().also { _$fieldName = it }
+            set(value) { _$fieldName = value }
+        private var _$fieldName: NumericalNDArrayFactory<$it>? = null
+        """
+    }.join("")
+}
