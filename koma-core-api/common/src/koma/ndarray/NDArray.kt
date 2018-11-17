@@ -5,14 +5,11 @@
 
 package koma.ndarray
 
-import koma.extensions.create
 import koma.extensions.fill
 import koma.extensions.fillLinear
 import koma.internal.*
 import koma.internal.default.generated.ndarray.DefaultGenericNDArrayFactory
-import koma.internal.default.utils.safeNIdxToLinear
 import koma.matrix.*
-import kotlin.reflect.KClass
 import koma.util.IndexIterator
 
 // TODO: broadcasting, iteration by selected dims, views, reshape
@@ -160,80 +157,89 @@ interface NDArray<T> {
     // Not intended to be used directly, but instead used by ext funcs in `koma.extensions`
     fun iterateIndices() = IndexIterator { shape().toIntArray() }
 
+    /**
+     * Convert an N-dimensional index to a 1D index.  This is primarily for internal use.
+     */
+    fun nIdxToLinear(indices: IntArray): Int = throw NotImplementedError()
+
+    /**
+     * Convert a 1D index to an N-dimensional index.  This is primarily for internal use.
+     */
+    fun linearToNIdx(linear:Int): IntArray = throw NotImplementedError()
 
     // Primitive optimized getter/setters to avoid boxing. Not intended
     // to be used directly, but instead are used by ext funcs in `koma.extensions`.
 
     @KomaJsName("getGenericND")
-    fun getGeneric(vararg indices: Int) = getGeneric(safeNIdxToLinear(indices))
+    fun getGeneric(vararg indices: Int) = getGeneric(nIdxToLinear(indices))
     @KomaJsName("getGeneric1D")
     fun getGeneric(i: Int): T
     @KomaJsName("setGenericND")
-    fun setGeneric(vararg indices: Int, v: T) = setGeneric(safeNIdxToLinear(indices), v)
+    fun setGeneric(vararg indices: Int, v: T) = setGeneric(nIdxToLinear(indices), v)
     @KomaJsName("setGeneric1D")
     fun setGeneric(i: Int, v: T)
 
     @KomaJsName("getDoubleND")
-    fun getDouble(vararg indices: Int) = getDouble(safeNIdxToLinear(indices))
+    fun getDouble(vararg indices: Int) = getDouble(nIdxToLinear(indices))
     @KomaJsName("getDouble1D")
     fun getDouble(i: Int): Double = (getGeneric(i) as Number).toDouble()
     @KomaJsName("setDoubleND")
-    fun setDouble(vararg indices: Int, v: Double) = setDouble(safeNIdxToLinear(indices), v)
+    fun setDouble(vararg indices: Int, v: Double) = setDouble(nIdxToLinear(indices), v)
     @KomaJsName("setDouble1D")
     @Suppress("UNCHECKED_CAST")
     fun setDouble(i: Int, v: Double) { setGeneric(i, v as T) }
 
 
     @KomaJsName("getFloatND")
-    fun getFloat(vararg indices: Int) = getFloat(safeNIdxToLinear(indices))
+    fun getFloat(vararg indices: Int) = getFloat(nIdxToLinear(indices))
     @KomaJsName("getFloat1D")
     fun getFloat(i: Int): Float = (getGeneric(i) as Number).toFloat()
     @KomaJsName("setFloatND")
-    fun setFloat(vararg indices: Int, v: Float) = setFloat(safeNIdxToLinear(indices), v)
+    fun setFloat(vararg indices: Int, v: Float) = setFloat(nIdxToLinear(indices), v)
     @KomaJsName("setFloat1D")
     @Suppress("UNCHECKED_CAST")
     fun setFloat(i: Int, v: Float) { setGeneric(i, v as T) }
 
 
     @KomaJsName("getLongND")
-    fun getLong(vararg indices: Int) = getLong(safeNIdxToLinear(indices))
+    fun getLong(vararg indices: Int) = getLong(nIdxToLinear(indices))
     @KomaJsName("getLong1D")
     fun getLong(i: Int): Long = (getGeneric(i) as Number).toLong()
     @KomaJsName("setLongND")
-    fun setLong(vararg indices: Int, v: Long) = setLong(safeNIdxToLinear(indices), v)
+    fun setLong(vararg indices: Int, v: Long) = setLong(nIdxToLinear(indices), v)
     @KomaJsName("setLong1D")
     @Suppress("UNCHECKED_CAST")
     fun setLong(i: Int, v: Long) { setGeneric(i, v as T) }
 
 
     @KomaJsName("getIntND")
-    fun getInt(vararg indices: Int) = getInt(safeNIdxToLinear(indices))
+    fun getInt(vararg indices: Int) = getInt(nIdxToLinear(indices))
     @KomaJsName("getInt1D")
     fun getInt(i: Int): Int = (getGeneric(i) as Number).toInt()
     @KomaJsName("setIntND")
-    fun setInt(vararg indices: Int, v: Int) = setInt(safeNIdxToLinear(indices), v)
+    fun setInt(vararg indices: Int, v: Int) = setInt(nIdxToLinear(indices), v)
     @KomaJsName("setInt1D")
     @Suppress("UNCHECKED_CAST")
     fun setInt(i: Int, v: Int) { setGeneric(i, v as T) }
 
 
     @KomaJsName("getShortND")
-    fun getShort(vararg indices: Int) = getShort(safeNIdxToLinear(indices))
+    fun getShort(vararg indices: Int) = getShort(nIdxToLinear(indices))
     @KomaJsName("getShort1D")
     fun getShort(i: Int): Short = (getGeneric(i) as Number).toShort()
     @KomaJsName("setShortND")
-    fun setShort(vararg indices: Int, v: Short) = setShort(safeNIdxToLinear(indices), v)
+    fun setShort(vararg indices: Int, v: Short) = setShort(nIdxToLinear(indices), v)
     @KomaJsName("setShort1D")
     @Suppress("UNCHECKED_CAST")
     fun setShort(i: Int, v: Short) { setGeneric(i, v as T) }
 
 
     @KomaJsName("getByteND")
-    fun getByte(vararg indices: Int) = getByte(safeNIdxToLinear(indices))
+    fun getByte(vararg indices: Int) = getByte(nIdxToLinear(indices))
     @KomaJsName("getByte1D")
     fun getByte(i: Int): Byte = (getGeneric(i) as Number).toByte()
     @KomaJsName("setByteND")
-    fun setByte(vararg indices: Int, v: Byte) = setByte(safeNIdxToLinear(indices), v)
+    fun setByte(vararg indices: Int, v: Byte) = setByte(nIdxToLinear(indices), v)
     @KomaJsName("setByte1D")
     @Suppress("UNCHECKED_CAST")
     fun setByte(i: Int, v: Byte) { setGeneric(i, v as T) }

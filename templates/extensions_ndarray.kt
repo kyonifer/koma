@@ -14,7 +14,6 @@ import koma.internal.default.utils.argMax${dtypeName}
 import koma.internal.default.utils.wrapIndex
 import koma.ndarray.NDArray
 import koma.ndarray.${factoryPrefix}NDArrayFactory
-import koma.internal.default.utils.nIdxToLinear
 import koma.pow
 import koma.matrix.Matrix
 import koma.util.IndexIterator

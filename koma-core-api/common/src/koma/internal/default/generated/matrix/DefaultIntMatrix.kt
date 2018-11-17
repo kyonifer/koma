@@ -9,6 +9,7 @@ import koma.*
 import koma.extensions.*
 import koma.matrix.*
 import koma.internal.notImplemented
+import koma.internal.default.utils.*
 
 
 class DefaultIntMatrix (val rows: Int, 
@@ -68,13 +69,11 @@ class DefaultIntMatrix (val rows: Int,
         storage[i] = v
     }
     private fun setStorage(i: Int, j: Int, v: Int) {
-        checkBounds(i,j)
-        storage[this.cols*i+j] = v
+        storage[this.cols*wrapIndex(i,rows) + wrapIndex(j,cols)] = v
     }
 
     private fun getStorage(i: Int, j: Int): Int {
-        checkBounds(i,j)
-        return storage[this.cols*i+j]
+        return storage[this.cols*wrapIndex(i,rows) + wrapIndex(j,cols)]
     }
 
     private fun getStorage(i: Int): Int 
@@ -102,14 +101,12 @@ class DefaultIntMatrix (val rows: Int,
     override fun setGeneric(i: Int, j: Int, v: Int) { this.setStorage(i, j, v)}
     override fun getDoubleData(): DoubleArray = storage.map { it.toDouble() }.toDoubleArray()
     override fun getRow(row: Int): Matrix<Int> {
-        checkBounds(row, 0)
         val out = getFactory().zeros(1,cols)
         for (i in 0 until cols)
             out[i] = this[row, i]
         return out
     }
     override fun getCol(col: Int): Matrix<Int> {
-        checkBounds(0,col)
         val out = getFactory().zeros(rows,1)
         for (i in 0 until rows)
             out[i] = this[i, col]
@@ -117,13 +114,11 @@ class DefaultIntMatrix (val rows: Int,
     }
 
     override fun setCol(index: Int, col: Matrix<Int>) {
-        checkBounds(0,index)
         for (i in 0 until rows)
             this[i, index] = col[i]
     }
 
     override fun setRow(index: Int, row: Matrix<Int>) {
-        checkBounds(index, 0)
         for (i in 0 until cols)
             this[index, i] = row[i]
     }
@@ -216,9 +211,4 @@ class DefaultIntMatrix (val rows: Int,
             = storage
     override fun getFactory(): MatrixFactory<Matrix<Int>> 
             = DefaultIntMatrixFactory()
-    
-    private fun checkBounds(row: Int, col: Int) {
-        if (row >= rows || col >= cols)
-            throw IllegalArgumentException("row/col index out of bounds")
-    }
 }

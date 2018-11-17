@@ -24,6 +24,8 @@ open class Default${dtypeName}NDArray${genDec}(@KomaJsName("shape_private") vara
      * Underlying storage. Default backends uses a simple array.
      */
     private val storage: ${storage}
+    private val shapeAsList: List<Int> = shape.toList()
+    private val widthOfDims: IntArray = widthOfDims(shapeAsList)
 
     init {
 ${initStorage}
@@ -42,10 +44,30 @@ ${initStorage}
     }
     // TODO: cache this
     override val size get() = storage.size
-    override fun shape(): List<Int> = shape.toList()
+    override fun shape(): List<Int> = shapeAsList
     override fun copy(): NDArray<${dtype}> = Default${dtypeName}NDArray(*shape, init = { this.getGeneric(*it) })
     override fun getBaseArray(): Any = storage
 
+    override fun nIdxToLinear(indices: IntArray): Int {
+        if (indices.size != shape.size)
+            throw IllegalArgumentException("Cannot index an array with shape \${shapeAsList} with " +
+                    "anything other than \${shape.size} indices (\${indices.size} given)")
+        var out = 0
+        indices.forEachIndexed { i, idxArr ->
+            out += wrapIndex(idxArr, shape[i]) * widthOfDims[i]
+        }
+        return out
+    }
+
+    override fun linearToNIdx(linear:Int): IntArray {
+        var remaining = linear
+        val out = kotlin.IntArray(shape.size, { it })
+        out.map { idx ->
+            out[idx] = remaining / widthOfDims[idx]
+            remaining -= out[idx] * widthOfDims[idx]
+        }
+        return out
+    }
     private val wrongType = "Double methods not implemented for generic NDArray"
 ${getDouble}
 ${setDouble}

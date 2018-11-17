@@ -37,6 +37,17 @@ class NDTests {
         assert(arr[1,3,0] == 1.0)
     }
     @Test
+    fun testNegativeIndices() {
+        val arr = ndArrayOf(1, 2, 3, 4, shape=intArrayOf(2, 2))
+        assert(arr[-2,-2] == 1)
+        assert(arr[0,-1] == 2)
+        assert(arr[-1,0] == 3)
+        arr[-2,-2] = 5
+        arr[1,-1] = 6
+        assert(arr[0,0] == 5)
+        assert(arr[1,1] == 6)
+    }
+    @Test
     fun testObject() {
         val arr = NDArray(2, 5, 2) { idx -> "str #${idx[0]},${idx[1]},${idx[2]}" }
         assert(arr[1,4,0] == "str #1,4,0")
