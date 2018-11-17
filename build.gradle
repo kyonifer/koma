@@ -7,7 +7,7 @@ buildscript {
         // 1.3.0 can't complete in IDEA, and native fails on 1.3.10 with kotlin-native#2334
         def pluginVersion
         if (gradle.startParameter.taskNames.any { rq ->
-            rq == "buildNative" || rq.endsWith(":buildNative")
+            rq.contains("build") || rq.contains("native")
         }) {
             pluginVersion = "1.3.0"
         } else {
