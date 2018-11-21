@@ -136,6 +136,50 @@ project(":koma-core-js") {
         }
     }
 }
+
+project(":koma-core-cblas") {
+    kotlin {
+        targets {
+            def nativePreset
+            def os = org.gradle.internal.os.OperatingSystem.current()
+            if(os.isMacOsX())
+                nativePreset = presets.macosX64
+            else if (os.isWindows())
+                nativePreset = presets.mingwX64
+            else
+                nativePreset = presets.linuxX64
+
+            fromPreset(nativePreset, "native") {
+                compilations.main {
+                    buildTypes = [ DEBUG, RELEASE ]
+                }
+            }
+            fromPreset(nativePreset, "nativeExample") {
+                compilations.main {
+                    outputKinds = [ EXECUTABLE ]
+                    buildTypes = [ DEBUG, RELEASE ]
+                }
+            }
+        }
+        sourceSets {
+            commonMain {
+                dependencies {
+                    implementation project(":koma-core-api")
+                }
+            }
+            nativeMain {
+                kotlin.srcDir('src')
+            }
+            nativeExampleMain {
+                dependsOn nativeMain
+                kotlin.srcDir('../../examples/native')
+
+            }
+
+        }
+    }
+}
+
 project(":koma-core-api") {
     kotlin {
         targets {
@@ -163,24 +207,12 @@ project(":koma-core-api") {
 
             fromPreset(nativePreset, "native") {
                 compilations.main {
-                    outputKinds = [ FRAMEWORK, STATIC, DYNAMIC ]
                     buildTypes = [ DEBUG, RELEASE ]
                     cinterops {
                         cblas { defFile(cblasDefFile) }
                         lapacke { defFile(lapackeDefFile) }
                     }
 
-                }
-            }
-            fromPreset(nativePreset, "nativeExample") {
-                compilations.main {
-                    outputKinds = [ EXECUTABLE ]
-                    buildTypes = [ DEBUG, RELEASE ]
-                    //entryPoint = "Main"
-                    cinterops {
-                        cblas { defFile(cblasDefFile) }
-                        lapacke { defFile(lapackeDefFile) }
-                    }
                 }
             }
         }
@@ -205,16 +237,67 @@ project(":koma-core-api") {
             }
             nativeMain {
                 kotlin.srcDir('native/src')
-                // Built directly in the API because native doesn't easily support plugins
-                kotlin.srcDir('../koma-core/native-cblas/src')
                 // Shouldn't be needed-- idea bug?
                 dependsOn commonMain
-
             }
-            nativeExampleMain {
-                dependsOn nativeMain
-                kotlin.srcDir('../examples/native')
+        }
+    }
+}
 
+// A project to generate koma shared/static libraries for native.
+//
+// Must be a separate project because currently konan only includes symbols
+// from the current project (not dependent projects), so the cblas/api
+// projects would result in incomplete headers.
+//
+// Must be named `koma` because of KT-28313. Disabled in intellij
+// to prevent clashes with the ordinary koma-native-cblas project.
+project(":koma") {
+    if (gradle.startParameter.taskNames.any { rq ->
+        rq.contains("build") || rq.toLowerCase().contains("native")
+    }) {
+        kotlin {
+            targets {
+                def nativePreset
+                def os = org.gradle.internal.os.OperatingSystem.current()
+                if(os.isMacOsX())
+                    nativePreset = presets.macosX64
+                else if (os.isWindows())
+                    nativePreset = presets.mingwX64
+                else
+                    nativePreset = presets.linuxX64
+
+                def cblasDefFile
+                def lapackeDefFile
+                if(os.isMacOsX()) {
+                    cblasDefFile = "../koma-core/native-cblas/defs_macos/cblas.def"
+                    lapackeDefFile = "../koma-core/native-cblas/defs_macos/lapacke.def"
+                } else if (os.isLinux()) {
+                    cblasDefFile = "../koma-core/native-cblas/defs_linux/cblas.def"
+                    lapackeDefFile = "../koma-core/native-cblas/defs_linux/lapacke.def"
+                }
+                fromPreset(nativePreset, "native") {
+                    compilations.main {
+                        outputKinds = [ STATIC, DYNAMIC ]
+                        buildTypes = [ DEBUG, RELEASE ]
+                        cinterops {
+                            cblas { defFile(cblasDefFile) }
+                            lapacke { defFile(lapackeDefFile) }
+                        }
+
+                    }
+                }
+            }
+            sourceSets {
+                commonMain {
+                    kotlin.srcDir('../koma-core-api/common/src')
+                }
+                nativeMain {
+                    kotlin.srcDir('../koma-core-api/native/src')
+                    kotlin.srcDir('../koma-core/native-cblas/src')
+                    // Shouldn't be needed-- idea bug?
+                    dependsOn commonMain
+                }
             }
         }
     }
@@ -302,6 +385,7 @@ task buildJs {
         copy {
             from 'koma-core-api/build/libs'
             from 'koma-core/js-default/build/libs'
+            include '*-js.jar'
             into getRootDir().toString() + "/build/js"
         }
     }
@@ -322,6 +406,7 @@ task buildJvm {
             from 'koma-core/jvm-jblas/build/libs'
             from 'koma-plotting/build/libs'
             from 'koma-logging/build/libs'
+            include '*.jar'
             into getRootDir().toString() + "/build/jvm"
         }
     }
@@ -329,20 +414,26 @@ task buildJvm {
 }
 task buildNative {
     dependsOn(":koma-core-api:nativeKlibrary")
-    dependsOn(":koma-core-api:linkReleaseSharedNative")
-    dependsOn(":koma-core-api:linkReleaseStaticNative")
-    dependsOn(":koma-core-api:linkReleaseExecutableNativeExample")
+    dependsOn(":koma-core-cblas:nativeKlibrary")
+    dependsOn(":koma:linkReleaseSharedNative")
+    dependsOn(":koma:linkReleaseStaticNative")
+    dependsOn(":koma-core-cblas:linkReleaseExecutableNativeExample")
     doLast {
         copy {
             from "koma-core-api/build/classes/kotlin/native/main"
+            from "koma-core/native-cblas/build/classes/kotlin/native/main"
             include "*.klib"
             into getRootDir().toString() + "/build/native/klib"
         }
         copy {
-            from "koma-core-api/build/bin/native/main/release"
-            include "executable"
-            include "shared"
-            include "static"
+            from "koma/build/bin/native/main/release"
+            include "shared/**"
+            include "static/**"
+            into getRootDir().toString() + "/build/native"
+        }
+        copy {
+            from "koma-core/native-cblas/build/bin/nativeExample/main/release"
+            include "executable/**"
             into getRootDir().toString() + "/build/native"
         }
     }

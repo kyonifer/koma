@@ -23,6 +23,9 @@ include 'koma-core-ejml'
 include 'koma-core-mtj'
 include 'koma-core-jblas'
 include 'koma-core-js'
+include 'koma-core-cblas'
+
+include 'koma'
 
 include 'koma-logging'
 include 'koma-plotting'
@@ -32,6 +35,5 @@ project(":koma-core-js").projectDir = file("koma-core/js-default")
 project(":koma-core-ejml").projectDir = file("koma-core/jvm-ejml")
 project(":koma-core-mtj").projectDir = file("koma-core/jvm-mtj")
 project(":koma-core-jblas").projectDir = file("koma-core/jvm-jblas")
-//project(":koma-core-cblas").projectDir = file("koma-core/native-cblas")
-
+project(":koma-core-cblas").projectDir = file("koma-core/native-cblas")
 enableFeaturePreview('GRADLE_METADATA')
