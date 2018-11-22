@@ -1,24 +1,39 @@
-include 'koma-core-api-common'
-include 'koma-core-api-jvm'
-include 'koma-core-api-js'
-include 'koma-core-api-native'
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "kotlin-multiplatform") {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+            }
+        }
+    }
+
+    repositories {
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
+
+        mavenCentral()
+
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+rootProject.name = 'koma'
+
+include 'koma-core-api'
+
 include 'koma-core-ejml'
-include 'koma-core-jblas'
 include 'koma-core-mtj'
-include 'koma-core-cblas'
+include 'koma-core-jblas'
 include 'koma-core-js'
+include 'koma-core-cblas'
+
+include 'koma'
+
 include 'koma-logging'
 include 'koma-plotting'
 include 'koma-tests'
 
-project(":koma-core-api-common").projectDir = file("koma-core-api/common")
-project(":koma-core-api-jvm").projectDir = file("koma-core-api/jvm")
-project(":koma-core-api-js").projectDir = file("koma-core-api/js")
-project(":koma-core-api-native").projectDir = file("koma-core-api/native")
 project(":koma-core-js").projectDir = file("koma-core/js-default")
 project(":koma-core-ejml").projectDir = file("koma-core/jvm-ejml")
 project(":koma-core-mtj").projectDir = file("koma-core/jvm-mtj")
 project(":koma-core-jblas").projectDir = file("koma-core/jvm-jblas")
 project(":koma-core-cblas").projectDir = file("koma-core/native-cblas")
-
 enableFeaturePreview('GRADLE_METADATA')

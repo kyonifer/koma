@@ -1,351 +1,388 @@
-def ReifiedMatrices = ['T', 'Double', 'Float', 'Int']
-def ReifiedNDArrays = ['T', 'Double', 'Float', 'Long', 'Int', 'Short', 'Byte']
-def NumericalConstantSuffixes = [
-    'T': ' as T',
-    'Double': '.0',
-    'Float': '.0f',
-    'Long': 'L',
-    'Int': '',
-    'Short': '.toShort()',
-    'Byte': '.toByte()'
-]
-
-
 buildscript {
-
     repositories {
-        mavenCentral()
+        mavenLocal()
         jcenter()
-        maven { url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
+        // 1.3.0 can't complete in IDEA, and native fails on 1.3.10 with kotlin-native#2334
+        def pluginVersion
+        if (gradle.startParameter.taskNames.any { rq ->
+            rq.contains("build") || rq.contains("assemble") || rq.toLowerCase().contains("native")
+        }) {
+            pluginVersion = "1.3.0"
+        } else {
+            pluginVersion = "1.3.10"
+        }
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$pluginVersion"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_plugin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+
     }
 }
 
 apply plugin: "org.jetbrains.dokka"
 
-project(':koma-core-api-common') {
-    apply plugin: 'kotlin-platform-common'
-
-    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
-
+subprojects {
+    apply plugin: 'kotlin-multiplatform'
     repositories {
         mavenCentral()
     }
-
-    dependencies {
-        compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-    }
 }
-
-project(":koma-core-api-jvm") {
-    apply plugin: 'kotlin-platform-jvm'
-
-    sourceSets.main.kotlin.srcDirs = ['src']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        expectedBy project(":koma-core-api-common")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    }
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build/jvm"
-        }
-    }
-}
-
-project(":koma-core-api-js") {
-    apply plugin: 'kotlin-platform-js'
-
-    sourceSets.main.kotlin.srcDirs = ['src']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        expectedBy project(":koma-core-api-common")
-        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    }
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_api.js"
-    compileKotlin2Js.kotlinOptions.moduleKind = "umd"
-    compileKotlin2Js.kotlinOptions.sourceMap = true
-    compileKotlin2Js.kotlinOptions.sourceMapEmbedSources = "always"
-    compileKotlin2Js.kotlinOptions.metaInfo = true
-}
+// In theory all the `koma-core` implementations could be one project,
+// but resolving multiple jvm targets seems to be buggy as of 1.3.10.
+// In particular, the tests project cannot depend on all of the koma-core
+// backends if they are all targets in the same project, as the disambiguation
+// with "configuration:" in the `project(...)` line doesn't work.
 
 project(":koma-core-ejml") {
-    apply plugin: 'kotlin-platform-jvm'
-
-    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(":koma-core-api-jvm")
-        compile "org.ejml:ejml-all:0.33"
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    }
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build/jvm"
+    archivesBaseName = "koma-core"
+    kotlin {
+        targets {
+            fromPreset(presets.jvm, 'ejml')
         }
-    }
-}
-project(":koma-core-jblas") {
-    apply plugin: 'kotlin-platform-jvm'
-
-    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(":koma-core-api-jvm")
-        compile "org.jblas:jblas:1.2.3"
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    }
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build/jvm"
+        sourceSets {
+            commonMain {
+                dependencies {
+                    implementation project(":koma-core-api")
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                }
+            }
+            ejmlMain {
+                kotlin.srcDir('src')
+                dependencies {
+                    implementation "org.ejml:ejml-all:0.33"
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                }
+            }
         }
     }
 }
 
 project(":koma-core-mtj") {
-    apply plugin: 'kotlin-platform-jvm'
-
-    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(":koma-core-api-jvm")
-        compile("com.googlecode.matrix-toolkits-java:mtj:1.0.4") {
-            // Fix issue with pom-only artifacts in MTJ
-            exclude module: "com.github.fommil.netlib:all:pom:1.1.2"
+    archivesBaseName = "koma-core"
+    kotlin {
+        targets {
+            fromPreset(presets.jvm, 'mtj')
         }
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    }
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build/jvm"
+        sourceSets {
+            commonMain {
+                dependencies {
+                    implementation project(":koma-core-api")
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                }
+            }
+            mtjMain {
+                kotlin.srcDir('src')
+                dependencies {
+                    implementation "com.googlecode.matrix-toolkits-java:mtj:1.0.4"
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                }
+            }
         }
     }
 }
 
-project(":koma-core-js") {
-    apply plugin: 'kotlin-platform-js'
-
-    sourceSets.main.kotlin.srcDirs = ['src', 'srcgen']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(":koma-core-api-js")
-    }
-
-
-    compileKotlin2Js.kotlinOptions.outputFile = "node_modules/koma_core_implementation.js"
-    compileKotlin2Js.kotlinOptions.moduleKind = "umd"
-    compileKotlin2Js.kotlinOptions.sourceMap = true
-    compileKotlin2Js.kotlinOptions.sourceMapEmbedSources = "always"
-    compileKotlin2Js.kotlinOptions.metaInfo = true
-
-    // copy kotlin.js and friends to output dir
-    build.doLast {
-        configurations.compile.each { File file ->
-            copy {
-                includeEmptyDirs = false
-
-                from zipTree(file.absolutePath)
-                into "node_modules"
-                include { fileTreeElement ->
-                    def path = fileTreeElement.path
-                    path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+project(":koma-core-jblas") {
+    archivesBaseName = "koma-core"
+    kotlin {
+        targets {
+            fromPreset(presets.jvm, 'jblas')
+        }
+        sourceSets {
+            commonMain {
+                dependencies {
+                    implementation project(":koma-core-api")
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                }
+            }
+            jblasMain {
+                kotlin.srcDir('src')
+                dependencies {
+                    implementation "org.jblas:jblas:1.2.3"
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
                 }
             }
         }
-        copy {
-            from getRootDir().toString() + "/node_modules"
-            into getRootDir().toString() + "/build/node_modules"
+    }
+}
+project(":koma-core-js") {
+    archivesBaseName = "koma-core"
+    kotlin {
+        targets {
+            fromPreset(presets.js, 'js') {
+                tasks[compilations.main.compileKotlinTaskName].kotlinOptions {
+                    outputFile = "node_modules/koma_core_implementation.js"
+                    moduleKind = "umd"
+                    sourceMap = true
+                    sourceMapEmbedSources = "always"
+                    metaInfo = true
+                }
+            }
+        }
+        sourceSets {
+            commonMain {
+                dependencies {
+                    implementation project(":koma-core-api")
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                }
+            }
+            jsMain {
+                kotlin.srcDir('src')
+                dependencies {
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
+                }
+            }
         }
     }
 }
 
 project(":koma-core-cblas") {
-    apply plugin: 'kotlin-platform-native'
-
-    sourceSets.main.kotlin {
-        srcDirs += ['src', 'srcgen', '../../koma-core-api/native/src']
-        // TODO: Can k/n DSL only insert this into outputKind=EXECUTABLE?
-        srcDirs += '../../examples/native'
-    }
-    components.main {
-        // Output artifacts with FQNs to differentiate them on maven, include embedded target
-        def releaseMode = project.hasProperty("release")
-        def unixTargets = ["linux", "raspberrypi"]
-
-        if (releaseMode) {
-            targets = unixTargets
-            outputKinds = [KLIBRARY]
-        } else {
-            baseName.set("koma")
-            outputKinds = [EXECUTABLE, KLIBRARY, DYNAMIC, STATIC]
-        }
-        dependencies {
-
-
-            // TODO: This is the suggested way to do OS specific flags, but it is currently
-            // broken for many outputKinds (test executable, dynamic...) on konan 0.9.
-            /*
-            def unixIncludes = '-I/usr/include/x86_64-linux-gnu -I/usr/include'
-            def unixLocs = "-L/usr/lib -L/usr/lib/x86_64-linux-gnu"
-            cinterop('cblas') {
-                defFile("cblas.def")
-                for (targetName in unixTargets) {
-                    target(targetName) {
-                        compilerOpts unixIncludes
-                        linkerOpts unixLocs + '-L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas'
-                    }
-                }
-                target('macos') {
-                    compilerOpts '-I/usr/local/opt/openblas/include'
-                    linkerOpts '-L/usr/local/opt/openblas/lib'
-                }
-                allTargets {
-                    linkerOpts '-lblas'
-                }
-            }
-            cinterop('lapacke') {
-                defFile("lapacke.def")
-                for (targetName in unixTargets) {
-                    target(targetName) {
-                        compilerOpts unixIncludes
-                        linkerOpts unixLocs + '-L/usr/lib/x86_64-linux-gnu/lapack'
-                    }
-                }
-                target('macos') {
-                    compilerOpts '-I/usr/local/opt/lapack/include'
-                    linkerOpts '-L/usr/local/opt/lapack/lib'
-                }
-                allTargets {
-                    linkerOpts '-llapacke'
-                }
-
-            }
-            */
-            // Instead we'll do it by hand...
+    kotlin {
+        targets {
+            def nativePreset
             def os = org.gradle.internal.os.OperatingSystem.current()
-            cinterop("cblas") {
-                if(os.isMacOsX()) {
-                    defFile("defs_macos/cblas.def")
-                } else if (os.isLinux()) {
-                    defFile("defs_linux/cblas.def")
+            if(os.isMacOsX())
+                nativePreset = presets.macosX64
+            else if (os.isWindows())
+                nativePreset = presets.mingwX64
+            else
+                nativePreset = presets.linuxX64
+
+            fromPreset(nativePreset, "native") {
+                compilations.main {
+                    buildTypes = [ DEBUG, RELEASE ]
                 }
             }
-            cinterop("lapacke") {
-                if(os.isMacOsX()) {
-                    defFile("defs_macos/lapacke.def")
-                } else if (os.isLinux()) {
-                    defFile("defs_linux/lapacke.def")
+            fromPreset(nativePreset, "nativeExample") {
+                compilations.main {
+                    outputKinds = [ EXECUTABLE ]
+                    buildTypes = [ DEBUG, RELEASE ]
                 }
             }
         }
-        pom {
-            withXml {
-                def root = asNode()
-                root.appendNode('name', 'Koma')
-                root.appendNode('description', 'A library for multiplatform scientific computing.')
+        sourceSets {
+            commonMain {
+                dependencies {
+                    implementation project(":koma-core-api")
+                }
             }
-        }
-    }
-    dependencies {
-        expectedBy project(":koma-core-api-common")
-    }
-}
+            nativeMain {
+                kotlin.srcDir('src')
+            }
+            nativeExampleMain {
+                dependsOn nativeMain
+                kotlin.srcDir('../../examples/native')
 
-project(':koma-logging') {
-    apply plugin: 'kotlin'
+            }
 
-    sourceSets.main.kotlin.srcDirs = ['src']
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(":koma-core-api-jvm")
-        compile "org.slf4j:slf4j-api:1.7.21"
-        compile "ch.qos.logback:logback-classic:1.1.7"
-    }
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build/jvm"
         }
     }
 }
 
+project(":koma-core-api") {
+    kotlin {
+        targets {
+            def nativePreset
+            def os = org.gradle.internal.os.OperatingSystem.current()
+            if(os.isMacOsX())
+                nativePreset = presets.macosX64
+            else if (os.isWindows())
+                nativePreset = presets.mingwX64
+            else
+                nativePreset = presets.linuxX64
+
+            def cblasDefFile
+            def lapackeDefFile
+            if(os.isMacOsX()) {
+                cblasDefFile = "../koma-core/native-cblas/defs_macos/cblas.def"
+                lapackeDefFile = "../koma-core/native-cblas/defs_macos/lapacke.def"
+            } else if (os.isLinux()) {
+                cblasDefFile = "../koma-core/native-cblas/defs_linux/cblas.def"
+                lapackeDefFile = "../koma-core/native-cblas/defs_linux/lapacke.def"
+            } else if (os.isWindows()) {
+                cblasDefFile = "../koma-core/native-cblas/defs_windows/cblas.def"
+                lapackeDefFile = "../koma-core/native-cblas/defs_windows/lapacke.def"
+            }
+
+            fromPreset(presets.jvm, 'jvm')
+            fromPreset(presets.js, 'js')
+
+            fromPreset(nativePreset, "native") {
+                compilations.main {
+                    buildTypes = [ DEBUG, RELEASE ]
+                    cinterops {
+                        cblas { defFile(cblasDefFile) }
+                        lapacke { defFile(lapackeDefFile) }
+                    }
+
+                }
+            }
+        }
+        sourceSets {
+            commonMain {
+                kotlin.srcDir('common/src')
+                dependencies {
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                }
+            }
+            jvmMain {
+                kotlin.srcDir('jvm/src')
+                dependencies {
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                }
+            }
+            jsMain {
+                kotlin.srcDir('js/src')
+                dependencies {
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
+                }
+            }
+            nativeMain {
+                kotlin.srcDir('native/src')
+                // Shouldn't be needed-- idea bug?
+                dependsOn commonMain
+            }
+        }
+    }
+}
+
+// A project to generate koma shared/static libraries for native.
+//
+// Must be a separate project because currently konan only includes symbols
+// from the current project (not dependent projects), so the cblas/api
+// projects would result in incomplete headers.
+//
+// Must be named `koma` because of KT-28313. Disabled in intellij
+// to prevent clashes with the ordinary koma-native-cblas project.
+project(":koma") {
+    if (gradle.startParameter.taskNames.any { rq ->
+        rq.contains("build") || rq.toLowerCase().contains("native")
+    }) {
+        kotlin {
+            targets {
+                def nativePreset
+                def os = org.gradle.internal.os.OperatingSystem.current()
+                if(os.isMacOsX())
+                    nativePreset = presets.macosX64
+                else if (os.isWindows())
+                    nativePreset = presets.mingwX64
+                else
+                    nativePreset = presets.linuxX64
+
+                def cblasDefFile
+                def lapackeDefFile
+                if(os.isMacOsX()) {
+                    cblasDefFile = "../koma-core/native-cblas/defs_macos/cblas.def"
+                    lapackeDefFile = "../koma-core/native-cblas/defs_macos/lapacke.def"
+                } else if (os.isLinux()) {
+                    cblasDefFile = "../koma-core/native-cblas/defs_linux/cblas.def"
+                    lapackeDefFile = "../koma-core/native-cblas/defs_linux/lapacke.def"
+                } else if (os.isWindows()) {
+                    cblasDefFile = "../koma-core/native-cblas/defs_windows/cblas.def"
+                    lapackeDefFile = "../koma-core/native-cblas/defs_windows/lapacke.def"
+                }
+                fromPreset(nativePreset, "native") {
+                    compilations.main {
+                        outputKinds = [ STATIC, DYNAMIC ]
+                        buildTypes = [ DEBUG, RELEASE ]
+                        cinterops {
+                            cblas { defFile(cblasDefFile) }
+                            lapacke { defFile(lapackeDefFile) }
+                        }
+
+                    }
+                }
+            }
+            sourceSets {
+                commonMain {
+                    kotlin.srcDir('../koma-core-api/common/src')
+                    dependencies {
+                        implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                    }
+
+                }
+                nativeMain {
+                    kotlin.srcDir('../koma-core-api/native/src')
+                    kotlin.srcDir('../koma-core/native-cblas/src')
+                    // Shouldn't be needed-- idea bug?
+                    dependsOn commonMain
+                }
+            }
+        }
+    }
+}
+
+project(":koma-logging") {
+    kotlin {
+        targets {
+            fromPreset(presets.jvm, 'jvm')
+        }
+        sourceSets {
+            jvmMain {
+                kotlin.srcDir('src')
+                dependencies {
+                    implementation project(":koma-core-api")
+                    implementation "org.slf4j:slf4j-api:1.7.21"
+                    implementation "ch.qos.logback:logback-classic:1.1.7"
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                }
+            }
+        }
+    }
+}
 
 project(":koma-plotting") {
-    apply plugin: 'kotlin-platform-jvm'
+    kotlin {
+        targets {
+            fromPreset(presets.jvm, 'jvm')
+        }
+        sourceSets {
+            jvmMain {
+                kotlin.srcDir('src')
+                dependencies {
+                    implementation project(":koma-core-api")
+                    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                    implementation "org.knowm.xchart:xchart:3.5.1"
 
-    sourceSets.main.kotlin.srcDirs = ['src']
+                }
 
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compile project(":koma-core-api-jvm")
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        compile "org.knowm.xchart:xchart:3.5.1"
-    }
-    assemble.doLast {
-        copy {
-            from 'build/libs'
-            into getRootDir().toString() + "/build/jvm"
+            }
         }
     }
 }
 
 project(':koma-tests') {
-    apply plugin: 'kotlin'
-
-    sourceSets.test.kotlin.srcDirs = ['test']
-    repositories {
-        mavenCentral()
+    kotlin {
+        targets {
+            fromPreset(presets.jvm, 'jvm')
+        }
+        sourceSets {
+            commonTest {
+                dependencies {
+                    implementation project(':koma-core-api')
+                    implementation 'org.jetbrains.kotlin:kotlin-test-common'
+                    implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+                }
+            }
+            jvmTest {
+                kotlin.srcDir("test")
+                dependencies {
+                    implementation project(':koma-core-mtj')
+                    implementation project(':koma-core-jblas')
+                    implementation project(':koma-core-ejml')
+                    implementation 'org.jetbrains.kotlin:kotlin-test'
+                    implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                }
+            }
+            jsTest {
+                dependencies {
+                    implementation project(':koma-core-js')
+                    implementation 'org.jetbrains.kotlin:kotlin-test-js'
+                }
+            }
+        }
     }
-    dependencies {
-        testCompile "junit:junit:4.12"
-        testCompile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-        testCompile project(':koma-core-mtj')
-        testCompile project(':koma-core-ejml')
-        testCompile project(':koma-core-jblas')
-    }
-
 }
 
 task build {
@@ -354,46 +391,82 @@ task build {
 
 task buildJs {
     dependsOn(":koma-core-js:build")
+    doLast {
+        copy {
+            from 'koma-core-api/build/libs'
+            from 'koma-core/js-default/build/libs'
+            include '*-js.jar'
+            into getRootDir().toString() + "/build/js"
+        }
+    }
 }
 task buildJvm {
     dependsOn(":koma-core-mtj:build")
     dependsOn(":koma-core-ejml:build")
     dependsOn(":koma-core-jblas:build")
-    dependsOn(":koma-core-api-jvm:build")
+    dependsOn(":koma-core-api:jvmJar")
     dependsOn(":koma-plotting:build")
     dependsOn(":koma-logging:build")
+
+    doLast {
+        copy {
+            from 'koma-core-api/build/libs'
+            from 'koma-core/jvm-ejml/build/libs'
+            from 'koma-core/jvm-mtj/build/libs'
+            from 'koma-core/jvm-jblas/build/libs'
+            from 'koma-plotting/build/libs'
+            from 'koma-logging/build/libs'
+            include '*.jar'
+            into getRootDir().toString() + "/build/jvm"
+        }
+    }
+
 }
-task buildNative(type: Copy) {
-    dependsOn(":koma-core-cblas:assemble")
-    from "koma-core/native-cblas/build/"
-    include "**/*.kexe"
-    include "**/*.klib"
-    include "**/*.h"
-    include "**/*.a"
-    include "**/*.so"
-    include "**/*.dylib"
-    include "**/*.dll"
-    into getRootDir().toString() + "/build/native"
+task buildNative {
+    dependsOn(":koma-core-api:nativeKlibrary")
+    dependsOn(":koma-core-cblas:nativeKlibrary")
+    dependsOn(":koma:linkReleaseSharedNative")
+    dependsOn(":koma:linkReleaseStaticNative")
+    dependsOn(":koma-core-cblas:linkReleaseExecutableNativeExample")
+    doLast {
+        copy {
+            from "koma-core-api/build/classes/kotlin/native/main"
+            from "koma-core/native-cblas/build/classes/kotlin/native/main"
+            include "*.klib"
+            into getRootDir().toString() + "/build/native/klib"
+        }
+        copy {
+            from "koma/build/bin/native/main/release"
+            include "shared/**"
+            include "static/**"
+            into getRootDir().toString() + "/build/native"
+        }
+        copy {
+            from "koma-core/native-cblas/build/bin/nativeExample/main/release"
+            include "executable/**"
+            into getRootDir().toString() + "/build/native"
+        }
+    }
 }
 
+// TODO: Enable all artifacts again
+// Workaround via https://discuss.kotlinlang.org/t/how-to-configure-dokka-for-kotlin-multiplatform/9834
 dokka {
+    impliedPlatforms = ["Common"]
     dependsOn(":codegen")
     outputFormat = "gfm"
     outputDirectory = "docs/markdown"
     moduleName = 'api'
     kotlinTasks {
-        defaultKotlinTasks() + [
-                project("koma-core-api-jvm").compileKotlin,
-                project("koma-core-ejml").compileKotlin,
-                project("koma-core-mtj").compileKotlin,
-                project("koma-core-jblas").compileKotlin
-        ]
+        []
+    }
+    sourceRoot {
+        path = project(":koma-core-api").kotlin.sourceSets.commonMain.kotlin.srcDirs[0]
     }
     sourceDirs = files([
             "koma-core/native-cblas/src"
     ])
 
-    includes = ['core/Module.md']
     jdkVersion = 8
     doLast {
         // Dokka uses moduleName for the final folder name, and mangles upper case letters
@@ -401,381 +474,10 @@ dokka {
     }
 }
 
-void genNDArray(String dest, List<String> dtypesNDArray) {
-    copy {
-        from 'templates'
-        into "$dest"
-        include 'NDArray.kt'
-        expand(factories: fixWhitespaceErrors(factories(dtypesNDArray)),
-               primitiveGetSet: fixWhitespaceErrors(primitiveGetSet(dtypesNDArray)),
-               typeCheckClauses: fixWhitespaceErrors(typeCheckClauses(dtypesNDArray)),
-               typeCheckClausesLinear: fixWhitespaceErrors(typeCheckClausesLinear(dtypesNDArray)))
-    }
-}
-
-def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
-    // Generate matrix types
-    dtypesMatrix.forEach { dtype ->
-        if (dtype != 'T') {
-            copy {
-                from 'templates'
-                into "$project/matrix"
-                include 'DefaultXMatrix.kt'
-                rename { "Default${dtype}Matrix.kt" }
-
-                expand(div: getDiv(dtype),
-                        epow: getEPow(dtype),
-                        dtype: dtype,
-                        namespace: namespace)
-            }
-            copy {
-                from 'templates'
-                into "$project/matrix"
-                include 'DefaultXMatrixFactory.kt'
-                rename { "Default${dtype}MatrixFactory.kt" }
-                expand(dtype: dtype,
-                        namespace: namespace)
-            }
-        }
-        copy {
-            from 'templates'
-            into "koma-core-api/common/src/koma/extensions"
-            include 'extensions_matrix.kt'
-            rename { "extensions_matrix_${dtypeName(dtype)}.kt"}
-            expand(dtype: dtype,
-                   dtypeName: dtypeName(dtype),
-                   genDec: genDec(dtype),
-                   reifiedDec: reifiedDec(dtype),
-                   reifiedInline: dtype == "T" ? "inline " : "",
-                   reshapeReceiverType: dtype == "T" ? "Matrix" : "NDArray",
-                   factoryPattern: factoryPattern(dtype, "Matrix"),
-                   floatersOnly: floatersOnly(dtype),
-                   inline: inline(dtype))
-        }
-    }
-    // Generate ndarray types
-    dtypesNDArray.forEach { dtype ->
-        copy {
-            from 'templates'
-            into "$project/ndarray"
-            include 'DefaultXNDArray.kt'
-            rename { "Default${dtypeName(dtype)}NDArray.kt"}
-            expand(dtype: dtype,
-                   namespace: namespace,
-                   storage: getStorage(dtype),
-                   genDec: genDec(dtype),
-                   initStorage: initStorage(dtype),
-                   dtypeName: dtypeName(dtype),
-                   getDouble: convertGetter(dtype, "Double"),
-                   setDouble: convertSetter(dtype, "Double"),
-                   getByte: convertGetter(dtype, "Byte"),
-                   setByte: convertSetter(dtype, "Byte"),
-                   getInt: convertGetter(dtype, "Int"),
-                   setInt: convertSetter(dtype, "Int"),
-                   getFloat: convertGetter(dtype, "Float"),
-                   setFloat: convertSetter(dtype, "Float"),
-                   getLong: convertGetter(dtype, "Long"),
-                   setLong: convertSetter(dtype, "Long"),
-                   getShort: convertGetter(dtype, "Short"),
-                   setShort: convertSetter(dtype, "Short"))
-        }
-        if (dtype != "T") {
-            copy {
-                from 'templates'
-                into "$project/ndarray"
-                include 'DefaultXNDArrayFactory.kt'
-                rename { "Default${dtypeName(dtype)}NDArrayFactory.kt"}
-                expand(dtype: dtype,
-                        literalSuffix: dtypeSuffixMap[dtype],
-                        namespace: namespace)
-            }
-        }
-        copy {
-            from 'templates'
-            into "koma-core-api/common/src/koma/extensions"
-            include 'extensions_ndarray.kt'
-            rename { "extensions_ndarray_${dtypeName(dtype)}.kt"}
-            expand(dtype: dtype,
-                    dtypeName: dtypeName(dtype),
-                    genDec: genDec(dtype),
-                    reifiedDec: reifiedDec(dtype),
-                    comparableDec: comparableDec(dtype),
-                    mapDec: mapDec(dtype),
-                    toMatrix: toMatrix(dtype, dtypesMatrix),
-                    operators: operators(dtype),
-                    factoryPrefix: dtype == "T" ? "Generic" : "Numerical",
-                    factoryPattern: factoryPattern(dtype, "NDArray"),
-                    inline: inline(dtype),
-                    extensionCreate: extensionCreate(dtype),
-                    extensionMapIndexed: extensionMapIndexed(dtype),
-                    extensionMapIndexedN: extensionMapIndexedN(dtype),
-                    reifiedInline: dtype == "T" ? "inline " : "",
-                    arrayType: dtype == "T" ? "Typed" : dtype,
-                    arrayClass: dtype == "T" ? "Array" : "${dtype}Array")
-        }
-    }
-}
-
-task codegen {
-    doLast {
-        genNDArray("koma-core-api/common/src/koma/ndarray", ReifiedNDArrays)
-        genCode("koma-core-api/common/src/koma/internal/default/generated",
-                "koma.internal.default.generated",
-                ReifiedMatrices, ReifiedNDArrays, NumericalConstantSuffixes)
-    }
-}
-
-def getDiv(dtype) {
-    if (dtype != 'Int')
-        return """
-    override fun div(other: ${dtype}): Matrix<${dtype}>
-            = this.mapIndexed { _, _, ele -> ele/other}
-"""
-    else
-        return ""
-}
-def getEPow(dtype) {
-    if (dtype != 'Int')
-        return """
-    override fun epow(other: ${dtype}): Matrix<${dtype}> 
-            = this.mapIndexed { _, _, ele -> pow(ele.toDouble(), other.toDouble()).to${dtype}() }
-"""
-    else
-        return ""
-
-}
+//apply from: 'buildscripts/publishing.gradle'
+apply from: 'buildscripts/codegen.gradle'
 
 
-def getStorage(dtype) {
-    if (dtype != 'T')
-        return "${dtype}Array"
-    else
-        return "Array<T>"
-}
 
-def genDec(dtype) {
-    if (dtype != 'T')
-        return ""
-    else
-        return "<T>"
-}
 
-def reifiedDec(dtype) {
-    dtype == 'T' ? "<reified T>" : ""
-}
 
-def comparableDec(dtype) {
-    dtype == 'T' ? "<T: Comparable<T>>" : ""
-}
-
-def mapDec(dtype) {
-    dtype == 'T' ? "<T, reified R>" : "<reified R>"
-}
-
-def initStorage(dtype) {
-    if (dtype != 'T')
-        return "        storage = ${dtype}Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it))}) \n"
-    else
-        return "        @Suppress(\"UNCHECKED_CAST\")\n" +
-               "        storage = Array(shape.reduce{ a, b-> a * b}, {init.invoke(linearToNIdx(it)) as Any?}) as Array<T>"
-}
-
-def dtypeName(dtype) {
-    if (dtype != 'T')
-        return dtype
-    else
-        return "Generic"
-}
-
-def convertGetter(baseDtype, toDtype) {
-    if(baseDtype == 'T')
-        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
-               "        val ele = getGeneric(i)\n" +
-               "        if (ele is Number)\n" +
-               "            return ele.to${toDtype}()\n" +
-               "        else\n" +
-               "            error(wrongType)\n" +
-               "    }"
-    else
-        return "    override fun get${toDtype}(i: Int): ${toDtype} {\n" +
-               "        val ele = storage[checkLinearIndex(i)]\n" +
-               "        return ele.to${toDtype}()\n" +
-               "    }"
-}
-
-def convertSetter(baseDtype, toDtype) {
-    if(baseDtype == 'T')
-        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
-               "       @Suppress(\"UNCHECKED_CAST\")\n" + 
-               "       setGeneric(i, v as ${baseDtype})\n" +
-               "    }\n"
-    else
-        return "    override fun set${toDtype}(i: Int, v: ${toDtype}) {\n" +
-               "        storage[checkLinearIndex(i)] = v.to${baseDtype}()\n" +
-               "    }\n"
-}
-
-def floatersOnly(dtype) {
-    if(dtype == "Double" || dtype == "Float") {
-        return "\n" +
-                "@KomaJvmName(\"set1D${dtype}FromInt\")\n" +
-                "@KomaJsName(\"set1D${dtype}FromInt\")\n" +
-                "operator fun Matrix<${dtype}>.set(i: Int, v: Int) = this.set${dtype}(i, v.to${dtype}())\n" +
-                "@KomaJvmName(\"set2D${dtype}FromInt\")\n" +
-                "@KomaJsName(\"set2D${dtype}FromInt\")\n" +
-                "operator fun Matrix<${dtype}>.set(i: Int, j: Int, v: Int) = this.set${dtype}(i, j, v.to${dtype}())\n"
-    }
-    else {
-        return ""
-    }
-}
-
-def toMatrix(dtype, dtypesMatrix) {
-    if (dtype in dtypesMatrix && dtype != "T") {
-        return "@koma.internal.JvmName(\"toMatrix${dtype}\")\n" +
-                "fun NDArray<${dtype}>.toMatrix(): Matrix<${dtype}> {\n" +
-                "    if (this is Matrix)\n" +
-                "        return this\n" +
-                "    val dims = this.shape()\n" +
-                "    return when (dims.size) {\n" +
-                "        1 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], 1).fill { row, _ -> this[row] } }\n" +
-                "        2 -> { Matrix.${dtype.toLowerCase()}Factory.zeros(dims[0], dims[1]).fill { row, col -> this[row, col] } }\n" +
-                "        else -> error(\"Cannot convert NDArray with \${dims.size} dimensions to matrix (must be 1 or 2)\")\n" +
-                "    }\n" +
-                "}"
-    }
-    else if (dtype == "T") {
-        return "@Suppress(\"UNCHECKED_CAST\")\n" +
-                "@koma.internal.JvmName(\"toMatrixGeneric\")\n" +
-                "fun <T> NDArray<T>.toMatrixOrNull(): Matrix<T>? {\n" +
-                "    \n" +
-                "    val ele = this.toIterable().iterator().next()\n" +
-                "    return when (ele) {\n" +
-                dtypesMatrix
-                        .findAll{it != "T"}
-                        .collect{"        is ${it} -> { try{(this as NDArray<${it}>).toMatrix() as Matrix<T>}catch(e:Exception){null}}\n"}.join() +
-                "        else -> { null }\n" +
-                "    }\n" +
-                "}"
-    }
-    else {
-        return ""
-    }
-}
-
-def extensionCreate(dtype) {
-    if (dtype != "T") {
-        return "NDArray.${dtype.toLowerCase()}Factory.zeros(*lengths).fill(filler)"
-    } else {
-        return "NDArray.createGeneric<T>(*lengths, filler=filler)"
-    }
-}
-def extensionMapIndexed(dtype) {
-    if (dtype != "T") {
-        return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*shape().toIntArray()).fillLinear { f(it, this.get${dtype}(it)) }\n"
-    } else {
-        return "    = NDArray.createGeneric<T>(*shape().toIntArray(), filler= { idx-> f(nIdxToLinear(idx), this.getGeneric(*idx)) })\n"
-    }
-}
-def extensionMapIndexedN(dtype) {
-    if (dtype != "T") {
-        return "    = NDArray.${dtype.toLowerCase()}Factory.zeros(*shape().toIntArray()).fillBoth { nd, linear -> f(nd, get${dtype}(linear)) }\n"
-    } else {
-        return "    = NDArray.createGeneric<T>(*shape().toIntArray(), filler = { idx -> f(idx, this.getGeneric(*idx)) })\n"
-    }
-}
-
-def operators(dtype) {
-    if (dtype != "T") {
-        return "\n" +
-                "@koma.internal.JvmName(\"div${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.div(other: ${dtype}) = map { (it/other).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"timesArr${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.times(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele*other.get(*idx)).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"times${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.times(other: ${dtype}) = map { (it * other).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"unaryMinus${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.unaryMinus() = map { (-it).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"minus${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.minus(other: ${dtype}) = map { (it - other).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"minusArr${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.minus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele - other.get(*idx)).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"plus${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.plus(other: ${dtype}) = map { (it + other).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"plusArr${dtype}\")\n" +
-                "operator fun NDArray<${dtype}>.plus(other: NDArray<${dtype}>) = mapIndexedN { idx, ele -> (ele + other.get(*idx)).to${dtype}() }\n" +
-                "@koma.internal.JvmName(\"pow${dtype}\")\n" +
-                "infix fun NDArray<${dtype}>.pow(exponent: Int) = map { pow(it.toDouble(), exponent).to${dtype}() }\n" +
-                ""
-    }
-    else {
-        return ""
-    }
-}
-
-def inline(dtype) {
-    if (dtype != "T") {
-        return "inline "
-    }
-    else {
-        return ""
-    }
-}
-
-def factoryPattern(dtype, klass) {
-    if (dtype == "T") {
-        if (klass == "NDArray")
-            return { "NDArray.createGeneric($it)" }
-        return { "getFactory().zeros($it).fill" }
-    } else
-        return { "${klass}.${dtype.toLowerCase()}Factory.zeros($it).fill" }
-}
-
-String fixWhitespaceErrors(String input) {
-    return input.replaceAll(~"\n[ \t]+(?=\n)", "\n").trim()
-}
-
-def primitiveGetSet(types) {
-    def indent = "\n    "
-    types.findAll { it != "T" }.collect {
-        """
-        @KomaJsName("get${it}ND")
-        fun get$it(vararg indices: Int) = get$it(nIdxToLinear(indices))
-        @KomaJsName("get${it}1D")
-        fun get$it(i: Int): $it = (getGeneric(i) as Number).to$it()
-        @KomaJsName("set${it}ND")
-        fun set$it(vararg indices: Int, v: $it) = set$it(nIdxToLinear(indices), v)
-        @KomaJsName("set${it}1D")
-        @Suppress("UNCHECKED_CAST")
-        fun set$it(i: Int, v: $it) { setGeneric(i, v as T) }
-        """.stripIndent().replaceAll("\n", indent)
-    }.join(indent)
-}
-
-def typeCheckClauses(types) {
-    types.findAll { it != "T" }.collect {
-        String.format("%-13s -> ${it.toLowerCase()}Factory.zeros(*dims).fill { filler(it) as $it }",
-                      "$it::class")
-    }.join("\n                ")
-}
-
-def typeCheckClausesLinear(types) {
-    types.findAll { it != "T" }.collect {
-        String.format("%-13s -> ${it.toLowerCase()}Factory.zeros(*dims).fillLinear { filler(it) as $it }",
-                      "$it::class")
-    }.join("\n                ")
-}
-
-def factories(types) {
-    types.findAll { it != "T" }.collect {
-        def fieldName = "${it.toLowerCase()}Factory"
-        """
-        var $fieldName: NumericalNDArrayFactory<$it>
-            get() = _$fieldName ?: get${it}NDArrayFactory().also { _$fieldName = it }
-            set(value) { _$fieldName = value }
-        private var _$fieldName: NumericalNDArrayFactory<$it>? = null
-        """
-    }.join("")
-}
-
-apply from: 'buildscripts/publishing.gradle'

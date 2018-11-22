@@ -1,17 +1,17 @@
 package koma.internal
 
+import koma.internal.default.generated.matrix.DefaultDoubleMatrixFactory
 import koma.internal.default.generated.ndarray.*
 import koma.matrix.*
-import koma.matrix.cblas.CBlasMatrixFactory
 import koma.internal.default.generated.matrix.DefaultFloatMatrixFactory
 import koma.internal.default.generated.matrix.DefaultIntMatrixFactory
 import koma.ndarray.NumericalNDArrayFactory
 
 internal actual fun getDoubleMatrixFactories(): List<MatrixFactory<Matrix<Double>>> {
-    return listOf(CBlasMatrixFactory())
+    return listOf()
 }
 
-actual fun getDoubleMatrixFactory(): MatrixFactory<Matrix<Double>> = CBlasMatrixFactory()
+actual fun getDoubleMatrixFactory(): MatrixFactory<Matrix<Double>> = DefaultDoubleMatrixFactory()
 actual fun getFloatMatrixFactory(): MatrixFactory<Matrix<Float>> = DefaultFloatMatrixFactory()
 actual fun getIntMatrixFactory(): MatrixFactory<Matrix<Int>> = DefaultIntMatrixFactory()
 
