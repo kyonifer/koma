@@ -7,7 +7,7 @@ buildscript {
         // 1.3.0 can't complete in IDEA, and native fails on 1.3.10 with kotlin-native#2334
         def pluginVersion
         if (gradle.startParameter.taskNames.any { rq ->
-            rq.contains("build") || rq.toLowerCase().contains("native")
+            rq.contains("build") || rq.contains("assemble") || rq.toLowerCase().contains("native")
         }) {
             pluginVersion = "1.3.0"
         } else {
@@ -200,6 +200,9 @@ project(":koma-core-api") {
             } else if (os.isLinux()) {
                 cblasDefFile = "../koma-core/native-cblas/defs_linux/cblas.def"
                 lapackeDefFile = "../koma-core/native-cblas/defs_linux/lapacke.def"
+            } else if (os.isWindows()) {
+                cblasDefFile = "../koma-core/native-cblas/defs_windows/cblas.def"
+                lapackeDefFile = "../koma-core/native-cblas/defs_windows/lapacke.def"
             }
 
             fromPreset(presets.jvm, 'jvm')
@@ -275,6 +278,9 @@ project(":koma") {
                 } else if (os.isLinux()) {
                     cblasDefFile = "../koma-core/native-cblas/defs_linux/cblas.def"
                     lapackeDefFile = "../koma-core/native-cblas/defs_linux/lapacke.def"
+                } else if (os.isWindows()) {
+                    cblasDefFile = "../koma-core/native-cblas/defs_windows/cblas.def"
+                    lapackeDefFile = "../koma-core/native-cblas/defs_windows/lapacke.def"
                 }
                 fromPreset(nativePreset, "native") {
                     compilations.main {
@@ -291,6 +297,10 @@ project(":koma") {
             sourceSets {
                 commonMain {
                     kotlin.srcDir('../koma-core-api/common/src')
+                    dependencies {
+                        implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                    }
+
                 }
                 nativeMain {
                     kotlin.srcDir('../koma-core-api/native/src')
