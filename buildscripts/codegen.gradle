@@ -25,6 +25,15 @@ void genNDArray(String dest, List<String> dtypesNDArray) {
     }
 }
 
+void genArrayProducts(String dest) {
+    copy {
+        from 'templates'
+        into "$dest"
+        include 'arrayproducts.kt'
+        expand(typedProducts: fixWhitespaceErrors(typedProducts()))
+    }
+}
+
 def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
     // Generate matrix types
     dtypesMatrix.forEach { dtype ->
@@ -131,6 +140,7 @@ def genCode(project, namespace, dtypesMatrix, dtypesNDArray, dtypeSuffixMap) {
 task codegen {
     doLast {
         genNDArray("koma-core-api/common/src/koma/ndarray", ReifiedNDArrays)
+        genArrayProducts("koma-core-api/common/src/koma")
         genCode("koma-core-api/common/src/koma/internal/default/generated",
                 "koma.internal.default.generated",
                 ReifiedMatrices, ReifiedNDArrays, NumericalConstantSuffixes)
@@ -388,4 +398,44 @@ def factories(types) {
         private var _$fieldName: NumericalNDArrayFactory<$it>? = null
         """
     }.join("")
+}
+
+def typedProducts() {
+    def types = ["Byte", "Short", "Int", "Long", "Float", "Double"]
+    def result = new StringBuilder()
+    for (type1 in types)
+        for (type2 in types) {
+            def resultType = "Long"
+            if (type1 == "Double" || type2 == "Double")
+                resultType = "Double"
+            else if (type1 == "Float" || type2 == "Float") {
+                if (type1 == "Long" || type2 == "Long")
+                    resultType = "Double"
+                else
+                    resultType = "Float"
+            }
+            result.append("""
+/**
+ * Compute the dot product between two arrays.
+ */
+@KomaJvmName("dot$type1$type2")
+infix fun NDArray<$type1>.dot(array2: NDArray<$type2>): $resultType = dot$resultType(this, array2)
+/**
+ * Compute the inner product of two arrays, summing over the last axis of the first array and the first axis of the second array.
+ */
+@KomaJvmName("inner$type1$type2")
+infix fun NDArray<$type1>.inner(array2: NDArray<$type2>): NDArray<$resultType> = inner$resultType(this, array2, this.shape().size-1, 0)
+/**
+ * Compute the inner product of two arrays, summing over [axis1] of the first array and [axis2] of the second array.
+ */
+@KomaJvmName("inner$type1$type2")
+fun NDArray<$type1>.inner(array2: NDArray<$type2>, axis1: Int, axis2: Int): NDArray<$resultType> = inner$resultType(this, array2, axis1, axis2)
+/**
+ * Compute the outer product of two arrays.
+ */
+@KomaJvmName("outer$type1$type2")
+infix fun NDArray<$type1>.outer(array2: NDArray<$type2>): NDArray<$resultType> = outer$resultType(this, array2)
+""")
+        }
+    return result.toString()
 }
