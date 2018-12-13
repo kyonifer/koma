@@ -1,7 +1,10 @@
 import koma.*
 import koma.extensions.*
+import koma.matrix.Matrix
+import koma.matrix.cblas.CBlasMatrixFactory
 
 fun main(args: Array<String>) {
+    Matrix.doubleFactory = CBlasMatrixFactory()
 
     val m1 = zeros(3,3)+2
     val m2 = ones(3,3)+3

@@ -1,5 +1,7 @@
 package koma.internal
 
+actual annotation class KomaNonFrozen()
+
 actual typealias JvmName = kotlin.jvm.JvmName
 actual typealias JvmMultifileClass = kotlin.jvm.JvmMultifileClass
 actual typealias KomaJvmName = kotlin.jvm.JvmName

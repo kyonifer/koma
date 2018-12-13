@@ -1,10 +1,7 @@
 package koma.matrix
 
 import koma.extensions.*
-import koma.internal.KomaJsName
-import koma.internal.getDoubleMatrixFactory
-import koma.internal.getFloatMatrixFactory
-import koma.internal.getIntMatrixFactory
+import koma.internal.*
 import koma.ndarray.NDArray
 
 /**
@@ -15,6 +12,7 @@ import koma.ndarray.NDArray
  * [koma.ndarray.NDArray].
  */
 interface Matrix<T>: NDArray<T> {
+    @KomaNonFrozen
     companion object {
 
         // TODO: Ideally these properties are expect/actual with implementations. However, there's currently

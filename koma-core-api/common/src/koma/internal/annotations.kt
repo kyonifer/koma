@@ -1,5 +1,8 @@
 package koma.internal
 
+// Does nothing on jvm/js, applies ThreadLocal on native
+expect annotation class KomaNonFrozen()
+
 // Workaround for KT-22902
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.BINARY)
