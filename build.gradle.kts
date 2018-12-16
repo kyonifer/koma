@@ -6,8 +6,15 @@ import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeFirstWord
 
 buildscript {
     val dokkaVersion: String by project
+    val bintrayPluginVersion: String by project
     dependencies {
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion")
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintrayPluginVersion")
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { setUrl("https://dl.bintray.com/jetbrains/kotlin-native-dependencies") }
     }
 }
 
@@ -15,6 +22,7 @@ buildscript {
 // Not used directly.
 plugins {
     kotlin("multiplatform") version "1.3.20-eap-25"
+    `maven-publish`
 }
 
 val defaultRepositories: RepositoryHandler.() -> Unit = {
@@ -29,6 +37,12 @@ subprojects {
     apply(plugin="org.jetbrains.kotlin.multiplatform")
     repositories(defaultRepositories)
 }
+
+// Workaround: `by project` form is broken on gradle 4.7
+val publishingMode = findProperty("publishKoma") as? String != null ||
+        gradle.startParameter.taskNames.any { it.contains("publish") }
+
+
 
 project("koma-core") {
     base.archivesBaseName = "koma-core"
@@ -65,7 +79,7 @@ project("koma-core") {
                 }
             }
         }
-        native {
+        native(prefix="cblas-") {
             main {
                 buildTypes = mutableListOf(NativeBuildType.DEBUG, NativeBuildType.RELEASE)
                 defaultSourceSet {
@@ -75,17 +89,19 @@ project("koma-core") {
                 addLapackeInterop()
             }
         }
-        native("Example") {
-            main {
-                outputKinds = mutableListOf(NativeOutputKind.EXECUTABLE)
-                buildTypes = mutableListOf(NativeBuildType.DEBUG, NativeBuildType.RELEASE)
-                defaultSourceSet {
-                    val platform = this@native.name.dropLast(7)
-                    dependsOn(sourceSets["${platform}Main"])
-                    kotlin.srcDir("../examples/native")
+        if (!publishingMode) {
+            native(suffix="Example") {
+                main {
+                    outputKinds = mutableListOf(NativeOutputKind.EXECUTABLE)
+                    buildTypes = mutableListOf(NativeBuildType.DEBUG, NativeBuildType.RELEASE)
+                    defaultSourceSet {
+                        val platform = this@native.name.dropLast(7)
+                        dependsOn(sourceSets["cblas-${platform}Main"])
+                        kotlin.srcDir("../examples/native")
+                    }
+                    addCBlasInterop()
+                    addLapackeInterop()
                 }
-                addCBlasInterop()
-                addLapackeInterop()
             }
         }
         js {
@@ -108,6 +124,7 @@ project("koma-core") {
             }
         }
     }
+    apply(from = rootProject.file("buildscripts/publishing.gradle"))
 }
 project("koma-core-api") {
     kotlin {
@@ -137,6 +154,7 @@ project("koma-core-api") {
             kotlin.srcDir("common/src")
         }
     }
+    apply(from = rootProject.file("buildscripts/publishing.gradle"))
 }
 
 // A project to generate koma shared/static libraries for native.
@@ -147,6 +165,7 @@ project("koma-core-api") {
 //
 // Must be named `koma` because of KT-28313. Disabled in intellij
 // to prevent clashes with the ordinary koma-native-cblas project.
+
 project(":koma") {
     val cmdLine = gradle.startParameter.taskNames.any { rq ->
         rq.contains("build") ||
@@ -190,6 +209,7 @@ project(":koma-logging") {
             }
         }
     }
+    apply(from = rootProject.file("buildscripts/publishing.gradle"))
 }
 project(":koma-plotting") {
     kotlin {
@@ -206,6 +226,7 @@ project(":koma-plotting") {
             }
         }
     }
+    apply(from = rootProject.file("buildscripts/publishing.gradle"))
 }
 project(":koma-tests") {
     kotlin {
@@ -313,7 +334,7 @@ val currentDesktopPlatform =
 
 val buildNative by tasks.creating {
     dependsOn(":koma-core-api:${currentDesktopPlatform}Klibrary")
-    dependsOn(":koma-core:${currentDesktopPlatform}Klibrary")
+    dependsOn(":koma-core:cblas-${currentDesktopPlatform}Klibrary")
     dependsOn(":koma:linkReleaseShared${currentDesktopPlatform.capitalize()}")
     dependsOn(":koma:linkReleaseStatic${currentDesktopPlatform.capitalize()}")
     dependsOn(":koma-core:linkReleaseExecutable${currentDesktopPlatform.capitalize()}Example")
@@ -397,21 +418,21 @@ fun KotlinMultiplatformExtension.commonTestSourceSet(f: KotlinSourceSet.()->Unit
 // to the IDE, we need to expose only one. This function runs the [configBlock]
 // on one or more of the set of platforms specified, depending on whether
 // or not it detects we are in publishing mode.
-fun KotlinMultiplatformExtension.native(suffix: String = "", vararg extraPlatforms: (KotlinNativeTarget.() -> Unit)->Unit,
+fun KotlinMultiplatformExtension.native(prefix: String = "",
+                                        suffix: String = "",
+                                        vararg extraPlatforms: (KotlinNativeTarget.() -> Unit)->Unit,
                     configBlock: KotlinNativeTarget.()->Unit) {
-    val publishing: String? by project
-    val allProjects = publishing != null
     val os = org.gradle.internal.os.OperatingSystem.current()
-    if (os.isMacOsX || allProjects) {
-        macosX64("macosX64$suffix") { configBlock() }
+    if (os.isMacOsX || publishingMode) {
+        macosX64("${prefix}macosX64$suffix") { configBlock() }
     }
-    if (os.isWindows || allProjects) {
-        mingwX64("mingwX64$suffix") { configBlock() }
+    if (os.isWindows || publishingMode) {
+        mingwX64("${prefix}mingwX64$suffix") { configBlock() }
     }
-    if (os.isLinux || allProjects){
-        linuxX64("linuxX64$suffix") { configBlock() }
+    if (os.isLinux || publishingMode){
+        linuxX64("${prefix}linuxX64$suffix") { configBlock() }
     }
-    if (allProjects) {
+    if (publishingMode) {
         extraPlatforms.forEach {
             it(configBlock)
         }
@@ -419,8 +440,8 @@ fun KotlinMultiplatformExtension.native(suffix: String = "", vararg extraPlatfor
 }
 
 fun KotlinNativeCompilation.addCBlasInterop() {
-    val cblasIncludeDir: String? by project
-    val cblasLibDir: String? by project
+    val cblasIncludeDir: String? = findProperty("cblasIncludeDir") as? String
+    val cblasLibDir: String? = findProperty("cblasLibDir") as? String
 
     addInterop("cblas",
                "../koma-core/native-cblas/defs_macos/cblas.def",
@@ -429,8 +450,8 @@ fun KotlinNativeCompilation.addCBlasInterop() {
 
 }
 fun KotlinNativeCompilation.addLapackeInterop() {
-    val lapackeIncludeDir: String? by project
-    val lapackeLibDir: String? by project
+    val lapackeIncludeDir: String? = findProperty("lapackeIncludeDir") as? String
+    val lapackeLibDir: String? = findProperty("lapackeLibDir") as? String
 
     addInterop("lapacke",
                "../koma-core/native-cblas/defs_macos/lapacke.def",
