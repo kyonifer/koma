@@ -1,5 +1,5 @@
 headers=cblas.h
-compilerOpts.mac_x64 = -I/usr/local/opt/openblas/include
-linkerOpts.mac_x64 = -L/usr/local/opt/openblas/lib -lblas
-compilerOpts.linux_x64 = -I/usr/include/x86_64-linux-gnu -I/usr/include
-linkerOpts.linux_x64 = -L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas -lblas
+compilerOpts.osx = -I/usr/local/opt/openblas/include
+linkerOpts.osx = -L/usr/local/opt/openblas/lib -lblas
+compilerOpts.linux = -I/usr/include/x86_64-linux-gnu -I/usr/include
+linkerOpts.linux = -L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/blas -L/usr/lib/x86_64-linux-gnu/openblas -lblas

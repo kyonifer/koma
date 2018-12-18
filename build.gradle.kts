@@ -22,7 +22,6 @@ buildscript {
 // Not used directly.
 plugins {
     kotlin("multiplatform") version "1.3.20-eap-25"
-    `maven-publish`
 }
 
 val defaultRepositories: RepositoryHandler.() -> Unit = {
@@ -306,7 +305,9 @@ val buildJs by tasks.creating {
     }
 }
 val buildJvm by tasks.creating {
-    dependsOn(":koma-core:build")
+    dependsOn(":koma-core:ejmlJar")
+    dependsOn(":koma-core:mtjJar")
+    dependsOn(":koma-core:jblasJar")
     dependsOn(":koma-core-api:jvmJar")
     dependsOn(":koma-plotting:build")
     dependsOn(":koma-logging:build")
