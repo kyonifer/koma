@@ -1,0 +1,5 @@
+headers=lapacke.h
+compilerOpts.mac_x64 = -I/usr/local/opt/lapack/include
+linkerOpts.mac_x64 = -L/usr/local/opt/lapack/lib -llapacke
+compilerOpts.linux_x64 = -I/usr/include/x86_64-linux-gnu -I/usr/include
+linkerOpts.linux_x64 = -L/usr/lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/lapack -llapacke

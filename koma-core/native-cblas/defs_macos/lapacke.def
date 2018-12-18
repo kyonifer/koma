@@ -1,3 +1,0 @@
-headers=lapacke.h
-compilerOpts = -I/usr/local/opt/lapack/include
-linkerOpts = -L/usr/local/opt/lapack/lib -llapacke

@@ -444,7 +444,7 @@ fun KotlinNativeCompilation.addCBlasInterop() {
     val cblasLibDir: String? = findProperty("cblasLibDir") as? String
 
     addInterop("cblas",
-               "../koma-core/native-cblas/defs_macos/cblas.def",
+               "../koma-core/native-cblas/defs/cblas.def",
                cblasIncludeDir,
                cblasLibDir)
 
@@ -454,7 +454,7 @@ fun KotlinNativeCompilation.addLapackeInterop() {
     val lapackeLibDir: String? = findProperty("lapackeLibDir") as? String
 
     addInterop("lapacke",
-               "../koma-core/native-cblas/defs_macos/lapacke.def",
+               "../koma-core/native-cblas/defs/lapacke.def",
                lapackeIncludeDir,
                lapackeLibDir)
 }
