@@ -294,12 +294,12 @@ allprojects {
 tasks["build"].dependsOn(":buildJvm", ":buildNative", ":buildJs")
 
 val buildJs by tasks.creating {
-    dependsOn(":koma-core:build")
+    dependsOn(":koma-core:jsJar")
     doLast {
         copy {
             from("koma-core-api/build/libs")
             from("koma-core/build/libs")
-            include("*-js.jar")
+            include("*js*.jar")
             into(rootDir.toString() + "/build/js")
         }
     }
