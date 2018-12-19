@@ -21,7 +21,7 @@ buildscript {
 // Required to make statically typed accessors available in sub-projects.
 // Not used directly.
 plugins {
-    kotlin("multiplatform") version "1.3.20-eap-25"
+    kotlin("multiplatform") version "1.3.20-eap-52"
 }
 
 val defaultRepositories: RepositoryHandler.() -> Unit = {
@@ -334,11 +334,11 @@ val currentDesktopPlatform =
 
 
 val buildNative by tasks.creating {
-    dependsOn(":koma-core-api:${currentDesktopPlatform}Klibrary")
-    dependsOn(":koma-core:cblas-${currentDesktopPlatform}Klibrary")
-    dependsOn(":koma:linkReleaseShared${currentDesktopPlatform.capitalize()}")
-    dependsOn(":koma:linkReleaseStatic${currentDesktopPlatform.capitalize()}")
-    dependsOn(":koma-core:linkReleaseExecutable${currentDesktopPlatform.capitalize()}Example")
+    dependsOn(":koma-core-api:${currentDesktopPlatform}Binaries")
+    dependsOn(":koma-core:cblas-${currentDesktopPlatform}Binaries")
+    dependsOn(":koma:linkMainReleaseShared${currentDesktopPlatform.capitalize()}")
+    dependsOn(":koma:linkMainReleaseStatic${currentDesktopPlatform.capitalize()}")
+    dependsOn(":koma-core:linkMainReleaseExecutable${currentDesktopPlatform.capitalize()}Example")
     doLast {
         copy {
             from("koma-core-api/build/classes/kotlin/${currentDesktopPlatform}/main")
