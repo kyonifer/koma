@@ -69,6 +69,7 @@ project("koma-core") {
             }
         }
         jvm("jblas") {
+
             main {
                 defaultSourceSet {
                     kotlin.srcDir("jvm-jblas/src")
@@ -185,6 +186,13 @@ project(":koma") {
                     }
                     addCBlasInterop()
                     addLapackeInterop()
+                }
+                afterEvaluate {
+                    binaries {
+                        forEach {
+                            it.baseName = "koma"
+                        }
+                    }
                 }
             }
             commonMainSourceSet {
@@ -341,7 +349,7 @@ val buildNative by tasks.creating {
     doLast {
         copy {
             from("koma-core-api/build/classes/kotlin/${currentDesktopPlatform}/main")
-            from("koma-core/build/classes/kotlin/${currentDesktopPlatform}/main")
+            from("koma-core/build/classes/kotlin/cblas-${currentDesktopPlatform}/main")
             include("*.klib")
             into(rootDir.toString() + "/build/native/klib")
         }
