@@ -336,8 +336,7 @@ val currentDesktopPlatform =
 val buildNative by tasks.creating {
     dependsOn(":koma-core-api:${currentDesktopPlatform}Binaries")
     dependsOn(":koma-core:cblas-${currentDesktopPlatform}Binaries")
-    dependsOn(":koma:linkMainReleaseShared${currentDesktopPlatform.capitalize()}")
-    dependsOn(":koma:linkMainReleaseStatic${currentDesktopPlatform.capitalize()}")
+    dependsOn(":koma:build")
     dependsOn(":koma-core:linkMainReleaseExecutable${currentDesktopPlatform.capitalize()}Example")
     doLast {
         copy {
@@ -347,14 +346,14 @@ val buildNative by tasks.creating {
             into(rootDir.toString() + "/build/native/klib")
         }
         copy {
-            from("koma/build/bin/${currentDesktopPlatform}/main/release")
-            include("shared/**")
-            include("static/**")
+            from("koma/build/bin/${currentDesktopPlatform}")
+            include("mainReleaseStatic/**")
+            include("mainReleaseShared/**")
             into(getRootDir().toString() + "/build/native")
         }
         copy {
-            from("koma-core/build/bin/${currentDesktopPlatform}Example/main/release")
-            include("executable/**")
+            from("koma-core/build/bin/${currentDesktopPlatform}Example")
+            include("mainReleaseExecutable/**")
             into(rootDir.toString() + "/build/native")
         }
     }
