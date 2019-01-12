@@ -11,11 +11,11 @@ class EJMLMatrixFactory : DoubleFactoryBase<EJMLMatrix>() {
 
     override fun create(data: IntRange): EJMLMatrix {
         val dataArray = fromCollection(data.map { it.toDouble() })
-        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, *dataArray))
+        return EJMLMatrix(SimpleMatrix(1, dataArray.size, true, dataArray))
     }
 
     override fun create(data: DoubleArray): EJMLMatrix {
-        return EJMLMatrix(SimpleMatrix(1, data.size, true, *data))
+        return EJMLMatrix(SimpleMatrix(1, data.size, true, data))
     }
 
     override fun create(data: Array<DoubleArray>): EJMLMatrix {

@@ -52,7 +52,7 @@ project("koma-core") {
                 defaultSourceSet {
                     kotlin.srcDir("jvm-ejml/src")
                     dependencies {
-                        implementation("org.ejml:ejml-all:0.33")
+                        implementation("org.ejml:ejml-all:0.37")
                     }
                 }
             }
