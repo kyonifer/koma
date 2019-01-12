@@ -3,6 +3,7 @@ package koma.matrix.ejml
 import koma.matrix.*
 import koma.matrix.common.*
 import koma.matrix.ejml.backend.*
+import org.ejml.data.SingularMatrixException
 import org.ejml.dense.row.CommonOps_DDRM
 import org.ejml.dense.row.NormOps_DDRM
 import org.ejml.simple.SimpleMatrix
@@ -66,18 +67,18 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
     override fun epow(other: Double) = EJMLMatrix(this.storage.elementPower(other))
     override fun epow(other: Int) = EJMLMatrix(this.storage.elementPower(other.toDouble()))
 
-
-
-
-
     override fun getFactory() = factoryInstance
 
     override fun solve(other: Matrix<Double>): EJMLMatrix {
-        val out = this.getFactory().zeros(this.numCols(), 1)
-        CommonOps_DDRM.solve(this.storage.ddrm,
-                        castOrCopy(other, ::EJMLMatrix, getFactory()).storage.ddrm,
-                        out.storage.ddrm)
-        return out
+        val a = this.storage
+        val b= castOrCopy(other, ::EJMLMatrix, getFactory()).storage
+
+        return try {
+            EJMLMatrix(a.solve(b))
+        } catch(e: SingularMatrixException) {
+            warnSingular
+            EJMLMatrix(a.pseudoInverse().times(b))
+        }
     }
 
     override fun LU(): Triple<EJMLMatrix, EJMLMatrix, EJMLMatrix> {
@@ -100,3 +101,6 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
 
 
 }
+
+val warnSingular by lazy { println("Koma EJML backend: warning: solving a singular matrix via fallback. If this is intentional, " +
+        "please call a.pseudoInverse().times(b) directly.") }
