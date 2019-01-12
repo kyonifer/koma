@@ -282,4 +282,15 @@ class MatrixFuncsTests {
             assert(a!=5.toBigDecimal())
         }
     }
+    @Test
+    fun testSingularSolutions() {
+        allBackends {
+            val a = mat[1,2,3 end 4,5,6 end 7,8,9]
+            val b = mat[1,2,3].T
+
+            val x = a.solve(b)
+
+            assert(allclose(a*x, mat[1,2,3].T))
+        }
+    }
 }
