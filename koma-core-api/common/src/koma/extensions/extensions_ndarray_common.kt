@@ -22,7 +22,7 @@ fun <T: Number, R: Number> NDArray<T>.allClose(other: NDArray<R>, rtol: Double=1
         val a = getDouble(i)
         val b = other.getDouble(i)
         val diff = kotlin.math.abs(a - b)
-        if (diff > atol + rtol*kotlin.math.abs(a))
+        if (diff > atol + rtol*kotlin.math.abs(a) || diff.isNaN() || a.isNaN())
             return false
     }
     return true
