@@ -6,6 +6,7 @@ import koma.matrix.jblas.backend.*
 import koma.extensions.*
 import org.jblas.DoubleMatrix
 import org.jblas.Singular
+import org.jblas.Solve
 
 /**
  * An implementation of the Matrix<Double> interface using jBlas.
@@ -99,7 +100,7 @@ class JBlasMatrix(var storage: DoubleMatrix) : Matrix<Double>, DoubleMatrixBase(
     override fun expm() = JBlasMatrix(this.storage.expm())
 
     override fun solve(other: Matrix<Double>): Matrix<Double> {
-        throw UnsupportedOperationException()
+        return JBlasMatrix(Solve.solve(this.storage, castOrCopy(other, ::JBlasMatrix, getFactory()).storage))
     }
 
     override fun inv() = JBlasMatrix(this.storage.inv())
