@@ -103,4 +103,4 @@ class EJMLMatrix(var storage: SimpleMatrix) : Matrix<Double>, DoubleMatrixBase()
 }
 
 val warnSingular by lazy { println("Koma EJML backend: warning: solving a singular matrix via fallback. If this is intentional, " +
-        "please call a.pseudoInverse().times(b) directly.") }
+        "please call `a.pinv() * b` directly.") }
