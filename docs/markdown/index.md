@@ -21,10 +21,8 @@ using gradle:
 
 ```groovy
 repositories { 
-    maven { 
-        url "http://dl.bintray.com/kyonifer/maven" 
-        jcenter()
-    }
+    maven { url "https://dl.bintray.com/kyonifer/maven" }
+    jcenter()
 }
 ```
 
