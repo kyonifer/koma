@@ -26,12 +26,13 @@ repositories {
 }
 ```
 
-Now add a dependency on the `koma-core` artifact:
+Now add a dependency on the `koma-core` artifact and the plotting artifact:
 
 <!--names=JVM,JS-->
 ```Groovy
 dependencies{
     compile group: "com.kyonifer", name:"koma-core-ejml", version: "0.12"
+    compile group: "com.kyonifer", name:"koma-plotting", version: "0.12"
 }
 ```
 ```Groovy
