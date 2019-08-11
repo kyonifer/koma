@@ -4748,18 +4748,19 @@ or <a href="General_Usage_Guide/N-Dimensional_Arrays.html">N-D arrays</a> sectio
 using gradle:</p>
 <div class="codehilite"><pre><span></span><span class="n">repositories</span> <span class="o">{</span> 
     <span class="n">maven</span> <span class="o">{</span> 
-        <span class="n">url</span> <span class="s2">&quot;http://dl.bintray.com/kyonifer/maven&quot;</span> 
+        <span class="n">url</span> <span class="s2">&quot;https://dl.bintray.com/kyonifer/maven&quot;</span> 
         <span class="n">jcenter</span><span class="o">()</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 
 
-<p>Now add a dependency on the <code>koma-core</code> artifact:</p>
+<p>Now add a dependency on the <code>koma-core</code> and plotting artifact:</p>
 <!--names=JVM,JS-->
 
 <div class="codehilite"><pre><span></span><span class="n">dependencies</span><span class="o">{</span>
     <span class="n">compile</span> <span class="nl">group:</span> <span class="s2">&quot;com.kyonifer&quot;</span><span class="o">,</span> <span class="nl">name:</span><span class="s2">&quot;koma-core-ejml&quot;</span><span class="o">,</span> <span class="nl">version:</span> <span class="s2">&quot;0.12&quot;</span>
+    <span class="n">compile</span> <span class="nl">group:</span> <span class="s2">&quot;com.kyonifer&quot;</span><span class="o">,</span> <span class="nl">name:</span><span class="s2">&quot;koma-plotting&quot;</span><span class="o">,</span> <span class="nl">version:</span> <span class="s2">&quot;0.12&quot;</span>
 <span class="o">}</span>
 </pre></div>
 
