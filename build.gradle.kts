@@ -21,13 +21,13 @@ buildscript {
 // Required to make statically typed accessors available in sub-projects.
 // Not used directly.
 plugins {
-    kotlin("multiplatform") version "1.3.20-eap-52"
+    kotlin("multiplatform") version "1.3.20"
 }
 
 val defaultRepositories: RepositoryHandler.() -> Unit = {
     mavenCentral()
     jcenter()
-    maven { setUrl("https://kotlin.bintray.com/kotlin-eap") }
+    // maven { setUrl("https://kotlin.bintray.com/kotlin-eap") }
 }
 
 repositories(defaultRepositories)
