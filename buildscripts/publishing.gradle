@@ -27,10 +27,9 @@ task stubJavadoc(type: Jar) {
 
 // Configure publishing
 publishing {
-    // TODO: I have no idea about this
     repositories {
         maven {
-            url = "https://maven.pkg.github.com/hello-core/koma"
+            url = "https://maven.pkg.github.com/kyonifer/koma"
             credentials {
                 username "${publish_username}"
                 password "${publish_token}"
