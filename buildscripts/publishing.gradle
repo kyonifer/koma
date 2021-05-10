@@ -27,6 +27,7 @@ task stubJavadoc(type: Jar) {
 
 // Configure publishing
 publishing {
+    // TODO: I have no idea about this
     repositories {
         maven {
             url = "https://maven.pkg.github.com/hello-core/koma"
@@ -52,7 +53,7 @@ publishing {
         }
     }
 
-    // Patch publications with fake javadoc
+    // Patch publications with fake javadoc 
     kotlin.targets.all { target ->
         def targetPublication = publications.findByName(target.name)
         if (targetPublication != null) {

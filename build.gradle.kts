@@ -27,7 +27,6 @@ plugins {
 val defaultRepositories: RepositoryHandler.() -> Unit = {
     mavenCentral()
     jcenter()
-    // maven { setUrl("https://kotlin.bintray.com/kotlin-eap") }
 }
 
 repositories(defaultRepositories)
