@@ -30,7 +30,11 @@ publishing {
     // TODO: I have no idea about this
     repositories {
         maven {
-            url = "https://${project.bintrayOrg}.bintray.com/${project.bintrayRepository}"
+            url = "https://maven.pkg.github.com/hello-core/koma"
+            credentials {
+                username "${publish_username}"
+                password "${publish_token}"
+            }
         }
     }
 
@@ -42,10 +46,10 @@ publishing {
         if (publication.name == 'kotlinMultiplatform') {
             // for our root metadata publication, set artifactId with a package and project name
             // publication.artifactId = "$bintrayPackage-$project.name"
-            publication.artifactId = "$project.name"
+            publication.artifactId = "$project.name".toLowerCase()
         } else {
             // for targets, set artifactId with a package, project name and target name (e.g. iosX64)
-            publication.artifactId = "$project.name-$publication.name"
+            publication.artifactId = "$project.name-$publication.name".toLowerCase()
         }
     }
 
@@ -68,37 +72,3 @@ publishing {
         }
     }
 }
-
-bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-    publish = true
-    override = true // for multi-platform Kotlin/Native publishing
-
-    pkg {
-        userOrg = project.bintrayOrg
-        repo = project.bintrayRepository
-        name = project.bintrayPackage
-        licenses = ['Apache-2.0']
-        vcsUrl = vcs
-        version {
-            name = project.version
-            vcsTag = project.version
-            released = new Date()
-        }
-    }
-}
-
-// TODO :kludge this is required for K/N publishing
-bintrayUpload.dependsOn publishToMavenLocal
-
-// This is for easier debugging of bintray uploading problems
-bintrayUpload.doFirst {
-    publications = project.publishing.publications.findAll {
-        !it.name.contains('-test') && it.name != 'kotlinMultiplatform'
-    }.collect {
-        println("Uploading artifact '$it.groupId:$it.artifactId:$it.version' from publication '$it.name'")
-        it
-    }
-}
-

@@ -1,6 +1,6 @@
 package koma.internal
 
-actual typealias KomaNonFrozen = kotlin.native.ThreadLocal
+actual typealias KomaNonFrozen = kotlin.native.concurrent.ThreadLocal
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FILE)
 @Retention(AnnotationRetention.BINARY)
